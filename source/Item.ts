@@ -5,7 +5,13 @@ export interface Item {
 	unit?: string
 	vat?: number
 }
-
-export function isItem(item: Item | any): item is Item {
-	return typeof(item) == "object" && typeof(item.name) == "string" && typeof(item.price) == "number" && typeof(item.quantity) == "number"
+// tslint:disable-next-line: no-namespace
+export namespace Item {
+	export function is(value: Item | any): value is Item {
+		return typeof(value.name) == "string" &&
+		typeof(value.price) == "number" &&
+		typeof(value.quantity) == "number" &&
+		(typeof(value.unit) == "string" || value.unit == undefined) &&
+		(typeof(value.vat) == "number" || value.vat == undefined)
+	}
 }

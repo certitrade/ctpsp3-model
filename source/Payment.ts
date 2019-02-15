@@ -1,5 +1,5 @@
-import { Currency, isCurrency } from "./Currency"
-import { Item, isItem } from "./Item"
+import { Currency } from "./Currency"
+import { Item } from "./Item"
 import { PaymentStatus } from "./PaymentStatus"
 
 export interface Payment {
@@ -10,9 +10,11 @@ export interface Payment {
 	created?: string
 	status?: PaymentStatus
 }
-
-export function isPayment(payment: Payment | any): payment is Payment {
-	return typeof(payment) == "object" &&
-		(typeof(payment.item) == "number" || typeof(payment.item) == "object" && (payment.item instanceof Array || isItem(payment.item)) &&
-		isCurrency(payment.currency))
+// tslint:disable-next-line: no-namespace
+export namespace Payment {
+	export function is(value: Payment | any): value is Payment {
+		return typeof(value) == "object" &&
+			(typeof(value.item) == "number" || typeof(value.item) == "object" && (value.item instanceof Array || Item.is(value.item)) &&
+			Currency.is(value.currency))
+	}
 }
