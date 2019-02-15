@@ -1,5 +1,7 @@
+export { Address } from "./Address"
 export { CardPayment, isCardPayment } from "./CardPayment"
 export { Currency, isCurrency } from "./Currency"
+export { Customer } from "./Customer"
 export { Item, isItem } from "./Item"
 export { Payment, isPayment } from "./Payment"
 export { PaymentStatus } from "./PaymentStatus"
