@@ -13,7 +13,8 @@ export namespace Addresses {
 		return (Address.is(value.primary) || value.primary == undefined) &&
 			(Address.is(value.billing) || value.billing == undefined) &&
 			(Address.is(value.delivery) || value.delivery == undefined) &&
-			(Address.is(value.visit) || value.visit == undefined)
+			(Address.is(value.visit) || value.visit == undefined) &&
+			(Address.is(value.primary) || Address.is(value.billing) || Address.is(value.delivery))
 	}
 	export function map<T>(addresses: Addresses, mapping: (type: string, address: Address) => T): T[] {
 		return types.filter(type => addresses[type] != undefined).map(type => mapping(type, addresses[type]!))
