@@ -1,4 +1,4 @@
-export { Address } from "./Address"
+export { Address } from "./Address/Address"
 export { Addresses } from "./Addresses"
 export { CardPayment } from "./CardPayment"
 export { Currency } from "./Currency"

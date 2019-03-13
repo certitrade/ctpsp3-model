@@ -4,6 +4,7 @@ export interface Item {
 	quantity: number
 	unit?: string
 	vat?: number
+	rebate?: number
 }
 export namespace Item {
 	export function is(value: Item | any): value is Item {
