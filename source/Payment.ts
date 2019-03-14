@@ -1,10 +1,11 @@
+import { DateTime } from "./DateTime"
 import { PaymentStatus } from "./PaymentStatus"
 
 export interface Payment {
 	id: string
 	method: string
 	status: PaymentStatus
-	created: string
+	created: DateTime
 }
 export namespace Payment {
 	export function is(value: Payment | any): value is Payment {

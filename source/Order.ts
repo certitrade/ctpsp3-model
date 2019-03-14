@@ -6,11 +6,13 @@ import { DateTime } from "./DateTime"
 
 export interface Order {
 	id: string
+	client: string
 	created: DateTime
 	customer: Customer
 	items: number | Item | Item[]
 	currency: Currency
-	payments: Payment[]
+	payment: Payment
+	attempt?: Order[]
 }
 // tslint:disable-next-line: no-namespace
 export namespace Order {
