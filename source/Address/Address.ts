@@ -1,5 +1,6 @@
+import { CountryCode } from "../CountryCode"
 export interface Address {
-	countryCode: "SE"
+	countryCode: CountryCode
 }
 export namespace Address {
 	export function is(value: any | Address): value is Address {
