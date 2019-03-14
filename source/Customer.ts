@@ -11,7 +11,6 @@ export interface Customer {
 	phone?: string
 	registrationsNumber?: string
 }
-// tslint:disable-next-line: no-namespace
 export namespace Customer {
 	export function is(value: any | Customer): value is Customer {
 		return (value.type == "organisation" || value.type == "person" || value.type == undefined) &&

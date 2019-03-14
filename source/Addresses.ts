@@ -6,7 +6,6 @@ export interface Addresses {
 	delivery?: Address
 	visit?: Address
 }
-// tslint:disable-next-line: no-namespace
 export namespace Addresses {
 	export const types: [ "primary", "billing", "delivery", "visit" ] = [ "primary", "billing", "delivery", "visit" ]
 	export function is(value: any | Addresses): value is Addresses {

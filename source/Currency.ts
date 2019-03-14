@@ -179,7 +179,6 @@ export type Currency =
 	"ZMW" |
 	"ZWL"
 
-// tslint:disable-next-line: no-namespace
 export namespace Currency {
 	export function is(currency: Currency | any): currency is Currency {
 		return typeof(currency) == "string" && (

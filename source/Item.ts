@@ -5,7 +5,6 @@ export interface Item {
 	unit?: string
 	vat?: number
 }
-// tslint:disable-next-line: no-namespace
 export namespace Item {
 	export function is(value: Item | any): value is Item {
 		return typeof(value.name) == "string" &&

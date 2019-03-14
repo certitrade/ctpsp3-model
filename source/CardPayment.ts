@@ -6,7 +6,6 @@ export interface CardPayment extends Payment {
 	cardCvc?: string
 	cardExpires?: [number, number]
 }
-// tslint:disable-next-line: no-namespace
 export namespace CardPayment {
 	export function is(payment: CardPayment | any): payment is CardPayment {
 		return payment.method == "card" &&
