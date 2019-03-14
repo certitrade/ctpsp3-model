@@ -4,7 +4,6 @@ export interface Address {
 	city: string
 	country: string
 }
-// tslint:disable-next-line: no-namespace
 export namespace Address {
 	export function is(value: any | Address): value is Address {
 		return typeof(value.street) == "string" &&

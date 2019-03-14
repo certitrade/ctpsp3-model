@@ -10,7 +10,6 @@ export interface Payment {
 	created?: string
 	status?: PaymentStatus
 }
-// tslint:disable-next-line: no-namespace
 export namespace Payment {
 	export function is(value: Payment | any): value is Payment {
 		return typeof(value) == "object" &&

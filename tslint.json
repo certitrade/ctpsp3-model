@@ -19,7 +19,8 @@
 		"no-empty": false,
 		"radix": false,
 		"interface-name": false,
-		"no-misused-new": false
+		"no-misused-new": false,
+		"no-namespace": false
 	},
 	"jsRules": {
 		"curly": false,
