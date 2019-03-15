@@ -1,7 +1,9 @@
 import { PaymentOption } from "./PaymentOption"
+import { InstallmentPlan } from "./InstallmentPlan";
 
 export interface Installment extends PaymentOption {
 	type: "installment"
+	plans: InstallmentPlan[]
 }
 
 export namespace Installment {
