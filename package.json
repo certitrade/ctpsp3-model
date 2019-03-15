@@ -1,6 +1,6 @@
 {
  "name": "@certitrade/psp3-model",
- "version": "3.0.8",
+ "version": "3.0.9",
  "description": "Data models for Certitrade PSP version 3",
  "private": false,
  "main": "build/index.js",
