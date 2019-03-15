@@ -2,6 +2,7 @@ import { PaymentOption } from "./PaymentOption"
 
 export interface Direct extends PaymentOption {
 	type: "direct"
+	banks: { name: string }[]
 }
 
 export namespace Direct {
