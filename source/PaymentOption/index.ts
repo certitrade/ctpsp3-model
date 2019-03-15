@@ -8,10 +8,27 @@ import { Mobile as POMobile } from "./Mobile"
 
 export type PaymentOption = Parent
 export namespace PaymentOption {
+	export const is = Parent.is
 	export type Type = POType
 	export type Card = POCard
+	// tslint:disable: no-shadowed-variable
+	export namespace Card {
+		export const is = POCard.is
+	}
 	export type Direct = PODirect
+	export namespace Direct {
+		export const is = PODirect.is
+	}
 	export type Installment = POInstallment
+	export namespace Installment {
+		export const is = POInstallment.is
+	}
 	export type Invoice = POInvoice
+	export namespace Invoice {
+		export const is = POInvoice.is
+	}
 	export type Mobile = POMobile
+	export namespace Mobile {
+		export const is = POMobile.is
+	}
 }

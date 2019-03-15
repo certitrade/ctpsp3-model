@@ -8,9 +8,11 @@ import { Error } from "./Error"
 export { Item } from "./Item"
 export { Name } from "./Name"
 export { Payment } from "./Payment"
+import { PaymentOption } from "./PaymentOption"
 export { PaymentStatus } from "./PaymentStatus"
 export { PhoneNumbers } from "./PhoneNumbers"
 
 export {
 	Error,
+	PaymentOption,
 }
