@@ -1,19 +1,16 @@
-import { Currency } from "./Currency"
-import { Item } from "./Item"
+import { DateTime } from "./DateTime"
 import { PaymentStatus } from "./PaymentStatus"
 
 export interface Payment {
-	method: string,
-	item: number | Item | Item[]
-	currency: Currency
-	id?: string
-	created?: string
-	status?: PaymentStatus
+	id: string
+	method: string
+	status: PaymentStatus
+	created: DateTime
 }
 export namespace Payment {
 	export function is(value: Payment | any): value is Payment {
 		return typeof(value) == "object" &&
-			(typeof(value.item) == "number" || typeof(value.item) == "object" && (value.item instanceof Array || Item.is(value.item)) &&
-			Currency.is(value.currency))
+			typeof(value.method) == "string" &&
+			PaymentStatus.is(value.status)
 	}
 }
