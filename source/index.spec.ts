@@ -23,4 +23,9 @@ describe("namespacing", () => {
 			},
 		})
 	})
+	it("PaymentOption", async () => {
+		const option: model.PaymentOption.Card = { type: "card", service: "certitrade", issuers: [ "visa", "mastercard", "maestro", "electron", "amex" ]}
+		expect(model.PaymentOption.is(option))
+		expect(model.PaymentOption.Card.is(option))
+	})
 })
