@@ -1,7 +1,9 @@
 import { PaymentOption } from "./PaymentOption"
+import { CardIssuer } from "./CardIssuer";
 
 export interface Card extends PaymentOption {
 	type: "card"
+	issuers: CardIssuer[]
 }
 
 export namespace Card {
