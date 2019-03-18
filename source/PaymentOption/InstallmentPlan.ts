@@ -1,12 +1,13 @@
 export interface InstallmentPlan {
 	id: string
 	length: number
+	amount: number
 	fees: {
 		initial: number,
 		reaccuring: number,
 		annualRate: number,
 	}
-	amount: number
+	total: number
 	effectiveRate: number
 	terms: string
 }
