@@ -22,6 +22,7 @@ export namespace PaymentOption {
 	export type Installment = POInstallment
 	export namespace Installment {
 		export const is = POInstallment.is
+		export type Plan = POInstallment.Plan
 	}
 	export type Invoice = POInvoice
 	export namespace Invoice {
