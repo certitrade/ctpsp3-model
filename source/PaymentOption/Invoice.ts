@@ -1,5 +1,5 @@
 import { PaymentOption } from "./PaymentOption"
-import { InvoiceOption } from "./InvoiceOption";
+import { InvoiceOption } from "./InvoiceOption"
 
 export interface Invoice extends PaymentOption {
 	type: "invoice"
@@ -11,4 +11,5 @@ export namespace Invoice {
 		return PaymentOption.is(value) &&
 			value.type == "invoice"
 	}
+	export type Option = InvoiceOption
 }
