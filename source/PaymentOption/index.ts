@@ -27,6 +27,7 @@ export namespace PaymentOption {
 	export type Invoice = POInvoice
 	export namespace Invoice {
 		export const is = POInvoice.is
+		export type Option = POInvoice.Option
 	}
 	export type Mobile = POMobile
 	export namespace Mobile {
