@@ -3,7 +3,7 @@ export type CountryCode =
 	"SE"
 
 export namespace CountryCode {
-	const toName = {
+	export const toName = {
 		SE: { en: "Sweden", local: "Sverige" },
 		FI: { en: "Finland", local: "Soumi" },
 	}
