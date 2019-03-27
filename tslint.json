@@ -44,6 +44,6 @@
 	"rulesDirectory": [
 	],
 	"linterOptions": {
-		"exclude": [ "../**/*.json"]
+		"exclude": [ "**/*.json"]
 	}
 }
