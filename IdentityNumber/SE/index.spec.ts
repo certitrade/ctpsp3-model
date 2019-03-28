@@ -7,4 +7,7 @@ describe("IdentityNumber.SE", () => {
 	it("is", () => {
 		expect(model.IdentityNumber.SE.is("1234567897"))
 	})
+	it("is wrong checksum", () => {
+		expect(model.IdentityNumber.SE.is("1234567890")).toBeFalsy()
+	})
 })

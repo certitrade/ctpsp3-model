@@ -6,7 +6,8 @@ export type SE = string
 export namespace SE {
 	export function is(value: any | SE): value is SE {
 		return typeof(value) == "string" &&
-		/^(16|18|19|20)?\d{10}$/.test(value)
+		/^(16|18|19|20)?\d{10}$/.test(value) &&
+		verifyChecksum(value)
 	}
 	export function is10(value: any | SE): value is SE {
 		return typeof(value) == "string" &&
