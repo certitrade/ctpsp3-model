@@ -1,8 +1,7 @@
-import { Currency } from "./Currency"
+import { Currency, DateTime } from "isoly"
 import { Item } from "./Item"
 import { Customer } from "./Customer"
 import { Payment } from "./Payment"
-import { DateTime } from "./DateTime"
 
 export interface Order {
 	id: string

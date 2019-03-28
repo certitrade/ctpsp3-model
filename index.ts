@@ -1,12 +1,8 @@
 import { Address } from "./Address"
 import { Addresses } from "./Addresses"
 import { CardPayment } from "./CardPayment"
-import { CountryCode } from "./CountryCode"
-import { Currency } from "./Currency"
 import { Customer } from "./Customer"
-import { DateTime } from "./DateTime"
 import { EmailAddresses } from "./EmailAddresses"
-import { Error } from "./Error"
 import { Item } from "./Item"
 import { Merchant } from "./Merchant"
 import { Name } from "./Name"
@@ -20,12 +16,8 @@ export {
 	Address,
 	Addresses,
 	CardPayment,
-	CountryCode,
-	Currency,
 	Customer,
-	DateTime,
 	EmailAddresses,
-	Error,
 	Item,
 	Merchant,
 	Name,

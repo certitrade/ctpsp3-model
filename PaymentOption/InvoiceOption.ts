@@ -1,4 +1,4 @@
-import { DateTime } from "../DateTime"
+import { DateTime } from "isoly"
 
 export interface InvoiceOption {
 	due: DateTime | number // date or number of days
