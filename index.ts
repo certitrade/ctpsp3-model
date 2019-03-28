@@ -1,10 +1,8 @@
+import { CountryCode,	Currency,	CurrencyCode,	DateTime,	Language } from "isoly"
 import { Address } from "./Address"
 import { Addresses } from "./Addresses"
 import { CardPayment } from "./CardPayment"
-import { CountryCode } from "./CountryCode"
-import { Currency } from "./Currency"
 import { Customer } from "./Customer"
-import { DateTime } from "./DateTime"
 import { EmailAddresses } from "./EmailAddresses"
 import { Error } from "./Error"
 import { Item } from "./Item"
@@ -22,11 +20,13 @@ export {
 	CardPayment,
 	CountryCode,
 	Currency,
+	CurrencyCode,
 	Customer,
 	DateTime,
 	EmailAddresses,
 	Error,
 	Item,
+	Language,
 	Merchant,
 	Name,
 	Order,

@@ -43,6 +43,7 @@
   "clean": "rm -rf dist node_modules coverage"
  },
  "dependencies": {
+  "isoly": "0.0.3",
   "node-fetch": "^2.3.0"
  },
  "devDependencies": {
