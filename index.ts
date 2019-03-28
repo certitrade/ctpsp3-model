@@ -4,6 +4,7 @@ import { CardPayment } from "./CardPayment"
 import { Customer } from "./Customer"
 import { EmailAddresses } from "./EmailAddresses"
 import { Item } from "./Item"
+import * as IdentityNumber from "./IdentityNumber"
 import { Merchant } from "./Merchant"
 import { Name } from "./Name"
 import { Order } from "./Order"
@@ -19,6 +20,7 @@ export {
 	Customer,
 	EmailAddresses,
 	Item,
+	IdentityNumber,
 	Merchant,
 	Name,
 	Order,
