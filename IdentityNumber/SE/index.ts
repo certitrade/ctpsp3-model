@@ -31,9 +31,12 @@ export namespace SE {
 		return isOrganisation(value) ? Type.parse(value[0]) || 0 : 0
 	}
 	export function parse(value: string): SE | undefined {
-		return /^(16|18|19|20)(\d{6}([-+]|\s)\d{4})$/.test(value) ? value.substring(0, -5) + value.substring(-4) :
+		return /^(16|18|19|20)?(\d{6}([-+]|\s)\d{4})$/.test(value) ? value.substring(0, value.length - 5) + value.substring(value.length - 4) :
 			SE.is(value) ? value :
 			undefined
+	}
+	export function format(value: SE): string {
+		return value.substring(0, value.length - 4) + "-" + value.substring(value.length - 4)
 	}
 	export function calculateChecksum(value: SE): number {
 		value = as10(value)
