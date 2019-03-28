@@ -1,6 +1,5 @@
 .vscode
-source
 **/*.spec.js
 **/*.spec.ts
 coverage
-*.local.ts
+.env
