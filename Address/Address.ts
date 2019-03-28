@@ -1,6 +1,6 @@
-import { CountryCode } from "../CountryCode"
+import { CountryCode } from "isoly"
 export interface Address {
-	countryCode: CountryCode
+	countryCode: CountryCode.Alpha2
 }
 export namespace Address {
 	export function is(value: any | Address): value is Address {

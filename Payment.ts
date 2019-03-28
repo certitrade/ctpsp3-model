@@ -1,4 +1,4 @@
-import { DateTime } from "./DateTime"
+import { DateTime } from "isoly"
 import { PaymentStatus } from "./PaymentStatus"
 
 export interface Payment {
