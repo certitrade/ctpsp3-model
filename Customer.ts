@@ -1,4 +1,4 @@
-import { Address } from "./Address/Address"
+import { Address } from "./Address"
 import { Addresses } from "./Addresses"
 import { EmailAddresses } from "./EmailAddresses"
 import { Name } from "./Name"
