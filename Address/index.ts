@@ -2,7 +2,7 @@ import { Address as Parent } from "./Address"
 import { SE as AddressSE } from "./SE"
 import { FI as AddressFI } from "./FI"
 
-export type Address = Parent
+export type Address = AddressFI | AddressSE
 // tslint:disable: no-shadowed-variable
 export namespace Address {
 	export const is = Parent.is
