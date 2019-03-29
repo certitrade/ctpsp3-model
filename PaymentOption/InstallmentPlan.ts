@@ -8,6 +8,6 @@ export interface InstallmentPlan {
 		annualRate: number,
 	}
 	total: number
-	effectiveRate: number
-	terms: string
+	effectiveRate?: number
+	terms?: string
 }

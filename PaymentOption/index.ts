@@ -6,7 +6,7 @@ import { Installment as POInstallment } from "./Installment"
 import { Invoice as POInvoice } from "./Invoice"
 import { Mobile as POMobile } from "./Mobile"
 
-export type PaymentOption = Parent
+export type PaymentOption = POCard | PODirect | POInstallment | POInvoice | POMobile
 export namespace PaymentOption {
 	export const is = Parent.is
 	export type Type = POType
