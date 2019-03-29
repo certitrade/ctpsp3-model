@@ -7,6 +7,7 @@ export interface Addresses {
 	visit?: Address
 }
 export namespace Addresses {
+	export type Type = "primary" | "billing" | "delivery" | "visit"
 	export const types: [ "primary", "billing", "delivery", "visit" ] = [ "primary", "billing", "delivery", "visit" ]
 	export function is(value: any | Addresses): value is Addresses {
 		return (Address.is(value.primary) || value.primary == undefined) &&
@@ -14,6 +15,26 @@ export namespace Addresses {
 			(Address.is(value.delivery) || value.delivery == undefined) &&
 			(Address.is(value.visit) || value.visit == undefined) &&
 			(Address.is(value.primary) || Address.is(value.billing) || Address.is(value.delivery))
+	}
+	export function get(value: Addresses | Address | undefined, ...type: Type[]): Address | undefined {
+		let result: Address | undefined
+		if (Address.is(value))
+			result = value
+		else if (Addresses.is(value)) {
+			if (type.length == 0)
+				type = types
+			for (const t of type) {
+				switch (t) {
+					case "primary": result = value.primary; break
+					case "billing": result = value.billing; break
+					case "delivery": result = value.delivery; break
+					case "visit": result = value.visit; break
+				}
+				if (result)
+					break
+			}
+		}
+		return result
 	}
 	export function map<T>(addresses: Addresses, mapping: (type: string, address: Address) => T): T[] {
 		return types.filter(type => addresses[type] != undefined).map(type => mapping(type, addresses[type]!))
