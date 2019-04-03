@@ -4,7 +4,7 @@ import { Type } from "../Payment/Type"
 export interface Base {
 	type: Type
 	service: string
-	create: string
+	create?: string
 	amount: number
 	currency: isoly.Currency
 }
@@ -14,7 +14,7 @@ export namespace Base {
 		return typeof(value) == "object" &&
 			Type.is(value.type) &&
 			typeof(value.service) == "string" &&
-			typeof(value.create) == "string" &&
+			(typeof(value.create) == "string" || value.create == undefined) &&
 			typeof(value.amount) == "number" &&
 			isoly.Currency.is(value.currency)
 	}
