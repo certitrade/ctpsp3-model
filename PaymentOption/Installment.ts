@@ -11,9 +11,4 @@ export namespace Installment {
 		return Base.is(value) &&
 			value.type == "installment"
 	}
-	export type Plan = InstallmentPlan
-	export namespace Plan {
-		// tslint:disable-next-line:no-shadowed-variable
-		export const is = InstallmentPlan.is
-	}
 }

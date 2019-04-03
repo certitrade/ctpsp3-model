@@ -11,9 +11,4 @@ export namespace Invoice {
 		return Base.is(value) &&
 			value.type == "invoice"
 	}
-	export type Terms = InvoiceTerms
-	export namespace Terms {
-		// tslint:disable-next-line:no-shadowed-variable
-		export const is = InvoiceTerms.is
-	}
 }

@@ -14,10 +14,6 @@ export namespace PaymentOption {
 	// tslint:disable: no-shadowed-variable
 	export namespace Card {
 		export const is = POCard.is
-		export type Issuer = POCard.Issuer
-		export namespace Issuer {
-			export const is = POCard.Issuer
-		}
 	}
 	export type Direct = PODirect
 	export namespace Direct {
@@ -26,18 +22,10 @@ export namespace PaymentOption {
 	export type Installment = POInstallment
 	export namespace Installment {
 		export const is = POInstallment.is
-		export type Plan = POInstallment.Plan
-		export namespace Plan {
-			export const is = POInstallment.Plan.is
-		}
 	}
 	export type Invoice = POInvoice
 	export namespace Invoice {
 		export const is = POInvoice.is
-		export type Alternative = POInvoice.Terms
-		export namespace Alternative {
-			export const is = POInvoice.Terms.is
-		}
 	}
 	export type Mobile = POMobile
 	export namespace Mobile {

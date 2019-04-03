@@ -11,9 +11,4 @@ export namespace Card {
 		return Base.is(value) &&
 			value.type == "card"
 	}
-	export type Issuer = CIssuer
-	export namespace Issuer {
-// tslint:disable-next-line: no-shadowed-variable
-		export const is = CIssuer.is
-	}
 }
