@@ -1,14 +1,14 @@
-import { PaymentOption } from "./PaymentOption"
-import { CardIssuer } from "./CardIssuer";
+import { Base } from "./Base"
+import { Issuer as CIssuer } from "../Payment/Card/Issuer"
 
-export interface Card extends PaymentOption {
+export interface Card extends Base {
 	type: "card"
-	issuers: CardIssuer[]
+	issuers: CIssuer[]
 }
 
 export namespace Card {
 	export function is(value: any | Card): value is Card {
-		return PaymentOption.is(value) &&
+		return Base.is(value) &&
 			value.type == "card"
 	}
 }

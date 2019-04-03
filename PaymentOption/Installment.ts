@@ -1,15 +1,14 @@
-import { PaymentOption } from "./PaymentOption"
-import { InstallmentPlan } from "./InstallmentPlan"
+import { Base } from "./Base"
+import { Plan as InstallmentPlan } from "../Payment/Installment/Plan"
 
-export interface Installment extends PaymentOption {
+export interface Installment extends Base {
 	type: "installment"
 	plans: InstallmentPlan[]
 }
 
 export namespace Installment {
 	export function is(value: any | Installment): value is Installment {
-		return PaymentOption.is(value) &&
+		return Base.is(value) &&
 			value.type == "installment"
 	}
-	export type Plan = InstallmentPlan
 }

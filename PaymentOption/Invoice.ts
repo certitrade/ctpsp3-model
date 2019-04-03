@@ -1,15 +1,14 @@
-import { PaymentOption } from "./PaymentOption"
-import { InvoiceOption } from "./InvoiceOption"
+import { Base } from "./Base"
+import { Terms as InvoiceTerms } from "../Payment/Invoice/Terms"
 
-export interface Invoice extends PaymentOption {
+export interface Invoice extends Base {
 	type: "invoice"
-	options: InvoiceOption[]
+	terms: InvoiceTerms[]
 }
 
 export namespace Invoice {
 	export function is(value: any | Invoice): value is Invoice {
-		return PaymentOption.is(value) &&
+		return Base.is(value) &&
 			value.type == "invoice"
 	}
-	export type Option = InvoiceOption
 }
