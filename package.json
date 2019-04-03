@@ -1,6 +1,6 @@
 {
  "name": "@certitrade/psp3-model",
- "version": "3.0.26",
+ "version": "3.0.27",
  "description": "Data models for Certitrade PSP version 3",
  "author": "Simon Mika <simon.mika@certitrade.se>",
  "license": "MIT",
