@@ -23,7 +23,7 @@ export namespace Payment {
 
 	export type Installment = PInstallment
 	export namespace Installment {
-		export const is = PCard.is
+		export const is = PInstallment.is
 		export type Plan = PInstallment.Plan
 		export namespace Plan {
 			export const is = PInstallment.Plan.is
@@ -32,7 +32,7 @@ export namespace Payment {
 
 	export type Invoice = PInvoice
 	export namespace Invoice {
-		export const is = PCard.is
+		export const is = PInvoice.is
 		export type Terms = PInvoice.Terms
 		export namespace Terms {
 			export const is = PInvoice.Terms.is
