@@ -2,6 +2,7 @@ import { Address } from "./Address"
 import { Addresses } from "./Addresses"
 import { Customer } from "./Customer"
 import { EmailAddresses } from "./EmailAddresses"
+import { Event } from "./Event"
 import { Item } from "./Item"
 import { IdentityNumber } from "./IdentityNumber"
 import { Merchant } from "./Merchant"
@@ -16,6 +17,7 @@ export {
 	Addresses,
 	Customer,
 	EmailAddresses,
+	Event,
 	Item,
 	IdentityNumber,
 	Merchant,

@@ -12,6 +12,7 @@ export interface Order {
 	currency: Currency
 	payment: Payment
 	attempt?: Order[]
+	event?: Event[]
 }
 // tslint:disable-next-line: no-namespace
 export namespace Order {
