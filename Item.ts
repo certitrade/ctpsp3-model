@@ -19,9 +19,9 @@ export namespace Item {
 	}
 	export function amount(item: number | Item | Item[]): number {
 		return typeof(item) == "number" ? item :
-		Item.is(item) ? (item.price - (item.rebate || 0) + (item.vat || 0)) * item.quantity :
-		Array.isArray(item) ? item.map(i => amount(i)).reduce((sum, current) => sum + current, 0) :
-		0
+			Item.is(item) ? (item.price - (item.rebate || 0) + (item.vat || 0)) * item.quantity :
+			Array.isArray(item) ? item.map(i => amount(i)).reduce((sum, current) => sum + current, 0) :
+			0
 	}
 	export function vat(item: number | Item | Item[]): number {
 		return typeof(item) == "number" ? item :
