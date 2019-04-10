@@ -7,6 +7,11 @@ export type Payment = PCard | PInstallment | PInvoice
 
 // tslint:disable: no-shadowed-variable
 export namespace Payment {
+	export function is(value: Payment | any) {
+		return PCard.is(value) ||
+			PInstallment.is(value) ||
+			PInvoice.is(value)
+	}
 	export type Type = PType
 	export namespace Type {
 		export const is = PType.is
