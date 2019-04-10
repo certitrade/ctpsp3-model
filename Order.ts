@@ -5,6 +5,7 @@ import { Payment } from "./Payment"
 
 export interface Order {
 	id: string
+	number: string
 	client: string
 	created: DateTime
 	customer: Customer
