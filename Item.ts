@@ -1,5 +1,5 @@
 export interface Item {
-	number: string
+	number?: string
 	name: string
 	price: number
 	quantity: number
@@ -10,7 +10,7 @@ export interface Item {
 export namespace Item {
 	export function is(value: Item | any): value is Item {
 		return typeof(value) == "object" &&
-			typeof(value.number) == "string" &&
+			(typeof(value.number) == "string" || value.number == undefined) &&
 			typeof(value.name) == "string" &&
 			typeof(value.price) == "number" &&
 			typeof(value.quantity) == "number" &&
