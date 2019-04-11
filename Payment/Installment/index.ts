@@ -2,7 +2,7 @@ import { Plan as InstallmentPlan } from "./Plan"
 import { Base } from "../Base"
 
 export interface Installment extends Base {
-	method: "installment",
+	type: "installment",
 	plan: InstallmentPlan
 }
 
