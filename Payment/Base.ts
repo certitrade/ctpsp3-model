@@ -8,6 +8,7 @@ export interface Base {
 	created: isoly.DateTime
 	amount: number
 	currency: isoly.Currency
+	verify?: string
 }
 
 export namespace Base {
@@ -18,6 +19,7 @@ export namespace Base {
 			typeof(value.id) == "string" &&
 			isoly.DateTime.is(value.created) &&
 			typeof(value.amount) == "number" &&
-			isoly.Currency.is(value.currency)
+			isoly.Currency.is(value.currency) &&
+			(typeof(value.verify) == "string" || value.verify == undefined)
 	}
 }
