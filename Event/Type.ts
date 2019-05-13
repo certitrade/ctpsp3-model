@@ -1,4 +1,5 @@
 export type Type =
-	"charge" |
 	"cancel" |
+	"charge" |
+	"pay" |
 	"refund"
