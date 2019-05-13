@@ -1,8 +1,9 @@
+import { Customer } from "./Customer"
 import { Currency, DateTime } from "isoly"
 import { Event } from "./Event"
 import { Item } from "./Item"
-import { Customer } from "./Customer"
 import { Payment } from "./Payment"
+import { Status } from "./Status"
 
 export interface Order {
 	id: string
@@ -15,6 +16,7 @@ export interface Order {
 	payment: Payment
 	attempt: Partial<Order>[]
 	event: Event[]
+	status: Status[]
 }
 // tslint:disable-next-line: no-namespace
 export namespace Order {
@@ -28,6 +30,14 @@ export namespace Order {
 			Currency.is(value.currency)) &&
 			Payment.is(value.payment) &&
 			Array.isArray(value.attempt) &&
-			Array.isArray(value.event) && value.event.every(Event.is)
+			Array.isArray(value.event) && value.event.every(value.event.is) &&
+			Array.isArray(value.status) && value.status.every(Status.is)
+	}
+	export function setStatus(order: Order) {
+		const items = Item.asArray(order.items)
+		for (const event of order.event)
+			Item.applyEvent(items, event)
+		order.items = items.length == 1 ? items[0] : items
+		order.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 	}
 }
