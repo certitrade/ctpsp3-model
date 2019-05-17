@@ -22,6 +22,9 @@ export namespace Item {
 			(typeof(value.vat) == "number" || value.vat == undefined) &&
 			(Array.isArray(value.status) && value.status.length == value.quantity && value.status.every(Status.is) || value.status == undefined)
 	}
+	export function canBe(value: number | Item | Item[] | any): value is number | Item | Item[] {
+		return typeof(value) == "number" || (Array.isArray(value) && value.every(Item.is)) || Item.is(value) || typeof(value) == "object"
+	}
 	export function amount(item: number | Item | Item[]): number {
 		return typeof(item) == "number" ? item :
 			Item.is(item) ? (item.price - (item.rebate || 0) + (item.vat || 0)) * item.quantity :

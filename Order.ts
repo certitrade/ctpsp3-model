@@ -26,18 +26,25 @@ export namespace Order {
 			(typeof(value.number) == "string" || value.number == undefined) &&
 			DateTime.is(value.created) &&
 			Customer.is(value.customer) &&
-			(typeof(value.items) == "number" || typeof(value.items) == "object" && (value.item instanceof Array || Item.is(value.items)) &&
-			Currency.is(value.currency)) &&
+			Item.canBe(value.items) &&
+			Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
 			Array.isArray(value.attempt) &&
-			Array.isArray(value.event) && value.event.every(value.event.is) &&
-			Array.isArray(value.status) && value.status.every(Status.is)
+			Array.isArray(value.event) && value.event.every(Event.is) &&
+			(typeof(value.status) == "object" && Status.is(value.status))
 	}
-	export function setStatus(order: Order) {
-		const items = Item.asArray(order.items)
-		for (const event of order.event)
-			Item.applyEvent(items, event)
-		order.items = items.length == 1 ? items[0] : items
-		order.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
+	export function setStatus(order: Order): Order
+	export function setStatus(orders: Order[]): Order[]
+	export function setStatus(orders: Order | Order[]): Order | Order[] {
+		if (Array.isArray(orders)){
+			orders.map(order => {
+				const items = Item.asArray(order.items)
+				for (const event of order.event)
+					Item.applyEvent(items, event)
+				order.items = items.length == 1 ? items[0] : items
+				order.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
+			})
+		}
+		return orders
 	}
 }

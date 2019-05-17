@@ -12,6 +12,6 @@ export namespace Pay {
 		return typeof(value) == "object" &&
 			value.type == "pay" &&
 			isoly.DateTime.is(value.date) &&
-			(typeof(value.item) == "number" || typeof(value.item) == "object" && (value.item instanceof Array || Item.is(value.item)))
+			Item.canBe(value.item)
 	}
 }

@@ -12,6 +12,6 @@ export namespace Cancel {
 		return typeof(value) == "object" &&
 			value.type == "cancel" &&
 			isoly.DateTime.is(value.date) &&
-			(typeof(value.item) == "number" || typeof(value.item) == "object" && (value.item instanceof Array || Item.is(value.item)))
+			Item.canBe(value.item)
 	}
 }
