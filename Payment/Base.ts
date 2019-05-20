@@ -9,6 +9,7 @@ export interface Base {
 	amount: number
 	currency: isoly.Currency
 	verify?: string
+	token?: string
 }
 
 export namespace Base {
@@ -20,6 +21,7 @@ export namespace Base {
 			isoly.DateTime.is(value.created) &&
 			typeof(value.amount) == "number" &&
 			isoly.Currency.is(value.currency) &&
-			(typeof(value.verify) == "string" || value.verify == undefined)
+			(typeof(value.verify) == "string" || value.verify == undefined) &&
+			(typeof(value.token) == "string" || value.token == undefined)
 	}
 }
