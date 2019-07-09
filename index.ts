@@ -1,5 +1,7 @@
 import { Address } from "./Address"
 import { Addresses } from "./Addresses"
+import { Connection } from "./Connection"
+import { Credentials } from "./Credentials"
 import { Customer } from "./Customer"
 import { EmailAddresses } from "./EmailAddresses"
 import { Event } from "./Event"
@@ -12,10 +14,13 @@ import { Payment } from "./Payment"
 import { PaymentOption } from "./PaymentOption"
 import { PhoneNumbers } from "./PhoneNumbers"
 import { Status } from "./Status"
+import { User } from "./User"
 
 export {
 	Address,
 	Addresses,
+	Connection,
+	Credentials,
 	Customer,
 	EmailAddresses,
 	Event,
@@ -28,4 +33,5 @@ export {
 	PaymentOption,
 	PhoneNumbers,
 	Status,
+	User,
 }
