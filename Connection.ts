@@ -1,6 +1,7 @@
 import * as gracely from "gracely"
 import { Credentials } from "./Credentials"
 import { User } from "./User"
+import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
 	static baseUrl: string = ""
@@ -15,18 +16,25 @@ export abstract class Connection {
 				"Authorization": Credentials.toBasic({ user, password }),
 			},
 		})
-		const data = await response.json()
+		const contentTypeHeader = response.headers.get("content-type")
+		const contentType = contentTypeHeader ? contentTypeHeader[0].split(";")[0] : ""
 		let result: User | gracely.Error
-		if (gracely.Error.is(data))
-			result = data
-		else if (!User.is(data))
-			result = gracely.server.unavailable() // TODO: local errors?
-		else if (!hasPartner(data))
-			result = gracely.client.unauthorized() // TODO: local errors?
-		else {
-			Connection.token = data.partner.private
-			delete data.partner
-			result = Connection.user = data
+		switch (contentType) {
+			case "application/json":
+				const data = await response.json()
+				if (gracely.Error.is(data))
+					result = data
+				else if (!User.is(data))
+					result = gracely.server.unavailable() // TODO: local errors?
+				else if (!hasPartner(data))
+					result = gracely.client.unauthorized() // TODO: local errors?
+				else {
+					Connection.token = data.partner.private
+					delete data.partner
+					result = Connection.user = data
+				}
+				default:
+				result = gracely.client.notFound() // TODO: local errors?
 		}
 		return result
 	}
