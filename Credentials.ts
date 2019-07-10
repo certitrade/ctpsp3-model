@@ -13,12 +13,12 @@ export namespace Credentials {
 	export function fromBasic(login: string): Credentials | undefined {
 		let result: Credentials | undefined
 		if (login.substr(0, 6).toLowerCase() == "basic ") {
-			const data = new authly.TextDecoder().decode(authly.Base64.decode(login.substr(6))).split(":")
-			result = data.length < 3 && data.length < 0 ? { user: data[0], password: data.length > 1 ? data[1] : undefined } : undefined
+			const data = new authly.TextDecoder().decode(authly.Base64.decode(login.substr(6), "standard")).split(":")
+			result = data.length < 3 && data.length > 0 ? { user: data[0], password: data.length > 1 ? data[1] : undefined } : undefined
 		}
 		return result
 	}
 	export function toBasic(credentials: Credentials): string {
-		return `Basic ${ authly.Base64.encode(new authly.TextEncoder().encode(credentials.user + ":" + credentials.password)) }`
+		return `Basic ${ authly.Base64.encode(new authly.TextEncoder().encode(credentials.user + ":" + credentials.password), "standard", "=") }`
 	}
 }
