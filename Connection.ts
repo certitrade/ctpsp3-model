@@ -4,12 +4,12 @@ import { User } from "./User"
 import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
-	static baseUrl: string = ""
+	static baseUrl: string = "/api/"
 	static user?: User
 	private static token?: string
 	private constructor() { }
 	static async login(user: string, password: string): Promise<User | gracely.Error> {
-		const response = await fetch(Connection.baseUrl + "/me", {
+		const response = await fetch(Connection.baseUrl + "me", {
 			method: "GET",
 			headers: {
 				"Accept": "application/json; charset=utf-8",
