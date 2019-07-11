@@ -1,5 +1,1 @@
-const f = fetch
-
-export {
-	f as fetch,
-}
+export const fetch = window.fetch.bind(window)
