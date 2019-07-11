@@ -1,1 +1,5 @@
-export const fetch = window.fetch
+const f = fetch
+
+export {
+	f as fetch,
+}
