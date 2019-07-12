@@ -2,15 +2,15 @@ import * as isoly from "isoly"
 import { Base } from "./Base"
 import { Item } from "../Item"
 
-export interface Refund extends Base {
-	type: "refund"
+export interface Order extends Base {
+	type: "order"
 	items: number | Item | Item[]
 }
 
-export namespace Refund {
-	export function is(value: Refund | any): value is Refund {
+export namespace Order  {
+	export function is(value: Order | any): value is Order {
 		return typeof(value) == "object" &&
-			value.type == "refund" &&
+			value.type == "order" &&
 			isoly.DateTime.is(value.date) &&
 			Item.canBe(value.item)
 	}
