@@ -1,2 +1,2 @@
-# ctpsp3-model
-Data models for CtPsp3.
+# PayFunc Model
+Data models for the PayFunc API.
