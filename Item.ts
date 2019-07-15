@@ -49,12 +49,12 @@ export namespace Item {
 		left.rebate == right.rebate
 	}
 	export function applyEvent(items: Item[], event: Event) {
-		for (const item of Item.asArray(event.items)) {
+		for (const item of Item.asArray(event.items || items)) {
 			applyItem(items, event.type, item.quantity, item)
 		}
 	}
 	export function applyItem(items: Item[], event: Event.Type, quantity: number, match: Item) {
-		for (let i = 0; i <= items.length && quantity > 0; i++)
+		for (let i = 0; i < items.length && quantity > 0; i++)
 			if (Item.equals(items[i], match)) {
 				if (!items[i].status)
 					items[i].status = new Array<Status>(items[i].quantity)

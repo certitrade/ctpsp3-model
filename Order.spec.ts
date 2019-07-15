@@ -1,5 +1,4 @@
 import * as model from "./"
-
 describe("Order", () => {
 	const order: model.Order = {
 		id: "5cdacdb69126ef507c9251b3",
@@ -20,14 +19,11 @@ describe("Order", () => {
 		},
 		items: [
 			{
+				number: "ts001-b",
 				name: "Basic T-shirt, black",
-				price: 119.6,
+				price: 119.60,
+				vat: 29.90,
 				quantity: 2,
-				vat: 29.9,
-				status: [
-					"charged",
-					"charged",
-				],
 			},
 		],
 		currency: "SEK",
@@ -40,23 +36,7 @@ describe("Order", () => {
 			amount: 100,
 			currency: "SEK",
 		},
-		attempt: [],
 		event: [
-			{
-				type: "charge",
-				items: [
-					{
-						name: "Basic T-shirt, black",
-						price: 119.6,
-						quantity: 2,
-						vat: 29.9,
-					},
-				],
-				date: "2019-02-01T12:00:00",
-			},
-		],
-		status: [
-				"charged",
 		],
 	}
 	const orders: model.Order[] = [
@@ -64,5 +44,11 @@ describe("Order", () => {
 		order,
 	]
 	it("is", () => expect(model.Order.is(order)).toBeTruthy())
-	it("set status", () => expect(model.Order.setStatus(order)).toBeTruthy())
+	it("set status", () => expect(model.Order.setStatus({ ...order, event: [
+			{
+				type: "order",
+				date: "2019-02-01T12:00:00",
+			},
+		] })).toMatchObject({}),
+	)
 })

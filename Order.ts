@@ -14,9 +14,9 @@ export interface Order {
 	items: number | Item | Item[]
 	currency: Currency
 	payment: Payment
-	attempt: Partial<Order>[]
+	attempt?: Partial<Order>[]
 	event: Event[]
-	status: Status[]
+	status?: Status[]
 }
 // tslint:disable-next-line: no-namespace
 export namespace Order {
@@ -29,21 +29,21 @@ export namespace Order {
 			Item.canBe(value.items) &&
 			Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
-			Array.isArray(value.attempt) &&
+			(value.attempt == undefined || Array.isArray(value.attempt)) &&
 			Array.isArray(value.event) && value.event.every(Event.is) &&
-			(typeof(value.status) == "object" && Status.is(value.status))
+			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
 	}
 	export function setStatus(order: Order): Order
 	export function setStatus(orders: Order[]): Order[]
 	export function setStatus(orders: Order | Order[]): Order | Order[] {
-		if (Array.isArray(orders)){
-			orders.map(order => {
-				const items = Item.asArray(order.items)
-				for (const event of order.event)
-					Item.applyEvent(items, event)
-				order.items = items.length == 1 ? items[0] : items
-				order.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
-			})
+		if (Array.isArray(orders))
+			orders.map(order => setStatus(order))
+		else {
+			const items = Item.asArray(orders.items)
+			for (const event of orders.event)
+				Item.applyEvent(items, event)
+			orders.items = items.length == 1 ? items[0] : items
+			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}
 		return orders
 	}

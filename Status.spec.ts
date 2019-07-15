@@ -1,17 +1,58 @@
 import * as model from "./"
 
 describe("Status", () => {
-	const status = [
-		"ordered",
-		"cancelled",
-		"charged",
-		"paid",
-		"refunded",
-	]
-	it("is", () => expect(model.Status.is(status)).toBeTruthy())
-	it("change to ordered", () => expect(model.Status.change(undefined, "order")).toBe("ordered"))
-	it("change to charged", () => expect(model.Status.change("ordered", "charge")).toBe("charged"))
-	it("change to cancelled", () => expect(model.Status.change("ordered", "cancel")).toBe("cancelled"))
-	it("change to paid", () => expect(model.Status.change("charged", "pay")).toBe("paid"))
-	it("change to refunded", () => expect(model.Status.change("charged", "refund")).toBe("refunded"))
+	it("is deferred", () => expect(model.Status.is("deferred")).toBeTruthy())
+	it("is ordered", () => expect(model.Status.is("ordered")).toBeTruthy())
+	it("is cancelled", () => expect(model.Status.is("cancelled")).toBeTruthy())
+	it("is charged", () => expect(model.Status.is("charged")).toBeTruthy())
+	it("is paid", () => expect(model.Status.is("paid")).toBeTruthy())
+	it("is refunded", () => expect(model.Status.is("refunded")).toBeTruthy())
+
+	it("defer undefined", () => expect(model.Status.change(undefined, "defer")).toBe("deferred"))
+	it("defer deferred", () => expect(model.Status.change("deferred", "defer")).toBe(undefined))
+	it("defer ordered", () => expect(model.Status.change("ordered", "defer")).toBe(undefined))
+	it("defer cancelled", () => expect(model.Status.change("cancelled", "defer")).toBe(undefined))
+	it("defer charged", () => expect(model.Status.change("charged", "defer")).toBe(undefined))
+	it("defer paid", () => expect(model.Status.change("paid", "defer")).toBe(undefined))
+	it("defer refunded", () => expect(model.Status.change("refunded", "defer")).toBe(undefined))
+
+	it("order undefined", () => expect(model.Status.change(undefined, "order")).toBe("ordered"))
+	it("order deferred", () => expect(model.Status.change("deferred", "order")).toBe("ordered"))
+	it("order ordered", () => expect(model.Status.change("ordered", "order")).toBe(undefined))
+	it("order cancelled", () => expect(model.Status.change("cancelled", "order")).toBe(undefined))
+	it("order charged", () => expect(model.Status.change("charged", "order")).toBe(undefined))
+	it("order paid", () => expect(model.Status.change("paid", "order")).toBe(undefined))
+	it("order refunded", () => expect(model.Status.change("refunded", "order")).toBe(undefined))
+
+	it("cancel undefined", () => expect(model.Status.change(undefined, "cancel")).toBe("cancelled"))
+	it("cancel deferred", () => expect(model.Status.change("deferred", "cancel")).toBe("cancelled"))
+	it("cancel ordered", () => expect(model.Status.change("ordered", "cancel")).toBe("cancelled"))
+	it("cancel cancelled", () => expect(model.Status.change("cancelled", "cancel")).toBe(undefined))
+	it("cancel charged", () => expect(model.Status.change("charged", "cancel")).toBe(undefined))
+	it("cancel paid", () => expect(model.Status.change("paid", "cancel")).toBe(undefined))
+	it("cancel refunded", () => expect(model.Status.change("refunded", "cancel")).toBe(undefined))
+
+	it("charge undefined", () => expect(model.Status.change(undefined, "charge")).toBe(undefined))
+	it("charge deferred", () => expect(model.Status.change("deferred", "charge")).toBe(undefined))
+	it("charge ordered", () => expect(model.Status.change("ordered", "charge")).toBe("charged"))
+	it("charge cancelled", () => expect(model.Status.change("cancelled", "charge")).toBe(undefined))
+	it("charge charged", () => expect(model.Status.change("charged", "charge")).toBe(undefined))
+	it("charge paid", () => expect(model.Status.change("paid", "charge")).toBe(undefined))
+	it("charge refunded", () => expect(model.Status.change("refunded", "charge")).toBe(undefined))
+
+	it("pay undefined", () => expect(model.Status.change(undefined, "pay")).toBe(undefined))
+	it("pay deferred", () => expect(model.Status.change("deferred", "pay")).toBe(undefined))
+	it("pay ordered", () => expect(model.Status.change("ordered", "pay")).toBe(undefined))
+	it("pay cancelled", () => expect(model.Status.change("cancelled", "pay")).toBe(undefined))
+	it("pay charged", () => expect(model.Status.change("charged", "pay")).toBe("paid"))
+	it("pay paid", () => expect(model.Status.change("paid", "pay")).toBe(undefined))
+	it("pay refunded", () => expect(model.Status.change("refunded", "pay")).toBe(undefined))
+
+	it("refund undefined", () => expect(model.Status.change(undefined, "refund")).toBe(undefined))
+	it("refund deferred", () => expect(model.Status.change("deferred", "refund")).toBe(undefined))
+	it("refund ordered", () => expect(model.Status.change("ordered", "refund")).toBe(undefined))
+	it("refund cancelled", () => expect(model.Status.change("cancelled", "refund")).toBe(undefined))
+	it("refund charged", () => expect(model.Status.change("charged", "refund")).toBe("refunded"))
+	it("refund paid", () => expect(model.Status.change("paid", "refund")).toBe("refunded"))
+	it("refund refunded", () => expect(model.Status.change("refunded", "refund")).toBe(undefined))
 })
