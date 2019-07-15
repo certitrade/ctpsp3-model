@@ -29,7 +29,6 @@ export abstract class Connection {
 					result = gracely.client.unauthorized() // TODO: local errors?
 				else {
 					Connection.token = data.merchant.configuration.private
-					delete data.merchant
 					result = Connection.user = data
 				}
 				break
