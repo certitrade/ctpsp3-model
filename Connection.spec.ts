@@ -5,9 +5,9 @@ dotenv.config()
 model.Connection.baseUrl = process.env.backendUrl || ""
 
 describe.skip("Connection", () => {
-	const wrongUser = "Petter"
-	const wrongPassword = "qwerty"
 	it("fails login", async () => {
+		const wrongUser = "Petter"
+		const wrongPassword = "qwerty"
 		expect(await model.Connection.login(wrongUser, wrongPassword)).toMatchObject({ status: 401, type: "not authorized" })
 	})
 	it("logs in", async () => {
