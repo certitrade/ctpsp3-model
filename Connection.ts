@@ -34,8 +34,7 @@ export abstract class Connection {
 				}
 				break
 			default:
-				result = gracely.client.unauthorized()
-				// result = gracely.client.notFound() // TODO: local errors?
+				result = gracely.client.notFound() // TODO: local errors?
 		}
 		return result
 	}
