@@ -43,7 +43,7 @@ describe("Item", () => {
 		],
 	))
 	it("applyEvent", () => {
-		const items = [ item ]
+		const items = [ { ...item } ]
 		model.Item.applyEvent(items, { type: "order", date: "2019-10-10T00:00:00" })
 		expect(items).toEqual([
 			{
@@ -59,9 +59,19 @@ describe("Item", () => {
 			},
 		])
 	})
-	it("applyItem", () => {
-		const items = [ item, item ]
+	it("applyItem order 3", () => {
+		const items = [ { ...item }, { ...item } ]
+		model.Item.applyItem(items, "order", 3, item)
+		expect(items).toMatchObject([{ status: [ "ordered", "ordered" ] }, { status: [ "ordered", undefined ] }])
+	})
+	it("applyItem order 1", () => {
+		const items = [ { ...item }, { ...item } ]
 		model.Item.applyItem(items, "order", 1, item)
-		expect(items).toMatchObject([{ status: [ "ordered", "ordered" ] }, { status: [ "ordered", "ordered" ] }])
+		expect(items).toMatchObject([{ status: [ "ordered", undefined ] }, { status: [ undefined, undefined ] }])
+	})
+	it("applyItem defer 3", () => {
+		const items = [ { ...item }, { ...item } ]
+		model.Item.applyItem(items, "defer", 3, item)
+		expect(items).toMatchObject([{ status: [ "deferred", "deferred" ] }, { status: [ "deferred", undefined ] }])
 	})
 })
