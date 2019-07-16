@@ -54,17 +54,18 @@ export namespace Item {
 		}
 	}
 	export function applyItem(items: Item[], event: Event.Type, quantity: number, match: Item) {
-		for (let i = 0; i < items.length && quantity > 0; i++)
-			if (Item.equals(items[i], match)) {
-				if (!items[i].status)
-					items[i].status = new Array<Status>(items[i].quantity)
-				for (let j = 0; j < items[i].status!.length && quantity > 0; j++) {
+		for (const item of items) {
+			if (!item.status)
+				item.status = new Array<Status>(item.quantity)
+			if (quantity > 0 && Item.equals(item, match)) {
+				for (let j = 0; j < item.status!.length && quantity > 0; j++) {
 					let next: Status | undefined
-					if (next = Status.change(items[i].status![j], event)) {
-						items[i].status![j] = next
+					if (next = Status.change(item.status![j], event)) {
+						item.status![j] = next
 						quantity--
 					}
 				}
 			}
+		}
 	}
 }

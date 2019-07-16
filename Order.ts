@@ -15,7 +15,7 @@ export interface Order {
 	currency: Currency
 	payment: Payment
 	attempt?: Partial<Order>[]
-	event: Event[]
+	event?: Event[]
 	status?: Status[]
 }
 // tslint:disable-next-line: no-namespace
@@ -30,7 +30,7 @@ export namespace Order {
 			Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
 			(value.attempt == undefined || Array.isArray(value.attempt)) &&
-			Array.isArray(value.event) && value.event.every(Event.is) &&
+			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
 	}
 	export function setStatus(order: Order): Order
@@ -40,8 +40,9 @@ export namespace Order {
 			orders.map(order => setStatus(order))
 		else {
 			const items = Item.asArray(orders.items)
-			for (const event of orders.event)
-				Item.applyEvent(items, event)
+			if (orders.event)
+				for (const event of orders.event)
+					Item.applyEvent(items, event)
 			orders.items = items.length == 1 ? items[0] : items
 			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}
