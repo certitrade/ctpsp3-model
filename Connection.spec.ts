@@ -5,7 +5,7 @@ import * as model from "."
 dotenv.config()
 model.Connection.baseUrl = process.env.backendUrl || ""
 
-describe("Connection", () => {
+describe.skip("Connection", () => {
 	it("fails login", async () => {
 		const wrongUser = "Petter"
 		const wrongPassword = "qwerty"
