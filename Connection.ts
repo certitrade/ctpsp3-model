@@ -1,12 +1,31 @@
 import * as gracely from "gracely"
+import * as authly from "authly"
 import { Credentials } from "./Credentials"
 import { User } from "./User"
 import { fetch, RequestInit } from "./fetch"
+import { Configuration } from "./Configuration"
 
 export abstract class Connection {
 	static baseUrl: string = "/api/"
 	static user?: User
-	private static token?: string
+	static configuration?: Configuration
+	static reauthenticate?: () => Promise<[User, Configuration] | gracely.Error>
+	private static get token(): Promise<authly.Token | undefined> {
+		return new Promise(resolve => {
+			let result = Connection.configuration && Connection.configuration.private
+			if (!result && Connection.reauthenticate)  {
+				Connection.reauthenticate().then(response => {
+					if (!gracely.Error.is(response)) {
+						Connection.user = response[0]
+						Connection.configuration = response[1]
+						resolve(Connection.configuration && Connection.configuration.private)
+					} else
+						resolve(undefined)
+				})
+			}
+			resolve(result)
+		})
+	}
 	private constructor() { }
 	static async login(user: string, password: string): Promise<User | gracely.Error> {
 		const response = await fetch(Connection.baseUrl + "me", {
@@ -20,17 +39,7 @@ export abstract class Connection {
 		let result: User | gracely.Error
 		switch (contentTypeHeader) {
 			case "application/json; charset=utf-8":
-				const data = await response.json()
-				if (gracely.Error.is(data))
-					result = data
-				else if (!User.is(data))
-					result = gracely.server.unavailable() // TODO: local errors?
-				else if (!hasMerchant(data))
-					result = gracely.client.unauthorized() // TODO: local errors?
-				else {
-					Connection.token = data.merchant.configuration.private
-					result = Connection.user = data
-				}
+				result = await response.json()
 				break
 			default:
 				result = gracely.client.notFound() // TODO: local errors?
@@ -46,7 +55,7 @@ export abstract class Connection {
 			headers: {
 				...init.headers,
 				"Content-Type": "application/json; charset=utf-8",
-				"Accept": "application/json; charset=utf-8",
+				Accept: "application/json; charset=utf-8",
 				Authorization: `Bearer ${ Connection.token }`,
 			},
 		}
