@@ -62,16 +62,16 @@ describe("Item", () => {
 	it("applyItem order 3", () => {
 		const items = [ { ...item }, { ...item } ]
 		model.Item.applyItem(items, "order", 3, item)
-		expect(items).toMatchObject([{ status: [ "ordered", "ordered" ] }, { status: [ "ordered", undefined ] }])
+		expect(items).toMatchObject([{ status: [ "ordered", "ordered" ] }, { status: [ "ordered", "created" ] }])
 	})
 	it("applyItem order 1", () => {
 		const items = [ { ...item }, { ...item } ]
 		model.Item.applyItem(items, "order", 1, item)
-		expect(items).toMatchObject([{ status: [ "ordered", undefined ] }, { status: [ undefined, undefined ] }])
+		expect(items).toMatchObject([{ status: [ "ordered", "created" ] }, { status: [ "created", "created" ] }])
 	})
 	it("applyItem defer 3", () => {
 		const items = [ { ...item }, { ...item } ]
 		model.Item.applyItem(items, "defer", 3, item)
-		expect(items).toMatchObject([{ status: [ "deferred", "deferred" ] }, { status: [ "deferred", undefined ] }])
+		expect(items).toMatchObject([{ status: [ "deferred", "deferred" ] }, { status: [ "deferred", "created" ] }])
 	})
 })

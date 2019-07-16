@@ -56,7 +56,7 @@ export namespace Item {
 	export function applyItem(items: Item[], event: Event.Type, quantity: number, match: Item) {
 		for (const item of items) {
 			if (!item.status)
-				item.status = new Array<Status>(item.quantity)
+				item.status = Array<Status>(item.quantity).fill("created")
 			if (quantity > 0 && Item.equals(item, match)) {
 				for (let j = 0; j < item.status!.length && quantity > 0; j++) {
 					let next: Status | undefined
