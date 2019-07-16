@@ -5,7 +5,7 @@ import * as model from "."
 dotenv.config()
 model.Connection.baseUrl = process.env.backendUrl || ""
 
-describe.skip("Connection", () => {
+describe("Connection", () => {
 	it("fails login", async () => {
 		const wrongUser = "Petter"
 		const wrongPassword = "qwerty"
@@ -28,6 +28,7 @@ describe.skip("Connection", () => {
 			}
 			return result
 		}
-		expect(await model.Connection.get("order")).toMatchObject([])
+		const orders = await model.Connection.get<model.Order[]>("order")
+		expect(Array.isArray(orders)).toBeTruthy()
 	})
 })

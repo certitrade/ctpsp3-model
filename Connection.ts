@@ -10,22 +10,6 @@ export abstract class Connection {
 	static user?: User
 	static configuration?: Configuration
 	static reauthenticate?: () => Promise<[User, Configuration] | gracely.Error>
-	private static get token(): Promise<authly.Token | undefined> {
-		return new Promise(resolve => {
-			let result = Connection.configuration && Connection.configuration.private
-			if (!result && Connection.reauthenticate)  {
-				Connection.reauthenticate().then(response => {
-					if (!gracely.Error.is(response)) {
-						Connection.user = response[0]
-						Connection.configuration = response[1]
-						resolve(Connection.configuration && Connection.configuration.private)
-					} else
-						resolve(undefined)
-				})
-			}
-			resolve(result)
-		})
-	}
 	private constructor() { }
 	static async login(user: string, password: string): Promise<User | gracely.Error> {
 		const response = await fetch(Connection.baseUrl + "me", {
@@ -46,7 +30,20 @@ export abstract class Connection {
 		}
 		return result
 	}
+	private static async getToken(): Promise<authly.Token | undefined> {
+		let result: authly.Token | undefined = Connection.configuration && Connection.configuration.private
+		if (!result && Connection.reauthenticate)  {
+			const response = await Connection.reauthenticate()
+			if (!gracely.Error.is(response)) {
+				Connection.user = response[0]
+				Connection.configuration = response[1]
+				result = Connection.configuration && Connection.configuration.private
+			}
+		}
+		return result
+	}
 	private static async fetch<T>(resource: string, init: RequestInit, body?: any): Promise<T | gracely.Error> {
+
 		const url = Connection.baseUrl + resource
 		if (body)
 			init.body = JSON.stringify(body)
@@ -56,11 +53,11 @@ export abstract class Connection {
 				...init.headers,
 				"Content-Type": "application/json; charset=utf-8",
 				Accept: "application/json; charset=utf-8",
-				Authorization: `Bearer ${ Connection.token }`,
+				Authorization: `Bearer ${ await Connection.getToken() }`,
 			},
 		}
 		const response = await fetch(url, init)
-		return await response.json() as T | gracely.Error
+		return response.headers.get("Content-Type") == "application/json; charset=utf-8" ? await response.json() as T | gracely.Error : { status: response.status, type: "unknown" }
 	}
 	static get<T>(resource: string): Promise<T | gracely.Error> {
 		return Connection.fetch<T>(resource, { method: "GET" })
