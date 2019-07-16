@@ -1,20 +1,20 @@
-import * as authly from "authly"
+import { Configuration } from "./Configuration"
+
 export interface Merchant {
-	id: string
+	id: string;
+	name: string;
 	configuration: {
-		production?: { public: authly.Token, private: authly.Token } ,
-		test?: { public: authly.Token, private: authly.Token },
+		production?: Configuration,
+		test?: Configuration,
 	}
-	users: string[]
 }
 export namespace Merchant {
 	export function is(value: any | Merchant): value is Merchant {
 		return typeof(value) == "object" &&
 			typeof(value.id) == "string" &&
 			typeof(value.configuration) == "object" &&
-			(value.configuration.production == undefined || authly.Token.is(value.configuration.production)) &&
-			(value.configuration.test == undefined || authly.Token.is(value.configuration.test)) &&
-			(value.configuration.production || value.configuration.test) &&
-			Array.isArray(value.users)
+			(value.configuration.production == undefined || Configuration.is(value.configuration.production)) &&
+			(value.configuration.test == undefined || Configuration.is(value.configuration.test)) &&
+			(value.configuration.production || value.configuration.test)
 	}
 }

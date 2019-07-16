@@ -1,9 +1,9 @@
-import * as authly from "authly"
+import { Merchant } from "./Merchant"
 
 export interface User {
 	id: string
 	email: string
-	merchant: UserMerchant | UserMerchant[]
+	merchant: Merchant | Merchant[]
 }
 
 export namespace User {
@@ -11,23 +11,8 @@ export namespace User {
 		return typeof(value) == "object" &&
 			typeof(value.id) == "string" &&
 			typeof(value.email) == "string" &&
-			(isUserMerchant(value.merchant) || isUserMerchants(value.merchant))
+			(Merchant.is(value.merchant) || Array.isArray(value.merchant) && value.merchant.every(Merchant.is))
 	}
 }
 
-interface UserMerchant {
-	id: string
-	name: string
-	configuration: { private: authly.Token }
-}
-function isUserMerchant(value: any | UserMerchant): value is UserMerchant {
-	return typeof(value) == "object" &&
-		typeof(value.id) == "string" &&
-		typeof(value.name) == "string" &&
-		typeof(value.configuration) == "object" &&
-		authly.Token.is(value.configuration.private)
-}
-function isUserMerchants(value: any | UserMerchant[]): value is UserMerchant[] {
-	return Array.isArray(value) &&
-		value.every(isUserMerchant)
-}
+

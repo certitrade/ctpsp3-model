@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv"
+import * as gracely from "gracely"
 import * as model from "."
 
 dotenv.config()
@@ -12,5 +13,21 @@ describe.skip("Connection", () => {
 	})
 	it("logs in", async () => {
 		expect(await model.Connection.login(process.env.backendUser || "", process.env.backendPassword || "")).toMatchObject({ email: process.env.backendUser })
+	})
+	it("reauthenticate", async () => {
+		model.Connection.reauthenticate = async () => {
+			const user = await model.Connection.login(process.env.backendUser || "", process.env.backendPassword || "")
+			let result: gracely.Error | [model.User, model.Configuration]
+			if (gracely.Error.is(user))
+				result = user
+			else {
+				let merchant = user.merchant
+				if (Array.isArray(merchant))
+					merchant = merchant[0]
+				result = [user, merchant.configuration.production || merchant.configuration.test as model.Configuration]
+			}
+			return result
+		}
+		expect(await model.Connection.get("order")).toMatchObject([])
 	})
 })
