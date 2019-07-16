@@ -28,6 +28,7 @@ describe.skip("Connection", () => {
 			}
 			return result
 		}
-		expect(await model.Connection.get("order")).toMatchObject([])
+		const orders = await model.Connection.get<model.Order[]>("order")
+		expect(Array.isArray(orders)).toBeTruthy()
 	})
 })
