@@ -25,7 +25,7 @@ export namespace Order {
 			typeof(value.id) == "string" &&
 			(typeof(value.number) == "string" || value.number == undefined) &&
 			DateTime.is(value.created) &&
-			Customer.is(value.customer) &&
+			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&
 			Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
