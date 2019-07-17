@@ -4,6 +4,7 @@ import { Card as POCard } from "./Card"
 import { Direct as PODirect } from "./Direct"
 import { Installment as POInstallment } from "./Installment"
 import { Invoice as POInvoice } from "./Invoice"
+import { Defer as PODefer } from "./Defer"
 import { Mobile as POMobile } from "./Mobile"
 
 export type PaymentOption = POCard | PODirect | POInstallment | POInvoice | POMobile
@@ -26,6 +27,10 @@ export namespace PaymentOption {
 	export type Invoice = POInvoice
 	export namespace Invoice {
 		export const is = POInvoice.is
+	}
+	export type Defer = PODefer
+	export namespace Defer {
+		export const is = PODefer.is
 	}
 	export type Mobile = POMobile
 	export namespace Mobile {

@@ -3,7 +3,8 @@ export type Type =
 	"invoice" |
 	"installment" |
 	"direct" |
-	"mobile"
+	"mobile" |
+	"defer"
 
 export namespace Type {
 	export function is(value: any | Type): value is Type {
@@ -12,7 +13,8 @@ export namespace Type {
 			value == "invoice" ||
 			value == "installment" ||
 			value == "direct" ||
-			value == "mobile"
+			value == "mobile" ||
+			value == "defer"
 		)
 	}
 }
