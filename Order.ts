@@ -10,7 +10,7 @@ export interface Order {
 	number?: string
 	client: string
 	created: DateTime
-	customer: Customer
+	customer?: Customer
 	items: number | Item | Item[]
 	currency: Currency
 	payment: Payment
