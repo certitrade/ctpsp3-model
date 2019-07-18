@@ -50,7 +50,7 @@ export namespace Payment {
 	export namespace Defer {
 		export const is = PDefer.is
 		export type Method = PDefer.Method
-		export namespace Terms {
+		export namespace Method {
 			export const is = PDefer.Method.is
 		}
 	}

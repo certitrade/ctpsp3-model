@@ -33,6 +33,19 @@ export namespace Order {
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
 	}
+	export function isCreatable(value: Order | any): value is Order {
+		return typeof(value) == "object" &&
+			value.id == undefined &&
+			(typeof(value.number) == "string" || value.number == undefined) &&
+			(value.created == undefined || DateTime.is(value.created)) &&
+			(value.customer == undefined || Customer.is(value.customer)) &&
+			Item.canBe(value.items) &&
+			Currency.is(value.currency) &&
+			Payment.is(value.payment) &&
+			(value.attempt == undefined || Array.isArray(value.attempt)) &&
+			value.event == undefined &&
+			value.status == undefined
+	}
 	export function setStatus(order: Order): Order
 	export function setStatus(orders: Order[]): Order[]
 	export function setStatus(orders: Order | Order[]): Order | Order[] {
