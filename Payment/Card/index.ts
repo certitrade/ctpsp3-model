@@ -3,6 +3,7 @@ import { Issuer as CIssuer } from "./Issuer"
 
 export interface Card extends Base {
 	type: "card"
+	account?: string
 	issuer: CIssuer
 }
 
@@ -10,6 +11,7 @@ export namespace Card {
 	export function is(value: any | Card): value is Card {
 		return typeof(value) == "object" &&
 			value.type == "card" &&
+			(value.account == undefined || typeof(value.account) == "string") &&
 			Base.is(value)
 	}
 	export type Issuer = CIssuer

@@ -23,7 +23,7 @@ export namespace Item {
 			(Array.isArray(value.status) && value.status.length == value.quantity && value.status.every(Status.is) || value.status == undefined)
 	}
 	export function canBe(value: number | Item | Item[] | any): value is number | Item | Item[] {
-		return typeof(value) == "number" || (Array.isArray(value) && value.every(Item.is)) || Item.is(value) || typeof(value) == "object"
+		return typeof(value) == "number" || Item.is(value) || (Array.isArray(value) && value.every(Item.is))
 	}
 	export function amount(item: number | Item | Item[]): number {
 		return typeof(item) == "number" ? item :

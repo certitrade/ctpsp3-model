@@ -1,5 +1,6 @@
+import * as isoly from "isoly"
+import * as authly from "authly"
 import { Customer } from "./Customer"
-import { Currency, DateTime } from "isoly"
 import { Event } from "./Event"
 import { Item } from "./Item"
 import { Payment } from "./Payment"
@@ -8,27 +9,28 @@ import { Status } from "./Status"
 export interface Order {
 	id: string
 	number?: string
-	client: string
-	created: DateTime
-	customer?: Customer
+	client?: string
+	created: isoly.DateTime
+	customer?: Customer | string
 	items: number | Item | Item[]
-	currency: Currency
-	payment: Payment
+	currency: isoly.Currency
+	payment: Payment | authly.Token
 	attempt?: Partial<Order>[]
 	event?: Event[]
 	status?: Status[]
 }
-// tslint:disable-next-line: no-namespace
+
 export namespace Order {
 	export function is(value: Order | any): value is Order {
 		return typeof(value) == "object" &&
 			typeof(value.id) == "string" &&
 			(typeof(value.number) == "string" || value.number == undefined) &&
-			DateTime.is(value.created) &&
-			(value.customer == undefined || Customer.is(value.customer)) &&
+			(typeof(value.client) == "string" || value.client == undefined) &&
+			isoly.DateTime.is(value.created) &&
+			(value.customer == undefined || Customer.is(value.customer) || typeof(Customer) == "string") &&
 			Item.canBe(value.items) &&
-			Currency.is(value.currency) &&
-			Payment.is(value.payment) &&
+			isoly.Currency.is(value.currency) &&
+			(Payment.is(value.payment) || authly.Token.is(value.payment)) &&
 			(value.attempt == undefined || Array.isArray(value.attempt)) &&
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
@@ -37,11 +39,12 @@ export namespace Order {
 		return typeof(value) == "object" &&
 			value.id == undefined &&
 			(typeof(value.number) == "string" || value.number == undefined) &&
-			(value.created == undefined || DateTime.is(value.created)) &&
-			(value.customer == undefined || Customer.is(value.customer)) &&
+			(typeof(value.client) == "string" || value.client == undefined) &&
+			(value.created == undefined || isoly.DateTime.is(value.created)) &&
+			(value.customer == undefined || Customer.is(value.customer) || typeof(Customer) == "string") &&
 			Item.canBe(value.items) &&
-			Currency.is(value.currency) &&
-			Payment.is(value.payment) &&
+			isoly.Currency.is(value.currency) &&
+			(Payment.is(value.payment) || authly.Token.is(value.payment)) &&
 			(value.attempt == undefined || Array.isArray(value.attempt)) &&
 			value.event == undefined &&
 			value.status == undefined
