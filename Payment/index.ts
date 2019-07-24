@@ -31,6 +31,10 @@ export namespace Payment {
 	export type Card = PCard
 	export namespace Card {
 		export const is = PCard.is
+		export type Creatable = PCard.Creatable
+		export namespace Creatable {
+			export const is = PCard.Creatable.is
+		}
 		export type Issuer = PCard.Issuer
 		export namespace Issuer {
 			export const is = PCard.Issuer.is
@@ -40,6 +44,10 @@ export namespace Payment {
 	export type Installment = PInstallment
 	export namespace Installment {
 		export const is = PInstallment.is
+		export type Creatable = PInstallment.Creatable
+		export namespace Creatable {
+			export const is = PInstallment.Creatable.is
+		}
 		export type Plan = PInstallment.Plan
 		export namespace Plan {
 			export const is = PInstallment.Plan.is
@@ -49,6 +57,10 @@ export namespace Payment {
 	export type Invoice = PInvoice
 	export namespace Invoice {
 		export const is = PInvoice.is
+		export type Creatable = PInvoice.Creatable
+		export namespace Creatable {
+			export const is = PInvoice.Creatable.is
+		}
 		export type Terms = PInvoice.Terms
 		export namespace Terms {
 			export const is = PInvoice.Terms.is
@@ -58,6 +70,10 @@ export namespace Payment {
 	export type Defer = PDefer
 	export namespace Defer {
 		export const is = PDefer.is
+		export type Creatable = PDefer.Creatable
+		export namespace Creatable {
+			export const is = PDefer.Creatable.is
+		}
 		export type Method = PDefer.Method
 		export namespace Method {
 			export const is = PDefer.Method.is
