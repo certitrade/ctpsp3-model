@@ -35,6 +35,9 @@ export namespace Order {
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
 	}
+	export function getCreatablePayment(order: Order | any): Payment.Card | undefined {
+		return { ...order.payment, number: order.number, customer: order.customer, items: order.items, amount: Item.amount(order.items), currency: order.currency }
+	}
 	export function isCreatable(value: Order | any): value is Order {
 		return typeof(value) == "object" &&
 			value.id == undefined &&
@@ -44,7 +47,7 @@ export namespace Order {
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
-			(Payment.is(value.payment) || authly.Token.is(value.payment)) &&
+			(Payment.Creatable.is(getCreatablePayment(value)) || authly.Token.is(value.payment)) &&
 			(value.attempt == undefined || Array.isArray(value.attempt)) &&
 			value.event == undefined &&
 			value.status == undefined
