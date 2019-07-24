@@ -11,7 +11,7 @@ export interface Order {
 	number?: string
 	client?: string
 	created: isoly.DateTime
-	customer?: Customer | string
+	customer?: Customer
 	items: number | Item | Item[]
 	currency: isoly.Currency
 	payment: Payment | authly.Token
@@ -27,7 +27,7 @@ export namespace Order {
 			(typeof(value.number) == "string" || value.number == undefined) &&
 			(typeof(value.client) == "string" || value.client == undefined) &&
 			isoly.DateTime.is(value.created) &&
-			(value.customer == undefined || Customer.is(value.customer) || typeof(Customer) == "string") &&
+			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
 			(Payment.is(value.payment) || authly.Token.is(value.payment)) &&
@@ -41,7 +41,7 @@ export namespace Order {
 			(typeof(value.number) == "string" || value.number == undefined) &&
 			(typeof(value.client) == "string" || value.client == undefined) &&
 			(value.created == undefined || isoly.DateTime.is(value.created)) &&
-			(value.customer == undefined || Customer.is(value.customer) || typeof(Customer) == "string") &&
+			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
 			(Payment.is(value.payment) || authly.Token.is(value.payment)) &&
