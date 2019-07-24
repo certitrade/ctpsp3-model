@@ -8,11 +8,20 @@ export type Payment = PCard | PInstallment | PInvoice | PDefer
 
 // tslint:disable: no-shadowed-variable
 export namespace Payment {
-	export function is(value: Payment | any) {
+	export function is(value: Payment | any): value is Payment {
 		return PCard.is(value) ||
 			PInstallment.is(value) ||
 			PInvoice.is(value) ||
 			PDefer.is(value)
+	}
+	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable
+	export namespace Creatable {
+		export function is(value: Creatable | any): value is Creatable {
+			return PCard.Creatable.is(value) ||
+				PInstallment.Creatable.is(value) ||
+				PInvoice.Creatable.is(value) ||
+				PDefer.Creatable.is(value)
+		}
 	}
 	export type Type = PType
 	export namespace Type {
