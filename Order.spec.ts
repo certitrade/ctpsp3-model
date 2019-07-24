@@ -46,6 +46,7 @@ function getOrders(count = 2): model.Order[] {
 }
 describe("Order", () => {
 	it("is", () => expect(model.Order.is(getOrder())).toBeTruthy())
+	it("isCreatable", () => expect(model.Order.isCreatable({ items: 1337.42, currency: "SEK", payment: "aaaaaa.bbbbbbbb.cccccc"})).toBeTruthy())
 	it("set status order", () => expect(model.Order.setStatus({ ...getOrder(), event: [
 			{
 				type: "order",
