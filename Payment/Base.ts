@@ -8,8 +8,6 @@ export interface Base {
 	created: isoly.DateTime
 	amount: number
 	currency: isoly.Currency
-	verify?: string
-	token?: string
 }
 
 export namespace Base {
