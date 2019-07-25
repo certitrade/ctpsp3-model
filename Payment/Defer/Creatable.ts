@@ -20,7 +20,7 @@ export namespace Creatable {
 			Method.is(value.method) &&
 			typeof(value.contact) == "string" &&
 			(value.message == undefined || typeof(value.message) == "string") &&
-			Item.canBe(value.item) &&
+			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency)
 	}
 }
