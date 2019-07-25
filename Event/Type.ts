@@ -1,5 +1,4 @@
 export type Type =
-	"defer" |
 	"order" |
 	"cancel" |
 	"charge" |

@@ -64,23 +64,6 @@ describe("Order", () => {
 			status: [ "ordered" ],
 		}),
 	)
-	it("set status defer", () => expect(model.Order.setStatus({ ...getOrder(), event: [
-			{
-				type: "defer",
-				date: "2019-02-01T12:00:00",
-			},
-		]})).toMatchObject({
-			items: {
-				number: "ts001-b",
-				name: "Basic T-shirt, black",
-				price: 119.60,
-				vat: 29.90,
-				quantity: 2,
-				status: [ "deferred", "deferred" ],
-			},
-			status: [ "deferred" ],
-		}),
-	)
 	it("set status order charge", () => expect(model.Order.setStatus({ ...getOrder(), event: [
 			{
 				type: "order",
@@ -102,18 +85,18 @@ describe("Order", () => {
 			status: [ "charged" ],
 		}),
 	)
-	it("set status defer order charge", () => expect(model.Order.setStatus({ ...getOrder(), event: [
-		{
-			type: "defer",
-			date: "2019-02-01T12:00:00",
-		},
+	it("set status order charge refund", () => expect(model.Order.setStatus({ ...getOrder(), event: [
 		{
 			type: "order",
 			date: "2019-02-01T12:00:00",
 		},
 		{
 			type: "charge",
-			date: "2019-02-01T12:00:00",
+			date: "2019-02-01T12:10:00",
+		},
+		{
+			type: "refund",
+			date: "2019-02-01T12:20:00",
 		},
 	] })).toMatchObject({
 		items: {
@@ -122,9 +105,9 @@ describe("Order", () => {
 			price: 119.60,
 			vat: 29.90,
 			quantity: 2,
-			status: [ "charged", "charged" ],
+			status: [ "refunded", "refunded" ],
 		},
-		status: [ "charged" ],
+		status: [ "refunded" ],
 	}),
 )
 })
