@@ -17,7 +17,7 @@ export namespace Creatable {
 		return typeof(value) == "object" &&
 			value.type == "defer" &&
 			(value.number == undefined || typeof(value.number) == "string") &&
-			Method.is(value.plan) &&
+			Method.is(value.method) &&
 			typeof(value.contact) == "string" &&
 			(value.message == undefined || typeof(value.message) == "string") &&
 			Item.canBe(value.item) &&
