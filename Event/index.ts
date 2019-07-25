@@ -1,5 +1,4 @@
 import { Type as  EventType } from "./Type"
-import { Defer as DeferEvent } from "./Defer"
 import { Order as OrderEvent } from "./Order"
 import { Cancel as CancelEvent } from "./Cancel"
 import { Charge as ChargeEvent } from "./Charge"
@@ -7,7 +6,6 @@ import { Pay as PayEvent } from "./Pay"
 import { Refund as RefundEvent } from "./Refund"
 
 export type Event =
-	DeferEvent |
 	OrderEvent |
 	CancelEvent |
 	ChargeEvent |
@@ -24,10 +22,6 @@ export namespace Event {
 			RefundEvent.is(value)
 	}
 	export type Type = EventType
-	export type Defer = DeferEvent
-	export namespace Defer {
-		export const is = DeferEvent.is
-	}
 	export type Order = OrderEvent
 	export namespace Order {
 		export const is = OrderEvent.is

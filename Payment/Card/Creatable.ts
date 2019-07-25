@@ -10,7 +10,7 @@ export interface Creatable {
 }
 
 export namespace Creatable {
-	export function is(value: any | Creatable) {
+	export function is(value: any | Creatable): value is Creatable {
 		return typeof(value) == "object" &&
 			value.type == "card" &&
 			(value.number == undefined || typeof(value.number) == "string") &&

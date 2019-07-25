@@ -69,9 +69,4 @@ describe("Item", () => {
 		model.Item.applyItem(items, "order", 1, item)
 		expect(items).toMatchObject([{ status: [ "ordered", "created" ] }, { status: [ "created", "created" ] }])
 	})
-	it("applyItem defer 3", () => {
-		const items = [ { ...item }, { ...item } ]
-		model.Item.applyItem(items, "defer", 3, item)
-		expect(items).toMatchObject([{ status: [ "deferred", "deferred" ] }, { status: [ "deferred", "created" ] }])
-	})
 })
