@@ -1,9 +1,11 @@
 import * as isoly from "isoly"
+import * as authly from "authly"
 import { Item } from "../../Item"
 import { Method } from "./Method"
 
 export interface Creatable {
 	type: "defer"
+	client: authly.Identifier
 	number?: string
 	method: Method
 	contact: string
