@@ -1,7 +1,7 @@
 import { Payment } from "."
 
 describe("Payment", () => {
-	const defers: Payment.Defer[] = [
+	const payments: Payment[] = [
 		{
 			id: "3",
 			type: "defer",
@@ -55,7 +55,7 @@ describe("Payment", () => {
 			amount: 300.00,
 		},
 	]
-	const sortedDefers: Payment.Defer[] = [
+	const sortedPayments: Payment[] = [
 		{
 			id: "1",
 			type: "defer",
@@ -109,5 +109,5 @@ describe("Payment", () => {
 			amount: 4000.00,
 		},
 	]
-	it("sorts defers", () => expect(Payment.sort(defers, "created")).toEqual(sortedDefers))
+	it("sort", () => expect(Payment.sort(payments, "created")).toEqual(sortedPayments))
 })
