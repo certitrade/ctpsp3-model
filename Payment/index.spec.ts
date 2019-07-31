@@ -1,8 +1,7 @@
-import { Payment } from "../"
-import { Defer } from "."
+import { Payment } from "."
 
-describe("Payment.Defer", () => {
-	const defers: Payment.Defer[] = [
+describe("Payment", () => {
+	const payments: Payment[] = [
 		{
 			id: "3",
 			type: "defer",
@@ -56,7 +55,7 @@ describe("Payment.Defer", () => {
 			amount: 300.00,
 		},
 	]
-	const sortedDefers: Payment.Defer[] = [
+	const sortedPayments: Payment[] = [
 		{
 			id: "1",
 			type: "defer",
@@ -110,5 +109,5 @@ describe("Payment.Defer", () => {
 			amount: 4000.00,
 		},
 	]
-	it("sorts", () => expect(Defer.sort(defers, "created")).toEqual(sortedDefers))
+	it("sort", () => expect(Payment.sort(payments, "created")).toEqual(sortedPayments))
 })

@@ -14,6 +14,19 @@ export namespace Payment {
 			PInvoice.is(value) ||
 			PDefer.is(value)
 	}
+	export function sort(value: Payment[], property: "created"): Payment[] {
+		return value.sort(getComparer(property))
+	}
+	export function getComparer(property: "created"): (left: Payment, right: Payment) => number {
+		let result: (left: Payment, right: Payment) => number
+		switch (property) {
+			case "created":
+			default:
+				result = (left: Payment, right: Payment) => left.created < right.created ? 1 : left.created > right.created ? -1 : 0
+				break
+		}
+		return result
+	}
 	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable
 	export namespace Creatable {
 		export function is(value: Creatable | any): value is Creatable {
