@@ -47,10 +47,10 @@
   "clean": "rm -rf dist node_modules coverage"
  },
  "dependencies": {
-  "authly": "0.0.22",
+  "authly": "0.0.23",
   "dotenv": "^8.0.0",
   "gracely": "0.0.15",
-  "isoly": "0.0.9",
+  "isoly": "0.0.10",
   "node-fetch": "^2.6.0"
  },
  "devDependencies": {
