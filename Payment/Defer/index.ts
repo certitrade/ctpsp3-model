@@ -18,9 +18,10 @@ export namespace Defer {
 		let result: (left: Defer, right: Defer) => number
 		switch (property) {
 			case "created":
-				result = left.created < right.created ? 1 : left.created > right.created ? -1 : 0
+			default:
+				result = (left: Defer, right: Defer) => left.created < right.created ? 1 : left.created > right.created ? -1 : 0
 				break
-		}	
+		}
 		return result
 	}
 	export type Creatable = DeferCreatable
