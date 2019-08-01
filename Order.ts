@@ -65,17 +65,21 @@ export namespace Order {
 		}
 		return result
 	}
-	export function filter(value: Order[], option: ["client", authly.Identifier] | ["status", Status]) {
+	export function filter(value: Order[], property: "client", criterion: authly.Identifier): Order[]
+	export function filter(value: Order[], property: "status", criterion: Status): Order[]
+	export function filter(value: Order[], property: "client" | "status", criterion: authly.Identifier | Status): Order[] {
 		let result: Order[] = []
-		switch (option[0]) {
+		switch (property) {
 			case "client":
-				result = value.filter(order => order.client == option[1])
+				result = value.filter(order => order.client == criterion)
 				break
 			case "status":
-			default:
-				result = value.filter(order => order.status && order.status.includes(option[1] as Status))
+				result = value.filter(order => order.status && order.status.includes(criterion as Status))
 				break
-		}
+			default:
+				result = value
+				break
+			}
 		return result
 	}
 	export function setStatus(order: Order): Order
