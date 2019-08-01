@@ -52,6 +52,22 @@ export namespace Order {
 			value.event == undefined &&
 			value.status == undefined
 	}
+	export function sort(value: Order[], property: "created"): Order[] {
+		return value.sort(getComparer(property))
+	}
+	export function getComparer(property: "created"): (left: Order, right: Order) => number {
+		let result: (left: Order, right: Order) => number
+		switch (property) {
+			case "created":
+			default:
+				result = (left: Order, right: Order) => left.created < right.created ? 1 : left.created > right.created ? -1 : 0
+				break
+		}
+		return result
+	}
+	export function filter(value: Order[], property: "client", identifier: authly.Identifier) {
+		return value.filter(order => order[property] == identifier)
+	}
 	export function setStatus(order: Order): Order
 	export function setStatus(orders: Order[]): Order[]
 	export function setStatus(orders: Order | Order[]): Order | Order[] {
