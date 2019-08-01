@@ -1,3 +1,4 @@
+import { Identifier } from "authly"
 import { Type as PType } from "./Type"
 import { Card as PCard } from "./Card"
 import { Installment as PInstallment } from "./Installment"
@@ -26,6 +27,9 @@ export namespace Payment {
 				break
 		}
 		return result
+	}
+	export function filter(value: Payment[], property: "client", identifier: Identifier) {
+		return value.filter(payment => payment[property] == identifier)
 	}
 	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable
 	export namespace Creatable {
