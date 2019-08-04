@@ -4,7 +4,7 @@ import { Item } from "../../Item"
 import { Terms } from "./Terms"
 import { CreatableBase } from "../CreatableBase"
 
-export interface Creatable {
+export interface Creatable extends CreatableBase {
 	type: "invoice"
 	terms: Terms
 	customer: Customer
