@@ -4,6 +4,7 @@ import { Card as PCard } from "./Card"
 import { Installment as PInstallment } from "./Installment"
 import { Invoice as PInvoice } from "./Invoice"
 import { Defer as PDefer } from "./Defer"
+import { Status as PStatus } from "./Status"
 
 export type Payment = PCard | PInstallment | PInvoice | PDefer
 
@@ -43,6 +44,10 @@ export namespace Payment {
 	export type Type = PType
 	export namespace Type {
 		export const is = PType.is
+	}
+	export type Status = PStatus
+	export namespace Status {
+		export const is = PStatus.is
 	}
 
 	export type Card = PCard

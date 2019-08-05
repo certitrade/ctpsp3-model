@@ -14,6 +14,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-06 13:39",
 			amount: 4000.00,
+			status: "created",
 		},
 		{
 			id: "1",
@@ -27,6 +28,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-08 13:38",
 			amount: 200.00,
+			status: "created",
 		},
 		{
 			id: "2",
@@ -40,6 +42,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-07 13:37",
 			amount: 9000.01,
+			status: "created",
 		},
 		{
 			id: "4",
@@ -53,6 +56,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-07 13:37",
 			amount: 300.00,
+			status: "created",
 		},
 	]
 	const sortedPayments: Payment[] = [
@@ -68,6 +72,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-08 13:38",
 			amount: 200.00,
+			status: "created",
 		},
 		{
 			id: "2",
@@ -81,6 +86,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-07 13:37",
 			amount: 9000.01,
+			status: "created",
 		},
 		{
 			id: "4",
@@ -94,6 +100,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-07 13:37",
 			amount: 300.00,
+			status: "created",
 		},
 		{
 			id: "3",
@@ -107,6 +114,7 @@ describe("Payment", () => {
 			service: "",
 			created: "2019-06-06 13:39",
 			amount: 4000.00,
+			status: "created",
 		},
 	]
 	it("sort", () => expect(Payment.sort(payments, "created")).toEqual(sortedPayments))
