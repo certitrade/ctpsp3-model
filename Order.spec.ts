@@ -35,6 +35,7 @@ function getOrder(): model.Order {
 			created: "2019-01-31T20:00:54",
 			amount: 100,
 			currency: "SEK",
+			status: "created",
 		},
 	}
 }
