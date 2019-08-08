@@ -66,15 +66,16 @@ export namespace Order {
 		return result
 	}
 	export function filter(value: Order[], property: "client", criterion: authly.Identifier): Order[]
-	export function filter(value: Order[], property: "status", criterion: Status): Order[]
-	export function filter(value: Order[], property: "client" | "status", criterion: authly.Identifier | Status): Order[] {
+	export function filter(value: Order[], property: "status", criterion: Status | Status[]): Order[]
+	export function filter(value: Order[], property: "client" | "status", criterion: authly.Identifier | Status | Status[]): Order[] {
 		let result: Order[] = []
 		switch (property) {
 			case "client":
 				result = value.filter(order => order.client == criterion)
 				break
 			case "status":
-				result = value.filter(order => order.status && order.status.includes(criterion as Status))
+				const criteria: Status[] = Array.isArray(criterion) ? criterion : [ criterion as Status ]
+				result = value.filter(order => order.status && order.status.some(s => criteria.some(c => c == s)))
 				break
 			default:
 				result = value
