@@ -1,4 +1,4 @@
-import * as isoly from "isoly"
+import * as gracely from "gracely"
 import { Customer } from "../../Customer"
 import { Item } from "../../Item"
 import { Terms } from "./Terms"
@@ -19,5 +19,18 @@ export namespace Creatable {
 			Customer.is(value.customer) &&
 			Item.canBe(value.item) &&
 			CreatableBase.is(value)
+	}
+	export function flaw(value: any | Creatable): gracely.Flaw {
+		return {
+			type: "model.Payment.Invoice.Creatable",
+			flaws: typeof(value) != "object" ? undefined :
+				[
+					value.type == "invoice" || { property: "type", type: '"invoice"' },
+					Terms.is(value.terms) || { property: "terms", ...Terms.flaw(value.terms) },
+					Customer.is(value.customer) || { property: "customer", ...Customer.flaw(value.customer) },
+					Item.canBe(value.item) || { property: "item", type: "number | Item | Item[]" },
+					CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
+				].filter(gracely.Flaw.is),
+		}
 	}
 }
