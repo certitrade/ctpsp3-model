@@ -1,3 +1,4 @@
+import * as gracely from "gracely"
 import { Status } from "./Status"
 import { Event } from "./Event"
 
@@ -20,10 +21,39 @@ export namespace Item {
 			typeof(value.quantity) == "number" &&
 			(typeof(value.unit) == "string" || value.unit == undefined) &&
 			(typeof(value.vat) == "number" || value.vat == undefined) &&
+			(typeof(value.rebate) == "number" || value.rebate == undefined) &&
 			(Array.isArray(value.status) && value.status.length == value.quantity && value.status.every(Status.is) || value.status == undefined)
+	}
+	export function flaw(value: Item | any): gracely.Flaw {
+		return {
+			type: "model.Item",
+			flaws: typeof(value) != "object" ? undefined :
+				[
+					(typeof(value.number) == "string" || value.number == undefined) || { property: "number", type: "string" },
+					typeof(value.name) == "string" || { property: "name", type: "string" },
+					typeof(value.price) == "number" || { property: "price", type: "number" },
+					typeof(value.quantity) == "number" || { property: "quantity", type: "number" },
+					(typeof(value.unit) == "string" || value.unit == undefined) || { property: "unit", type: "string" },
+					(typeof(value.vat) == "number" || value.vat == undefined) || { property: "vat", type: "number" },
+					(typeof(value.rebate) == "number" || value.rebate == undefined) || { property: "rebate", type: "number" },
+					(Array.isArray(value.status) && value.status.length == value.quantity && value.status.every(Status.is) || value.status == undefined) || { property: "status", type: "Status[]" },
+				].filter(gracely.Flaw.is) as gracely.Flaw[],
+		}
 	}
 	export function canBe(value: number | Item | Item[] | any): value is number | Item | Item[] {
 		return typeof(value) == "number" || Item.is(value) || (Array.isArray(value) && value.every(Item.is))
+	}
+	export function canBeFlaw(value: number | Item | Item[] | any): gracely.Flaw | gracely.Flaw[] {
+		let result: gracely.Flaw | gracely.Flaw[]
+		if (Array.isArray(value)) {
+			const array: gracely.Flaw[] = []
+			value.forEach(item => {
+				array.push(flaw(item))
+			})
+			result = array
+		} else
+			result = flaw(value)
+		return result
 	}
 	export function amount(item: number | Item | Item[]): number {
 		return typeof(item) == "number" ? item :
