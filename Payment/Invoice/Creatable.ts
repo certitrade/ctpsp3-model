@@ -17,7 +17,7 @@ export namespace Creatable {
 			value.type == "invoice" &&
 			Terms.is(value.terms) &&
 			Customer.is(value.customer) &&
-			Item.canBe(value.item) &&
+			Item.canBe(value.items) &&
 			CreatableBase.is(value)
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {
@@ -28,7 +28,7 @@ export namespace Creatable {
 					value.type == "invoice" || { property: "type", type: '"invoice"' },
 					Terms.is(value.terms) || { property: "terms", ...Terms.flaw(value.terms) },
 					Customer.is(value.customer) || { property: "customer", ...Customer.flaw(value.customer) },
-					Item.canBe(value.item) || { property: "item", type: "number | Item | Item[]" },
+					Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
 					CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
 				].filter(gracely.Flaw.is),
 		}
