@@ -18,6 +18,7 @@ export namespace Invoice {
 	export namespace Creatable {
 		// tslint:disable-next-line: no-shadowed-variable
 		export const is = InvoiceCreatable.is
+		export const flaw = InvoiceCreatable.flaw
 	}
 	export type Terms = InvoiceTerms
 	export namespace Terms {
