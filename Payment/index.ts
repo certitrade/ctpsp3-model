@@ -84,6 +84,7 @@ export namespace Payment {
 		export type Creatable = PInvoice.Creatable
 		export namespace Creatable {
 			export const is = PInvoice.Creatable.is
+			export const flaw = PInvoice.Creatable.flaw
 		}
 		export type Terms = PInvoice.Terms
 		export namespace Terms {
