@@ -29,9 +29,10 @@ export namespace Payment {
 		}
 		return result
 	}
+	export function filter(value: Payment[], property: "status", criterion: PStatus): Payment[]
 	export function filter(value: Payment[], property: "type", criterion: PType): Payment[]
 	export function filter(value: Payment[], property: "client", criterion: Identifier): Payment[]
-	export function filter(value: Payment[], property: "type" | "client", criterion: string | Identifier): Payment[] {
+	export function filter(value: Payment[], property: "type" | "client" | "status", criterion: string | Identifier | PStatus): Payment[] {
 		return value.filter(payment => payment[property] == criterion)
 	}
 	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable
