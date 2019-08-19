@@ -15,6 +15,9 @@ export interface Customer {
 	address: Address | Addresses
 	email?: string | EmailAddresses
 	phone?: string | PhoneNumbers
+	mobile?: string
+	ipAddress?: string
+	browserUserAgent?: string
 }
 export namespace Customer {
 	export function is(value: any | Customer): value is Customer {
@@ -26,7 +29,10 @@ export namespace Customer {
 			(typeof(value.name) == "string" || Name.is(value.name)) &&
 			(Address.is(value.address) || Addresses.is(value.address)) &&
 			(typeof(value.email) == "string" || EmailAddresses.is(value.email) || value.email == undefined) &&
-			(typeof(value.phone) == "string" || PhoneNumbers.is(value.phone) || value.phone == undefined)
+			(typeof(value.phone) == "string" || PhoneNumbers.is(value.phone) || value.phone == undefined) &&
+			(typeof(value.mobile) == "string" || value.mobile == undefined) &&
+			(typeof(value.ipAddress) == "string" || value.ipAddress == undefined) &&
+			(typeof(value.browserUserAgent) == "string" || value.browserUserAgent == undefined)
 	}
 	export function flaw(value: any | Customer): gracely.Flaw {
 		return {
@@ -41,6 +47,9 @@ export namespace Customer {
 					Address.is(value.address) ||  Addresses.is(value.address) || { property: "address", type: "Address | Addresses" },
 					value.email == undefined || typeof(value.email) == "string" || EmailAddresses.is(value.email) || { property: "email", type: "string | EmailAddresses | undefined" },
 					value.phone == undefined || typeof(value.phone) == "string" || PhoneNumbers.is(value.phone) || { property: "phone", type: "string | PhoneNumbers | undefined" },
+					value.mobile == undefined || typeof(value.mobile) == "string" || { property: "mobile", type: "string | undefined" },
+					value.ipAddress == undefined || typeof(value.ipAddress) == "string" || { property: "ipAddress", type: "string | undefined" },
+					value.browserUserAgent == undefined || typeof(value.browserUserAgent) == "string" || { property: "browserUserAgent", type: "string | undefined" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
