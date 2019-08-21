@@ -16,7 +16,7 @@ export namespace Creatable {
 			value.type == "installment" &&
 			Plan.is(value.plan) &&
 			Customer.is(value.customer) &&
-			Item.canBe(value.item) &&
+			Item.canBe(value.items) &&
 			CreatableBase.is(value)
 	}
 }
