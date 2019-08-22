@@ -4,3 +4,5 @@ export type Type =
 	"charge" |
 	"pay" |
 	"refund"
+
+export const types: Type[] = [ "order", "cancel", "charge", "pay", "refund" ]
