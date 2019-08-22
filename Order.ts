@@ -1,5 +1,6 @@
 import * as isoly from "isoly"
 import * as authly from "authly"
+import * as gracely from "gracely"
 import { Customer } from "./Customer"
 import { Event } from "./Event"
 import { Item } from "./Item"
@@ -34,6 +35,25 @@ export namespace Order {
 			(value.attempt == undefined || Array.isArray(value.attempt)) &&
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
+	}
+	export function flaw(value: Order | any): gracely.Flaw {
+		return {
+			type: "model.Order",
+			flaws: typeof(value) != "object" ? undefined :
+				[
+					typeof(value.id) == "string" || { property: "id", type: "string" },
+					typeof(value.number) == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
+					typeof(value.client) == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
+					isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
+					value.customer == undefined || Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
+					Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
+					isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
+					Payment.is(value.payment) || authly.Token.is(value.payment) || { property: "payment", type: "Payment | Token" },
+					value.attempt == undefined || Array.isArray(value.attempt) || { property: "attempt", type: "Array | undefined" },
+					value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is) || { property: "event", type: "Event[]" },
+					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[]" },
+				].filter(gracely.Flaw.is),
+		}
 	}
 	export function getCreatablePayment(order: Order | any): Payment.Card | undefined {
 		return { ...order.payment, number: order.number, customer: order.customer, items: order.items, amount: Item.amount(order.items), currency: order.currency }
