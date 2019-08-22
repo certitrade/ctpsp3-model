@@ -55,6 +55,9 @@ export namespace Order {
 				].filter(gracely.Flaw.is),
 		}
 	}
+	export function possibleEvents(orders: Order[]): Event.Type[] {
+		return Event.types.filter(type => orders.every(order => !order.status || order.status.some(status => Status.change(status, type))))
+	}
 	export function getCreatablePayment(order: Order | any): Payment.Card | undefined {
 		return { ...order.payment, number: order.number, customer: order.customer, items: order.items, amount: Item.amount(order.items), currency: order.currency }
 	}

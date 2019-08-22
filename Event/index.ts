@@ -1,4 +1,4 @@
-import { Type as  EventType } from "./Type"
+import { Type as EventType, types as eventTypes } from "./Type"
 import { Order as OrderEvent } from "./Order"
 import { Cancel as CancelEvent } from "./Cancel"
 import { Charge as ChargeEvent } from "./Charge"
@@ -21,8 +21,8 @@ export namespace Event {
 			PayEvent.is(value) ||
 			RefundEvent.is(value)
 	}
-	export const events = [	OrderEvent, CancelEvent, ChargeEvent, PayEvent, RefundEvent ]
 	export type Type = EventType
+	export const types = eventTypes
 	export type Order = OrderEvent
 	export namespace Order {
 		export const is = OrderEvent.is
