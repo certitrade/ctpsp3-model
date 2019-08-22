@@ -50,8 +50,8 @@ export namespace Order {
 					isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
 					Payment.is(value.payment) || authly.Token.is(value.payment) || { property: "payment", type: "Payment | Token" },
 					value.attempt == undefined || Array.isArray(value.attempt) || { property: "attempt", type: "Array | undefined" },
-					value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is) || { property: "event", type: "Event[]" },
-					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[]" },
+					value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is) || { property: "event", type: "Event[] | undefined" },
+					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[] | undefined" },
 				].filter(gracely.Flaw.is),
 		}
 	}
