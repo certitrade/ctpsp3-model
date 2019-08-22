@@ -21,6 +21,7 @@ export namespace Event {
 			PayEvent.is(value) ||
 			RefundEvent.is(value)
 	}
+	export const events = [	OrderEvent, CancelEvent, ChargeEvent, PayEvent, RefundEvent ]
 	export type Type = EventType
 	export type Order = OrderEvent
 	export namespace Order {
