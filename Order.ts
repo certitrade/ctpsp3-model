@@ -16,7 +16,7 @@ export interface Order {
 	items: number | Item | Item[]
 	currency: isoly.Currency
 	payment: Payment | Payment.Creatable | authly.Token
-	attempt?: Partial<Payment>[]
+	attempt?: (Partial<Payment.Creatable> | Payment | authly.Token)[]
 	event?: Event[]
 	status?: Status[]
 }
