@@ -3,13 +3,12 @@ import * as authly from "authly"
 import { Credentials } from "./Credentials"
 import { User } from "./User"
 import { fetch, RequestInit } from "./fetch"
-import { Configuration } from "./Configuration"
 
 export abstract class Connection {
 	static baseUrl: string = "/api/"
 	static user?: User
-	static configuration?: Configuration
-	static reauthenticate?: () => Promise<[User, Configuration] | gracely.Error>
+	static key?: authly.Token
+	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>
 	private constructor() { }
 	static async login(user: string, password: string): Promise<User | gracely.Error> {
 		const response = await fetch(Connection.baseUrl + "me", {
@@ -31,13 +30,13 @@ export abstract class Connection {
 		return result
 	}
 	private static async getToken(): Promise<authly.Token | undefined> {
-		let result: authly.Token | undefined = Connection.configuration && Connection.configuration.private
+		let result: authly.Token | undefined = Connection.key && Connection.key
 		if (!result && Connection.reauthenticate)  {
 			const response = await Connection.reauthenticate()
 			if (!gracely.Error.is(response)) {
 				Connection.user = response[0]
-				Connection.configuration = response[1]
-				result = Connection.configuration && Connection.configuration.private
+				Connection.key = response[1]
+				result = Connection.key && Connection.key
 			}
 		}
 		return result
@@ -80,7 +79,7 @@ export abstract class Connection {
 }
 function hasMerchant(value: any | { merchant: { configuration: { private: string } } }): value is { merchant: { configuration: { private: string } } } {
 	return typeof(value) == "object" &&
-		typeof(value.merchant) == "object" && 
-		typeof(value.merchant.configuration) == "object" && 
+		typeof(value.merchant) == "object" &&
+		typeof(value.merchant.configuration) == "object" &&
 		typeof(value.merchant.configuration.private) == "string"
 }

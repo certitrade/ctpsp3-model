@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv"
 import * as gracely from "gracely"
-import * as model from "."
+import * as authly from "authly"
+import * as model from "./index"
 
 dotenv.config()
 model.Connection.baseUrl = process.env.backendUrl || ""
@@ -17,14 +18,14 @@ describe.skip("Connection", () => {
 	it("reauthenticate", async () => {
 		model.Connection.reauthenticate = async () => {
 			const user = await model.Connection.login(process.env.backendUser || "", process.env.backendPassword || "")
-			let result: gracely.Error | [model.User, model.Configuration]
+			let result: gracely.Error | [model.User, authly.Token]
 			if (gracely.Error.is(user))
 				result = user
 			else {
 				let merchant = user.merchant
 				if (Array.isArray(merchant))
 					merchant = merchant[0]
-				result = [user, merchant.configuration.production || merchant.configuration.test as model.Configuration]
+				result = [user, merchant.key.private]
 			}
 			return result
 		}

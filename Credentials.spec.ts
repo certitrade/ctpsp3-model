@@ -1,4 +1,4 @@
-import * as model from "."
+import * as model from "./index"
 
 describe("Credentials", () => {
 	const authorization = "Basic dGVzdEB0ZXN0LmNvbTpwYXNzd29yZA=="

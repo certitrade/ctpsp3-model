@@ -1,6 +1,5 @@
 import { Address } from "./Address"
 import { Addresses } from "./Addresses"
-import { Configuration } from "./Configuration"
 import { Connection } from "./Connection"
 import { Credentials } from "./Credentials"
 import { Customer } from "./Customer"
@@ -21,7 +20,6 @@ export {
 	Address,
 	Addresses,
 	Connection,
-	Configuration,
 	Credentials,
 	Customer,
 	EmailAddresses,

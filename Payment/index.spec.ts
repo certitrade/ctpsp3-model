@@ -1,4 +1,4 @@
-import { Payment } from "."
+import { Payment } from "./index"
 
 describe("Payment", () => {
 	const payments: Payment[] = [
