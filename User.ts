@@ -14,5 +14,3 @@ export namespace User {
 			(Merchant.is(value.merchant) || Array.isArray(value.merchant) && value.merchant.every(Merchant.is))
 	}
 }
-
-

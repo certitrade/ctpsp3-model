@@ -3,8 +3,9 @@ import * as authly from "authly"
 import { Creatable as MerchantCreatable } from "./Creatable"
 import { Key as MerchantKey } from "./Key"
 
-export interface Merchant extends MerchantCreatable {
+export interface Merchant {
 	id: authly.Identifier
+	name: string
 	key: {
 		public: authly.Token,
 		private: authly.Token,
@@ -18,17 +19,16 @@ export namespace Merchant {
 			typeof(value.name) == "string" &&
 			typeof(value.key) == "object" &&
 			authly.Token.is(value.key.public) &&
-			authly.Token.is(value.key.private) &&
-			MerchantCreatable.is(value)
+			authly.Token.is(value.key.private)
 	}
 	export function flaw(value: any | Merchant): gracely.Flaw {
 		return {
 			type: "model.Merchant",
 			flaws: typeof(value) != "object" ? undefined :
 				[
-					authly.Identifier.is((value as any).id) || { property: "id", type: "authly.Identifier" },
+					authly.Identifier.is(value.id) || { property: "id", type: "authly.Identifier" },
+					typeof(value.name) == "string" || { property: "name", type: "string" },
 					typeof(value.key) == "object" && authly.Token.is(value.key.public) &&	authly.Token.is(value.key.private) || { property: "key", type: "{ public: authly.Token, private: authly.Token }" },
-					...MerchantCreatable.flaw(value).flaws || [],
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
