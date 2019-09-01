@@ -7,8 +7,8 @@ export interface Merchant {
 	id: authly.Identifier
 	name: string
 	key: {
-		public: authly.Token,
 		private: authly.Token,
+		public?: authly.Token,
 	}
 }
 // tslint:disable: no-shadowed-variable
@@ -18,8 +18,8 @@ export namespace Merchant {
 			typeof(value.id) == "string" &&
 			typeof(value.name) == "string" &&
 			typeof(value.key) == "object" &&
-			authly.Token.is(value.key.public) &&
-			authly.Token.is(value.key.private)
+			authly.Token.is(value.key.private) &&
+			(value.key.public == undefined || authly.Token.is(value.key.public))
 	}
 	export function flaw(value: any | Merchant): gracely.Flaw {
 		return {
@@ -41,5 +41,10 @@ export namespace Merchant {
 	export namespace Key {
 		export const is = MerchantKey.is
 		export const flaw = MerchantKey.flaw
+		export type Audience = MerchantKey.Audience
+		// tslint:disable: no-shadowed-variable
+		export namespace Audience {
+			export const is = MerchantKey.Audience.is
+		}
 	}
 }

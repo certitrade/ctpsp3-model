@@ -1,13 +1,19 @@
-import * as model from "../index"
+import * as model from "../../index"
 
 describe("Merchant.Key", () => {
 	const key = {
-		iss: "http://localhost:7082",
-		iat: 1565200888358,
-		aud: "private",
-		sub: "par9",
-		name: "test",
-		option: {},
+		iss: "http://localhost:7071",
+		iat: 1567333057361,
+		aud: [
+			"private",
+			"public",
+		],
+		sub: "e5CyF8E4",
+		user: "test@test.com",
+		name: "Test Merchant",
+		option: {
+			"option0": "abcdefg",
+		},
 	}
 	it("is", () => expect(model.Merchant.Key.is(key)).toBeTruthy())
 	it("Merchant.Creatable.is", () => expect(model.Merchant.Creatable.is(key)).toBeTruthy())
