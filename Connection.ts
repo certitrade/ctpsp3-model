@@ -5,7 +5,7 @@ import { User } from "./User"
 import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
-	static baseUrl: string = "/api/"
+	static baseUrl: string = "/"
 	static user?: User
 	static key?: authly.Token
 	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>
