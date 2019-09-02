@@ -9,7 +9,7 @@ export interface Key extends Creatable, authly.Payload {
 	aud: KeyAudience
 	iat: number
 	user?: string
-	option: { [name: string]: string | authly.Payload.Data }
+	option: authly.Payload.Data
 }
 
 export namespace Key {
