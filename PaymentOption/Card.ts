@@ -1,9 +1,9 @@
 import { Base } from "./Base"
-import { Issuer as CIssuer } from "../Payment/Card/Issuer"
+import { Scheme as CardScheme } from "../Payment/Card/Scheme"
 
 export interface Card extends Base {
 	type: "card"
-	issuers: CIssuer[]
+	schemes: CardScheme[]
 }
 
 export namespace Card {
