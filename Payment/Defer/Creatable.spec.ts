@@ -1,4 +1,4 @@
-import * as model from "../../"
+import * as model from "../../index"
 
 describe("Payment.Defer.Creatable", () => {
 	it("is", () => expect(model.Payment.Defer.Creatable.is({

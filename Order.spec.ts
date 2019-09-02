@@ -1,4 +1,4 @@
-import * as model from "./"
+import * as model from "./index"
 function getOrder(): model.Order {
 	return {
 		id: "5cdacdb69126ef507c9251b3",
@@ -30,7 +30,7 @@ function getOrder(): model.Order {
 		payment: {
 			id: "07df5b95-9e93-4a23-8175-4a5ea7896cd1",
 			type: "card",
-			issuer: "amex",
+			scheme: "amex",
 			service: "CardFunc",
 			created: "2019-01-31T20:00:54",
 			amount: 100,
