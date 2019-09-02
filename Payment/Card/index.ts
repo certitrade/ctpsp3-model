@@ -26,4 +26,3 @@ export namespace Card {
 		export const is = CardScheme.is
 	}
 }
-8
