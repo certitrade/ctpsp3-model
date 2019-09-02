@@ -1,11 +1,11 @@
 import { Base } from "../Base"
-import { Issuer as CIssuer } from "./Issuer"
+import { Scheme as CardScheme } from "./Scheme"
 import { Creatable as CCreatable } from "./Creatable"
 
 export interface Card extends Base {
 	type: "card"
 	account?: string
-	issuer: CIssuer
+	scheme: CardScheme
 }
 
 export namespace Card {
@@ -20,10 +20,10 @@ export namespace Card {
 // tslint:disable-next-line: no-shadowed-variable
 		export const is = CCreatable.is
 	}
-	export type Issuer = CIssuer
+	export type Issuer = CardScheme
 	export namespace Issuer {
 // tslint:disable-next-line: no-shadowed-variable
-		export const is = CIssuer.is
+		export const is = CardScheme.is
 	}
 }
 8

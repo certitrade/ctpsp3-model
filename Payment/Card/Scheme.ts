@@ -1,4 +1,5 @@
-export type Issuer =
+export type Scheme =
+	"unknown" |
 	"amex" |
 	"dankort" |
 	"diners" |
@@ -11,9 +12,10 @@ export type Issuer =
 	"unionpay" |
 	"visa"
 
-export namespace Issuer {
-	export function is(value: any | Issuer): value is Issuer {
+export namespace Scheme {
+	export function is(value: any | Scheme): value is Scheme {
 		return typeof(value) == "string" && (
+			value == "unkown" ||
 			value == "amex" ||
 			value == "dankort" ||
 			value == "diners" ||

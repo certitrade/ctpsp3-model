@@ -1,4 +1,4 @@
-import * as model from "./"
+import * as model from "./index"
 
 describe("EmailAddresses", () => {
 	it("is", () => expect(model.EmailAddresses.is({ primary: "first.last@email.com" })).toBeTruthy())

@@ -1,4 +1,4 @@
-import * as model from "./"
+import * as model from "./index"
 
 describe("Addresses", () => {
 	it("is", () => expect(model.Addresses.is({ primary: { street: "Merchant Street 18", zipCode: "12345", city: "Merchantilium", countryCode: "SE" } })).toBeTruthy())

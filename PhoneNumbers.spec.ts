@@ -1,4 +1,4 @@
-import * as model from "./"
+import * as model from "./index"
 
 describe("PhoneNumbers", () => {
 	it("is", () => expect(model.PhoneNumbers.is({ primary: "+46-18-12 34 56" })).toBeTruthy())

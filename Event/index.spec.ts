@@ -1,4 +1,4 @@
-import * as model from "../"
+import * as model from "../index"
 import * as isoly from "isoly"
 
 describe("Event", () => {

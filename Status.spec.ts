@@ -1,4 +1,4 @@
-import * as model from "./"
+import * as model from "./index"
 
 describe("Status", () => {
 	it("is created", () => expect(model.Status.is("created")).toBeTruthy())
