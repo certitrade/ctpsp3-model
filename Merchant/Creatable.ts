@@ -3,7 +3,7 @@ import * as gracely from "gracely"
 
 export interface Creatable {
 	name: string
-	option: { [name: string]: authly.Payload.Value }
+	option: authly.Payload.Data
 }
 
 export namespace Creatable {
@@ -18,7 +18,7 @@ export namespace Creatable {
 			flaws: typeof(value) != "object" ? undefined :
 				[
 					typeof(value.name) == "string" || { property: "name", type: "string" },
-					typeof(value.option) == "object" || { property: "option", type: "object" },
+					typeof(value.option) == "object" || { property: "option", type: "authly.Payload.Data" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
