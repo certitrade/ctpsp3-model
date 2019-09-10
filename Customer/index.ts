@@ -1,10 +1,11 @@
 import * as gracely from "gracely"
-import { Address } from "./Address"
-import { Addresses } from "./Addresses"
-import { EmailAddresses } from "./EmailAddresses"
-import { Name } from "./Name"
-import { IdentityNumber } from "./IdentityNumber"
-import { PhoneNumbers } from "./PhoneNumbers"
+import { Address } from "../Address"
+import { Addresses } from "../Addresses"
+import { EmailAddresses } from "../EmailAddresses"
+import { Name } from "../Name"
+import { IdentityNumber } from "../IdentityNumber"
+import { PhoneNumbers } from "../PhoneNumbers"
+import { Required as RequiredType  } from "./Required"
 
 export interface Customer {
 	type: "organization" | "person"
@@ -17,6 +18,7 @@ export interface Customer {
 	phone?: string | PhoneNumbers
 }
 export namespace Customer {
+
 	export function is(value: any | Customer): value is Customer {
 		return typeof(value) == "object" &&
 			(value.type == "organization" || value.type == "person") &&
@@ -44,4 +46,5 @@ export namespace Customer {
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
+	export type Required = RequiredType
 }
