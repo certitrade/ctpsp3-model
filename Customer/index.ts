@@ -47,4 +47,8 @@ export namespace Customer {
 		}
 	}
 	export type Required = RequiredType
+	export namespace Required {
+		export const is = RequiredType.is
+	}
+	
 }
