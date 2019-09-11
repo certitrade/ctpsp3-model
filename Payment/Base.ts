@@ -12,6 +12,7 @@ export interface Base {
 	amount: number
 	currency: isoly.Currency
 	status: Status
+	reference?: string
 }
 
 export namespace Base {
@@ -26,6 +27,7 @@ export namespace Base {
 			isoly.Currency.is(value.currency) &&
 			(typeof(value.verify) == "string" || value.verify == undefined) &&
 			(typeof(value.token) == "string" || value.token == undefined) &&
-			Status.is(value.status)
+			Status.is(value.status) &&
+			(typeof(value.reference) == 'string' || value.reference == undefined)
 	}
 }
