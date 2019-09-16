@@ -23,6 +23,9 @@ export namespace Event {
 	}
 	export type Type = EventType
 	export const types = eventTypes
+	export namespace Type {
+		export const is = EventType.is
+	}
 	export type Order = OrderEvent
 	export namespace Order {
 		export const is = OrderEvent.is
