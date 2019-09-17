@@ -11,6 +11,6 @@ export namespace Base {
 	export function is(value: Base | any): value is Base {
 		return typeof(value) == "object" &&
 			isoly.DateTime.is(value.date) &&
-			(value.item == undefined || Item.canBe(value.item))
+			(value.items == undefined || Item.canBe(value.items))
 	}
 }
