@@ -1,3 +1,4 @@
+import { Item } from "../Item"
 import { Type as EventType, types as eventTypes } from "./Type"
 import { Order as OrderEvent } from "./Order"
 import { Cancel as CancelEvent } from "./Cancel"
@@ -23,6 +24,14 @@ export namespace Event {
 			PayEvent.is(value) ||
 			RefundEvent.is(value) ||
 			FailEvent.is(value)
+	}
+	export type Creatable = Omit<EventType, "date">
+	export namespace Creatable {
+		export function is(value: any | Creatable): value is Creatable {
+			return typeof(value) == "object" &&
+				EventType.is(value.type) &&
+				(value.items == undefined || Item.canBe(value.items))
+		}
 	}
 	export type Type = EventType
 	export const types = eventTypes

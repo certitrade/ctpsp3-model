@@ -1,4 +1,4 @@
-import * as model from "./index"
+import * as model from "../index"
 function getOrder(): model.Order {
 	return {
 		id: "5cdacdb69126ef507c9251b3",
