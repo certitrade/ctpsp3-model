@@ -1,14 +1,14 @@
 import * as isoly from "isoly"
 import * as authly from "authly"
 import * as gracely from "gracely"
-import { Customer } from "./Customer"
-import { Event } from "./Event"
-import { Item } from "./Item"
-import { Payment } from "./Payment"
-import { Status } from "./Status"
+import { Customer } from "../Customer"
+import { Event } from "../Event"
+import { Item } from "../Item"
+import { Payment } from "../Payment"
+import { Status } from "../Status"
 
 export interface Order {
-	id: string
+	id: authly.Identifier
 	number?: string
 	client?: string
 	created: isoly.DateTime
@@ -24,7 +24,7 @@ export interface Order {
 export namespace Order {
 	export function is(value: Order | any): value is Order {
 		return typeof(value) == "object" &&
-			typeof(value.id) == "string" &&
+			authly.Identifier.is(value.id) &&
 			(typeof(value.number) == "string" || value.number == undefined) &&
 			(typeof(value.client) == "string" || value.client == undefined) &&
 			isoly.DateTime.is(value.created) &&
@@ -41,7 +41,7 @@ export namespace Order {
 			type: "model.Order",
 			flaws: typeof(value) != "object" ? undefined :
 				[
-					typeof(value.id) == "string" || { property: "id", type: "string" },
+					authly.Identifier.is(value.id) || { property: "id", type: "authly.Identifier" },
 					typeof(value.number) == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
 					typeof(value.client) == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
 					isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },

@@ -3,9 +3,10 @@ export type Type =
 	"cancel" |
 	"charge" |
 	"pay" |
-	"refund"
+	"refund" |
+	"fail"
 
-export const types: Type[] = [ "order", "cancel", "charge", "pay", "refund" ]
+export const types: Type[] = [ "order", "cancel", "charge", "pay", "refund", "fail" ]
 
 export namespace Type {
 	export function is(value: any | Type): value is Type {
