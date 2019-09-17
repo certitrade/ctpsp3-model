@@ -14,4 +14,7 @@ export namespace Change {
 			(value.payment == undefined || authly.Token.is(value.payment)) &&
 			Array.isArray(value.event) && value.event.every(Event.Creatable.is)
 	}
+	export function isArray(value: any | Change[]): value is Change[] {
+		return Array.isArray(value) && value.every(is)
+	}
 }
