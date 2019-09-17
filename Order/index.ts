@@ -6,6 +6,7 @@ import { Event } from "../Event"
 import { Item } from "../Item"
 import { Payment } from "../Payment"
 import { Status } from "../Status"
+import { Change as OrderChange } from "./Change"
 
 export interface Order {
 	id: authly.Identifier
@@ -120,5 +121,11 @@ export namespace Order {
 			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}
 		return orders
+	}
+	export type Change = OrderChange
+	export namespace Change {
+		// tslint:disable-next-line: no-shadowed-variable
+		export const is = OrderChange.is
+		export const isArray = OrderChange.isArray
 	}
 }
