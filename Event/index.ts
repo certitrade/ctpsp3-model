@@ -1,3 +1,4 @@
+import * as isoly from "isoly"
 import { Creatable as EventCreatable } from "./Creatable"
 import { Type as EventType, types as eventTypes } from "./Type"
 import { Order as OrderEvent } from "./Order"
@@ -24,6 +25,9 @@ export namespace Event {
 			PayEvent.is(value) ||
 			RefundEvent.is(value) ||
 			FailEvent.is(value)
+	}
+	export function create(event: EventCreatable, date?: isoly.DateTime): Event {
+		return { ...event, date: date || isoly.DateTime.now() }
 	}
 	export type Creatable = EventCreatable
 	export namespace Creatable {
