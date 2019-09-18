@@ -1,16 +1,16 @@
 import * as isoly from "isoly"
-import { Type } from "./Type"
 import { Item } from "../Item"
+import { Type } from "./Type"
 
-export interface Base {
+export interface Creatable {
 	type: Type
 	date: isoly.DateTime
 	items?: number | Item | Item[]
 }
-export namespace Base {
-	export function is(value: Base | any): value is Base & any {
+export namespace Creatable {
+	export function is(value: any | Creatable): value is Creatable {
 		return typeof(value) == "object" &&
-			isoly.DateTime.is(value.date) &&
+			Type.is(value.type) &&
 			(value.items == undefined || Item.canBe(value.items))
 	}
 }
