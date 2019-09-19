@@ -9,7 +9,7 @@ export interface Installment extends Base {
 
 export namespace Installment {
 	export function is(value: any | Installment): value is Installment {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			value.method == "installment" &&
 			InstallmentPlan.is(value.plan) &&
 			Base.is(value)

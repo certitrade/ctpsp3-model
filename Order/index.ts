@@ -24,10 +24,10 @@ export interface Order {
 
 export namespace Order {
 	export function is(value: Order | any): value is Order {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			authly.Identifier.is(value.id) &&
-			(typeof(value.number) == "string" || value.number == undefined) &&
-			(typeof(value.client) == "string" || value.client == undefined) &&
+			(typeof value.number == "string" || value.number == undefined) &&
+			(typeof value.client == "string" || value.client == undefined) &&
 			isoly.DateTime.is(value.created) &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&
@@ -40,11 +40,11 @@ export namespace Order {
 	export function flaw(value: Order | any): gracely.Flaw {
 		return {
 			type: "model.Order",
-			flaws: typeof(value) != "object" ? undefined :
+			flaws: typeof value != "object" ? undefined :
 				[
 					authly.Identifier.is(value.id) || { property: "id", type: "authly.Identifier" },
-					typeof(value.number) == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
-					typeof(value.client) == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
+					typeof value.number == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
+					typeof value.client == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
 					isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
 					value.customer == undefined || Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
 					Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
@@ -63,10 +63,10 @@ export namespace Order {
 		return { ...order.payment, number: order.number, customer: order.customer, items: order.items, amount: Item.amount(order.items), currency: order.currency }
 	}
 	export function isCreatable(value: Order | any): value is Order {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			value.id == undefined &&
-			(typeof(value.number) == "string" || value.number == undefined) &&
-			(typeof(value.client) == "string" || value.client == undefined) &&
+			(typeof value.number == "string" || value.number == undefined) &&
+			(typeof value.client == "string" || value.client == undefined) &&
 			(value.created == undefined || isoly.DateTime.is(value.created)) &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&

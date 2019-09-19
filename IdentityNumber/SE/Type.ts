@@ -11,7 +11,7 @@ export type Type =
 
 export namespace Type {
 	export function is(value: any | Type): value is Type {
-		return typeof(value) == "number" &&
+		return typeof value == "number" &&
 		(value == 0 || value == 1 || value == 2 || value == 3 || value == 5 || value == 6 || value == 7 || value == 8 || value == 9)
 	}
 	export function parse(value: string): Type | undefined {

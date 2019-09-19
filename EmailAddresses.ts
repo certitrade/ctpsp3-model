@@ -6,14 +6,14 @@ export namespace EmailAddresses {
 	export type Type = "primary" | "billing"
 	export const types: [ "primary", "billing" ] = [ "primary", "billing" ]
 	export function is(value: EmailAddresses | any): value is EmailAddresses {
-		return typeof(value) == "object" &&
-			(typeof(value.primary) == "string" || value.primary == undefined) &&
-			(typeof(value.billing) == "string" || value.billing == undefined) &&
-			(typeof(value.primary) == "string" || typeof(value.billing) == "string")
+		return typeof value == "object" &&
+			(typeof value.primary == "string" || value.primary == undefined) &&
+			(typeof value.billing == "string" || value.billing == undefined) &&
+			(typeof value.primary == "string" || typeof value.billing == "string")
 	}
 	export function get(value: EmailAddresses | string | undefined, ...type: Type[]): string | undefined {
 		let result: string | undefined
-		if (typeof(value) == "string")
+		if (typeof value == "string")
 			result = value
 		else if (EmailAddresses.is(value)) {
 			if (type.length == 0)

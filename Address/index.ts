@@ -6,7 +6,7 @@ export type Address = AddressFI | AddressSE
 // tslint:disable: no-shadowed-variable
 export namespace Address {
 	export function is(value: any | Address): value is Address {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			CountryCode.Alpha2.is(value.countryCode) &&
 			(
 				value.countryCode == "FI" && AddressFI.is(value) ||

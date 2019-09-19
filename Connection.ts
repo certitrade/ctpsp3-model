@@ -78,8 +78,8 @@ export abstract class Connection {
 	}
 }
 function hasMerchant(value: any | { merchant: { configuration: { private: string } } }): value is { merchant: { configuration: { private: string } } } {
-	return typeof(value) == "object" &&
-		typeof(value.merchant) == "object" &&
-		typeof(value.merchant.configuration) == "object" &&
-		typeof(value.merchant.configuration.private) == "string"
+	return typeof value == "object" &&
+		typeof value.merchant == "object" &&
+		typeof value.merchant.configuration == "object" &&
+		typeof value.merchant.configuration.private == "string"
 }

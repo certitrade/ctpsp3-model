@@ -8,17 +8,17 @@ export interface Creatable {
 
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
-		return typeof(value) == "object" &&
-			typeof(value.name) == "string" &&
-			typeof(value.option) == "object"
+		return typeof value == "object" &&
+			typeof value.name == "string" &&
+			typeof value.option == "object"
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {
 		return {
 			type: "model.Merchant.Creatable",
-			flaws: typeof(value) != "object" ? undefined :
+			flaws: typeof value != "object" ? undefined :
 				[
-					typeof(value.name) == "string" || { property: "name", type: "string" },
-					typeof(value.option) == "object" || { property: "option", type: "authly.Payload.Data" },
+					typeof value.name == "string" || { property: "name", type: "string" },
+					typeof value.option == "object" || { property: "option", type: "authly.Payload.Data" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
