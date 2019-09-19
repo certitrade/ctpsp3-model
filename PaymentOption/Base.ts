@@ -11,16 +11,16 @@ export interface Base {
 
 export namespace Base {
 	export function is(value: any | Base) {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			Type.is(value.type) &&
-			typeof(value.service) == "string" &&
+			typeof value.service == "string" &&
 			(
-				typeof(value.create) == "object" &&
-				(typeof(value.create.authorization) == "string" || value.create.authorization == undefined) &&
-				typeof(value.create.location) == "string" ||
+				typeof value.create == "object" &&
+				(typeof value.create.authorization == "string" || value.create.authorization == undefined) &&
+				typeof value.create.location == "string" ||
 				value.create == undefined
 			) &&
-			typeof(value.amount) == "number" &&
+			typeof value.amount == "number" &&
 			isoly.Currency.is(value.currency)
 	}
 }

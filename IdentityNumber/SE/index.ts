@@ -5,16 +5,16 @@ export type SE = string
 // https://sv.wikipedia.org/wiki/Organisationsnummer
 export namespace SE {
 	export function is(value: any | SE): value is SE {
-		return typeof(value) == "string" &&
+		return typeof value == "string" &&
 		/^(16|18|19|20)?\d{10}$/.test(value) &&
 		verifyChecksum(value)
 	}
 	export function is10(value: any | SE): value is SE {
-		return typeof(value) == "string" &&
+		return typeof value == "string" &&
 		/\d{10}$/.test(value)
 	}
 	export function is12(value: any | SE): value is SE {
-		return typeof(value) == "string" &&
+		return typeof value == "string" &&
 		/^(16|18|19|20)\d{10}$/.test(value)
 	}
 	export function as10(value: SE): SE {

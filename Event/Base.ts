@@ -9,7 +9,7 @@ export interface Base {
 }
 export namespace Base {
 	export function is(value: Base | any): value is Base & any {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			isoly.DateTime.is(value.date) &&
 			(value.items == undefined || Item.canBe(value.items))
 	}

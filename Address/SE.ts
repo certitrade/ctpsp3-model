@@ -6,10 +6,10 @@ export interface SE {
 }
 export namespace SE {
 	export function is(value: any | SE): value is SE {
-		return typeof(value) == "object" &&
-			typeof(value.street) == "string" &&
-			typeof(value.zipCode) == "string" &&
-			typeof(value.city) == "string" &&
+		return typeof value == "object" &&
+			typeof value.street == "string" &&
+			typeof value.zipCode == "string" &&
+			typeof value.city == "string" &&
 			value.countryCode == "SE"
 	}
 }

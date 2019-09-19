@@ -10,7 +10,7 @@ export type Status =
 
 export namespace Status {
 	export function is(value: any | Status): value is Status {
-		return typeof(value) == "string" && (
+		return typeof value == "string" && (
 				value == "created" ||
 				value == "ordered" ||
 				value == "cancelled" ||

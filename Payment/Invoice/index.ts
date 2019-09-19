@@ -9,7 +9,7 @@ export interface Invoice extends Base {
 
 export namespace Invoice {
 	export function is(value: any | Invoice): value is Invoice {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			value.type == "invoice" &&
 			InvoiceTerms.is(value.terms) &&
 			Base.is(value)

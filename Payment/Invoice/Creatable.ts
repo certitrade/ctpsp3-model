@@ -13,7 +13,7 @@ export interface Creatable extends CreatableBase {
 
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			value.type == "invoice" &&
 			Terms.is(value.terms) &&
 			Customer.is(value.customer) &&
@@ -23,7 +23,7 @@ export namespace Creatable {
 	export function flaw(value: any | Creatable): gracely.Flaw {
 		return {
 			type: "model.Payment.Invoice.Creatable",
-			flaws: typeof(value) != "object" ? undefined :
+			flaws: typeof value != "object" ? undefined :
 				[
 					value.type == "invoice" || { property: "type", type: '"invoice"' },
 					Terms.is(value.terms) || { property: "terms", ...Terms.flaw(value.terms) },

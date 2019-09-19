@@ -14,21 +14,21 @@ export interface Merchant {
 // tslint:disable: no-shadowed-variable
 export namespace Merchant {
 	export function is(value: any | Merchant): value is Merchant {
-		return typeof(value) == "object" &&
-			typeof(value.id) == "string" &&
-			typeof(value.name) == "string" &&
-			typeof(value.key) == "object" &&
+		return typeof value == "object" &&
+			typeof value.id == "string" &&
+			typeof value.name == "string" &&
+			typeof value.key == "object" &&
 			authly.Token.is(value.key.private) &&
 			(value.key.public == undefined || authly.Token.is(value.key.public))
 	}
 	export function flaw(value: any | Merchant): gracely.Flaw {
 		return {
 			type: "model.Merchant",
-			flaws: typeof(value) != "object" ? undefined :
+			flaws: typeof value != "object" ? undefined :
 				[
 					authly.Identifier.is(value.id) || { property: "id", type: "authly.Identifier" },
-					typeof(value.name) == "string" || { property: "name", type: "string" },
-					typeof(value.key) == "object" && authly.Token.is(value.key.public) &&	authly.Token.is(value.key.private) || { property: "key", type: "{ public: authly.Token, private: authly.Token }" },
+					typeof value.name == "string" || { property: "name", type: "string" },
+					typeof value.key == "object" && authly.Token.is(value.key.public) &&	authly.Token.is(value.key.private) || { property: "key", type: "{ public: authly.Token, private: authly.Token }" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}

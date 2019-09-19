@@ -10,7 +10,7 @@ export namespace Addresses {
 	export type Type = "primary" | "billing" | "delivery" | "visit"
 	export const types: [ "primary", "billing", "delivery", "visit" ] = [ "primary", "billing", "delivery", "visit" ]
 	export function is(value: any | Addresses): value is Addresses {
-		return typeof(value) == "object" &&
+		return typeof value == "object" &&
 			(Address.is(value.primary) || value.primary == undefined) &&
 			(Address.is(value.billing) || value.billing == undefined) &&
 			(Address.is(value.delivery) || value.delivery == undefined) &&

@@ -6,9 +6,9 @@ export interface Credentials {
 }
 export namespace Credentials {
 	export function is(value: any | Credentials): value is Credentials {
-		return typeof(value) == "object" &&
-			typeof(value.user) == "string" && value.user != "" &&
-			(value.password == undefined || typeof(value.password) == "string")
+		return typeof value == "object" &&
+			typeof value.user == "string" && value.user != "" &&
+			(value.password == undefined || typeof value.password == "string")
 	}
 	export function fromBasic(login: string): Credentials | undefined {
 		let result: Credentials | undefined

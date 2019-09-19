@@ -14,7 +14,7 @@ export type Scheme =
 
 export namespace Scheme {
 	export function is(value: any | Scheme): value is Scheme {
-		return typeof(value) == "string" && (
+		return typeof value == "string" && (
 			value == "unkown" ||
 			value == "amex" ||
 			value == "dankort" ||

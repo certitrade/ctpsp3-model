@@ -9,15 +9,15 @@ export namespace PhoneNumbers {
 	export type Type = "primary" | "cellphone" | "landline"
 	export const types: [ "primary", "cellphone", "landline" ] = [ "primary", "cellphone", "landline" ]
 	export function is(value: PhoneNumbers | any): value is PhoneNumbers {
-		return typeof(value) == "object" &&
-			(typeof(value.primary) == "string" || value.primary == undefined) &&
-			(typeof(value.cellphone) == "string" || value.cellphone == undefined) &&
-			(typeof(value.landline) == "string" || value.landline == undefined) &&
+		return typeof value == "object" &&
+			(typeof value.primary == "string" || value.primary == undefined) &&
+			(typeof value.cellphone == "string" || value.cellphone == undefined) &&
+			(typeof value.landline == "string" || value.landline == undefined) &&
 			(value.primary || value.cellphone || value.landline)
 	}
 	export function get(value: PhoneNumbers | string | undefined, ...type: Type[]): string | undefined {
 		let result: string | undefined
-		if (typeof(value) == "string")
+		if (typeof value == "string")
 			result = value
 		else if (PhoneNumbers.is(value)) {
 			if (type.length == 0)
