@@ -8,6 +8,7 @@ export interface CreatableBase {
 	client?: authly.Identifier
 	number?: string
 	currency: isoly.Currency
+	descriptor?: string
 }
 
 export namespace CreatableBase {
@@ -16,7 +17,8 @@ export namespace CreatableBase {
 			Type.is(value.type) &&
 			(value.client == undefined || authly.Identifier.is(value.client)) &&
 			(value.number == undefined || typeof(value.number) == "string") &&
-			isoly.Currency.is(value.currency)
+			isoly.Currency.is(value.currency) &&
+			(value.descriptor == undefined || typeof(value.descriptor) == "string")
 	}
 	export function flaw(value: any | CreatableBase): gracely.Flaw {
 		return {
@@ -27,6 +29,7 @@ export namespace CreatableBase {
 					value.client == undefined || authly.Identifier.is(value.client) || { property: "client", type: "authly.Identifier | undefined" },
 					value.number == undefined || typeof(value.number) == "string" || { property: "number", type: "string | undefined" },
 					isoly.Currency.is(value.currency) || { property: "currency", type: "isoly.Currency" },
+					value.descriptor == undefined || typeof(value.descriptor) == "string" || { property: "descriptor", type: "string | undefined" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
