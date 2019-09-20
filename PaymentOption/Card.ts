@@ -1,9 +1,9 @@
 import { Base } from "./Base"
-import { Scheme as CardScheme } from "../Payment/Card/Scheme"
+import { Card as PaymentCard } from "../Payment/Card"
 
 export interface Card extends Base {
 	type: "card"
-	schemes: CardScheme[]
+	schemes: PaymentCard.Scheme[]
 }
 
 export namespace Card {

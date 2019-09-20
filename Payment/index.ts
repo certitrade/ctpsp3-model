@@ -60,9 +60,9 @@ export namespace Payment {
 		export namespace Creatable {
 			export const is = PCard.Creatable.is
 		}
-		export type Issuer = PCard.Issuer
-		export namespace Issuer {
-			export const is = PCard.Issuer.is
+		export type Scheme = PCard.Scheme
+		export namespace Scheme {
+			export const is = PCard.Scheme.is
 		}
 	}
 
