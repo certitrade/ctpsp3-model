@@ -3,16 +3,19 @@ import { CreatableBase } from "../CreatableBase"
 
 export interface Creatable extends CreatableBase {
 	type: "card"
-	account: string | authly.Token
-	amount: number
+	account?: string
+	reference?: authly.Token
+	amount?: number
 }
 
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
 		return typeof value == "object" &&
 			value.type == "card" &&
-			(typeof value.account == "string" || authly.Token.is(value.account)) &&
-			typeof value.amount &&
+			(
+				typeof value.account == "string" && typeof value.amount == "number" && value.reference == undefined ||
+				value.account == undefined && value.amount == undefined && authly.Token.is(value.reference)
+			) &&
 			CreatableBase.is(value)
 	}
 }

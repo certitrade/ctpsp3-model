@@ -46,6 +46,7 @@
   "clean": "rm -rf dist node_modules coverage"
  },
  "dependencies": {
+  "@cardfunc/model": "0.0.26",
   "authly": "0.0.31",
   "dotenv": "^8.1.0",
   "gracely": "0.0.19",
