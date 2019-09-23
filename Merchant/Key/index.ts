@@ -36,6 +36,9 @@ export namespace Key {
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
+	export function getOption(key: Key | any) {
+		return is(key) && key.option
+	}
 	export type Audience = KeyAudience
 	// tslint:disable: no-shadowed-variable
 	export namespace Audience {
