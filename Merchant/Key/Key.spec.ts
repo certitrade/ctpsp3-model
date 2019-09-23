@@ -31,5 +31,5 @@ describe("Merchant.Key", () => {
 			type: "model.Merchant.Key",
 		})
 	})
-	it("is not Mash", () => expect(model.Merchant.Key.getOption(key)).toEqual({ "option0": "abcdefg" }))
+	it("getOption", () => expect(model.Merchant.Key.getOption(key)).toEqual({ "option0": "abcdefg" }))
 })
