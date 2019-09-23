@@ -4,6 +4,7 @@ export interface User {
 	id: string
 	email: string
 	merchant: Merchant | Merchant[]
+	option: { [key: string]: any }
 }
 
 export namespace User {
@@ -11,6 +12,7 @@ export namespace User {
 		return typeof value == "object" &&
 			typeof value.id == "string" &&
 			typeof value.email == "string" &&
-			(Merchant.is(value.merchant) || Array.isArray(value.merchant) && value.merchant.every(Merchant.is))
+			(Merchant.is(value.merchant) || Array.isArray(value.merchant) && value.merchant.every(Merchant.is)) &&
+			typeof value.option == "object"
 	}
 }
