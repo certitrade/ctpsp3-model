@@ -19,8 +19,8 @@ export namespace Creatable {
 			) &&
 			CreatableBase.is(value)
 	}
-	export function from(authorization: authly.Token): Creatable | undefined {
-		const values = card.Authorization.verify(authorization)
+	export async function from(authorization: authly.Token): Promise<Creatable | undefined> {
+		const values = await card.Authorization.verify(authorization)
 		return values && {
 			type: "card",
 			reference: authorization,

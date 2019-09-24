@@ -46,7 +46,7 @@
   "clean": "rm -rf dist node_modules coverage"
  },
  "dependencies": {
-  "@cardfunc/model": "0.0.28",
+  "@cardfunc/model": "0.0.31",
   "authly": "0.0.33",
   "dotenv": "^8.1.0",
   "gracely": "0.0.19",
@@ -57,7 +57,7 @@
   "@types/dotenv": "^6.1.1",
   "@types/jest": "^24.0.18",
   "@types/node": "^12.7.5",
-  "@types/node-fetch": "^2.5.1",
+  "@types/node-fetch": "^2.5.2",
   "babel-core": "^6.26.3",
   "babel-jest": "^24.9.0",
   "jest": "^24",
