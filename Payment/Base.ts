@@ -19,17 +19,15 @@ export interface Base {
 export namespace Base {
 	export function is(value: any | Base): value is Base {
 		return typeof value == "object" &&
+			typeof value.id == "string" &&
 			Type.is(value.type) &&
-			(typeof value.reference == "string" || value.reference == undefined) &&
+			(value.reference == undefined || typeof value.reference == "string") &&
 			(value.client == undefined || authly.Identifier.is(value.client)) &&
 			typeof value.service == "string" &&
-			typeof value.id == "string" &&
 			isoly.DateTime.is(value.created) &&
 			typeof value.amount == "number" &&
 			isoly.Currency.is(value.currency) &&
-			(typeof value.verify == "string" || value.verify == undefined) &&
-			(typeof value.token == "string" || value.token == undefined) &&
 			(typeof value.descriptor == "string" || value.descriptor == undefined) &&
 			Status.is(value.status)
-2	}
+	}
 }
