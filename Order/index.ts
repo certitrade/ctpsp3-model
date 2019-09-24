@@ -60,7 +60,7 @@ export namespace Order {
 		return Event.types.filter(type => orders.every(order => !order.status || order.status.some(status => Status.change(status, type))))
 	}
 	export function getCreatablePayment(order: Order | any): Payment.Card | undefined {
-		return { ...order.payment, number: order.number, customer: order.customer, items: order.items, amount: Item.amount(order.items), currency: order.currency }
+		return { ...order.payment, number: order.number, amount: order.payment.reference ? undefined : Item.amount(order.items), currency: order.currency }
 	}
 	export function isCreatable(value: Order | any): value is Order {
 		return typeof value == "object" &&

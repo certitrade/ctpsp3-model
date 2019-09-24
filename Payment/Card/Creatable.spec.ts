@@ -9,4 +9,13 @@ describe("Payment.Card.Creatable", () => {
 			type: "card",
 		})
 	})
+	it("Payment.Card.Creatable.is", async () => {
+		const payment =	{
+			currency: "SEK",
+			number: "5KZD-k",
+			reference: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjYXJkIiwiaWF0IjoxNTY5MzE1MTk1MDkxLCJpZCI6IkxSUXkwR1duajZ2byIsIm51bWJlciI6IjVLWkQtayIsInJlZmVyZW5jZSI6ImY5ZTc4ODA3LTcxNzctNDZkNS04NmJiLTkwMTM4MDE1MTNkNyIsImNyZWF0ZWQiOiIyMDE5LTA5LTI0VDA4OjUzOjE0KzAwOjAwIiwiYW1vdW50Ijo4OTksImN1cnJlbmN5IjoiU0VLIiwiY2FyZCI6eyJpZCI6IndfRHZsQWQyIiwic2NoZW1lIjoidmlzYSIsImlpbiI6IjQxMDAwMDAwIiwibGFzdDQiOiIwMDAwIiwiZXhwaXJlcyI6WzIsMjBdfSwiY2FwdHVyZSI6W10sInJlZnVuZCI6W119.MTmSc8eMo49wFeLoHli7kfdVpaWDt7vLcoirYFRUWHrf3KkuyK-_ZtHsLdRqiSUS_jrMhm0q-v-VxOcvK25XiwQFb5OvDtsjkIMXD4FKroNl4ajJ8xJvn_yFq7xWQeXUKuEFkIAeV11gKxR6zhFci9AFSYYl_G4BsShVe134UgT8uCUbGXxfh54tcEgT3DgKzJ_A09RmXp2-6ZPe6y8kr-MqQMoCd8Ew86reSjf4m3hJtpKeAyKEXf_-gZ0VaWDbrFvDXzy22BJ8SeSS7l44AcLL1Zq7ohwWYx1EeyURmQuqeOfQ6gofYK5MipDa_opgxgXSuEIvB4XdyZEu2GrvKg",
+			type: "card",
+		}
+		expect(model.Payment.Creatable.is(payment)).toBe(true)
+	})
 })
