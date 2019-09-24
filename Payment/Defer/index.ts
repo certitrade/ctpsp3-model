@@ -2,7 +2,7 @@ import { Base } from "../Base"
 import { Creatable as DeferCreatable } from "./Creatable"
 import { Method as DeferMethod } from "./Method"
 
-export interface Defer extends Base, DeferCreatable {
+export interface Defer extends Base, Omit<DeferCreatable, "currency"> {
 	type: "defer"
 }
 
