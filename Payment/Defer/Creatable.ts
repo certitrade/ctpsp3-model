@@ -8,6 +8,7 @@ export interface Creatable extends CreatableBase {
 	contact: string
 	message?: string
 	items: number | Item | Item[]
+	theme?: string
 }
 
 export namespace Creatable {
@@ -18,6 +19,7 @@ export namespace Creatable {
 			typeof value.contact == "string" &&
 			(value.message == undefined || typeof value.message == "string") &&
 			Item.canBe(value.items) &&
+			(value.theme == undefined || typeof value.theme == "string") &&
 			CreatableBase.is(value)
 	}
 }
