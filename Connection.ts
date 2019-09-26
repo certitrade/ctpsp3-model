@@ -29,14 +29,33 @@ export abstract class Connection {
 		}
 		return result
 	}
+	// Returns localStorage if available, otherwise a falsy result
+	private static getStorage() {
+		const date = new Date().toUTCString()
+		let storage: Storage
+		let result: boolean
+		try {
+			(storage = window.localStorage).setItem("test", date)
+			result = storage.getItem("test") == date
+			storage.removeItem("test")
+			return result && storage
+		} catch (exception) {}
+	}
 	private static async getToken(): Promise<authly.Token | undefined> {
-		let result: authly.Token | undefined = Connection.key && Connection.key
+		const storage = this.getStorage()
+		const key = storage ? storage.getItem("key") : Connection.key
+		let result: authly.Token | undefined = key == null ? undefined : key
 		if (!result && Connection.reauthenticate)  {
 			const response = await Connection.reauthenticate()
-			if (!gracely.Error.is(response)) {
-				Connection.user = response[0]
-				Connection.key = response[1]
-				result = Connection.key && Connection.key
+			if (!gracely.Error.is(response))
+				if (storage) {
+					storage.setItem("user", JSON.stringify(response[0]))
+					storage.setItem("key", response[1])
+					result = response[1]
+				} else {
+					Connection.user = response[0]
+					Connection.key = response[1]
+					result = Connection.key
 			}
 		}
 		return result
