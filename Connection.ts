@@ -18,6 +18,7 @@ export abstract class Connection {
 		}
 		this.user = undefined
 		this.key = undefined
+		this.getToken() // Triggers reauthenticate
 	}
 	static async login(user: string, password: string): Promise<User | gracely.Error> {
 		const response = await fetch(Connection.baseUrl + "me", {
@@ -65,7 +66,7 @@ export abstract class Connection {
 					Connection.user = response[0]
 					Connection.key = response[1]
 					result = Connection.key
-			}
+				}
 		}
 		return result
 	}
