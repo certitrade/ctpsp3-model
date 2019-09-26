@@ -10,6 +10,15 @@ export abstract class Connection {
 	static key?: authly.Token
 	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>
 	private constructor() { }
+	static logout() {
+		const storage = this.getStorage()
+		if (storage) {
+			storage.removeItem("user")
+			storage.removeItem("key")
+		}
+		this.user = undefined
+		this.key = undefined
+	}
 	static async login(user: string, password: string): Promise<User | gracely.Error> {
 		const response = await fetch(Connection.baseUrl + "me", {
 			method: "GET",
