@@ -10,10 +10,10 @@ import { Required as RequiredType  } from "./Required"
 export interface Customer {
 	type: "organization" | "person"
 	identityNumber?: IdentityNumber
-	id: string
+	id?: string
 	number?: string
-	name: string | Name
-	address: Address | Addresses
+	name?: string | Name
+	address?: Address | Addresses
 	email?: string | EmailAddresses
 	phone?: string | PhoneNumbers
 }
@@ -23,10 +23,10 @@ export namespace Customer {
 		return typeof value == "object" &&
 			(value.type == "organization" || value.type == "person") &&
 			(IdentityNumber.is(value.identityNumber) || value.identityNumber == undefined) &&
-			(typeof value.id == "string") &&
+			(typeof value.id == "string" || value.id == undefined) &&
 			(typeof value.number == "string" || value.number == undefined) &&
-			(typeof value.name == "string" || Name.is(value.name)) &&
-			(Address.is(value.address) || Addresses.is(value.address)) &&
+			(typeof value.name == "string" || Name.is(value.name) || value.name == undefined) &&
+			(Address.is(value.address) || Addresses.is(value.address) || value.address == undefined) &&
 			(typeof value.email == "string" || EmailAddresses.is(value.email) || value.email == undefined) &&
 			(typeof value.phone == "string" || PhoneNumbers.is(value.phone) || value.phone == undefined)
 	}
@@ -37,10 +37,10 @@ export namespace Customer {
 				[
 					value.type == "organization" || value.type == "person" || { property: "type", type: '"organization" | "person"' },
 					value.identityNumber == undefined || IdentityNumber.is(value.identityNumber) || { property: "identityNumber", type: "IdentityNumber | undefined" },
-					typeof value.id == "string" || { property: "id", type: "string" },
+					value.id == undefined || typeof value.id == "string" || { property: "id", type: "string | undefined" },
 					value.number == undefined || typeof value.number == "string" || { property: "number", type: "string | undefined" },
-					typeof value.name == "string" || Name.is(value.name) || { property: "name", type: "string | Name" },
-					Address.is(value.address) ||  Addresses.is(value.address) || { property: "address", type: "Address | Addresses" },
+					value.name == undefined || typeof value.name == "string" || Name.is(value.name) || { property: "name", type: "string | Name | undefined" },
+					value.address == undefined || Address.is(value.address) ||  Addresses.is(value.address) || { property: "address", type: "Address | Addresses | undefined" },
 					value.email == undefined || typeof value.email == "string" || EmailAddresses.is(value.email) || { property: "email", type: "string | EmailAddresses | undefined" },
 					value.phone == undefined || typeof value.phone == "string" || PhoneNumbers.is(value.phone) || { property: "phone", type: "string | PhoneNumbers | undefined" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
@@ -50,5 +50,4 @@ export namespace Customer {
 	export namespace Required {
 		export const is = RequiredType.is
 	}
-	
 }
