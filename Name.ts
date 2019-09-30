@@ -4,8 +4,8 @@ export interface Name {
 }
 export namespace Name {
 	export function is(value: Name | any): value is Name {
-		return (typeof value.first == "string" || value.first == undefined) &&
-			(typeof value.last == "string" || value.last == undefined)
+		return (typeof value == "object" && (typeof value.first == "string" || value.first == undefined) &&
+			(typeof value.last == "string" || value.last == undefined))
 	}
 	export function get(name: string | Name): string {
 		return typeof name == "string" ? name :
