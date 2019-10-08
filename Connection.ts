@@ -6,17 +6,21 @@ import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
 	static baseUrl: string = "/"
+	private static storageValue: Storage | undefined | null = null
 	private static get storage(): Storage | undefined {
-		const date = new Date().toUTCString()
-		let result: Storage | undefined
-		try {
-			const storage = window.localStorage
-			storage.setItem("test", date)
-			if (storage.getItem("test") == date)
-				result = storage
-			storage.removeItem("test")
-		} catch (exception) {}
-		return result
+		if (Connection.storageValue == null) {
+			const date = new Date().toUTCString()
+			let result: Storage | undefined
+			try {
+				const storage = window.localStorage
+				storage.setItem("test", date)
+				if (storage.getItem("test") == date)
+					result = storage
+				storage.removeItem("test")
+			} catch (exception) {}
+			Connection.storageValue = result
+		}
+		return Connection.storageValue
 	}
 	private static userValue?: User
 	static get user(): User | undefined {
@@ -47,7 +51,7 @@ export abstract class Connection {
 		const storage = Connection.storage
 		if (storage)
 			if (key)
-				storage.setItem("PayFunc key", JSON.stringify(key))
+				storage.setItem("PayFunc key", key)
 			else
 				storage.removeItem("PayFunc key")
 		Connection.keyValue = key
