@@ -88,16 +88,10 @@ export abstract class Connection {
 		return result
 	}
 	private static async getToken(): Promise<authly.Token | undefined> {
-		const storage = Connection.storage
-		const key = storage ? storage.getItem("key") : Connection.key
-		let result: authly.Token | undefined = key || undefined
+		let result: authly.Token | undefined = Connection.key || undefined
 		if (!result && Connection.reauthenticate)  {
 			const response = await Connection.reauthenticate()
 			if (!gracely.Error.is(response)) {
-				if (storage) {
-					storage.setItem("user", JSON.stringify(response[0]))
-					storage.setItem("key", response[1])
-				}
 				Connection.user = response[0]
 				Connection.key = response[1]
 				result = response[1]
