@@ -24,8 +24,8 @@ export namespace Creatable {
 		return values && {
 			type: "card",
 			reference: authorization,
-			amount: values.amount || 0,
-			currency: values.currency || "EUR",
+			amount: values.amount,
+			currency: values.currency,
 		}
 	}
 }
