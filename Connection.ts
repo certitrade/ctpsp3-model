@@ -26,7 +26,7 @@ export abstract class Connection {
 	static get user(): User | undefined {
 		const storage = Connection.storage
 		if (storage)
-				Connection.userValue = JSON.parse(storage.getItem("PayFunc user") || "undefined") as User | undefined
+				Connection.userValue = JSON.parse(storage.getItem("PayFunc user") || "false") || undefined as User | undefined
 		return Connection.userValue
 	}
 	static set user(user: User | undefined) {
