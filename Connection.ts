@@ -6,21 +6,17 @@ import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
 	static baseUrl: string = "/"
-	private static storageValue: Storage | undefined | null = null
 	private static get storage(): Storage | undefined {
-		if (Connection.storageValue == null) {
-			const date = new Date().toUTCString()
-			let result: Storage | undefined
-			try {
-				const storage = window.localStorage
-				storage.setItem("test", date)
-				if (storage.getItem("test") == date)
-					result = storage
-				storage.removeItem("test")
-			} catch (exception) {}
-			Connection.storageValue = result
-		}
-		return Connection.storageValue
+		const date = new Date().toUTCString()
+		let result: Storage | undefined
+		try {
+			const storage = window.localStorage
+			storage.setItem("test", date)
+			if (storage.getItem("test") == date)
+				result = storage
+			storage.removeItem("test")
+		} catch (exception) {}
+		return result
 	}
 	private static userValue?: User
 	static get user(): User | undefined {
@@ -44,7 +40,7 @@ export abstract class Connection {
 	static get key(): authly.Token | undefined {
 		const storage = Connection.storage
 		if (storage)
-				Connection.keyValue = storage.getItem("PayFunc key") as authly.Token | undefined
+				Connection.keyValue = (storage.getItem("PayFunc key") || undefined) as authly.Token | undefined
 		return Connection.keyValue
 	}
 	static set key(key: authly.Token | undefined) {
@@ -88,7 +84,7 @@ export abstract class Connection {
 		return result
 	}
 	private static async getToken(): Promise<authly.Token | undefined> {
-		let result: authly.Token | undefined = Connection.key || undefined
+		let result: authly.Token | undefined = Connection.key
 		if (!result && Connection.reauthenticate)  {
 			const response = await Connection.reauthenticate()
 			if (!gracely.Error.is(response)) {
