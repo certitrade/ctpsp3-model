@@ -6,14 +6,20 @@ import * as model from "./index"
 dotenv.config()
 model.Connection.baseUrl = process.env.backendUrl || ""
 
-describe.skip("Connection", () => {
+describe("Connection", () => {
 	it("fails login", async () => {
 		const wrongUser = "Petter"
 		const wrongPassword = "qwerty"
 		expect(await model.Connection.login(wrongUser, wrongPassword)).toMatchObject({ status: 401, type: "not authorized" })
 	})
 	it("logs in", async () => {
+		let userValid = false
+		let keyValid = false
+		model.Connection.userChanged.push(user => userValid = model.User.is(user))
+		model.Connection.keyChanged.push(key => keyValid = authly.Token.is(key))
 		expect(await model.Connection.login(process.env.backendUser || "", process.env.backendPassword || "")).toMatchObject({ email: process.env.backendUser })
+		expect(userValid)
+		expect(keyValid)
 	})
 	it("reauthenticate", async () => {
 		model.Connection.reauthenticate = async () => {
