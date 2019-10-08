@@ -6,21 +6,62 @@ import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
 	static baseUrl: string = "/"
-	static user?: User
-	static key?: authly.Token
+	private static storageValue: Storage | undefined | null = null
+	private static get storage(): Storage | undefined {
+		if (Connection.storageValue == null) {
+			const date = new Date().toUTCString()
+			let result: Storage | undefined
+			try {
+				const storage = window.localStorage
+				storage.setItem("test", date)
+				if (storage.getItem("test") == date)
+					result = storage
+				storage.removeItem("test")
+			} catch (exception) {}
+			Connection.storageValue = result
+		}
+		return Connection.storageValue
+	}
+	private static userValue?: User
+	static get user(): User | undefined {
+		const storage = Connection.storage
+		if (storage)
+				Connection.userValue = JSON.parse(storage.getItem("PayFunc user") || "false") || undefined as User | undefined
+		return Connection.userValue
+	}
+	static set user(user: User | undefined) {
+		const storage = Connection.storage
+		if (storage)
+			if (user)
+				storage.setItem("PayFunc user", JSON.stringify(user))
+			else
+				storage.removeItem("PayFunc user")
+		Connection.userValue = user
+	}
+	private static keyValue?: authly.Token
+	static get key(): authly.Token | undefined {
+		const storage = Connection.storage
+		if (storage)
+				Connection.keyValue = storage.getItem("PayFunc key") as authly.Token | undefined
+		return Connection.keyValue
+	}
+	static set key(key: authly.Token | undefined) {
+		const storage = Connection.storage
+		if (storage)
+			if (key)
+				storage.setItem("PayFunc key", JSON.stringify(key))
+			else
+				storage.removeItem("PayFunc key")
+		Connection.keyValue = key
+	}
 	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>
 	private constructor() { }
-	private static clearKey() {
-		const storage = Connection.getStorage()
-		if (storage) {
-			storage.removeItem("user")
-			storage.removeItem("key")
-		}
+	private static clear() {
 		Connection.user = undefined
 		Connection.key = undefined
 	}
 	static logout() {
-		Connection.clearKey()
+		Connection.clear()
 		Connection.getToken() // Triggers reauthenticate
 	}
 	static async login(user: string, password: string): Promise<User | gracely.Error> {
@@ -42,34 +83,21 @@ export abstract class Connection {
 		}
 		return result
 	}
-	// Returns localStorage if available, otherwise a falsy result
-	private static getStorage() {
-		const date = new Date().toUTCString()
-		let storage: Storage
-		let result: boolean
-		try {
-			(storage = window.localStorage).setItem("test", date)
-			result = storage.getItem("test") == date
-			storage.removeItem("test")
-			return result && storage
-		} catch (exception) {}
-	}
 	private static async getToken(): Promise<authly.Token | undefined> {
-		const storage = Connection.getStorage()
+		const storage = Connection.storage
 		const key = storage ? storage.getItem("key") : Connection.key
-		let result: authly.Token | undefined = key == null ? undefined : key
+		let result: authly.Token | undefined = key || undefined
 		if (!result && Connection.reauthenticate)  {
 			const response = await Connection.reauthenticate()
-			if (!gracely.Error.is(response))
+			if (!gracely.Error.is(response)) {
 				if (storage) {
 					storage.setItem("user", JSON.stringify(response[0]))
 					storage.setItem("key", response[1])
-					result = response[1]
-				} else {
-					Connection.user = response[0]
-					Connection.key = response[1]
-					result = Connection.key
 				}
+				Connection.user = response[0]
+				Connection.key = response[1]
+				result = response[1]
+			}
 		}
 		return result
 	}
@@ -89,7 +117,7 @@ export abstract class Connection {
 		const response = await fetch(url, init)
 		let result: T | gracely.Error
 		if (response.status == 401) {
-			Connection.clearKey()
+			Connection.clear()
 			result = await Connection.fetch(resource, init, body)
 		}	else
 			result = response.headers.get("Content-Type") == "application/json; charset=utf-8" ? await response.json() as T | gracely.Error : { status: response.status, type: "unknown" }
@@ -113,10 +141,4 @@ export abstract class Connection {
 	static options<T>(resource: string): Promise<T | gracely.Error> {
 		return Connection.fetch(resource, { method: "OPTIONS" })
 	}
-}
-function hasMerchant(value: any | { merchant: { configuration: { private: string } } }): value is { merchant: { configuration: { private: string } } } {
-	return typeof value == "object" &&
-		typeof value.merchant == "object" &&
-		typeof value.merchant.configuration == "object" &&
-		typeof value.merchant.configuration.private == "string"
 }
