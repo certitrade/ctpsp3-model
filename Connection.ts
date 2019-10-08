@@ -39,7 +39,7 @@ export abstract class Connection {
 		Connection.userValue = user
 		Connection.userChanged.forEach(callback => callback(Connection.userValue))
 	}
-	static userChanged: ((user: User | undefined) => void)[] = []
+	static readonly userChanged: ((user: User | undefined) => void)[] = []
 	private static keyValue?: authly.Token
 	static get key(): authly.Token | undefined {
 		const storage = Connection.storage
@@ -57,7 +57,7 @@ export abstract class Connection {
 		Connection.keyValue = key
 		Connection.keyChanged.forEach(callback => callback(Connection.keyValue))
 	}
-	static keyChanged: ((user: authly.Token | undefined) => void)[] = []
+	static readonly keyChanged: ((user: authly.Token | undefined) => void)[] = []
 	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>
 	private constructor() { }
 	private static clear() {
