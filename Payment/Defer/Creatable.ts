@@ -7,7 +7,6 @@ export interface Creatable extends CreatableBase {
 	method: Method
 	contact: string
 	message?: string
-	items: number | Item | Item[]
 	theme?: string
 }
 
