@@ -10,9 +10,9 @@ export namespace Credentials {
 			typeof value.user == "string" && value.user != "" &&
 			(value.password == undefined || typeof value.password == "string")
 	}
-	export function fromBasic(login: string): Credentials | undefined {
+	export function fromBasic(login: string | undefined): Credentials | undefined {
 		let result: Credentials | undefined
-		if (login.substr(0, 6).toLowerCase() == "basic ") {
+		if (login && login.substr(0, 6).toLowerCase() == "basic ") {
 			const data = new authly.TextDecoder().decode(authly.Base64.decode(login.substr(6), "standard")).split(":")
 			result = data.length < 3 && data.length > 0 ? { user: data[0], password: data.length > 1 ? data[1] : undefined } : undefined
 		}
