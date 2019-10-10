@@ -5,6 +5,7 @@ import { Creatable as InstallmentCreatable } from "./Creatable"
 export interface Installment extends Base {
 	type: "installment",
 	plan: InstallmentPlan
+	verify?: string,
 }
 
 export namespace Installment {
@@ -12,6 +13,7 @@ export namespace Installment {
 		return typeof value == "object" &&
 			value.method == "installment" &&
 			InstallmentPlan.is(value.plan) &&
+			(value.verify == undefined || typeof value.verify == "string") &&
 			Base.is(value)
 	}
 	export type Creatable = InstallmentCreatable
