@@ -7,6 +7,7 @@ import { Item } from "../Item"
 import { Payment } from "../Payment"
 import { Status } from "../Status"
 import { Change as OrderChange } from "./Change"
+import { Creatable as OrderCreatable } from "./Creatable"
 
 export interface Order {
 	id: authly.Identifier
@@ -59,23 +60,6 @@ export namespace Order {
 	export function possibleEvents(orders: Order[]): Event.Type[] {
 		return Event.types.filter(type => orders.every(order => !order.status || order.status.some(status => Status.change(status, type))))
 	}
-	export function getCreatablePayment(order: Order | any): Payment.Card | undefined {
-		return { ...order.payment, number: order.number, amount: order.payment.reference ? undefined : Item.amount(order.items), currency: order.currency }
-	}
-	export function isCreatable(value: Order | any): value is Order {
-		return typeof value == "object" &&
-			value.id == undefined &&
-			(typeof value.number == "string" || value.number == undefined) &&
-			(typeof value.client == "string" || value.client == undefined) &&
-			(value.created == undefined || isoly.DateTime.is(value.created)) &&
-			(value.customer == undefined || Customer.is(value.customer)) &&
-			Item.canBe(value.items) &&
-			isoly.Currency.is(value.currency) &&
-			(Payment.Creatable.is(getCreatablePayment(value)) || authly.Token.is(value.payment)) &&
-			(value.attempt == undefined || Array.isArray(value.attempt)) &&
-			value.event == undefined &&
-			value.status == undefined
-	}
 	export function sort(value: Order[], property: "created"): Order[] {
 		return value.sort(getComparer(property))
 	}
@@ -121,6 +105,11 @@ export namespace Order {
 			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}
 		return orders
+	}
+	export type Creatable = OrderCreatable
+	export namespace Creatable {
+		// tslint:disable-next-line: no-shadowed-variable
+		export const is = OrderCreatable.is
 	}
 	export type Change = OrderChange
 	export namespace Change {
