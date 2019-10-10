@@ -1,10 +1,8 @@
 import * as isoly from "isoly"
-import * as authly from "authly"
 import { Type } from "./Type"
 import { Status } from "./Status"
 
 export interface Base {
-	id: string
 	type: Type
 	reference?: string
 	service: string
@@ -18,7 +16,6 @@ export interface Base {
 export namespace Base {
 	export function is(value: any | Base): value is Base {
 		return typeof value == "object" &&
-			typeof value.id == "string" &&
 			Type.is(value.type) &&
 			(value.reference == undefined || typeof value.reference == "string") &&
 			typeof value.service == "string" &&
