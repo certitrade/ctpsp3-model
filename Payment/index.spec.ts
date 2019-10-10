@@ -3,7 +3,6 @@ import { Payment } from "./index"
 describe("Payment", () => {
 	const payments: Payment[] = [
 		{
-			id: "3",
 			type: "defer",
 			method: "sms",
 			contact: "0911-11122",
@@ -15,7 +14,6 @@ describe("Payment", () => {
 			status: "created",
 		},
 		{
-			id: "1",
 			type: "defer",
 			method: "sms",
 			contact: "070-1233211",
@@ -27,7 +25,6 @@ describe("Payment", () => {
 			status: "created",
 		},
 		{
-			id: "2",
 			type: "defer",
 			method: "sms",
 			contact: "018-987123",
@@ -39,7 +36,6 @@ describe("Payment", () => {
 			status: "created",
 		},
 		{
-			id: "4",
 			type: "defer",
 			method: "sms",
 			contact: "08-55533322",
@@ -53,7 +49,6 @@ describe("Payment", () => {
 	]
 	const sortedPayments: Payment[] = [
 		{
-			id: "1",
 			type: "defer",
 			method: "sms",
 			contact: "070-1233211",
@@ -65,7 +60,6 @@ describe("Payment", () => {
 			status: "created",
 		},
 		{
-			id: "2",
 			type: "defer",
 			method: "sms",
 			contact: "018-987123",
@@ -77,7 +71,6 @@ describe("Payment", () => {
 			status: "created",
 		},
 		{
-			id: "4",
 			type: "defer",
 			method: "sms",
 			contact: "08-55533322",
@@ -89,7 +82,6 @@ describe("Payment", () => {
 			status: "created",
 		},
 		{
-			id: "3",
 			type: "defer",
 			method: "sms",
 			contact: "0911-11122",

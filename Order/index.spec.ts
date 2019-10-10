@@ -28,7 +28,6 @@ function getOrder(): model.Order {
 		],
 		currency: "SEK",
 		payment: {
-			id: "07df5b95-9e93-4a23-8175-4a5ea7896cd1",
 			type: "card",
 			scheme: "amex",
 			iin: "41111111",
