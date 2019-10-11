@@ -103,14 +103,14 @@ export namespace Order {
 		}
 		return orders
 	}
+	// tslint:disable: no-shadowed-variable
 	export type Creatable = OrderCreatable
 	export namespace Creatable {
-		// tslint:disable-next-line: no-shadowed-variable
 		export const is = OrderCreatable.is
+		export const flaw = OrderCreatable.flaw
 	}
 	export type Change = OrderChange
 	export namespace Change {
-		// tslint:disable-next-line: no-shadowed-variable
 		export const is = OrderChange.is
 		export const isArray = OrderChange.isArray
 	}
