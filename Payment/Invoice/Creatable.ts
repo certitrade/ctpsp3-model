@@ -1,10 +1,12 @@
 import * as gracely from "gracely"
+import { Verify } from "../Verify"
 import { Terms } from "./Terms"
 import { CreatableBase } from "../CreatableBase"
 
 export interface Creatable extends CreatableBase {
 	type: "invoice"
 	terms: Terms
+	verify: Verify
 }
 
 export namespace Creatable {
@@ -12,6 +14,7 @@ export namespace Creatable {
 		return typeof value == "object" &&
 			value.type == "invoice" &&
 			Terms.is(value.terms) &&
+			Verify.is(value.verify) &&
 			CreatableBase.is(value)
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {

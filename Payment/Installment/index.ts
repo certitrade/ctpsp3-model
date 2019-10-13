@@ -1,11 +1,12 @@
 import { Base } from "../Base"
+import { Verify } from "../Verify"
 import { Plan as InstallmentPlan } from "./Plan"
 import { Creatable as InstallmentCreatable } from "./Creatable"
 
 export interface Installment extends Base {
-	type: "installment",
+	type: "installment"
 	plan: InstallmentPlan
-	verify?: string,
+	verify?: Verify & { url: string }
 }
 
 export namespace Installment {
@@ -14,6 +15,7 @@ export namespace Installment {
 			value.method == "installment" &&
 			InstallmentPlan.is(value.plan) &&
 			(value.verify == undefined || typeof value.verify == "string") &&
+			(value.verify == undefined || Verify.is(value.verify) && typeof value.verify.url == "string") &&
 			Base.is(value)
 	}
 	export type Creatable = InstallmentCreatable
