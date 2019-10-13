@@ -19,8 +19,6 @@ describe("Payment.Card.Creatable", () => {
 	})
 	it("Payment.Card.Creatable.is account", async () => {
 		const payment =	{
-			amount: 1337.42,
-			currency: "SEK",
 			account: "abc001",
 			type: "card",
 		}
