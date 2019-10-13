@@ -14,7 +14,7 @@ export namespace Creatable {
 		return typeof value == "object" &&
 			value.type == "card" &&
 			(
-				typeof value.account == "string" && typeof value.amount == "number" && value.reference == undefined ||
+				typeof value.account == "string" && (typeof value.amount == "number" || typeof value.amount == undefined) && value.reference == undefined ||
 				value.account == undefined && value.amount == undefined && authly.Token.is(value.reference)
 			) &&
 			CreatableBase.is(value)

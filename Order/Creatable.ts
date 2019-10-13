@@ -30,7 +30,7 @@ export namespace Creatable {
 				[
 					typeof value.number == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
 					typeof value.client == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
-					value.customer == undefined || Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
+					value.customer == undefined || Customer.is(value.customer) || Customer.flaw(value.customer),
 					Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
 					isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
 					Payment.Creatable.is(value.payment) || { property: "payment", type: "Payment.Creatable" },

@@ -1,4 +1,3 @@
-import { Item } from "../../Item"
 import { Method } from "./Method"
 import { CreatableBase } from "../CreatableBase"
 
@@ -17,7 +16,6 @@ export namespace Creatable {
 			Method.is(value.method) &&
 			typeof value.contact == "string" &&
 			(value.message == undefined || typeof value.message == "string") &&
-			Item.canBe(value.items) &&
 			(value.theme == undefined || typeof value.theme == "string") &&
 			CreatableBase.is(value)
 	}
