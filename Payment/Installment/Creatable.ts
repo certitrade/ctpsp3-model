@@ -1,11 +1,11 @@
-import { Customer } from "../../Customer"
-import { Item } from "../../Item"
+import { Verify } from "../Verify"
 import { Plan } from "./Plan"
 import { CreatableBase } from "../CreatableBase"
 
 export interface Creatable extends CreatableBase {
 	type: "installment"
 	plan: Plan
+	verify: Verify
 }
 
 export namespace Creatable {
@@ -13,6 +13,7 @@ export namespace Creatable {
 		return typeof value == "object" &&
 			value.type == "installment" &&
 			Plan.is(value.plan) &&
+			Verify.is(value.verify) &&
 			CreatableBase.is(value)
 	}
 }
