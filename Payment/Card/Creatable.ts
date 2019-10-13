@@ -1,3 +1,4 @@
+import * as isoly from "isoly"
 import * as authly from "authly"
 import * as card from "@cardfunc/model"
 import { CreatableBase } from "../CreatableBase"
@@ -14,8 +15,8 @@ export namespace Creatable {
 		return typeof value == "object" &&
 			value.type == "card" &&
 			(
-				typeof value.account == "string" && (typeof value.amount == "number" || typeof value.amount == undefined) && value.reference == undefined ||
-				value.account == undefined && value.amount == undefined && authly.Token.is(value.reference)
+				typeof value.account == "string" && value.reference == undefined && (typeof value.amount == "number" && isoly.Currency.is(value.currency) || value.amount == undefined && value.currency == undefined) ||
+				value.account == undefined && value.amount == undefined && value.currency == undefined && authly.Token.is(value.reference)
 			) &&
 			CreatableBase.is(value)
 	}
