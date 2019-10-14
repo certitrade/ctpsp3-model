@@ -17,7 +17,7 @@ export interface Order {
 	customer?: Customer
 	items: number | Item | Item[]
 	currency: isoly.Currency
-	payment: Payment | Payment.Creatable
+	payment: Payment
 	event?: Event[]
 	status?: Status[]
 }
@@ -32,7 +32,7 @@ export namespace Order {
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
-			(Payment.is(value.payment) || Payment.Creatable.is(value.payment)) &&
+			Payment.is(value.payment) &&
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
 	}
@@ -48,7 +48,7 @@ export namespace Order {
 					value.customer == undefined || Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
 					Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
 					isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
-					Payment.is(value.payment) || Payment.Creatable.is(value.payment) || { property: "payment", type: "Payment | Payment.Creatable" },
+					Payment.is(value.payment) || { property: "payment", type: "Payment" },
 					value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is) || { property: "event", type: "Event[] | undefined" },
 					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[] | undefined" },
 				].filter(gracely.Flaw.is),
