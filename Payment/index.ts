@@ -17,6 +17,9 @@ export namespace Payment {
 			PInvoice.is(value) ||
 			PDefer.is(value)
 	}
+	export function hasVerify(payment: Payment | Payment & { verify: PVerify }): payment is Payment & { verify: PVerify } {
+		return PVerify.is((payment as Payment & { verify?: PVerify }).verify)
+	}
 	export function sort(value: Payment[], property: "created"): Payment[] {
 		return value.sort(getComparer(property))
 	}
