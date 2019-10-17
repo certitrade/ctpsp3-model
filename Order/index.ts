@@ -70,9 +70,10 @@ export namespace Order {
 		}
 		return result
 	}
+	export function filter(value: Order[], property: "paymentType", criterion: string): Order[]
 	export function filter(value: Order[], property: "client", criterion: authly.Identifier): Order[]
 	export function filter(value: Order[], property: "status", criterion: Status | Status[]): Order[]
-	export function filter(value: Order[], property: "client" | "status", criterion: authly.Identifier | Status | Status[]): Order[] {
+	export function filter(value: Order[], property: "client" | "status" | "paymentType", criterion: authly.Identifier | Status | Status[] | string): Order[] {
 		let result: Order[] = []
 		switch (property) {
 			case "client":
@@ -81,6 +82,9 @@ export namespace Order {
 			case "status":
 				const criteria: Status[] = Array.isArray(criterion) ? criterion : [ criterion as Status ]
 				result = value.filter(order => order.status && order.status.some(s => criteria.some(c => c == s)))
+				break
+			case "paymentType":
+				result = value.filter(order => order.payment.type == criterion)
 				break
 			default:
 				result = value
