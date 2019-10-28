@@ -35,12 +35,9 @@ export namespace Creatable {
 		}
 	}
 	export async function from(authorization: authly.Token): Promise<Creatable | undefined> {
-		const values = await card.Authorization.verify(authorization)
-		return values && {
+		return {
 			type: "card",
 			reference: authorization,
-			amount: values.amount,
-			currency: values.currency,
 		}
 	}
 }
