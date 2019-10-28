@@ -74,6 +74,7 @@ export namespace Payment {
 		export type Creatable = PCard.Creatable
 		export namespace Creatable {
 			export const is = PCard.Creatable.is
+			export const flaw = PCard.Creatable.flaw
 			export const from = PCard.Creatable.from
 		}
 		export type Scheme = PCard.Scheme
