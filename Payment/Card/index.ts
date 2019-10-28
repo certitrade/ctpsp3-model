@@ -26,6 +26,7 @@ export namespace Card {
 	export namespace Creatable {
 // tslint:disable-next-line: no-shadowed-variable
 		export const is = CardCreatable.is
+		export const flaw = CardCreatable.flaw
 		export const from = CardCreatable.from
 	}
 	export type Scheme = card.Card.Scheme
