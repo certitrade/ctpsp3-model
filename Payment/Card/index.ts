@@ -17,7 +17,7 @@ export namespace Card {
 			value.type == "card" &&
 			(value.account == undefined || typeof value.account == "string") &&
 			card.Card.Scheme.is(value.scheme) &&
-			typeof value.iin == "string" && value.iin.length == 8 &&
+			typeof value.iin == "string" && value.iin.length == 6 &&
 			typeof value.last4 == "string" && value.last4.length == 4 &&
 			card.Card.Expires.is(value.expires) &&
 			Base.is(value)

@@ -30,7 +30,7 @@ function getOrder(): model.Order {
 		payment: {
 			type: "card",
 			scheme: "amex",
-			iin: "41111111",
+			iin: "411111",
 			last4: "1111",
 			expires: [1, 20],
 			service: "CardFunc",
