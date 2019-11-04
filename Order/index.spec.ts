@@ -41,12 +41,6 @@ function getOrder(): model.Order {
 		},
 	}
 }
-function getOrders(count = 2): model.Order[] {
-	const result: model.Order[] = []
-	for (let index = 0; index < count; index++)
-		result.push(getOrder())
-	return result
-}
 describe("Order", () => {
 	it("is", () => expect(model.Order.is(getOrder())).toBeTruthy())
 	it("set status order", () => expect(model.Order.setStatus({ ...getOrder(), event: [
