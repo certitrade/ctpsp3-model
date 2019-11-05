@@ -1,14 +1,20 @@
 import * as isoly from "isoly"
 import { Creatable as EventCreatable } from "./Creatable"
-import { Type as EventType, types as eventTypes } from "./Type"
+import { Defer as DeferEvent } from "./Defer"
+import { Pend as PendEvent } from "./Pend"
+import { Deny as DenyEvent } from "./Deny"
 import { Order as OrderEvent } from "./Order"
 import { Cancel as CancelEvent } from "./Cancel"
 import { Charge as ChargeEvent } from "./Charge"
 import { Pay as PayEvent } from "./Pay"
 import { Refund as RefundEvent } from "./Refund"
 import { Fail as FailEvent } from "./Fail"
+import { Type as EventType, types as eventTypes } from "./Type"
 
 export type Event =
+	DeferEvent |
+	PendEvent |
+	DenyEvent |
 	OrderEvent |
 	CancelEvent |
 	ChargeEvent |
@@ -19,7 +25,10 @@ export type Event =
 // tslint:disable: no-shadowed-variable
 export namespace Event {
 	export function is(value: any | Event): value is Event {
-		return OrderEvent.is(value) ||
+		return DeferEvent.is(value) ||
+			PendEvent.is(value) ||
+			DenyEvent.is(value) ||
+			OrderEvent.is(value) ||
 			CancelEvent.is(value) ||
 			ChargeEvent.is(value) ||
 			PayEvent.is(value) ||
@@ -37,6 +46,18 @@ export namespace Event {
 	export const types = eventTypes
 	export namespace Type {
 		export const is = EventType.is
+	}
+	export type Defer = DeferEvent
+	export namespace Defer {
+		export const is = DeferEvent.is
+	}
+	export type Pend = PendEvent
+	export namespace Pend {
+		export const is = PendEvent.is
+	}
+	export type Deny = DenyEvent
+	export namespace Deny {
+		export const is = DenyEvent.is
 	}
 	export type Order = OrderEvent
 	export namespace Order {
