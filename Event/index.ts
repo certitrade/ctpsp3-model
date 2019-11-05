@@ -1,6 +1,5 @@
 import * as isoly from "isoly"
 import { Creatable as EventCreatable } from "./Creatable"
-import { Type as EventType, types as eventTypes } from "./Type"
 import { Defer as DeferEvent } from "./Defer"
 import { Pend as PendEvent } from "./Pend"
 import { Deny as DenyEvent } from "./Deny"
@@ -10,6 +9,7 @@ import { Charge as ChargeEvent } from "./Charge"
 import { Pay as PayEvent } from "./Pay"
 import { Refund as RefundEvent } from "./Refund"
 import { Fail as FailEvent } from "./Fail"
+import { Type as EventType, types as eventTypes } from "./Type"
 
 export type Event =
 	DeferEvent |
