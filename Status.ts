@@ -52,6 +52,10 @@ export namespace Status {
 			case "refund":
 				result = from == "charged" || from == "paid" ? "refunded" : undefined
 				break
+			default:
+			case "fail":
+				result = from
+				break
 		}
 		return result
 	}
