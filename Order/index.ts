@@ -20,6 +20,7 @@ export interface Order {
 	payment: Payment
 	event?: Event[]
 	status?: Status[]
+	theme?: string
 }
 
 export namespace Order {
@@ -34,7 +35,8 @@ export namespace Order {
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
-			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is))
+			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is)) &&
+			value.theme == undefined || typeof value.theme == "string"
 	}
 	export function flaw(value: Order | any): gracely.Flaw {
 		return {
@@ -51,6 +53,7 @@ export namespace Order {
 					Payment.is(value.payment) || { property: "payment", type: "Payment" },
 					value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is) || { property: "event", type: "Event[] | undefined" },
 					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[] | undefined" },
+					value.theme == undefined || typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
 				].filter(gracely.Flaw.is),
 		}
 	}

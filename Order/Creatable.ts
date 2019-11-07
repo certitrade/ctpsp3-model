@@ -11,6 +11,7 @@ export interface Creatable {
 	items: number | Item | Item[]
 	currency: isoly.Currency
 	payment: Payment.Creatable
+	theme?: string
 }
 
 export namespace Creatable {
@@ -21,7 +22,8 @@ export namespace Creatable {
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
-			Payment.Creatable.is(value.payment)
+			Payment.Creatable.is(value.payment) &&
+			(typeof value.theme == "string" || value.theme == undefined)
 	}
 	export function flaw(value: Creatable | any): gracely.Flaw {
 		return {
@@ -34,6 +36,7 @@ export namespace Creatable {
 					Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
 					isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
 					Payment.Creatable.is(value.payment) || { property: "payment", type: "Payment.Creatable" },
+					typeof value.theme == "string" || value.theme == undefined || { property: "theme", type: "string | undefined" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
