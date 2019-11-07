@@ -9,7 +9,6 @@ describe("Payment.Defer", () => {
 		client: "CGaDLvmqkExR",
 		number: "LU7JRgnp37mm",
 		currency: "SEK",
-		theme: "dark",
 		created: "2019-10-08T08:09:13.452Z",
 		status: "created",
 		service: "PayFunc",

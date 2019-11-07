@@ -6,7 +6,6 @@ export interface Creatable extends CreatableBase {
 	method: Method
 	contact: string
 	message?: string
-	theme?: string
 }
 
 export namespace Creatable {
@@ -16,7 +15,6 @@ export namespace Creatable {
 			Method.is(value.method) &&
 			typeof value.contact == "string" &&
 			(value.message == undefined || typeof value.message == "string") &&
-			(value.theme == undefined || typeof value.theme == "string") &&
 			CreatableBase.is(value)
 	}
 }
