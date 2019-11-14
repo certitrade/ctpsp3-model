@@ -6,8 +6,9 @@ import { Card as PCard } from "./Card"
 import { Installment as PInstallment } from "./Installment"
 import { Invoice as PInvoice } from "./Invoice"
 import { Defer as PDefer } from "./Defer"
+import { Swish as PSwish } from "./Swish"
 
-export type Payment = PCard | PInstallment | PInvoice | PDefer
+export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish
 
 // tslint:disable: no-shadowed-variable
 export namespace Payment {
@@ -15,7 +16,8 @@ export namespace Payment {
 		return PCard.is(value) ||
 			PInstallment.is(value) ||
 			PInvoice.is(value) ||
-			PDefer.is(value)
+			PDefer.is(value) ||
+			PSwish.is(value)
 	}
 	export function hasVerify(payment: Payment | Payment & { verify: PVerify }): payment is Payment & { verify: PVerify } {
 		return PVerify.is((payment as Payment & { verify?: PVerify }).verify)
@@ -120,6 +122,16 @@ export namespace Payment {
 		export type Method = PDefer.Method
 		export namespace Method {
 			export const is = PDefer.Method.is
+		}
+	}
+
+	export type Swish = PSwish
+	export namespace Swish {
+		export const is = PSwish.is
+		export type Creatable = PSwish.Creatable
+		export namespace Creatable {
+			export const is = PSwish.Creatable.is
+			export const flaw = PSwish.Creatable.flaw
 		}
 	}
 }

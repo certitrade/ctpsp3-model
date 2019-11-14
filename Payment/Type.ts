@@ -4,6 +4,7 @@ export type Type =
 	"installment" |
 	"direct" |
 	"mobile" |
+	"swish" |
 	"defer"
 
 export namespace Type {
@@ -14,6 +15,7 @@ export namespace Type {
 			value == "installment" ||
 			value == "direct" ||
 			value == "mobile" ||
+			value == "swish" ||
 			value == "defer"
 		)
 	}
