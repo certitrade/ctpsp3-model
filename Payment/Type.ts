@@ -3,7 +3,6 @@ export type Type =
 	"invoice" |
 	"installment" |
 	"direct" |
-	"mobile" |
 	"swish" |
 	"defer"
 
@@ -14,7 +13,6 @@ export namespace Type {
 			value == "invoice" ||
 			value == "installment" ||
 			value == "direct" ||
-			value == "mobile" ||
 			value == "swish" ||
 			value == "defer"
 		)
