@@ -46,6 +46,7 @@ export namespace Status {
 				break
 			case "synchronize":
 				result = "synchronized"
+				break
 			default:
 			case "fail":
 				result = from
