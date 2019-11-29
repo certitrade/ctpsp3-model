@@ -9,49 +9,43 @@ export type Status =
 	"cancelled" |
 	"charged" |
 	"paid" |
-	"refunded"
+	"refunded" |
+	"synchronized"
 
 export namespace Status {
+	export const types = ["created", "deferred", "pending", "denied", "ordered", "cancelled", "charged", "paid", "refunded", "synchronized"]
 	export function is(value: any | Status): value is Status {
-		return typeof value == "string" && (
-				value == "created" ||
-				value == "deferred" ||
-				value == "pending" ||
-				value == "denied" ||
-				value == "ordered" ||
-				value == "cancelled" ||
-				value == "charged" ||
-				value == "paid" ||
-				value == "refunded"
-			)
+		return typeof value == "string" && types.some(t => t == value)
 	}
 	export function change(from: Status, event: Event.Type): Status | undefined {
 		let result: Status | undefined
 		switch (event) {
 			case "defer":
-				result = from == "created" || from == "pending" ? "deferred" : undefined
+				result = from == "synchronized" || from == "created" || from == "pending" ? "deferred" : undefined
 				break
 			case "pend":
-				result = from == "created" || from == "deferred" ? "pending" : undefined
+				result = from == "synchronized" || from == "created" || from == "deferred" ? "pending" : undefined
 				break
 			case "deny":
-				result = from == "created" || from == "deferred" || from == "pending" ? "denied" : undefined
+				result = from == "synchronized" || from == "created" || from == "deferred" || from == "pending" ? "denied" : undefined
 				break
 			case "order":
-				result = from == "created" || from == "deferred" || from == "pending" ? "ordered" : undefined
+				result = from == "synchronized" || from == "created" || from == "deferred" || from == "pending" ? "ordered" : undefined
 				break
 			case "cancel":
-				result = from == "created" || from == "deferred" || from == "pending" || from == "ordered" ? "cancelled" : undefined
+				result = from == "synchronized" || from == "created" || from == "deferred" || from == "pending" || from == "ordered" ? "cancelled" : undefined
 				break
 			case "charge":
-				result = from == "ordered" ? "charged" : undefined
+				result = from == "synchronized" || from == "ordered" ? "charged" : undefined
 				break
 			case "pay":
-				result = from == "charged" ? "paid" : undefined
+				result = from == "synchronized" || from == "charged" ? "paid" : undefined
 				break
 			case "refund":
-				result = from == "charged" || from == "paid" ? "refunded" : undefined
+				result = from == "synchronized" || from == "charged" || from == "paid" ? "refunded" : undefined
 				break
+			case "synchronize":
+				result = "synchronized"
 			default:
 			case "fail":
 				result = from

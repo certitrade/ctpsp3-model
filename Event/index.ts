@@ -10,6 +10,7 @@ import { Charge as ChargeEvent } from "./Charge"
 import { Pay as PayEvent } from "./Pay"
 import { Refund as RefundEvent } from "./Refund"
 import { Fail as FailEvent } from "./Fail"
+import { Synchronize as SynchronizeEvent } from "./Synchronize"
 
 export type Event =
 	DeferEvent |
@@ -20,7 +21,8 @@ export type Event =
 	ChargeEvent |
 	PayEvent |
 	RefundEvent |
-	FailEvent
+	FailEvent |
+	SynchronizeEvent
 
 // tslint:disable: no-shadowed-variable
 export namespace Event {
@@ -33,7 +35,8 @@ export namespace Event {
 			ChargeEvent.is(value) ||
 			PayEvent.is(value) ||
 			RefundEvent.is(value) ||
-			FailEvent.is(value)
+			FailEvent.is(value) ||
+			SynchronizeEvent.is(value)
 	}
 	export function create(event: EventCreatable, date?: isoly.DateTime): Event {
 		return { ...event, date: date || isoly.DateTime.now() }
@@ -82,5 +85,9 @@ export namespace Event {
 	export type Fail = FailEvent
 	export namespace Fail {
 		export const is = FailEvent.is
+	}
+	export type Synchronize = SynchronizeEvent
+	export namespace Synchronize {
+		export const is = SynchronizeEvent.is
 	}
 }
