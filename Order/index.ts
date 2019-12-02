@@ -22,7 +22,6 @@ export interface Order {
 	status?: Status[]
 	theme?: string
 }
-
 export namespace Order {
 	export function is(value: Order | any): value is Order {
 		return typeof value == "object" &&
