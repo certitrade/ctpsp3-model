@@ -25,4 +25,16 @@ export namespace Base {
 			(typeof value.descriptor == "string" || value.descriptor == undefined) &&
 			Status.is(value.status)
 	}
+	export function getCsvHeaders(): string {
+		return `payment type,payment service,payment created,payment amount,payment currency`
+	}
+	export function toCsv(value: Base): string {
+		let result = ``
+		result += `"` + value.type + `",`
+		result += `"` + value.service + `",`
+		result += `"` + value.created + `",`
+		result += value.amount + `,`
+		result += `"` + value.currency + `"`
+		return result
+	}
 }
