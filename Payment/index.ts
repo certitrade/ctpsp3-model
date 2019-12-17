@@ -7,6 +7,7 @@ import { Installment as PInstallment } from "./Installment"
 import { Invoice as PInvoice } from "./Invoice"
 import { Defer as PDefer } from "./Defer"
 import { Swish as PSwish } from "./Swish"
+import { Base as PBase } from "./Base"
 
 export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish
 
@@ -48,6 +49,12 @@ export namespace Payment {
 				PInvoice.Creatable.is(value) ||
 				PDefer.Creatable.is(value)
 		}
+	}
+	export function getCsvHeaders(): string {
+		return PBase.getCsvHeaders()
+	}
+	export function toCsv(data: Payment): string {
+		return PBase.toCsv(data)
 	}
 	export type Type = PType
 	export namespace Type {

@@ -98,4 +98,17 @@ export namespace Item {
 			}
 		}
 	}
+	export function getCsvHeaders(): string {
+		return `item count, item amount`
+	}
+	export function toCsv(value: number | Item | Item[]): string {
+		let result = ``
+		if (typeof value == "number")
+			result += `0,` + Item.amount(value).toString()
+		else if (!Array.isArray(value))
+			result += `1,` + Item.amount(value).toString()
+		else
+			result += value.length.toString() + `,` + Item.amount(value)
+		return result
+	}
 }

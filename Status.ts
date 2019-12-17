@@ -70,4 +70,10 @@ export namespace Status {
 		}
 		return result
 	}
+	export function toCsv(value: Status[] | undefined): string {
+		let result = ``
+		if (value)
+			result += `"` + value.join(" ") + `"`
+		return result
+	}
 }

@@ -114,6 +114,43 @@ export namespace Order {
 		}
 		return orders
 	}
+	export function getCsvHeaders(): string {
+		let result = ``
+		result += `id,`
+		result += `number,`
+		result += `created,`
+		result += `client,`
+		result += Customer.getCsvHeaders() + `,`
+		result += Item.getCsvHeaders() + `,`
+		result += `currency,`
+		result += Payment.getCsvHeaders() + `,`
+		result += `status`
+		result += `\r\n`
+		return result
+	}
+	export function toCsv(value: Order | Order[]): string {
+		let result = getCsvHeaders()
+		if (!Array.isArray(value))
+			result += orderToCsv(value)
+		else
+			for (const order of value)
+				result += orderToCsv(order)
+		return result
+	}
+	export function orderToCsv(value: Order): string {
+		let result = ``
+		result += `"` + value.id + `",`
+		result += value.number ? `"` + value.number + `",` : `,`
+		result += `"` + value.created + `",`
+		result += value.client ? `"` + value.client + `",` : `,`
+		result += Customer.toCsv(value.customer) + `,`
+		result += Item.toCsv(value.items) + `,`
+		result += `"` + value.currency + `",`
+		result += Payment.toCsv(value.payment) + `,`
+		result += Status.toCsv(value.status)
+		result += `\r\n`
+		return result
+	}
 	// tslint:disable: no-shadowed-variable
 	export type Creatable = OrderCreatable
 	export namespace Creatable {

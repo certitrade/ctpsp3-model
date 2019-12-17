@@ -46,6 +46,21 @@ export namespace Customer {
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
+	export function getCsvHeaders(): string {
+		return 	`customer type,customer identity number,customer id,customer number`
+	}
+	export function toCsv(value: Customer | undefined): string {
+		let result = ``
+		if (!value)
+			result += `,,,`
+		else {
+			result += `"` + value.type + `",`
+			result += value.identityNumber ? `"` + value.identityNumber + `",` : `,`
+			result += value.id ? `"` + value.id + `",` : `,`
+			result += value.number ? `"` + value.number + `"` : ``
+		}
+		return result
+	}
 	export type Required = RequiredType
 	export namespace Required {
 		export const is = RequiredType.is
