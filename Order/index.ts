@@ -21,6 +21,8 @@ export interface Order {
 	event?: Event[]
 	status?: Status[]
 	theme?: string
+	meta?: any
+	callback?: string
 }
 export namespace Order {
 	export function is(value: Order | any): value is Order {
@@ -35,7 +37,8 @@ export namespace Order {
 			Payment.is(value.payment) &&
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is)) &&
-			value.theme == undefined || typeof value.theme == "string"
+			(value.theme == undefined || typeof value.theme == "string")  &&
+			(typeof value.callback == "string" || value.callback == undefined)
 	}
 	export function flaw(value: Order | any): gracely.Flaw {
 		return {
@@ -53,6 +56,7 @@ export namespace Order {
 					value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is) || { property: "event", type: "Event[] | undefined" },
 					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[] | undefined" },
 					value.theme == undefined || typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
+					value.callback == undefined || typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
 				].filter(gracely.Flaw.is),
 		}
 	}
