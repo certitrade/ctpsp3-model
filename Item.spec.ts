@@ -69,4 +69,5 @@ describe("Item", () => {
 		model.Item.applyItem(items, "order", 1, item)
 		expect(items).toMatchObject([{ status: [ "ordered", "created" ] }, { status: [ "created", "created" ] }])
 	})
+	it("fromVatInclusivePrice", () => expect(model.Item.fromVatInclusivePrice(250, .25)).toMatchObject({ price: 200, vat: 50 }))
 })
