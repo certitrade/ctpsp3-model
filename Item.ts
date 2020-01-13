@@ -61,7 +61,7 @@ export namespace Item {
 		Item.is(item) && item.price ? (item.price - (item.rebate || 0) + (item.vat || 0)) * (item.quantity || 1) : 0
 	}
 	export function fromVatInclusivePrice(total: number, vatAsPercentage: number, itemNumber?: string, name?: string, quantity?: number, unit?: string, rebate?: number): Item {
-		return { number: itemNumber, name, price: total / (1 + vatAsPercentage / 100), quantity, unit, vat: total - total / (1 + vatAsPercentage / 100), rebate }
+		return { number: itemNumber, name, price: total / (1 + vatAsPercentage), quantity, unit, vat: total - total / (1 + vatAsPercentage), rebate }
 	}
 	export function vat(item: number | Item | Item[]): number {
 		return typeof item == "number" ? item :
