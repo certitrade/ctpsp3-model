@@ -22,7 +22,7 @@ export namespace Item {
 			(typeof value.unit == "string" || value.unit == undefined) &&
 			(typeof value.vat == "number" && typeof value.price == "number" || value.vat == undefined) &&
 			(typeof value.rebate == "number" || value.rebate == undefined) &&
-			(Array.isArray(value.status) && value.status.length == value.quantity && value.status.every(Status.is) || value.status == undefined)
+			(Array.isArray(value.status) && value.status.length == (value.quantity || 1) && value.status.every(Status.is) || value.status == undefined)
 	}
 	export function flaw(value: Item | any): gracely.Flaw {
 		return {
@@ -36,7 +36,7 @@ export namespace Item {
 					(typeof value.unit == "string" || value.unit == undefined) || { property: "unit", type: "string" },
 					(typeof value.vat == "number" && typeof value.price == "number" || value.vat == undefined) || { property: "vat", type: "number" },
 					(typeof value.rebate == "number" || value.rebate == undefined) || { property: "rebate", type: "number" },
-					(Array.isArray(value.status) && value.status.length == value.quantity && value.status.every(Status.is) || value.status == undefined) || { property: "status", type: "Status[]" },
+					(Array.isArray(value.status) && value.status.length == (value.quantity || 1) && value.status.every(Status.is) || value.status == undefined) || { property: "status", type: "Status[]" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
