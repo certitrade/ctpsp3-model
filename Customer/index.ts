@@ -21,7 +21,7 @@ export namespace Customer {
 
 	export function is(value: any | Customer): value is Customer {
 		return typeof value == "object" &&
-			(value.type == "organization" || value.type == "person") &&
+			(value.type == "organization" || value.type == "person" || value.type == undefined) &&
 			(IdentityNumber.is(value.identityNumber) || value.identityNumber == undefined) &&
 			(typeof value.id == "string" || value.id == undefined) &&
 			(typeof value.number == "string" || value.number == undefined) &&
@@ -35,7 +35,7 @@ export namespace Customer {
 			type: "model.Customer",
 			flaws: typeof value != "object" ? undefined :
 				[
-					value.type == "organization" || value.type == "person" || { property: "type", type: '"organization" | "person"' },
+					value.type == undefined || value.type == "organization" || value.type == "person" || { property: "type", type: '"organization" | "person"' },
 					value.identityNumber == undefined || IdentityNumber.is(value.identityNumber) || { property: "identityNumber", type: "IdentityNumber | undefined" },
 					value.id == undefined || typeof value.id == "string" || { property: "id", type: "string | undefined" },
 					value.number == undefined || typeof value.number == "string" || { property: "number", type: "string | undefined" },
