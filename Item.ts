@@ -64,7 +64,7 @@ export namespace Item {
 		return { number: itemNumber, name, price: total / (1 + vatAsPercentage), quantity, unit, vat: total - total / (1 + vatAsPercentage), rebate }
 	}
 	export function vat(item: number | Item | Item[]): number {
-		return typeof item == "number" ? item :
+		return typeof item == "number" ? 0 :
 			Array.isArray(item) ? item.map(i => vat(i)).reduce((sum, current) => sum + current, 0) :
 			Item.is(item) ? (item.vat || 0) * (item.quantity || 1) : 0
 	}
