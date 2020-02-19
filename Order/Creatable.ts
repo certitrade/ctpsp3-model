@@ -14,6 +14,7 @@ export interface Creatable {
 	theme?: string
 	meta?: any
 	callback?: string
+	language?: isoly.Language
 }
 
 export namespace Creatable {
@@ -26,7 +27,8 @@ export namespace Creatable {
 			isoly.Currency.is(value.currency) &&
 			Payment.Creatable.is(value.payment) &&
 			(typeof value.theme == "string" || value.theme == undefined) &&
-			(typeof value.callback == "string" || value.callback == undefined)
+			(typeof value.callback == "string" || value.callback == undefined) &&
+			(isoly.Language.is(value.language) || value.language == undefined)
 	}
 	export function flaw(value: Creatable | any): gracely.Flaw {
 		return {
@@ -41,6 +43,7 @@ export namespace Creatable {
 					Payment.Creatable.is(value.payment) || { property: "payment", type: "Payment.Creatable" },
 					typeof value.theme == "string" || value.theme == undefined || { property: "theme", type: "string | undefined" },
 					typeof value.callback == "string" || value.callback == undefined || { property: "callback", type: "string | undefined" },
+					isoly.Language.is(value.language) || value.callback == isoly.Language || { property: "language", type: "isoly.Language | undefined" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
