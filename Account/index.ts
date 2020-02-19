@@ -1,10 +1,9 @@
 import * as authly from "authly"
 import * as gracely from "gracely"
 import { Method as AccountMethod } from "./Method"
-import { Customer } from "../Customer"
-import { AccountCreatable as Creatable } from "./Creatable"
+import { Creatable as AccountCreatable  } from "./Creatable"
 
-export interface Account extends Creatable {
+export interface Account extends AccountCreatable {
 	id: authly.Identifier
 }
 
@@ -13,9 +12,7 @@ export namespace Account {
 	export function is(value: Account | any): value is Account {
 		return typeof value == "object" &&
 			authly.Identifier.is(value.id) &&
-			(value.number == undefined || typeof value.number == "string") &&
-			(value.customer == undefined || typeof value.customer == "string") &&
-			(value.method == undefined || AccountMethod.is(value.method))
+			AccountCreatable.is(value)
 	}
 	export function flaw(value: Account | any): gracely.Flaw {
 		return {
@@ -23,16 +20,15 @@ export namespace Account {
 			flaws: typeof value != "object" ? undefined :
 				[
 					authly.Identifier.is(value.id) || { property: "id", type: "authly.Identifier" },
-					(value.number == undefined || typeof value.number == "string") || { property: "number", type: "string" },
-					(value.customer == undefined || typeof value.customer == "string") || { property: "customer", type: "string" },
-					(value.method == undefined || AccountMethod.is(value.method)) || { property: "method", type: "Account.Method" },
+					AccountCreatable.is(value) || { ...AccountCreatable.flaw(value).flaws },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
-	/*export async function verify(token: authly.Token): Promise<Account & authly.Payload | undefined> {
-		const result = await verifyToken(token)
-		return is(result) ? result : undefined
-	}*/
+	export type Creatable = AccountCreatable
+	export namespace Creatable {
+		export const is = AccountCreatable.is
+		export const flaw = AccountCreatable.flaw
+	}
 	export type Method = AccountMethod
 	export namespace Method {
 		export const is = AccountMethod.is
