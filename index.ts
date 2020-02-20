@@ -1,3 +1,4 @@
+import { Account } from "./Account"
 import { Address } from "./Address"
 import { Addresses } from "./Addresses"
 import { Connection } from "./Connection"
@@ -17,6 +18,7 @@ import { Status } from "./Status"
 import { User } from "./User"
 
 export {
+	Account,
 	Address,
 	Addresses,
 	Connection,

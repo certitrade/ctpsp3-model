@@ -7,9 +7,10 @@ import { Installment as PInstallment } from "./Installment"
 import { Invoice as PInvoice } from "./Invoice"
 import { Defer as PDefer } from "./Defer"
 import { Swish as PSwish } from "./Swish"
+import { Account as PAccount } from "./Account"
 import { Base as PBase } from "./Base"
 
-export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish
+export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish | PAccount
 
 // tslint:disable: no-shadowed-variable
 export namespace Payment {
@@ -18,7 +19,8 @@ export namespace Payment {
 			PInstallment.is(value) ||
 			PInvoice.is(value) ||
 			PDefer.is(value) ||
-			PSwish.is(value)
+			PSwish.is(value) ||
+			PAccount.is(value)
 	}
 	export function hasVerify(payment: Payment | Payment & { verify: PVerify }): payment is Payment & { verify: PVerify } {
 		return PVerify.is((payment as Payment & { verify?: PVerify }).verify)
@@ -47,7 +49,8 @@ export namespace Payment {
 			return PCard.Creatable.is(value) ||
 				PInstallment.Creatable.is(value) ||
 				PInvoice.Creatable.is(value) ||
-				PDefer.Creatable.is(value)
+				PDefer.Creatable.is(value) ||
+				PAccount.Creatable.is(value)
 		}
 	}
 	export function getCsvHeaders(): string {
@@ -139,6 +142,16 @@ export namespace Payment {
 		export namespace Creatable {
 			export const is = PSwish.Creatable.is
 			export const flaw = PSwish.Creatable.flaw
+		}
+	}
+
+	export type Account = PAccount
+	export namespace Account {
+		export const is = PAccount.is
+		export type Creatable = PAccount.Creatable
+		export namespace Creatable {
+			export const is = PAccount.Creatable.is
+			export const flaw = PAccount.Creatable.flaw
 		}
 	}
 }
