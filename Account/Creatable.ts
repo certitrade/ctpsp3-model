@@ -10,21 +10,21 @@ export interface Creatable {
 
 // tslint:disable: no-shadowed-variable
 export namespace Creatable {
-	export function is(value: Account | any): value is Account {
+	export function is(value: Creatable | any): value is Creatable {
 		return typeof value == "object" &&
 			(value.number == undefined || typeof value.number == "string") &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Array.isArray(value.method) && value.method.every(AccountMethod.is)
 	}
-	export function flaw(value: Account | any): gracely.Flaw {
+	export function flaw(value: Creatable | any): gracely.Flaw {
 		return {
 			type: "model.Account",
 			flaws: typeof value != "object" ? undefined :
 				[
 					value.number == undefined || typeof value.number == "string" || { property: "number", type: "string" },
 					value.customer == undefined || Customer.is(value.customer) || { property: "customer", type: "Customer" },
-					Array.isArray(value.method) && value.method.every(AccountMethod.is) || { property: "method", type: "Account.Method" },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+				].concat(value.method.map((method: AccountMethod) => { return AccountMethod.is(method) || AccountMethod.flaw(method) }))
+				.filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
 }
