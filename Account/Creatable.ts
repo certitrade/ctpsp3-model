@@ -1,7 +1,6 @@
 import * as gracely from "gracely"
 import { Method as AccountMethod } from "./Method"
 import { Customer } from "../Customer"
-import { type } from "os"
 
 export interface Creatable {
 	number?: string
