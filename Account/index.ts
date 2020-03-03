@@ -37,9 +37,11 @@ export namespace Account {
 	export type Method = AccountMethod
 	export namespace Method {
 		export const is = AccountMethod.is
+		export const flaw = AccountMethod.flaw
 		export type Card = AccountMethod.Card
 		export namespace Card {
 			export const is = AccountMethod.Card.is
+			export const flaw = AccountMethod.Card.flaw
 		}
 	}
 }
