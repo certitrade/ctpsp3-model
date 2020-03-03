@@ -18,7 +18,7 @@ export namespace Base {
 			type: "model.Account.Base",
 			flaws: typeof value != "object" ? undefined :
 				[
-					Type.is(value.type) || { property: "type", type: "@cardfunc/model/Account/Method/Type" },
+					Type.is(value.type) || { property: "type", type: "Account.Method.Type" },
 					(value.created == undefined || isoly.DateTime.is(value.created)) || { property: "created", type: "isoly.DateTime" },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}

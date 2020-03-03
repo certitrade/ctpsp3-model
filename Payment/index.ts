@@ -43,7 +43,7 @@ export namespace Payment {
 	export function filter(value: Payment[], property: "type" | "status", criterion: string | Identifier | PStatus): Payment[] {
 		return value.filter(payment => payment[property] == criterion)
 	}
-	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable
+	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable | PAccount.Creatable
 	export namespace Creatable {
 		export function is(value: Creatable | any): value is Creatable {
 			return PCard.Creatable.is(value) ||
