@@ -8,6 +8,7 @@ import { Payment } from "../Payment"
 import { Status } from "../Status"
 import { Change as OrderChange } from "./Change"
 import { Creatable as OrderCreatable } from "./Creatable"
+import { verify as verifyToken } from "../verify"
 
 export interface Order {
 	id: authly.Identifier
@@ -61,8 +62,7 @@ export namespace Order {
 		}
 	}
 	export async function verify(token: authly.Token): Promise<Order | undefined> {
-		const algorithm = authly.Algorithm.RS256("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+u7ZnXr3XecpcgEbYAPLOrNKZ1V0+JxiPawhOJ+LrbfP5czPB2VnWLyD8xVnZ+0rZnJrG4Iu+AZmpdT44KNAqTpN7xQirLlg+bfUJqGlEDQiSw2rJaa+/Y+dCvoC3MFVtTWMlre6bVmCbX+PIl8tg8rSNN7E+tkkl7T4UuHt/ONVOOOvwCJDo5I0SOotfHSCIckc/CkxLEELgIiR8F800+Ww5ofwzJwLw3zLw0BvqzB4OH74v82DS1mYpS38ZQwQKMcE/BP6eyHokHlmeOaXo993RyWfuVj3ocpbOACaNzqNp9eiREmYY8RfO4r9ZNhkrfetoQxPqQcG+FAiObv/EQIDAQAB")
-		const result = await authly.Verifier.create("payfunc", algorithm)!.verify(token)
+		const result = await verifyToken(token)
 		return is(result) ? result : undefined
 	}
 	export function possibleEvents(orders: Order[]): Event.Type[] {

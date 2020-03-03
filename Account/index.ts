@@ -2,6 +2,7 @@ import * as authly from "authly"
 import * as gracely from "gracely"
 import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable  } from "./Creatable"
+import { verify as verifyToken } from "../verify"
 
 export interface Account extends AccountCreatable {
 	id: authly.Identifier
@@ -23,6 +24,10 @@ export namespace Account {
 					AccountCreatable.is(value) || { ...AccountCreatable.flaw(value).flaws },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
+	}
+	export async function verify(token: authly.Token): Promise<Account | undefined> {
+		const result = await verifyToken(token)
+		return is(result) ? result : undefined
 	}
 	export type Creatable = AccountCreatable
 	export namespace Creatable {
