@@ -23,7 +23,7 @@ export namespace Creatable {
 				[
 					value.number == undefined || typeof value.number == "string" || { property: "number", type: "string" },
 					value.customer == undefined || Customer.is(value.customer) || { property: "customer", type: "Customer" },
-				].concat(value.method.map((method: AccountMethod) => { return AccountMethod.is(method) || AccountMethod.flaw(method) }))
+				].concat(value.method && Array.isArray(value.method) ? value.method.map((method: AccountMethod) => { return AccountMethod.is(method) || AccountMethod.flaw(method) }) : [{ property: "method", type: "array" }])
 				.filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}

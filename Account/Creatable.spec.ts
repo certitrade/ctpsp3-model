@@ -201,4 +201,12 @@ describe("Account.Creatable", () => {
 			}
 		})
 	})
+	it("missing method", async () => {
+		const value: any = { someProperty: "" }
+		expect(model.Account.Creatable.flaw(value)).toEqual({"flaws": [{ property: "method", type: "array" }], "type": "model.Account"})
+	})
+	it("real flaw test", async () => {
+		const value: any = { someProperty: "abcf", method: "abc" }
+		expect(model.Account.Creatable.flaw(value)).toEqual({"flaws": [{ property: "method", type: "array" }], "type": "model.Account"})
+	})
 })
