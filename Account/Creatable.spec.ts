@@ -203,10 +203,10 @@ describe("Account.Creatable", () => {
 	})
 	it("missing method", async () => {
 		const value: any = { someProperty: "" }
-		expect(value.method ? value.method.map((method: model.Account.Method) => { return model.Account.Method.is(method) || model.Account.Method.flaw(method) }) : [{ property: "method", type: "array" }]).toEqual([{ property: "method", type: "array" }])
+		expect(model.Account.Creatable.flaw(value)).toEqual({"flaws": [{ property: "method", type: "array" }], "type": "model.Account"})
 	})
-	it("non array method", async () => {
+	it("real flaw test", async () => {
 		const value: any = { someProperty: "abcf", method: "abc" }
-		expect(value.method && Array.isArray(value.method) ? value.method.map((method: model.Account.Method) => { return model.Account.Method.is(method) || model.Account.Method.flaw(method) }) : [{ property: "method", type: "array" }]).toEqual([{ property: "method", type: "array" }])
+		expect(model.Account.Creatable.flaw(value)).toEqual({"flaws": [{ property: "method", type: "array" }], "type": "model.Account"})
 	})
 })
