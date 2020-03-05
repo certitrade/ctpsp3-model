@@ -10,4 +10,10 @@ export namespace User {
 			typeof value.id == "string" &&
 			UserCreatable.is(value)
 	}
+	export type Creatable = UserCreatable
+	export namespace Creatable {
+		// tslint:disable-next-line: no-shadowed-variable
+		export const is = UserCreatable.is
+		export const flaw = UserCreatable.flaw
+	}
 }

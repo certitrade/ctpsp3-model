@@ -17,7 +17,7 @@ export namespace Creatable {
 	}
 	export function flaw(value: Creatable | any): gracely.Flaw {
 		return {
-			type: "model.User",
+			type: "model.User.Creatable",
 			flaws: typeof value != "object" ? undefined :
 				[
 					typeof value.email == "string" || { property: "email", type: "string" },
