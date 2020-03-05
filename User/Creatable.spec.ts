@@ -19,7 +19,7 @@ describe("User.Creatable", () => {
 				},
 			},
 		}
-		expect(User.Creatable.flaw(value)).toEqual({"flaws": [], "type": "model.User"})
+		expect(User.Creatable.flaw(value)).toEqual({"flaws": [], "type": "model.User.Creatable"})
 	})
 	it("user without id", async () => {
 		const value: any = {
@@ -38,6 +38,6 @@ describe("User.Creatable", () => {
 				},
 			},
 		}
-		expect(User.Creatable.flaw(value)).toEqual({"flaws": [], "type": "model.User"})
+		expect(User.Creatable.flaw(value)).toEqual({"flaws": [], "type": "model.User.Creatable"})
 	})
 })
