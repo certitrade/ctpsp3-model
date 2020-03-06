@@ -1,9 +1,8 @@
 import { User } from "./"
 
 describe("User.Creatable", () => {
-	it("user with id", async () => {
+	it("user with password", async () => {
 		const value: any = {
-			id: "abcd",
 			email: "a string",
 			merchant: {
 				id: "abcd",
@@ -12,6 +11,7 @@ describe("User.Creatable", () => {
 					private: "aaa.bbb.ccc",
 				},
 			},
+			password: "123456",
 			option: {
 				"byBoat": "no",
 				"byPlane": {
@@ -19,9 +19,33 @@ describe("User.Creatable", () => {
 				},
 			},
 		}
-		expect(User.Creatable.flaw(value)).toEqual({"flaws": [], "type": "model.User.Creatable"})
+		expect(User.Creatable.is(value)).toBeTruthy()
+		const flawFeedback = User.Creatable.flaw(value)
+		expect(flawFeedback.flaws && flawFeedback.flaws.length === 0).toBeTruthy()
 	})
-	it("user without id", async () => {
+	it("user with password as array", async () => {
+		const value: any = {
+			email: "a string",
+			merchant: {
+				id: "abcd",
+				name: "merchant",
+				key: {
+					private: "aaa.bbb.ccc",
+				},
+			},
+			password: "",
+			option: {
+				"byBoat": "no",
+				"byPlane": {
+					"maybe": ["yes", "no"]
+				},
+			},
+		}
+		expect(User.Creatable.is(value)).toBeTruthy()
+		const flawFeedback = User.Creatable.flaw(value)
+		expect(flawFeedback.flaws && flawFeedback.flaws.length === 0).toBeTruthy()
+	})
+	it("user without password", async () => {
 		const value: any = {
 			email: "a string",
 			merchant: {
@@ -38,6 +62,15 @@ describe("User.Creatable", () => {
 				},
 			},
 		}
-		expect(User.Creatable.flaw(value)).toEqual({"flaws": [], "type": "model.User.Creatable"})
+		expect(User.Creatable.is(value)).toBeFalsy()
+		const flawFeedback = User.Creatable.flaw(value)
+		expect(flawFeedback.flaws && flawFeedback.flaws.length > 0).toBeTruthy()
+		expect(User.Creatable.flaw(value)).toEqual({
+			"flaws": [{
+				"property": "password",
+				"type": "string | object",
+			}],
+			"type": "model.User.Creatable"
+		})
 	})
 })
