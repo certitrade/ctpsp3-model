@@ -8,7 +8,7 @@ import { PhoneNumbers } from "../PhoneNumbers"
 import { Required as RequiredType  } from "./Required"
 
 export interface Customer {
-	type: "organization" | "person"
+	type?: "organization" | "person"
 	identityNumber?: IdentityNumber
 	id?: string
 	number?: string
