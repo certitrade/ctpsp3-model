@@ -25,6 +25,7 @@ export namespace Account {
 	}
 	export type Method = AccountMethod
 	export namespace Method {
+		export const verify = AccountMethod.verify
 		export const is = AccountMethod.is
 		export type Card = AccountMethod.Card
 		export namespace Card {
