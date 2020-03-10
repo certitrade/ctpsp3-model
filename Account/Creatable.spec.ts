@@ -18,7 +18,7 @@ describe("Account.Creatable", () => {
 						2,
 						225
 					],
-					"reference": "abc.def.ghi"
+					"token": "abc.def.ghi"
 				},
 				{
 					"type": "ca",
@@ -29,7 +29,7 @@ describe("Account.Creatable", () => {
 						2,
 						22
 					],
-					"reference": "abc.def.ghi",
+					"token": "abc.def.ghi",
 					"created": "23"
 				}
 			]
@@ -100,7 +100,7 @@ describe("Account.Creatable", () => {
 						"feb",
 						"2025"
 					],
-					"reference": "notaauthlytoken"
+					"token": "notaauthlytoken"
 				},
 				{
 					"type": "telegram",
@@ -110,7 +110,7 @@ describe("Account.Creatable", () => {
 					"expires": [
 						99
 					],
-					"reference": 12,
+					"token": 12,
 					"created": "23 feb 2077"
 				}
 			]
@@ -128,10 +128,6 @@ describe("Account.Creatable", () => {
 					{
 						"type": "model.Account.Base",
 						"flaws": [
-							{
-								"property": "reference",
-								"type": "authly.Token"
-							},
 							{
 								"property": "scheme",
 								"type": "Payment.Card.Scheme"
@@ -154,7 +150,11 @@ describe("Account.Creatable", () => {
 									{
 										"property": "type",
 										"type": "Account.Method.Type"
-									}
+									},
+									{
+										"property": "token",
+										"type": "authly.Token"
+									},
 								]
 							}
 						]
@@ -162,10 +162,6 @@ describe("Account.Creatable", () => {
 					{
 						"type": "model.Account.Base",
 						"flaws": [
-							{
-								"property": "reference",
-								"type": "authly.Token"
-							},
 							{
 								"property": "scheme",
 								"type": "Payment.Card.Scheme"
@@ -192,7 +188,11 @@ describe("Account.Creatable", () => {
 									{
 										"property": "created",
 										"type": "isoly.DateTime"
-									}
+									},
+									{
+										"property": "token",
+										"type": "authly.Token"
+									},
 								]
 							}
 						]
