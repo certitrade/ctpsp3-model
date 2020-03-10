@@ -31,6 +31,10 @@ export namespace Account {
 		export namespace Card {
 			export const is = AccountMethod.Card.is
 		}
+		export type Creatable = AccountMethod.Creatable
+		export namespace Creatable {
+			export const is = AccountMethod.Creatable.is
+		}
 		export type Type = AccountMethod.Type
 		export namespace Type {
 			export const is = AccountMethod.Type.is
