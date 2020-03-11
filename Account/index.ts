@@ -33,6 +33,7 @@ export namespace Account {
 		}
 		export type Creatable = AccountMethod.Creatable
 		export namespace Creatable {
+			export const verify = AccountMethod.Creatable.verify
 			export const is = AccountMethod.Creatable.is
 		}
 		export type Type = AccountMethod.Type
