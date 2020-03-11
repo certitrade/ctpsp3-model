@@ -12,10 +12,10 @@ export namespace Method {
 	}
 	export async function verify(token: authly.Token): Promise<Method | undefined> {
 		const result = await verifyToken(token)
-		// if (result) {
-		// 	result.token = token
-		// 	delete result.reference
-		// }
+		if (result) {
+			result.token = token
+			delete result.reference
+		}
 		return is(result) ? result : undefined
 	}
 	// tslint:disable: no-shadowed-variable
