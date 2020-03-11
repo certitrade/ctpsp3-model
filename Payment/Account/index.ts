@@ -5,7 +5,7 @@ import { Creatable as AccountCreatable } from "./Creatable"
 
 export interface Account extends Base {
 	type: "account"
-	account: authly.Token
+	token: authly.Token
 }
 
 export namespace Account {
@@ -13,7 +13,7 @@ export namespace Account {
 	export function is(value: any | Account): value is Account {
 		return typeof value == "object" &&
 			value.type == "account" &&
-			authly.Token.is(value.account) &&
+			authly.Token.is(value.token) &&
 			Base.is(value)
 	}
 
