@@ -30,6 +30,7 @@ export namespace Method {
 	export type Creatable = MethodCreatable
 	export namespace Creatable {
 		export const is = MethodCreatable.is
+		export const verify = MethodCreatable.verify
 	}
 	export type Type = MethodType
 	export namespace Type {
