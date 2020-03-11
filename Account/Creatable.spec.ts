@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
 import * as model from "../"
 
-describe("Account.Creatable", () => {
+describe.skip("Account.Creatable", () => {
 	it("Account.Creatable.is not valid account", async () => {
 		const account =	{
 			"number": "ijklmnop",
