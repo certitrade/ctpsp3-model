@@ -4,14 +4,14 @@ import { CreatableBase } from "../CreatableBase"
 
 export interface Creatable extends CreatableBase {
 	type: "account"
-	account: authly.Token
+	token: authly.Token
 }
 
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
 		return typeof value == "object" &&
 			value.type == "account" &&
-			authly.Token.is(value.account) &&
+			authly.Token.is(value.token) &&
 			CreatableBase.is(value)
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {
@@ -20,7 +20,7 @@ export namespace Creatable {
 			flaws: typeof value != "object" ? undefined :
 				[
 					value.type == "account" || { property: "type", type: '"account"' },
-					authly.Token.is(value.account) || { property: "type", type: "authly.Token" },
+					authly.Token.is(value.token) || { property: "token", type: "authly.Token" },
 					CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
