@@ -24,6 +24,7 @@ export interface Order {
 	theme?: string
 	meta?: any
 	callback?: string
+	language?: isoly.Language
 }
 export namespace Order {
 	export function is(value: Order | any): value is Order {
@@ -39,7 +40,8 @@ export namespace Order {
 			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
 			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is)) &&
 			(value.theme == undefined || typeof value.theme == "string")  &&
-			(typeof value.callback == "string" || value.callback == undefined)
+			(typeof value.callback == "string" || value.callback == undefined) &&
+			(value.language == undefined || isoly.Language.is(value.language))
 	}
 	export function flaw(value: Order | any): gracely.Flaw {
 		return {
@@ -58,6 +60,7 @@ export namespace Order {
 					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[] | undefined" },
 					value.theme == undefined || typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
 					value.callback == undefined || typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
+					value.language == undefined || isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
 				].filter(gracely.Flaw.is),
 		}
 	}
