@@ -17,7 +17,7 @@ export namespace User {
 			type: "model.User",
 			flaws: typeof value != "object" ? undefined :
 				[
-					typeof value.password == "string" || { property: "id", type: "string" },
+					typeof value.id == "string" || { property: "id", type: "string" },
 					UserBase.is(value) || { ...UserBase.flaw(value).flaws },
 				]
 				.filter(gracely.Flaw.is) as gracely.Flaw[],
