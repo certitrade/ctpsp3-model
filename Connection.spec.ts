@@ -3,7 +3,7 @@ import * as gracely from "gracely"
 import * as authly from "authly"
 import * as model from "./index"
 
-jest.setTimeout(60000)
+jest.setTimeout(100000)
 dotenv.config()
 model.Connection.baseUrl = process.env.backendUrl || ""
 
