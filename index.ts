@@ -8,6 +8,7 @@ import { EmailAddresses } from "./EmailAddresses"
 import { Event } from "./Event"
 import { IdentityNumber } from "./IdentityNumber"
 import { Item } from "./Item"
+import { Log } from "./Log"
 import { Merchant } from "./Merchant"
 import { Name } from "./Name"
 import { Order } from "./Order"
@@ -28,6 +29,7 @@ export {
 	Event,
 	IdentityNumber,
 	Item,
+	Log,
 	Merchant,
 	Name,
 	Order,
