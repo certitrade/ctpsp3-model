@@ -1,4 +1,4 @@
-import authly from "authly"
+import * as authly from "authly"
 import { Level } from "../Level"
 import { Reference } from "../Reference"
 import { Content } from "../Content"
