@@ -2,6 +2,7 @@ import { Content as LogContent } from "./Content"
 import { Entry as LogEntry } from "./Entry"
 import { Level as LogLevel } from "./Level"
 import { Reference as LogReference } from "./Reference"
+import { System as LogSystem } from "./System"
 
 export type Log = LogEntry[]
 
@@ -32,5 +33,13 @@ export namespace Log {
 	export type Reference = LogReference
 	export namespace Reference {
 		export const is = LogReference.is
+		export type Type = LogReference.Type
+		export namespace Type {
+			export const is = LogReference.Type.is
+		}
+	}
+	export type System = LogSystem
+	export namespace System {
+		export const is = LogSystem.is
 	}
 }

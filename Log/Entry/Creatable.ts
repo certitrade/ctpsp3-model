@@ -1,12 +1,13 @@
 import * as authly from "authly"
+import { Content } from "../Content"
 import { Level } from "../Level"
 import { Reference } from "../Reference"
-import { Content } from "../Content"
+import { System } from "../System"
 
 export interface Creatable {
 	reference: Reference
 	client?: authly.Identifier
-	system: string
+	system: System
 	point: string
 	step: string
 	level: Level
@@ -17,7 +18,7 @@ export namespace Creatable {
 		return typeof value == "object" &&
 			Reference.is(value.reference) &&
 			(value.client == undefined || authly.Identifier.is(value.client)) &&
-			typeof value.system == "string" &&
+			System.is(value.system) &&
 			typeof value.point == "string" &&
 			typeof value.step == "string" &&
 			Level.is(value.level) &&
