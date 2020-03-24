@@ -1,4 +1,4 @@
-export type Content = number | string | boolean | Content[] | { [property: string]: Content } | null
+export type Content = number | string | boolean | Content[] | { [property: string]: Content } | null | undefined
 
 export namespace Content {
 	export function is(value: Content | any): value is Content {
@@ -7,7 +7,8 @@ export namespace Content {
 			typeof value == "boolean" ||
 			Array.isArray(value) && value.every(is) ||
 			typeof value == "object" && Object.values(value).every(is) ||
-			value == null
+			value == null ||
+			value == undefined
 	}
 	export function freeze(value: Content): Content {
 		return JSON.parse(JSON.stringify(value))
