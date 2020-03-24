@@ -14,10 +14,12 @@ export namespace Log {
 	export type Content = LogContent
 	export namespace Content {
 		export const is = LogContent.is
+		export const freeze = LogContent.freeze
 	}
 	export type Entry = LogEntry
 	export namespace Entry {
 		export const is = LogEntry.is
+		export const create = LogEntry.create
 	}
 	export type Level = LogLevel
 	export namespace Level {
