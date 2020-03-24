@@ -9,4 +9,7 @@ export namespace Content {
 			typeof value == "object" && Object.values(value).every(is) ||
 			value == null
 	}
+	export function freeze(value: Content): Content {
+		return JSON.parse(JSON.stringify(value))
+	}
 }
