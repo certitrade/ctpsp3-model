@@ -20,6 +20,10 @@ export namespace Log {
 	export namespace Entry {
 		export const is = LogEntry.is
 		export const create = LogEntry.create
+		export type Creatable = LogEntry.Creatable
+		export namespace Creatable {
+			export const is = LogEntry.Creatable.is
+		}
 	}
 	export type Level = LogLevel
 	export namespace Level {
