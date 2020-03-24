@@ -36,6 +36,10 @@ export namespace Key {
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
+	export async function unpack(key: authly.Token): Promise<Key | undefined> {
+		const payload: authly.Payload | undefined = await authly.Verifier.create("public").verify(key)
+		return is(payload) ? payload : undefined
+	}
 	export type Audience = KeyAudience
 	// tslint:disable: no-shadowed-variable
 	export namespace Audience {
