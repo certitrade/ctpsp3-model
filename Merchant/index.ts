@@ -47,6 +47,7 @@ export namespace Merchant {
 	export namespace Key {
 		export const is = MerchantKey.is
 		export const flaw = MerchantKey.flaw
+		export const unpack = MerchantKey.unpack
 		export type Audience = MerchantKey.Audience
 		// tslint:disable: no-shadowed-variable
 		export namespace Audience {

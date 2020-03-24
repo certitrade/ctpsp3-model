@@ -1,24 +1,27 @@
 import * as authly from "authly"
+import { Content } from "../Content"
 import { Level } from "../Level"
 import { Reference } from "../Reference"
-import { Content } from "../Content"
+import { System } from "../System"
 
 export interface Creatable {
-	level: Level
 	reference: Reference
+	client?: authly.Identifier
+	system: System
 	point: string
 	step: string
-	client?: authly.Identifier
+	level: Level
 	content: Content
 }
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
 		return typeof value == "object" &&
-			Level.is(value.level) &&
 			Reference.is(value.reference) &&
+			(value.client == undefined || authly.Identifier.is(value.client)) &&
+			System.is(value.system) &&
 			typeof value.point == "string" &&
 			typeof value.step == "string" &&
-			(value.client == undefined || authly.Identifier.is(value.client)) &&
+			Level.is(value.level) &&
 			Content.is(value.content)
 	}
 }
