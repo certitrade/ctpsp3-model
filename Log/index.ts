@@ -31,6 +31,7 @@ export namespace Log {
 	export type Entry = LogEntry
 	export namespace Entry {
 		export const is = LogEntry.is
+		export const generateId = LogEntry.generateId
 		export const create = LogEntry.create
 		export type Creatable = LogEntry.Creatable
 		export namespace Creatable {

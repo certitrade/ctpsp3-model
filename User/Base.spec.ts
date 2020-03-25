@@ -3,10 +3,10 @@ import { User } from "."
 describe("User.Base", () => {
 	it("user with id", async () => {
 		const value: any = {
-			id: "abcd",
+			id: "abcd0123",
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0123",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -26,7 +26,7 @@ describe("User.Base", () => {
 		const value: any = {
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0123",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -46,7 +46,7 @@ describe("User.Base", () => {
 		const value: any = {
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0123",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",

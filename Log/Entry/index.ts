@@ -12,13 +12,16 @@ export interface Entry extends EntryCreatable {
 export namespace Entry {
 	export function is(value: Entry | any): value is Entry {
 		return typeof value == "object" &&
-			authly.Identifier.is(value.id) &&
+			authly.Identifier.is(value.id, 16) &&
 			isoly.DateTime.is(value.created) &&
 			authly.Identifier.is(value.merchant) &&
 			EntryCreatable.is(value)
 	}
+	export function generateId(): authly.Identifier {
+		return authly.Identifier.generate(16)
+	}
 	export function create(merchant: authly.Identifier, entry: EntryCreatable): Entry {
-		return { id: authly.Identifier.generate(16), created: isoly.DateTime.now(), merchant, ...entry, content: Content.freeze(entry.content) }
+		return { id: generateId(), created: isoly.DateTime.now(), merchant, ...entry, content: Content.freeze(entry.content) }
 	}
 	export type Creatable = EntryCreatable
 	export namespace Creatable {

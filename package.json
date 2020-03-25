@@ -47,7 +47,7 @@
  },
  "dependencies": {
   "@cardfunc/model": "0.0.49",
-  "authly": "0.0.35",
+  "authly": "0.0.36",
   "dotenv": "^8.2.0",
   "gracely": "0.0.28",
   "isoly": "0.0.13",

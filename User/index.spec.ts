@@ -3,10 +3,10 @@ import * as model from "../"
 describe("User", () => {
 	it("user, with id that is an authly.Identifier", async () => {
 		const value: any = {
-			id: "abcd",
+			id: "abcd0001",
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -23,10 +23,10 @@ describe("User", () => {
 	})
 	it("user, with id that isn't an authly.Identifier", async () => {
 		const value: any = {
-			id: "abcde",
+			id: "abcd0001",
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -45,7 +45,7 @@ describe("User", () => {
 		const value: any = {
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -62,10 +62,10 @@ describe("User", () => {
 	})
 	it("user, with public instead of private key", async () => {
 		const value: any = {
-			id: "abcd",
+			id: "abcd0001",
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					public: "aaa.bbb.ccc",
@@ -82,10 +82,10 @@ describe("User", () => {
 	})
 	it("user, with non token private key", async () => {
 		const value: any = {
-			id: "abcd",
+			id: "abcd0001",
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					private: "aaa-bbb-ccc",
@@ -102,10 +102,10 @@ describe("User", () => {
 	})
 	it("user, with empty option", async () => {
 		const value: any = {
-			id: "abcd",
+			id: "abcd0001",
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					private: "aaa-bbb-ccc",
@@ -118,7 +118,7 @@ describe("User", () => {
 	})
 	it("user, without email", async () => {
 		const value: any = {
-			id: "abcde",
+			id: "abcd0001",
 			merchant: {
 				id: "abcd",
 				name: "merchant",
@@ -157,10 +157,10 @@ describe("User", () => {
 	})
 	it("user, with empty email string", async () => {
 		const value: any = {
-			id: "abcde",
+			id: "abcd0001",
 			email: "",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -177,10 +177,10 @@ describe("User", () => {
 	})
 	it("user, with empty strings", async () => {
 		const value: any = {
-			id: "",
+			id: "abcd0001",
 			email: "",
 			merchant: {
-				id: "",
+				id: "abcd0001",
 				name: "",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -194,7 +194,7 @@ describe("User", () => {
 	})
 	it("user, with empty strings and missing merchant name", async () => {
 		const value: any = {
-			id: "",
+			id: "abcd0001",
 			email: "",
 			merchant: {
 				id: "",
@@ -210,7 +210,7 @@ describe("User", () => {
 	})
 	it("user, with empty strings and missing option array", async () => {
 		const value: any = {
-			id: "",
+			id: "abcd0001",
 			email: "",
 			merchant: {
 				id: "",
@@ -224,7 +224,7 @@ describe("User", () => {
 	})
 	it("user, with empty strings and missing key", async () => {
 		const value: any = {
-			id: "",
+			id: "abcd0001",
 			email: "",
 			merchant: {
 				id: "",
@@ -238,10 +238,10 @@ describe("User", () => {
 	})
 	it("array with a user inside", async () => {
 		const value: any = [{
-			id: "abcd",
+			id: "abcd0001",
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0001",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",

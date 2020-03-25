@@ -1,15 +1,16 @@
 import * as gracely from "gracely"
+import * as authly from "authly"
 import { Base as UserBase } from "./Base"
 import { Creatable as UserCreatable } from "./Creatable"
 
 export interface User extends UserBase {
-	id: string
+	id: authly.Identifier
 }
 
 export namespace User {
 	export function is(value: any | User): value is User {
 		return typeof value == "object" &&
-			typeof value.id == "string" &&
+			authly.Identifier.is(value.id, 8) &&
 			UserBase.is(value)
 	}
 	export function flaw(value: any | User): gracely.Flaw {
@@ -17,11 +18,14 @@ export namespace User {
 			type: "model.User",
 			flaws: typeof value != "object" ? undefined :
 				[
-					typeof value.id == "string" || { property: "id", type: "string" },
+					authly.Identifier.is(value.id, 8) || { property: "id", type: "string", condition: "length == 8" },
 					UserBase.is(value) || { ...UserBase.flaw(value).flaws },
 				]
 				.filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
+	}
+	export function generateId(): authly.Identifier {
+		return authly.Identifier.generate(8)
 	}
 	// tslint:disable: no-shadowed-variable
 	export type Base = UserBase

@@ -1,10 +1,12 @@
 import * as isoly from "isoly"
 import * as gracely from "gracely"
+import * as authly from "authly"
 import { Customer } from "../Customer"
 import { Item } from "../Item"
 import { Payment } from "../Payment"
 
 export interface Creatable {
+	id?: authly.Identifier
 	number?: string
 	client?: string
 	customer?: Customer
@@ -20,6 +22,7 @@ export interface Creatable {
 export namespace Creatable {
 	export function is(value: Creatable | any): value is Creatable {
 		return typeof value == "object" &&
+			(authly.Identifier.is(value.id, 16) || value.id == undefined) &&
 			(typeof value.number == "string" || value.number == undefined) &&
 			(typeof value.client == "string" || value.client == undefined) &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
@@ -35,6 +38,7 @@ export namespace Creatable {
 			type: "model.Order.Creatable",
 			flaws: typeof value != "object" ? undefined :
 				[
+					authly.Identifier.is(value.id, 16) || value.id == undefined || { property: "id", type: "authly.Identifier | undefined", condition: "length == 16" },
 					typeof value.number == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
 					typeof value.client == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
 					value.customer == undefined || Customer.is(value.customer) || Customer.flaw(value.customer),

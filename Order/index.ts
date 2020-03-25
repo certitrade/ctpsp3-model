@@ -29,7 +29,7 @@ export interface Order {
 export namespace Order {
 	export function is(value: Order | any): value is Order {
 		return typeof value == "object" &&
-			authly.Identifier.is(value.id) &&
+			authly.Identifier.is(value.id, 16) &&
 			(typeof value.number == "string" || value.number == undefined) &&
 			(typeof value.client == "string" || value.client == undefined) &&
 			isoly.DateTime.is(value.created) &&
@@ -48,7 +48,7 @@ export namespace Order {
 			type: "model.Order",
 			flaws: typeof value != "object" ? undefined :
 				[
-					authly.Identifier.is(value.id) || { property: "id", type: "authly.Identifier" },
+					authly.Identifier.is(value.id, 16) || { property: "id", type: "authly.Identifier", condition: "length == 16" },
 					typeof value.number == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
 					typeof value.client == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
 					isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
@@ -63,6 +63,9 @@ export namespace Order {
 					value.language == undefined || isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
 				].filter(gracely.Flaw.is),
 		}
+	}
+	export function generateId(): authly.Identifier {
+		return authly.Identifier.generate(16)
 	}
 	export async function verify(token: authly.Token): Promise<Order | undefined> {
 		const result = await verifyToken(token)

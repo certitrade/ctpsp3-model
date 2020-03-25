@@ -2,7 +2,7 @@ import * as model from "../index"
 
 describe("Merchant", () => {
 	const merchant = {
-		id: "par9",
+		id: "par9par9",
 		name: "test",
 		option: {},
 		key: {
