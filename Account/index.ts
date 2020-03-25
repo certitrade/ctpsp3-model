@@ -14,10 +14,13 @@ export interface Account {
 export namespace Account {
 	export function is(value: Account | any): value is Account {
 		return typeof value == "object" &&
-			authly.Identifier.is(value.id) &&
+			authly.Identifier.is(value.id, 16) &&
 			(value.number == undefined || typeof value.number == "string") &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Array.isArray(value.method) && value.method.every(AccountMethod.is)
+	}
+	export function generateId(): authly.Identifier {
+		return authly.Identifier.generate(16)
 	}
 	export type Creatable = AccountCreatable
 	export namespace Creatable {

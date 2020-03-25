@@ -5,7 +5,7 @@ describe("User.Creatable", () => {
 		const value: any = {
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0123",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -27,7 +27,7 @@ describe("User.Creatable", () => {
 		const value: any = {
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0123",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",
@@ -49,7 +49,7 @@ describe("User.Creatable", () => {
 		const value: any = {
 			email: "a string",
 			merchant: {
-				id: "abcd",
+				id: "abcd0123",
 				name: "merchant",
 				key: {
 					private: "aaa.bbb.ccc",

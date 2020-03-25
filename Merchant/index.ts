@@ -17,7 +17,7 @@ export interface Merchant {
 export namespace Merchant {
 	export function is(value: any | Merchant): value is Merchant {
 		return typeof value == "object" &&
-			typeof value.id == "string" &&
+			authly.Identifier.is(value.id, 8) &&
 			typeof value.name == "string" &&
 			typeof value.key == "object" &&
 			authly.Token.is(value.key.private) &&
@@ -30,7 +30,7 @@ export namespace Merchant {
 			type: "model.Merchant",
 			flaws: typeof value != "object" ? undefined :
 				[
-					authly.Identifier.is(value.id) || { property: "id", type: "authly.Identifier" },
+					authly.Identifier.is(value.id, 8) || { property: "id", type: "authly.Identifier", condition: "length == 8" },
 					typeof value.name == "string" || { property: "name", type: "string" },
 					typeof value.key == "object" && authly.Token.is(value.key.public) &&	authly.Token.is(value.key.private) || { property: "key", type: "{ public: authly.Token, private: authly.Token }" },
 					value.terms == undefined || typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
