@@ -14,8 +14,8 @@ export interface Key extends Creatable, authly.Payload {
 
 export namespace Key {
 	export function is(value: Key | any): value is Key {
-		return Creatable.is(value) &&
-			authly.Identifier.is((value as any).sub) &&
+		return Creatable.is({ ...value, id: value.sub }) &&
+			authly.Identifier.is((value as any).sub, 8) &&
 			typeof (value as any).iss == "string" &&
 			KeyAudience.is((value as any).aud) &&
 			typeof (value as any).iat == "number" &&
