@@ -60,13 +60,13 @@ export namespace Item {
 		Array.isArray(item) ? item.map(i => amount(i)).reduce((sum, current) => sum + current, 0) :
 		Item.is(item) && item.price ? (item.price - (item.rebate || 0) + (item.vat || 0)) * (item.quantity || 1) : 0
 	}
-	export function fromVatInclusivePrice(total: number, vatAsPercentage: number, itemNumber?: string, name?: string, quantity?: number, unit?: string, rebate?: number): Item {
-		return { number: itemNumber, name, price: total / (1 + vatAsPercentage), quantity, unit, vat: total - total / (1 + vatAsPercentage), rebate }
+	export function fromVatInclusivePrice(total: number, vatAsPercentage?: number, itemNumber?: string, name?: string, quantity?: number, unit?: string, rebate?: number): Item {
+		return { number: itemNumber, name, price: total / (1 + (vatAsPercentage || 0)), quantity, unit, vat: vatAsPercentage ? total - total / (1 + vatAsPercentage) : undefined, rebate }
 	}
-	export function vat(item: number | Item | Item[]): number {
-		return typeof item == "number" ? 0 :
-			Array.isArray(item) ? item.map(i => vat(i)).reduce((sum, current) => sum + current, 0) :
-			Item.is(item) ? (item.vat || 0) * (item.quantity || 1) : 0
+	export function vat(item: number | Item | Item[]): number | undefined {
+		return typeof item == "number" ? undefined :
+			Array.isArray(item) ? item.map(i => vat(i)).reduce((sum, current) => !current ? sum : current + (sum || 0), undefined) :
+			!Item.is(item) ? undefined : !item.vat ? undefined : item.vat * (item.quantity || 1)
 	}
 	export function asArray(items: number | Item | Item[]): Item[] {
 		return Array.isArray(items) ? items :
