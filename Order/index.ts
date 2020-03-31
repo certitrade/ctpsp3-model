@@ -4,6 +4,7 @@ import * as gracely from "gracely"
 import { Customer } from "../Customer"
 import { Event } from "../Event"
 import { Item } from "../Item"
+import { Merchant } from "../Merchant"
 import { Payment } from "../Payment"
 import { Status } from "../Status"
 import { Change as OrderChange } from "./Change"
@@ -63,6 +64,11 @@ export namespace Order {
 					value.language == undefined || isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
 				].filter(gracely.Flaw.is),
 		}
+	}
+	export async function generateCallback(merchant: authly.Token | Merchant.Key | undefined, order: Partial<Order | Order.Creatable>): Promise<string | undefined> {
+		if (authly.Token.is(merchant))
+			merchant = await Merchant.Key.unpack(merchant)
+		return merchant && `${ merchant.iss }callback/${ merchant.sub }/${ await authly.Issuer.create("callback", authly.Algorithm.none())?.sign(order) }`
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)
