@@ -68,7 +68,7 @@ export namespace Order {
 	export async function generateCallback(merchant: authly.Token | Merchant.Key | undefined, order: Partial<Order | Order.Creatable>): Promise<string | undefined> {
 		if (authly.Token.is(merchant))
 			merchant = await Merchant.Key.unpack(merchant)
-		return merchant && `${ merchant.iss }callback/${ merchant.sub }/${ await authly.Issuer.create("callback", authly.Algorithm.none())?.sign(order) }`
+		return merchant && `${ merchant.iss }/callback/${ merchant.sub }/${ await authly.Issuer.create("callback", authly.Algorithm.none())?.sign(order) }`
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)
