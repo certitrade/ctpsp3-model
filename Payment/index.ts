@@ -8,10 +8,9 @@ import { Invoice as PInvoice } from "./Invoice"
 import { Defer as PDefer } from "./Defer"
 import { Swish as PSwish } from "./Swish"
 import { Account as PAccount } from "./Account"
-import { PreAuthorization as PPreAuthorization } from "./PreAuthorization"
 import { Base as PBase } from "./Base"
 
-export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish | PAccount | PPreAuthorization
+export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish | PAccount
 
 // tslint:disable: no-shadowed-variable
 export namespace Payment {
@@ -21,8 +20,7 @@ export namespace Payment {
 			PInvoice.is(value) ||
 			PDefer.is(value) ||
 			PSwish.is(value) ||
-			PAccount.is(value) ||
-			PPreAuthorization.is(value)
+			PAccount.is(value)
 	}
 	export function hasVerify(payment: Payment | Payment & { verify: PVerify }): payment is Payment & { verify: PVerify } {
 		return PVerify.is((payment as Payment & { verify?: PVerify }).verify)
@@ -45,15 +43,14 @@ export namespace Payment {
 	export function filter(value: Payment[], property: "type" | "status", criterion: string | Identifier | PStatus): Payment[] {
 		return value.filter(payment => payment[property] == criterion)
 	}
-	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable | PAccount.Creatable | PPreAuthorization.Creatable
+	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable | PAccount.Creatable
 	export namespace Creatable {
 		export function is(value: Creatable | any): value is Creatable {
 			return PCard.Creatable.is(value) ||
 				PInstallment.Creatable.is(value) ||
 				PInvoice.Creatable.is(value) ||
 				PDefer.Creatable.is(value) ||
-				PAccount.Creatable.is(value) ||
-				PPreAuthorization.Creatable.is(value)
+				PAccount.Creatable.is(value)
 		}
 	}
 	export function getCsvHeaders(): string {
@@ -155,16 +152,6 @@ export namespace Payment {
 		export namespace Creatable {
 			export const is = PAccount.Creatable.is
 			export const flaw = PAccount.Creatable.flaw
-		}
-	}
-
-	export type PreAuthorization = PPreAuthorization
-	export namespace PreAuthorization {
-		export const is = PPreAuthorization.is
-		export type Creatable = PPreAuthorization.Creatable
-		export namespace Creatable {
-			export const is = PPreAuthorization.Creatable.is
-			export const flaw = PPreAuthorization.Creatable.flaw
 		}
 	}
 }
