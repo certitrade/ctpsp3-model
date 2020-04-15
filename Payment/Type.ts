@@ -5,8 +5,7 @@ export type Type =
 	"direct" |
 	"swish" |
 	"defer" |
-	"account" |
-	"preauthorization"
+	"account"
 
 export namespace Type {
 	export function is(value: any | Type): value is Type {
@@ -17,8 +16,7 @@ export namespace Type {
 			value == "direct" ||
 			value == "swish" ||
 			value == "defer" ||
-			value == "account" ||
-			value == "preauthorization"
+			value == "account"
 		)
 	}
 }
