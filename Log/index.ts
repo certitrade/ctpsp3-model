@@ -6,10 +6,10 @@ import { System as LogSystem } from "./System"
 
 export interface Log extends servly.Log {
 	id: authly.Identifier
-	merchant: authly.Identifier
-	reference: LogReference
+	merchant?: authly.Identifier
+	reference?: LogReference
 	client?: authly.Identifier
-	system: LogSystem
+	system?: LogSystem
 	entries: LogEntry[]
 }
 
@@ -18,12 +18,15 @@ export namespace Log {
 	export function is(value: Log | any): value is Log {
 		return typeof value == "object" &&
 			authly.Identifier.is(value.id, 16) &&
-			authly.Identifier.is(value.merchant, 8) &&
-			LogReference.is(value.reference) &&
+			(value.merchant == undefined || authly.Identifier.is(value.merchant, 8)) &&
+			(value.reference == undefined || LogReference.is(value.reference)) &&
 			(value.client == undefined || authly.Identifier.is(value.client)) &&
-			LogSystem.is(value.system) &&
+			(value.system == undefined || LogSystem.is(value.system)) &&
 			Array.isArray(value.entries) && value.entries.every(LogEntry.is) &&
 			servly.Log.is(value)
+	}
+	export function generateId(): authly.Identifier {
+		return authly.Identifier.generate(16)
 	}
 	export type Content = servly.Content
 	export namespace Content {
