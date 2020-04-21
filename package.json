@@ -51,7 +51,8 @@
   "dotenv": "^8.2.0",
   "gracely": "0.0.28",
   "isoly": "0.0.13",
-  "node-fetch": "^2.6.0"
+  "node-fetch": "^2.6.0",
+  "servly": "github:payfunc/servly#production"
  },
  "devDependencies": {
   "@types/dotenv": "^8.2.0",

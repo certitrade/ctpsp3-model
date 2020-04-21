@@ -1,18 +1,10 @@
 import * as authly from "authly"
-import { Content } from "../Content"
-import { Level } from "../Level"
+import * as servly from "servly"
 import { Reference } from "../Reference"
 import { System } from "../System"
 
-export interface Creatable {
-	id?: authly.Identifier
-	reference: Reference
-	client?: authly.Identifier
-	system: System
+export interface Creatable extends servly.Log.Entry.Creatable {
 	point: string
-	step: string
-	level: Level
-	content: Content
 }
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
@@ -22,8 +14,6 @@ export namespace Creatable {
 			(value.client == undefined || authly.Identifier.is(value.client)) &&
 			System.is(value.system) &&
 			typeof value.point == "string" &&
-			typeof value.step == "string" &&
-			Level.is(value.level) &&
-			Content.is(value.content)
+			servly.Log.Entry.Creatable.is(value)
 	}
 }

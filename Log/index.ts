@@ -1,32 +1,32 @@
 import * as authly from "authly"
-import { fetch } from "../fetch"
-import { Content as LogContent } from "./Content"
+import * as servly from "servly"
 import { Entry as LogEntry } from "./Entry"
-import { Level as LogLevel } from "./Level"
-import { Merchant } from "../Merchant"
 import { Reference as LogReference } from "./Reference"
 import { System as LogSystem } from "./System"
 
-export type Log = LogEntry[]
+export interface Log extends servly.Log {
+	id: authly.Identifier
+	reference: LogReference
+	client?: authly.Identifier
+	system: LogSystem
+	entries: LogEntry[]
+}
 
 // tslint:disable: no-shadowed-variable
 export namespace Log {
 	export function is(value: Log | any): value is Log {
-		return Array.isArray(value) &&
-			value.every(LogEntry.is)
+		return typeof value == "object" &&
+			authly.Identifier.is(value.id) &&
+			LogReference.is(value.reference) &&
+			(value.client == undefined || authly.Identifier.is(value.client)) &&
+			LogSystem.is(value.system) &&
+			Array.isArray(value.entries) && value.entries.every(LogEntry.is) &&
+			servly.Log.is(value)
 	}
-	export async function send(merchant: Merchant.Key | authly.Token | undefined, entry: LogEntry.Creatable): Promise<number>
-	export async function send(merchant: Merchant.Key | authly.Token | undefined, system: LogSystem, reference: LogReference, point: string, step: string, level: LogLevel, content: LogContent): Promise<number>
-	export async function send(merchant: Merchant.Key | authly.Token | undefined, system: LogEntry.Creatable | LogSystem, reference?: LogReference, point?: string, step?: string, level?: LogLevel, content?: LogContent): Promise<number> {
-		const entry = LogSystem.is(system) ? { system, reference, point, step, level, content } : system
-		if (authly.Token.is(merchant))
-			merchant = await Merchant.Key.unpack(merchant)
-		return !merchant ? 0 : (await fetch(merchant.iss + "/log", { method: "POST", body: JSON.stringify(entry) })).status
-	}
-	export type Content = LogContent
+	export type Content = servly.Content
 	export namespace Content {
-		export const is = LogContent.is
-		export const freeze = LogContent.freeze
+		export const is = servly.Content.is
+		export const freeze = servly.Content.freeze
 	}
 	export type Entry = LogEntry
 	export namespace Entry {
@@ -38,9 +38,9 @@ export namespace Log {
 			export const is = LogEntry.Creatable.is
 		}
 	}
-	export type Level = LogLevel
+	export type Level = servly.Log.Level
 	export namespace Level {
-		export const is = LogLevel.is
+		export const is = servly.Log.Level.is
 	}
 	export type Reference = LogReference
 	export namespace Reference {
