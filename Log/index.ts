@@ -1,6 +1,5 @@
 import * as authly from "authly"
 import * as servly from "servly"
-import { Entry as LogEntry } from "./Entry"
 import { Reference as LogReference } from "./Reference"
 import { System as LogSystem } from "./System"
 
@@ -10,7 +9,7 @@ export interface Log extends servly.Log {
 	reference?: LogReference
 	client?: authly.Identifier
 	system?: LogSystem
-	entries: LogEntry[]
+	entries: servly.Log.Entry[]
 }
 
 // tslint:disable: no-shadowed-variable
@@ -22,7 +21,7 @@ export namespace Log {
 			(value.reference == undefined || LogReference.is(value.reference)) &&
 			(value.client == undefined || authly.Identifier.is(value.client)) &&
 			(value.system == undefined || LogSystem.is(value.system)) &&
-			Array.isArray(value.entries) && value.entries.every(LogEntry.is) &&
+			Array.isArray(value.entries) && value.entries.every(servly.Log.Entry.is) &&
 			servly.Log.is(value)
 	}
 	export function generateId(): authly.Identifier {
@@ -33,14 +32,15 @@ export namespace Log {
 		export const is = servly.Content.is
 		export const freeze = servly.Content.freeze
 	}
-	export type Entry = LogEntry
+	export type Entry = servly.Log.Entry
 	export namespace Entry {
-		export const is = LogEntry.is
-		export const generateId = LogEntry.generateId
-		export const create = LogEntry.create
-		export type Creatable = LogEntry.Creatable
+		export const is = servly.Log.Entry.is
+		export function generateId(): authly.Identifier {
+			return authly.Identifier.generate(16)
+		}
+		export type Creatable = servly.Log.Entry.Creatable
 		export namespace Creatable {
-			export const is = LogEntry.Creatable.is
+			export const is = servly.Log.Entry.Creatable.is
 		}
 	}
 	export type Level = servly.Log.Level
