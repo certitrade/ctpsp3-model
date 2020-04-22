@@ -1,46 +1,51 @@
 import * as authly from "authly"
-import { fetch } from "../fetch"
-import { Content as LogContent } from "./Content"
-import { Entry as LogEntry } from "./Entry"
-import { Level as LogLevel } from "./Level"
-import { Merchant } from "../Merchant"
+import * as servly from "servly"
 import { Reference as LogReference } from "./Reference"
 import { System as LogSystem } from "./System"
 
-export type Log = LogEntry[]
+export interface Log extends servly.Log {
+	id: authly.Identifier
+	merchant?: authly.Identifier
+	reference?: LogReference
+	client?: authly.Identifier
+	system?: LogSystem
+	entries: servly.Log.Entry[]
+}
 
 // tslint:disable: no-shadowed-variable
 export namespace Log {
 	export function is(value: Log | any): value is Log {
-		return Array.isArray(value) &&
-			value.every(LogEntry.is)
+		return typeof value == "object" &&
+			authly.Identifier.is(value.id, 16) &&
+			(value.merchant == undefined || authly.Identifier.is(value.merchant, 8)) &&
+			(value.reference == undefined || LogReference.is(value.reference)) &&
+			(value.client == undefined || authly.Identifier.is(value.client)) &&
+			(value.system == undefined || LogSystem.is(value.system)) &&
+			Array.isArray(value.entries) && value.entries.every(servly.Log.Entry.is) &&
+			servly.Log.is(value)
 	}
-	export async function send(merchant: Merchant.Key | authly.Token | undefined, entry: LogEntry.Creatable): Promise<number>
-	export async function send(merchant: Merchant.Key | authly.Token | undefined, system: LogSystem, reference: LogReference, point: string, step: string, level: LogLevel, content: LogContent): Promise<number>
-	export async function send(merchant: Merchant.Key | authly.Token | undefined, system: LogEntry.Creatable | LogSystem, reference?: LogReference, point?: string, step?: string, level?: LogLevel, content?: LogContent): Promise<number> {
-		const entry = LogSystem.is(system) ? { system, reference, point, step, level, content } : system
-		if (authly.Token.is(merchant))
-			merchant = await Merchant.Key.unpack(merchant)
-		return !merchant ? 0 : (await fetch(merchant.iss + "/log", { method: "POST", body: JSON.stringify(entry) })).status
+	export function generateId(): authly.Identifier {
+		return authly.Identifier.generate(16)
 	}
-	export type Content = LogContent
+	export type Content = servly.Content
 	export namespace Content {
-		export const is = LogContent.is
-		export const freeze = LogContent.freeze
+		export const is = servly.Content.is
+		export const freeze = servly.Content.freeze
 	}
-	export type Entry = LogEntry
+	export type Entry = servly.Log.Entry
 	export namespace Entry {
-		export const is = LogEntry.is
-		export const generateId = LogEntry.generateId
-		export const create = LogEntry.create
-		export type Creatable = LogEntry.Creatable
+		export const is = servly.Log.Entry.is
+		export function generateId(): authly.Identifier {
+			return authly.Identifier.generate(16)
+		}
+		export type Creatable = servly.Log.Entry.Creatable
 		export namespace Creatable {
-			export const is = LogEntry.Creatable.is
+			export const is = servly.Log.Entry.Creatable.is
 		}
 	}
-	export type Level = LogLevel
+	export type Level = servly.Log.Level
 	export namespace Level {
-		export const is = LogLevel.is
+		export const is = servly.Log.Level.is
 	}
 	export type Reference = LogReference
 	export namespace Reference {
