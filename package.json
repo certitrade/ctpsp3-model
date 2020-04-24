@@ -47,12 +47,12 @@
  },
  "dependencies": {
   "@cardfunc/model": "0.0.52",
-  "authly": "0.0.38",
+  "authly": "0.0.39",
   "dotenv": "^8.2.0",
-  "gracely": "0.0.28",
+  "gracely": "0.0.31",
   "isoly": "0.0.13",
   "node-fetch": "^2.6.0",
-  "servly": "^0.1.2"
+  "servly": "^0.1.4"
  },
  "devDependencies": {
   "@types/dotenv": "^8.2.0",
