@@ -10,7 +10,8 @@ export namespace Address {
 			CountryCode.Alpha2.is(value.countryCode) &&
 			(
 				value.countryCode == "FI" && AddressFI.is(value) ||
-				value.countryCode == "SE" && AddressSE.is(value)
+				value.countryCode == "SE" && AddressSE.is(value) ||
+				value.countryCode != "SE" && value.countryCode != "FI"
 			)
 	}
 	export type SE = AddressSE
