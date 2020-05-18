@@ -191,4 +191,139 @@ describe("Order", () => {
 		status: [ "refunded" ],
 	}),
 )
+	it("set status partial charge refund", () => expect(model.Order.setStatus({ ...getOrder(), event: [
+	{
+		type: "order",
+		date: "2019-02-01T12:00:00",
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:20:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+] })).toMatchObject({
+	items: {
+		number: "ts001-b",
+		name: "Basic T-shirt, black",
+		price: 119.60,
+		vat: 29.90,
+		quantity: 2,
+		status: [ "refunded", "charged" ],
+	},
+	status: [ "refunded", "charged" ],
+}),
+)
+	it("can't refund before charge", () => expect(model.Order.setStatus({ ...getOrder(), event: [
+	{
+		type: "order",
+		date: "2019-02-01T12:00:00",
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:20:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+] })).toMatchObject({
+	items: {
+		number: "ts001-b",
+		name: "Basic T-shirt, black",
+		price: 119.60,
+		vat: 29.90,
+		quantity: 2,
+		status: [ "charged", "ordered" ],
+	},
+	status: [ "charged", "ordered" ],
+}),
+)
+	it("can only charge ordered items", () => expect(model.Order.setStatus({ ...getOrder(), event: [
+	{
+		type: "order",
+		date: "2019-02-01T12:00:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 1,
+		},
+	},
+] })).toMatchObject({
+	items: {
+		number: "ts001-b",
+		name: "Basic T-shirt, black",
+		price: 119.60,
+		vat: 29.90,
+		quantity: 2,
+		status: [ "charged", "created" ],
+	},
+	status: [ "charged", "created" ],
+}),
+)
 })
