@@ -81,7 +81,7 @@ export namespace Item {
 		left.vat == right.vat &&
 		left.rebate == right.rebate
 	}
-	export function applyAmountEvent(sums: { [status: string]: number }, event: Event){
+	export function applyAmountEvent(sums: { [type: string]: number }, event: Event){
 		sums[event.type] = sums.hasOwnProperty(event.type) ? sums[event.type] + (event.items as number) : event.items as number
 	}
 	export function applyEvent(items: Item[], event: Event) {

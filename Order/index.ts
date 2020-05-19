@@ -122,7 +122,7 @@ export namespace Order {
 			orders.map(order => setStatus(order))
 		else {
 			const items = Item.asArray(orders.items)
-			const sums: { [status: string]: number } = {}
+			const sums: { [type: string]: number } = {}
 			if (orders.event) {
 				for (const event of orders.event) {
 					if (typeof event.items == "number")
