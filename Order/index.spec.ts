@@ -326,4 +326,49 @@ describe("Order", () => {
 	status: [ "charged", "created" ],
 }),
 )
+
+	it("gets items from partial charge and refund", () => expect(model.Order.setStatus({ ...getOrder(), event: [
+	{
+		type: "order",
+		date: "2019-02-01T12:00:00",
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: 50,
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:10:00",
+		items: 50,
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:10:00",
+		items: 100,
+	},
+] })).toMatchObject({
+	items: [
+		{
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 2,
+			status: [ "ordered", "ordered" ],
+		},
+		{
+			name: "",
+			price: 50,
+			status: ["charged"],
+		},
+		{
+			name: "",
+			price: 150,
+			status: ["refunded"],
+		},
+	],
+	status: [ "ordered", "charged", "refunded" ],
+}),
+)
 })

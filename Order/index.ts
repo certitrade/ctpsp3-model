@@ -125,7 +125,7 @@ export namespace Order {
 			const sums: { [status: string]: number } = {}
 			if (orders.event) {
 				for (const event of orders.event) {
-					if (event.items == "number")
+					if (typeof event.items == "number")
 						Item.applyAmountEvent(sums, event)
 					else
 						Item.applyEvent(items, event)
