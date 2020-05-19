@@ -335,7 +335,7 @@ describe("Order", () => {
 	{
 		type: "charge",
 		date: "2019-02-01T12:10:00",
-		items: 50,
+		items: 200,
 	},
 	{
 		type: "refund",
@@ -359,7 +359,7 @@ describe("Order", () => {
 		},
 		{
 			name: "",
-			price: 50,
+			price: 200,
 			status: ["charged"],
 		},
 		{
