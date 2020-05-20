@@ -54,6 +54,22 @@ export namespace Status {
 		}
 		return result
 	}
+	export function fromEvent(type: Event.Type): Status {
+		let result: Status
+		switch (type) {
+			default: case "fail": result = "created"; break
+			case "defer": result = "deferred"; break
+			case "pend": result = "pending"; break
+			case "deny": result = "denied"; break
+			case "order": result = "ordered"; break
+			case "cancel": result = "cancelled"; break
+			case "charge": result = "charged"; break
+			case "pay": result = "paid"; break
+			case "refund": result = "refunded"; break
+			case "synchronize": result = "synchronized"; break
+		}
+		return result
+	}
 	export function toEvent(status: Status): Event.Type {
 		let result: Event.Type
 		switch (status) {

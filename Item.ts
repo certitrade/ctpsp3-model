@@ -70,7 +70,7 @@ export namespace Item {
 	}
 	export function asArray(items: number | Item | Item[]): Item[] {
 		return Array.isArray(items) ? items :
-			typeof items == "number" ? [{ name: "", price: items, quantity: 1 }] :
+			typeof items == "number" ? [{ price: items }] :
 			[ items ]
 	}
 	export function equals(left: Item, right: Item){
@@ -80,6 +80,11 @@ export namespace Item {
 		left.unit == right.unit &&
 		left.vat == right.vat &&
 		left.rebate == right.rebate
+	}
+	export function applyAmountEvent(sums: { [type: string]: number }, event: Event){
+		if (event.type == "refund")
+			sums.charge = sums.charge - (event.items as number)
+		sums[event.type] = sums.hasOwnProperty(event.type) ? sums[event.type] + (event.items as number) : event.items as number
 	}
 	export function applyEvent(items: Item[], event: Event) {
 		for (const item of Item.asArray(event.items || items)) {

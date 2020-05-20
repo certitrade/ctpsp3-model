@@ -122,9 +122,17 @@ export namespace Order {
 			orders.map(order => setStatus(order))
 		else {
 			const items = Item.asArray(orders.items)
-			if (orders.event)
-				for (const event of orders.event)
-					Item.applyEvent(items, event)
+			const sums: { [type: string]: number } = {}
+			if (orders.event) {
+				for (const event of orders.event) {
+					if (typeof event.items == "number")
+						Item.applyAmountEvent(sums, event)
+					else
+						Item.applyEvent(items, event)
+				}
+			}
+			for (const key of Object.keys(sums))
+				items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
 			orders.items = items.length == 1 ? items[0] : items
 			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}
