@@ -358,12 +358,10 @@ describe("Order", () => {
 			status: [ "ordered", "ordered" ],
 		},
 		{
-			name: "",
-			price: 200,
+			price: 50,
 			status: ["charged"],
 		},
 		{
-			name: "",
 			price: 150,
 			status: ["refunded"],
 		},
