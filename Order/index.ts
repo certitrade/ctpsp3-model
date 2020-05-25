@@ -130,10 +130,14 @@ export namespace Order {
 						Item.applyAmountEvent(sums, event)
 					}
 				}
-				const items: Item[] = []
+				let items: Item[] = []
 				for (const key of Object.keys(sums))
 					if (sums[key] > 0)
 						items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
+				if (items.length == 0) {
+					items = Item.asArray(orders.items)
+					items[0].status = ["created"]
+				}
 				orders.items = items.length == 1 ? items[0] : items
 				orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 			} else {
