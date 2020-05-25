@@ -121,30 +121,31 @@ export namespace Order {
 		if (Array.isArray(orders))
 			orders.map(order => setStatus(order))
 		else {
-			const items = Item.asArray(orders.items)
-			const sums: { [type: string]: number } = {}
-			if (orders.event) {
-				for (const event of orders.event) {
-					if (typeof event.items == "number")
+			if (typeof orders.items == "number") {
+				const sums: { [type: string]: number } = {}
+				if (orders.event) {
+					for (const event of orders.event) {
+						if (!event.items)
+							event.items = Item.amount(orders.items)
 						Item.applyAmountEvent(sums, event)
-					else
+					}
+				}
+				const items: Item[] = []
+				for (const key of Object.keys(sums))
+					if (sums[key] > 0)
+						items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
+				orders.items = items.length == 1 ? items[0] : items
+				orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
+			} else {
+				const items = Item.asArray(orders.items)
+				if (orders.event) {
+					for (const event of orders.event) {
 						Item.applyEvent(items, event)
+					}
 				}
+				orders.items = items.length == 1 ? items[0] : items
+				orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 			}
-			for (const key of Object.keys(sums))
-				if (sums[key] > 0)
-					items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
-			const orderedItem = items.find(item => item.status?.includes("ordered"))
-			if (orderedItem && orderedItem.price) {
-				orderedItem.price = sums.charge ? orderedItem.price - sums.charge : orderedItem.price
-				orderedItem.price = sums.refund ? orderedItem.price - sums.refund : orderedItem.price
-				if (!(orderedItem.price > 0)) {
-					const index = items.findIndex(item => item.status?.includes("ordered"))
-					items.splice(index, 1)
-				}
-			}
-			orders.items = items.length == 1 ? items[0] : items
-			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}
 		return orders
 	}
