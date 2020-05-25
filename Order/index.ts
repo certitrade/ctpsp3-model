@@ -132,7 +132,13 @@ export namespace Order {
 				}
 			}
 			for (const key of Object.keys(sums))
-				items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
+				if (sums[key] > 0)
+					items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
+			const orderedItem = items.find(item => item.status?.includes("ordered"))
+			if (orderedItem && orderedItem.price) {
+				orderedItem.price = sums.charge ? orderedItem.price - sums.charge : orderedItem.price
+				orderedItem.price = sums.refund ? orderedItem.price - sums.refund : orderedItem.price
+			}
 			orders.items = items.length == 1 ? items[0] : items
 			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}
