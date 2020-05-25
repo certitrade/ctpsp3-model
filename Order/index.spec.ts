@@ -399,4 +399,38 @@ describe("Order", () => {
 	status: [ "ordered", "charged", "refunded" ],
 }),
 )
+	it("removes empty item", () => expect(model.Order.setStatus({ ...getAmountOrder(), event: [
+	{
+		type: "order",
+		date: "2019-02-01T12:00:00",
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: 500,
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:10:00",
+		items: 50,
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:10:00",
+		items: 150,
+	},
+] })).toMatchObject({
+	items: [
+		{
+			price: 300,
+			status: ["charged"],
+		},
+		{
+			price: 200,
+			status: ["refunded"],
+		},
+	],
+	status: [ "charged", "refunded" ],
+}),
+)
 })

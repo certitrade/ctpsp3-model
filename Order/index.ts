@@ -138,6 +138,10 @@ export namespace Order {
 			if (orderedItem && orderedItem.price) {
 				orderedItem.price = sums.charge ? orderedItem.price - sums.charge : orderedItem.price
 				orderedItem.price = sums.refund ? orderedItem.price - sums.refund : orderedItem.price
+				if (!(orderedItem.price > 0)) {
+					const index = items.findIndex(item => item.status?.includes("ordered"))
+					items.splice(index, 1)
+				}
 			}
 			orders.items = items.length == 1 ? items[0] : items
 			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
