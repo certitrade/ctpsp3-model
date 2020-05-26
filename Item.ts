@@ -1,6 +1,7 @@
 import * as gracely from "gracely"
 import { Status } from "./Status"
 import { Event } from "./Event"
+import { monitorEventLoopDelay } from "perf_hooks"
 
 export interface Item {
 	number?: string
@@ -82,7 +83,7 @@ export namespace Item {
 		left.rebate == right.rebate
 	}
 	export function applyAmountEvent(sums: { [type: string]: number }, event: Event){
-		if (event.type == "order")
+		if (event.type != "charge" && event.type != "refund")
 			sums = {}
 		if (event.type == "charge")
 			sums.order = sums.order - (event.items as number)
