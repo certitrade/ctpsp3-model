@@ -121,18 +121,31 @@ export namespace Order {
 		if (Array.isArray(orders))
 			orders.map(order => setStatus(order))
 		else {
-			const items = Item.asArray(orders.items)
-			const sums: { [type: string]: number } = {}
-			if (orders.event) {
-				for (const event of orders.event) {
-					if (typeof event.items == "number")
-						Item.applyAmountEvent(sums, event)
-					else
+			let items: Item[] = []
+			if (typeof orders.items == "number") {
+				let sums: { [type: string]: number } = {}
+				if (orders.event) {
+					for (const event of orders.event) {
+						if (!event.items)
+							event.items = Item.amount(orders.items)
+						sums = Item.applyAmountEvent(sums, event)
+					}
+				}
+				for (const key of Object.keys(sums))
+					if (sums[key] > 0)
+						items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
+				if (items.length == 0) {
+					items = Item.asArray(orders.items)
+					items[0].status = ["created"]
+				}
+			} else {
+				items = Item.asArray(orders.items)
+				if (orders.event) {
+					for (const event of orders.event) {
 						Item.applyEvent(items, event)
+					}
 				}
 			}
-			for (const key of Object.keys(sums))
-				items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
 			orders.items = items.length == 1 ? items[0] : items
 			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
 		}

@@ -82,9 +82,14 @@ export namespace Item {
 		left.rebate == right.rebate
 	}
 	export function applyAmountEvent(sums: { [type: string]: number }, event: Event){
+		if (event.type == "order")
+			sums = {}
+		if (event.type == "charge")
+			sums.order = sums.order - (event.items as number)
 		if (event.type == "refund")
 			sums.charge = sums.charge - (event.items as number)
 		sums[event.type] = sums.hasOwnProperty(event.type) ? sums[event.type] + (event.items as number) : event.items as number
+		return sums
 	}
 	export function applyEvent(items: Item[], event: Event) {
 		for (const item of Item.asArray(event.items || items)) {

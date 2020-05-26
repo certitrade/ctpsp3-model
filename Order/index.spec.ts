@@ -41,6 +41,40 @@ function getOrder(): model.Order {
 		},
 	}
 }
+function getAmountOrder(): model.Order {
+	return {
+		id: "01234567abcd0000",
+		number: "1",
+		client: "42233c81-caf1-44f7-821e-7a28c6198ebc",
+		created: "2019-01-31T20:01:34",
+		customer: {
+			id: "999999999",
+			type: "person",
+			identityNumber: "195505103613",
+			name: "Maria Mullbär",
+			address: {
+				street: "Rosenborgsgatan 4",
+				zipCode: "16993",
+				city: "SOLNA",
+				countryCode: "SE",
+			},
+		},
+		items: 500,
+		currency: "SEK",
+		payment: {
+			type: "card",
+			scheme: "amex",
+			iin: "411111",
+			last4: "1111",
+			expires: [2, 22],
+			service: "CardFunc",
+			created: "2019-01-31T20:00:54",
+			amount: 500,
+			currency: "SEK",
+			status: "created",
+		},
+	}
+}
 function getOrders(): model.Order[] {
 	return [
 		{
@@ -327,7 +361,7 @@ describe("Order", () => {
 }),
 )
 
-	it("gets items from partial charge and refund", () => expect(model.Order.setStatus({ ...getOrder(), event: [
+	it("gets items from partial charge and refund", () => expect(model.Order.setStatus({ ...getAmountOrder(), event: [
 	{
 		type: "order",
 		date: "2019-02-01T12:00:00",
@@ -350,12 +384,8 @@ describe("Order", () => {
 ] })).toMatchObject({
 	items: [
 		{
-			number: "ts001-b",
-			name: "Basic T-shirt, black",
-			price: 119.60,
-			vat: 29.90,
-			quantity: 2,
-			status: [ "ordered", "ordered" ],
+			price: 300,
+			status: ["ordered"],
 		},
 		{
 			price: 50,
@@ -367,6 +397,40 @@ describe("Order", () => {
 		},
 	],
 	status: [ "ordered", "charged", "refunded" ],
+}),
+)
+	it("removes empty item", () => expect(model.Order.setStatus({ ...getAmountOrder(), event: [
+	{
+		type: "order",
+		date: "2019-02-01T12:00:00",
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: 500,
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:10:00",
+		items: 50,
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:10:00",
+		items: 150,
+	},
+] })).toMatchObject({
+	items: [
+		{
+			price: 300,
+			status: ["charged"],
+		},
+		{
+			price: 200,
+			status: ["refunded"],
+		},
+	],
+	status: [ "charged", "refunded" ],
 }),
 )
 })
