@@ -122,12 +122,12 @@ export namespace Order {
 			orders.map(order => setStatus(order))
 		else {
 			if (typeof orders.items == "number") {
-				const sums: { [type: string]: number } = {}
+				let sums: { [type: string]: number } = {}
 				if (orders.event) {
 					for (const event of orders.event) {
 						if (!event.items)
 							event.items = Item.amount(orders.items)
-						Item.applyAmountEvent(sums, event)
+						sums = Item.applyAmountEvent(sums, event)
 					}
 				}
 				let items: Item[] = []
