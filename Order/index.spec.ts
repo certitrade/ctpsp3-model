@@ -383,9 +383,6 @@ describe("Order", () => {
 	},
 ] })).toMatchObject({
 	items: [
-		// {
-		// 	price: 500,
-		// },
 		{
 			price: 300,
 			status: ["ordered"],
