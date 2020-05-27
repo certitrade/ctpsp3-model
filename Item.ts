@@ -83,7 +83,7 @@ export namespace Item {
 		left.rebate == right.rebate
 	}
 	export function applyAmountEvent(sums: { [type: string]: number }, event: Event){
-		if (event.type != "synchronize") {
+		if (event.type != "synchronize" && event.type != "fail") {
 			if (event.type != "charge" && event.type != "refund")
 				sums = {}
 			if (event.type == "charge")
