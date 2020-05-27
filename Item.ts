@@ -1,7 +1,6 @@
 import * as gracely from "gracely"
 import { Status } from "./Status"
 import { Event } from "./Event"
-import { monitorEventLoopDelay } from "perf_hooks"
 
 export interface Item {
 	number?: string
