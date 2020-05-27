@@ -93,12 +93,15 @@ export namespace Item {
 		}
 		return sums
 	}
-	export function applyEvent(items: Item[], event: Event) {
+	export function applyEvent(items: Item[], event: Event): boolean {
+		let result = true
 		for (const item of Item.asArray(event.items || items)) {
-			applyItem(items, event.type, item.quantity || 1, item)
+			result = applyItem(items, event.type, item.quantity || 1, item)
 		}
+		return result
 	}
-	export function applyItem(items: Item[], event: Event.Type, quantity: number, match: Item) {
+	export function applyItem(items: Item[], event: Event.Type, quantity: number, match: Item): boolean {
+		let result = true
 		for (const item of items) {
 			if (!item.status)
 				item.status = Array<Status>(item.quantity || 1).fill("created")
@@ -108,10 +111,17 @@ export namespace Item {
 					if (next = Status.change(item.status![j], event)) {
 						item.status![j] = next
 						quantity--
+						result = quantity > 0 ? false : result
 					}
 				}
 			}
 		}
+		return result
+	}
+	export function isEventAllowed(items: Item[], previousEvents: Event[], newEvent: Event): boolean {
+		for (const event of previousEvents)
+			applyEvent(items, event)
+		return applyEvent(items, newEvent)
 	}
 	export function getCsvHeaders(): string {
 		return `item count, item amount`
