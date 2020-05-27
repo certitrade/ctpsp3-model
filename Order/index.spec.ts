@@ -433,4 +433,32 @@ describe("Order", () => {
 	status: [ "charged", "refunded" ],
 }),
 )
+	it("cancel cancels everything", () => expect(model.Order.setStatus({ ...getAmountOrder(), event: [
+	{
+		type: "order",
+		date: "2019-02-01T12:00:00",
+	},
+	{
+		type: "charge",
+		date: "2019-02-01T12:10:00",
+		items: 500,
+	},
+	{
+		type: "refund",
+		date: "2019-02-01T12:10:00",
+		items: 50,
+	},
+	{
+		type: "cancel",
+		date: "2019-02-01T12:10:00",
+	},
+] })).toMatchObject({
+	items:
+		{
+			price: 500,
+			status: ["cancelled"],
+		},
+	status: [ "cancelled" ],
+}),
+)
 })
