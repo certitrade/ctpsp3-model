@@ -70,4 +70,74 @@ describe("Item", () => {
 		expect(items).toMatchObject([{ status: [ "ordered", "created" ] }, { status: [ "created", "created" ] }])
 	})
 	it("fromVatInclusivePrice", () => expect(model.Item.fromVatInclusivePrice(250, .25)).toMatchObject({ price: 200, vat: 50 }))
+	it("isEventAllowed false if refund without correct charge quantity", () => {
+		const previousEvents: model.Event[] = [
+			{
+				type: "order",
+				date: "2019-02-01T12:00:00",
+			},
+			{
+				type: "charge",
+				date: "2019-02-01T12:10:00",
+				items: {
+					number: "ts001-b",
+					name: "Basic T-shirt, black",
+					price: 119.60,
+					vat: 29.90,
+					quantity: 1,
+				},
+			},
+		]
+		const newEvent = {
+			type: "refund",
+			date: "2019-02-01T12:20:00",
+			items: {
+				number: "ts001-b",
+				name: "Basic T-shirt, black",
+				price: 119.60,
+				vat: 29.90,
+				quantity: 2,
+			},
+		}
+		expect(model.Item.isEventAllowed([item], previousEvents, newEvent as model.Event)).toEqual(false)
+	})
+	it("isEventAllowed true when refund with correct quantity", () => {
+		const item2: model.Item = {
+			number: "ts001-b",
+			name: "Basic T-shirt, black",
+			price: 119.60,
+			vat: 29.90,
+			quantity: 2,
+		}
+		const previousEvents: model.Event[] = [
+			{
+				type: "order",
+				date: "2019-02-01T12:00:00",
+			},
+			{
+				type: "charge",
+				date: "2019-02-01T12:10:00",
+				items: {
+					number: "ts001-b",
+					name: "Basic T-shirt, black",
+					price: 119.6,
+					vat: 29.9,
+					quantity: 2,
+				},
+			},
+		]
+		const newEvent = {
+			type: "refund",
+			date: "2019-02-01T12:20:00",
+			items: {
+				number: "ts001-b",
+				name: "Basic T-shirt, black",
+				price: 119.6,
+				vat: 29.9,
+				quantity: 2,
+			},
+		}
+		const items = [item2]
+		expect(model.Item.isEventAllowed(items, previousEvents, newEvent as model.Event)).toEqual(true)
+	})
 })
