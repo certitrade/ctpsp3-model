@@ -117,10 +117,11 @@ export namespace Item {
 		return quantity > 0 ? false : true
 	}
 	export function isEventAllowed(items: Item[], previousEvents: Event[], newEvent: Event): boolean {
+		const copiedItems = [...items]
 		previousEvents.push(newEvent)
 		let result = true
 		for (const event of previousEvents)
-			result = applyEvent(items, event)
+			result = applyEvent(copiedItems, event)
 		return result
 	}
 	export function getCsvHeaders(): string {
