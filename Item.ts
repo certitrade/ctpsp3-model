@@ -116,8 +116,11 @@ export namespace Item {
 		}
 		return quantity > 0 ? false : true
 	}
+	export function copyItem(item: Item): Item {
+		return { ...item, status: item.status ? [...item.status] : undefined }
+	}
 	export function isEventAllowed(items: Item[], previousEvents: Event[], newEvent: Event): boolean {
-		const copiedItems = [...items]
+		const copiedItems = items.map(item => copyItem(item))
 		previousEvents.push(newEvent)
 		let result = true
 		for (const event of previousEvents)
