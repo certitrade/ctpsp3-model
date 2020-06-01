@@ -101,14 +101,23 @@ describe("Item", () => {
 		}
 		expect(model.Item.isEventAllowed([item], previousEvents, newEvent as model.Event)).toEqual(false)
 	})
-	it("isEventAllowed true when refund with correct quantity", () => {
-		const item2: model.Item = {
-			number: "ts001-b",
-			name: "Basic T-shirt, black",
-			price: 119.60,
-			vat: 29.90,
-			quantity: 2,
-		}
+	it("isEventAllowed false if refund without correct charge quantity new", () => {
+		const twoItems: model.Item[] = [
+			{
+				number: "ab001",
+				name: "smurf",
+				price: 100,
+				vat: 20,
+				quantity: 4,
+			},
+			{
+				number: "cd002",
+				name: "gargamel",
+				price: 150,
+				vat: 30,
+				quantity: 1,
+			}
+		]
 		const previousEvents: model.Event[] = [
 			{
 				type: "order",
@@ -118,10 +127,10 @@ describe("Item", () => {
 				type: "charge",
 				date: "2019-02-01T12:10:00",
 				items: {
-					number: "ts001-b",
-					name: "Basic T-shirt, black",
-					price: 119.6,
-					vat: 29.9,
+					number: "ab001",
+					name: "smurf",
+					price: 100,
+					vat: 20,
 					quantity: 2,
 				},
 			},
@@ -130,14 +139,157 @@ describe("Item", () => {
 			type: "refund",
 			date: "2019-02-01T12:20:00",
 			items: {
-				number: "ts001-b",
-				name: "Basic T-shirt, black",
-				price: 119.6,
-				vat: 29.9,
-				quantity: 2,
+				number: "ab001",
+				name: "smurf",
+				price: 100,
+				vat: 20,
+				quantity: 3,
 			},
 		}
-		const items = [item2]
-		expect(model.Item.isEventAllowed(items, previousEvents, newEvent as model.Event)).toEqual(true)
+		expect(model.Item.isEventAllowed(twoItems, previousEvents, newEvent as model.Event)).toEqual(false)
+	})
+	it("isEventAllowed true when refund with correct quantity", () => {
+		const twoItems: model.Item[] = [
+			{
+				number: "ab001",
+				name: "smurf",
+				price: 100,
+				vat: 20,
+				quantity: 4,
+			},
+			{
+				number: "cd002",
+				name: "gargamel",
+				price: 150,
+				vat: 30,
+				quantity: 1,
+			}
+		]
+		const previousEvents: model.Event[] = [
+			{
+				type: "order",
+				date: "2019-02-01T12:00:00",
+			},
+			{
+				type: "charge",
+				date: "2019-02-01T12:10:00",
+				items: 	[
+					{
+						number: "ab001",
+						name: "smurf",
+						price: 100,
+						vat: 20,
+						quantity: 2,
+					},
+					{
+						number: "cd002",
+						name: "gargamel",
+						price: 150,
+						vat: 30,
+						quantity: 1,
+					}
+				],
+			},
+		]
+		const newEvent = {
+			type: "refund",
+			date: "2019-02-01T12:20:00",
+			items: 	[
+				{
+					number: "ab001",
+					name: "smurf",
+					price: 100,
+					vat: 20,
+					quantity: 2,
+				},
+				{
+					number: "cd002",
+					name: "gargamel",
+					price: 150,
+					vat: 30,
+					quantity: 1,
+				}
+			],
+		}
+		// const items = [item2]
+		expect(model.Item.isEventAllowed(twoItems, previousEvents, newEvent as model.Event)).toEqual(true)
+	})
+	it("isEventAllowed true with correct charge refund charge", () => {
+		const twoItems: model.Item[] = [
+			{
+				number: "ab001",
+				name: "smurf",
+				price: 100,
+				vat: 20,
+				quantity: 4,
+			},
+			{
+				number: "cd002",
+				name: "gargamel",
+				price: 150,
+				vat: 30,
+				quantity: 1,
+			}
+		]
+		const previousEvents: model.Event[] = [
+			{
+				type: "order",
+				date: "2019-02-01T12:00:00",
+			},
+			{
+				type: "charge",
+				date: "2019-02-01T12:10:00",
+				items: 	[
+					{
+						number: "ab001",
+						name: "smurf",
+						price: 100,
+						vat: 20,
+						quantity: 2,
+					},
+					{
+						number: "cd002",
+						name: "gargamel",
+						price: 150,
+						vat: 30,
+						quantity: 1,
+					}
+				],
+			},
+			{
+				type: "refund",
+				date: "2019-02-01T12:10:00",
+				items: 	[
+					{
+						number: "ab001",
+						name: "smurf",
+						price: 100,
+						vat: 20,
+						quantity: 1,
+					},
+					{
+						number: "cd002",
+						name: "gargamel",
+						price: 150,
+						vat: 30,
+						quantity: 1,
+					}
+				],
+			},
+		]
+		const newEvent = {
+			type: "charge",
+			date: "2019-02-01T12:20:00",
+			items: 	[
+				{
+					number: "ab001",
+					name: "smurf",
+					price: 100,
+					vat: 20,
+					quantity: 2,
+				},
+			],
+		}
+		expect(model.Item.isEventAllowed(twoItems, previousEvents, newEvent as model.Event)).toEqual(true)
 	})
 })
