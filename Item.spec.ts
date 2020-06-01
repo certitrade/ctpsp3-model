@@ -71,48 +71,17 @@ describe("Item", () => {
 	})
 	it("fromVatInclusivePrice", () => expect(model.Item.fromVatInclusivePrice(250, .25)).toMatchObject({ price: 200, vat: 50 }))
 	it("isEventAllowed false if refund without correct charge quantity", () => {
-		const previousEvents: model.Event[] = [
-			{
-				type: "order",
-				date: "2019-02-01T12:00:00",
-			},
-			{
-				type: "charge",
-				date: "2019-02-01T12:10:00",
-				items: {
-					number: "ts001-b",
-					name: "Basic T-shirt, black",
-					price: 119.60,
-					vat: 29.90,
-					quantity: 1,
-				},
-			},
-		]
-		const newEvent = {
-			type: "refund",
-			date: "2019-02-01T12:20:00",
-			items: {
-				number: "ts001-b",
-				name: "Basic T-shirt, black",
-				price: 119.60,
-				vat: 29.90,
-				quantity: 2,
-			},
-		}
-		expect(model.Item.isEventAllowed([item], previousEvents, newEvent as model.Event)).toEqual(false)
-	})
-	it("isEventAllowed false if refund without correct charge quantity new", () => {
 		const twoItems: model.Item[] = [
 			{
 				number: "ab001",
-				name: "smurf",
+				name: "sko",
 				price: 100,
 				vat: 20,
 				quantity: 4,
 			},
 			{
 				number: "cd002",
-				name: "gargamel",
+				name: "boll",
 				price: 150,
 				vat: 30,
 				quantity: 1,
@@ -128,7 +97,7 @@ describe("Item", () => {
 				date: "2019-02-01T12:10:00",
 				items: {
 					number: "ab001",
-					name: "smurf",
+					name: "sko",
 					price: 100,
 					vat: 20,
 					quantity: 2,
@@ -140,7 +109,7 @@ describe("Item", () => {
 			date: "2019-02-01T12:20:00",
 			items: {
 				number: "ab001",
-				name: "smurf",
+				name: "sko",
 				price: 100,
 				vat: 20,
 				quantity: 3,
@@ -152,14 +121,14 @@ describe("Item", () => {
 		const twoItems: model.Item[] = [
 			{
 				number: "ab001",
-				name: "smurf",
+				name: "sko",
 				price: 100,
 				vat: 20,
 				quantity: 4,
 			},
 			{
 				number: "cd002",
-				name: "gargamel",
+				name: "boll",
 				price: 150,
 				vat: 30,
 				quantity: 1,
@@ -176,14 +145,14 @@ describe("Item", () => {
 				items: 	[
 					{
 						number: "ab001",
-						name: "smurf",
+						name: "sko",
 						price: 100,
 						vat: 20,
 						quantity: 2,
 					},
 					{
 						number: "cd002",
-						name: "gargamel",
+						name: "boll",
 						price: 150,
 						vat: 30,
 						quantity: 1,
@@ -197,35 +166,34 @@ describe("Item", () => {
 			items: 	[
 				{
 					number: "ab001",
-					name: "smurf",
+					name: "sko",
 					price: 100,
 					vat: 20,
 					quantity: 2,
 				},
 				{
 					number: "cd002",
-					name: "gargamel",
+					name: "boll",
 					price: 150,
 					vat: 30,
 					quantity: 1,
 				}
 			],
 		}
-		// const items = [item2]
 		expect(model.Item.isEventAllowed(twoItems, previousEvents, newEvent as model.Event)).toEqual(true)
 	})
 	it("isEventAllowed true with correct charge refund charge", () => {
 		const twoItems: model.Item[] = [
 			{
 				number: "ab001",
-				name: "smurf",
+				name: "sko",
 				price: 100,
 				vat: 20,
 				quantity: 4,
 			},
 			{
 				number: "cd002",
-				name: "gargamel",
+				name: "boll",
 				price: 150,
 				vat: 30,
 				quantity: 1,
@@ -242,14 +210,14 @@ describe("Item", () => {
 				items: 	[
 					{
 						number: "ab001",
-						name: "smurf",
+						name: "sko",
 						price: 100,
 						vat: 20,
 						quantity: 2,
 					},
 					{
 						number: "cd002",
-						name: "gargamel",
+						name: "boll",
 						price: 150,
 						vat: 30,
 						quantity: 1,
@@ -262,14 +230,14 @@ describe("Item", () => {
 				items: 	[
 					{
 						number: "ab001",
-						name: "smurf",
+						name: "sko",
 						price: 100,
 						vat: 20,
 						quantity: 1,
 					},
 					{
 						number: "cd002",
-						name: "gargamel",
+						name: "boll",
 						price: 150,
 						vat: 30,
 						quantity: 1,
@@ -283,7 +251,7 @@ describe("Item", () => {
 			items: 	[
 				{
 					number: "ab001",
-					name: "smurf",
+					name: "sko",
 					price: 100,
 					vat: 20,
 					quantity: 2,
