@@ -121,11 +121,9 @@ export namespace Item {
 	}
 	export function isEventAllowed(items: Item[], previousEvents: Event[], newEvent: Event): boolean {
 		const copiedItems = items.map(item => copyItem(item))
-		previousEvents.push(newEvent)
-		let result = true
 		for (const event of previousEvents)
-			result = applyEvent(copiedItems, event)
-		return result
+			applyEvent(copiedItems, event)
+		return applyEvent(copiedItems, newEvent)
 	}
 	export function getCsvHeaders(): string {
 		return `item count, item amount`
