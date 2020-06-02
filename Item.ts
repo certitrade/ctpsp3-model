@@ -96,7 +96,7 @@ export namespace Item {
 	export function applyEvent(items: Item[], event: Event): boolean {
 		let result = true
 		for (const item of Item.asArray(event.items || items)) {
-			result = applyItem(items, event.type, item.quantity || 1, item) ? result : false
+			result = applyItem(items, event.type, item.quantity || 1, item)
 		}
 		return result
 	}
@@ -119,10 +119,8 @@ export namespace Item {
 	export function copyItem(item: Item): Item {
 		return { ...item, status: item.status ? [...item.status] : undefined }
 	}
-	export function isEventAllowed(items: Item[], previousEvents: Event[], newEvent: Event): boolean {
+	export function isEventAllowed(items: Item[], newEvent: Event): boolean {
 		const copiedItems = items.map(item => copyItem(item))
-		for (const event of previousEvents)
-			applyEvent(copiedItems, event)
 		return applyEvent(copiedItems, newEvent)
 	}
 	export function getCsvHeaders(): string {
