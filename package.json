@@ -46,25 +46,25 @@
   "clean": "rm -rf dist node_modules coverage"
  },
  "dependencies": {
-  "@cardfunc/model": "0.0.52",
-  "authly": "0.0.39",
+  "@cardfunc/model": "0.0.61",
+  "authly": "0.0.40",
   "dotenv": "^8.2.0",
-  "gracely": "0.0.31",
-  "isoly": "0.0.13",
+  "gracely": "0.0.33",
+  "isoly": "0.0.14",
   "node-fetch": "^2.6.0",
-  "servly": "^0.1.4"
+  "servly": "^0.1.6"
  },
  "devDependencies": {
   "@types/dotenv": "^8.2.0",
-  "@types/jest": "^25.1.4",
-  "@types/node": "^13.9.3",
-  "@types/node-fetch": "^2.5.5",
+  "@types/jest": "^26.0.0",
+  "@types/node": "^14.0.13",
+  "@types/node-fetch": "^2.5.7",
   "babel-core": "^6.26.3",
-  "babel-jest": "^25.1.0",
-  "jest": "^25",
-  "ts-jest": "^25.2.1",
-  "tslint": "^6.1.0",
-  "typescript": "^3.8.3",
+  "babel-jest": "^26.0.1",
+  "jest": "^26",
+  "ts-jest": "^26.1.0",
+  "tslint": "^6.1.2",
+  "typescript": "^3.9.5",
   "watch": "^1.0.2"
  }
 }
