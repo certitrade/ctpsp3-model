@@ -29,5 +29,10 @@ export namespace Card {
 	export type Creatable = CardCreatable
 	export namespace Creatable {
 		export const is = CardCreatable.is
+		export const verify = CardCreatable.verify
+		export type Token = CardCreatable.Token
+		export namespace Token {
+			export const is = CardCreatable.Token.is
+		}
 	}
 }
