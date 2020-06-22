@@ -25,12 +25,16 @@ export namespace Method {
 		export type Creatable = MethodCard.Creatable
 		export namespace Creatable {
 			export const is = MethodCard.Creatable.is
+			export const verify = MethodCard.Creatable.verify
+			export type Token = MethodCard.Creatable.Token
+			export namespace Token {
+				export const is = MethodCard.Creatable.Token.is
+			}
 		}
 	}
 	export type Creatable = MethodCreatable
 	export namespace Creatable {
 		export const is = MethodCreatable.is
-		export const verify = MethodCreatable.verify
 	}
 	export type Type = MethodType
 	export namespace Type {

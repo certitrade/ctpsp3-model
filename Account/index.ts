@@ -28,15 +28,23 @@ export namespace Account {
 	}
 	export type Method = AccountMethod
 	export namespace Method {
-		export const verify = AccountMethod.verify
 		export const is = AccountMethod.is
+		export const verify = AccountMethod.verify
 		export type Card = AccountMethod.Card
 		export namespace Card {
 			export const is = AccountMethod.Card.is
+			export type Creatable = AccountMethod.Card.Creatable
+			export namespace Creatable {
+				export const is = AccountMethod.Card.Creatable.is
+				export const verify = AccountMethod.Card.Creatable.verify
+				export type Token = AccountMethod.Card.Creatable.Token
+				export namespace Token {
+					export const is = AccountMethod.Card.Creatable.Token.is
+				}
+			}
 		}
 		export type Creatable = AccountMethod.Creatable
 		export namespace Creatable {
-			export const verify = AccountMethod.Creatable.verify
 			export const is = AccountMethod.Creatable.is
 		}
 		export type Type = AccountMethod.Type
