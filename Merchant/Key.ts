@@ -1,5 +1,6 @@
 import * as authly from "authly"
 import * as gracely from "gracely"
+import * as isoly from "isoly"
 import * as card from "@cardfunc/model"
 import * as model from "../index"
 import { Email } from "./Configuration/Email"
@@ -17,6 +18,7 @@ export interface Key {
 	url: string
 	logotype?: string
 	terms?: string
+	currency?: isoly.Currency
 	card?: card.Merchant.Configuration
 	email?: Email
 	mash?: Mash
@@ -37,6 +39,7 @@ export namespace Key {
 			typeof value.url == "string" &&
 			(value.logotype == undefined || typeof value.logotype == "string") &&
 			(value.terms == undefined || typeof value.terms == "string") &&
+			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
 			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
 			(value.email == undefined || Email.is(value.email)) &&
 			(value.mash == undefined || Mash.is(value.mash)) &&
@@ -56,6 +59,9 @@ export namespace Key {
 					typeof value.name == "string" || { property: "name", type: "string" },
 					value.user == undefined || typeof value.user == "string" || { property: "user", type: "string | undefined" },
 					typeof value.url == "string" || { property: "url", type: "string" },
+					value.logotype == undefined || typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
+					value.terms == undefined || typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
+					value.currency == undefined || isoly.Currency.is(value.currency) || { property: "currency", type: "isoly.Currency | undefined" },
 					...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
 					...(Email.flaw(value.card).flaws ?? []),
 					...(Mash.flaw(value.card).flaws ?? []),
@@ -91,6 +97,8 @@ export namespace Key {
 				result = model.Merchant.Configuration.Mash.is(key.option.mash) ? { ...result, mash: key.option.mash } : undefined
 			if (result && key.option.sms)
 				result = model.Merchant.Configuration.Sms.is(key.option.sms) ? { ...result, sms: key.option.sms } : undefined
+			if (result && key.option.currency)
+				result = isoly.Currency.is(key.option.currency) ? { ...result, currency: key.option.currency } : undefined
 		}
 		return result
 	}
