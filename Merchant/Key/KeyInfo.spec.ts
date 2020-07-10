@@ -32,7 +32,7 @@ describe("model.Merchant.Key", () => {
 	}
 	it("Upgrade v1 Private", async () => {
 		expect(model.Merchant.V1.Key.is(v1Private)).toBeTruthy()
-		const upgraded = await model.Merchant.Key.Safe.upgrade(v1Private)
+		const upgraded = await model.Merchant.Key.KeyInfo.upgrade(v1Private)
 		expect(upgraded).toEqual({
 			"iss": "http://localhost:7071",
 			"iat": 1593589747536,
@@ -55,12 +55,12 @@ describe("model.Merchant.Key", () => {
 		})
 	})
 	it("Upgrade v1 Private with internal public cardfunc key", async () => {
-		const upgraded = await model.Merchant.Key.Safe.upgrade({ ...v1Private, option: { ...v1Private.option, card: v1Public.option.card } })
+		const upgraded = await model.Merchant.Key.KeyInfo.upgrade({ ...v1Private, option: { ...v1Private.option, card: v1Public.option.card } })
 		expect(upgraded).toBeUndefined()
 	})
 	it("Upgrade v1 Public", async () => {
 		expect(model.Merchant.V1.Key.is(v1Public)).toBeTruthy()
-		const upgraded = await model.Merchant.Key.Safe.upgrade(v1Public)
+		const upgraded = await model.Merchant.Key.KeyInfo.upgrade(v1Public)
 		expect(upgraded).toEqual({
 			"iss": "http://localhost:7071",
 			"iat": 1593589747536,
@@ -83,7 +83,7 @@ describe("model.Merchant.Key", () => {
 		})
 	})
 	it("Upgrade v1 Public with internal private cardfunc key", async () => {
-		const upgraded = await model.Merchant.Key.Safe.upgrade({ ...v1Public, option: { ...v1Public.option, card: v1Private.option.card } })
+		const upgraded = await model.Merchant.Key.KeyInfo.upgrade({ ...v1Public, option: { ...v1Public.option, card: v1Private.option.card } })
 		expect(upgraded).toBeUndefined()
 	})
 })
