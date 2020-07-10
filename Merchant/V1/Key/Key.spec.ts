@@ -1,4 +1,4 @@
-import * as model from "../../index"
+import * as model from "../../../index"
 
 describe("Merchant.Key", () => {
 	const key = {
@@ -15,12 +15,12 @@ describe("Merchant.Key", () => {
 			"option0": "abcdefg",
 		},
 	}
-	it("is", () => expect(model.Merchant.Key.is(key)).toBeTruthy())
-	it("Merchant.Creatable.is", () => expect(model.Merchant.Creatable.is(key)).toBeTruthy())
+	it("is", () => expect(model.Merchant.V1.Key.is(key)).toBeTruthy())
+	it("Merchant.Creatable.is", () => expect(model.Merchant.V1.Creatable.is(key)).toBeTruthy())
 	it("flaw", () => {
 		const k = key
 		delete k.sub
-		expect(model.Merchant.Key.flaw(key)).toEqual({
+		expect(model.Merchant.V1.Key.flaw(key)).toEqual({
 			flaws: [
 				{
 					condition: "Merchant identifier.",
