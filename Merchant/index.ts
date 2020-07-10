@@ -1,7 +1,6 @@
 import * as authly from "authly"
 import * as gracely from "gracely"
-import * as card from "@cardfunc/model"
-import { Configuration as BConfiguration } from "./Configuration"
+import { Configuration as MConfiguration } from "./Configuration"
 import { Creatable as MCreatable } from "./Creatable"
 import { Key as MerchantKey } from "./Key"
 import * as MerchantV1 from "./V1"
@@ -42,36 +41,36 @@ export namespace Merchant {
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
-	export type Configuration = BConfiguration
+	export type Configuration = MConfiguration
 	export namespace Configuration {
-		export const is = BConfiguration.is
-		export type Creatable = BConfiguration.Creatable
+		export const is = MConfiguration.is
+		export type Creatable = MConfiguration.Creatable
 		export namespace Creatable {
-			export const is = BConfiguration.Creatable.is
+			export const is = MConfiguration.Creatable.is
 		}
-		export type Email = BConfiguration.Email
+		export type Email = MConfiguration.Email
 		export namespace Email {
-			export const is = BConfiguration.Email.is
-			export const flaw = BConfiguration.Email.flaw
+			export const is = MConfiguration.Email.is
+			export const flaw = MConfiguration.Email.flaw
 		}
-		export type Mash = BConfiguration.Mash
+		export type Mash = MConfiguration.Mash
 		export namespace Mash {
-			export const is = BConfiguration.Mash.is
-			export const flaw = BConfiguration.Mash.flaw
-			export const parse = BConfiguration.Mash.parse
+			export const is = MConfiguration.Mash.is
+			export const flaw = MConfiguration.Mash.flaw
+			export const parse = MConfiguration.Mash.parse
 		}
-		export type Sms = BConfiguration.Sms
+		export type Sms = MConfiguration.Sms
 		export namespace Sms {
-			export const is = BConfiguration.Sms.is
-			export const flaw = BConfiguration.Sms.flaw
+			export const is = MConfiguration.Sms.is
+			export const flaw = MConfiguration.Sms.flaw
 		}
-		export type Mixed = BConfiguration.Mixed
+		export type Mixed = MConfiguration.Mixed
 		export namespace Mixed {
-			export const is = BConfiguration.Mixed.is
-			export type Creatable = BConfiguration.Mixed.Creatable
+			export const is = MConfiguration.Mixed.is
+			export type Creatable = MConfiguration.Mixed.Creatable
 			export namespace Creatable {
-				export const is = BConfiguration.Mixed.Creatable.is
-				export const flaw = BConfiguration.Mixed.Creatable.flaw
+				export const is = MConfiguration.Mixed.Creatable.is
+				export const flaw = MConfiguration.Mixed.Creatable.flaw
 			}
 		}
 	}

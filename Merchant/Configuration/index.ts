@@ -1,55 +1,55 @@
 import * as card from "@cardfunc/model"
-import { Creatable as BCreatable } from "./Creatable"
-import { Email as BEmail } from "./Email"
-import { Mash as BMash } from "./Mash"
-import { Sms as BSms } from "./Sms"
-import { Mixed as BMixed } from "./Mixed"
+import { Creatable as CCreatable } from "./Creatable"
+import { Email as CEmail } from "./Email"
+import { Mash as CMash } from "./Mash"
+import { Sms as CSms } from "./Sms"
+import { Mixed as CMixed } from "./Mixed"
 
 export interface Configuration {
 	card?: card.Merchant.Configuration
-	email?: BEmail
-	mash?: BMash
-	sms?: BSms
-	mixed?: BMixed
+	email?: CEmail
+	mash?: CMash
+	sms?: CSms
+	mixed?: CMixed
 }
 
 export namespace Configuration {
 	export function is(value: any | Configuration): value is Configuration {
 		return typeof value == "object" &&
 			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
-			(value.email == undefined || BEmail.is(value.email)) &&
-			(value.mash == undefined || BEmail.is(value.mash)) &&
-			(value.sms == undefined || BSms.is(value.sms)) &&
-			(value.mixed == undefined || BMixed.is(value.mixed))
+			(value.email == undefined || CEmail.is(value.email)) &&
+			(value.mash == undefined || CEmail.is(value.mash)) &&
+			(value.sms == undefined || CSms.is(value.sms)) &&
+			(value.mixed == undefined || CMixed.is(value.mixed))
 	}
 	// tslint:disable: no-shadowed-variable
-	export type Creatable = BCreatable
+	export type Creatable = CCreatable
 	export namespace Creatable {
-		export const is = BCreatable.is
+		export const is = CCreatable.is
 	}
-	export type Email = BEmail
+	export type Email = CEmail
 	export namespace Email {
-		export const is = BEmail.is
-		export const flaw = BEmail.flaw
+		export const is = CEmail.is
+		export const flaw = CEmail.flaw
 	}
-	export type Mash = BMash
+	export type Mash = CMash
 	export namespace Mash {
-		export const is = BMash.is
-		export const flaw = BMash.flaw
-		export const parse = BMash.parse
+		export const is = CMash.is
+		export const flaw = CMash.flaw
+		export const parse = CMash.parse
 	}
-	export type Sms = BSms
+	export type Sms = CSms
 	export namespace Sms {
-		export const is = BSms.is
-		export const flaw = BSms.flaw
+		export const is = CSms.is
+		export const flaw = CSms.flaw
 	}
-	export type Mixed = BMixed
+	export type Mixed = CMixed
 	export namespace Mixed {
-		export const is = BMixed.is
-		export type Creatable = BMixed.Creatable
+		export const is = CMixed.is
+		export type Creatable = CMixed.Creatable
 		export namespace Creatable {
-			export const is = BMixed.Creatable.is
-			export const flaw = BMixed.Creatable.flaw
+			export const is = CMixed.Creatable.is
+			export const flaw = CMixed.Creatable.flaw
 		}
 	}
 }
