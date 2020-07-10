@@ -1,3 +1,4 @@
+import * as gracely from "gracely"
 import * as card from "@cardfunc/model"
 import { Creatable as ConfigurationCreatable } from "./Creatable"
 import { Email as ConfigurationEmail } from "./Email"
@@ -21,6 +22,19 @@ export namespace Configuration {
 			(value.mash == undefined || ConfigurationEmail.is(value.mash)) &&
 			(value.sms == undefined || ConfigurationSms.is(value.sms)) &&
 			(value.mixed == undefined || ConfigurationMixed.is(value.mixed))
+	}
+	export function flaw(value: any | Configuration): gracely.Flaw {
+		return {
+			type: "model.Merchant.Configuration",
+			flaws: typeof value != "object" ? undefined :
+				[
+					...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
+					...(Email.flaw(value.email).flaws ?? []),
+					...(Mash.flaw(value.mash).flaws ?? []),
+					...(Sms.flaw(value.sms).flaws ?? []),
+					value.mixed == undefined || typeof value.mixed == "string" || { property: "mixed", type: "authly.Token", condition: "Alternate key." },
+				].filter(gracely.Flaw.is) as gracely.Flaw[],
+		}
 	}
 	// tslint:disable: no-shadowed-variable
 	export type Creatable = ConfigurationCreatable

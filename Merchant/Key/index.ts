@@ -2,12 +2,11 @@ import * as authly from "authly"
 import * as gracely from "gracely"
 import * as isoly from "isoly"
 import * as card from "@cardfunc/model"
-import * as model from "../index"
-import { Email } from "./Configuration/Email"
-import { Mash } from "./Configuration/Mash"
-import { Sms } from "./Configuration/Sms"
+import * as model from "../../index"
+import { KeyInfo as KeyKeyInfo } from "./KeyInfo"
+import { Configuration } from "../Configuration"
 
-export interface Key {
+export interface Key extends Configuration {
 	sub: string
 	iss: string
 	aud: "public" | "private"
@@ -19,11 +18,6 @@ export interface Key {
 	logotype?: string
 	terms?: string
 	currency?: isoly.Currency
-	card?: card.Merchant.Configuration
-	email?: Email
-	mash?: Mash
-	sms?: Sms
-	mixed?: authly.Token
 }
 
 export namespace Key {
@@ -40,16 +34,12 @@ export namespace Key {
 			(value.logotype == undefined || typeof value.logotype == "string") &&
 			(value.terms == undefined || typeof value.terms == "string") &&
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
-			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
-			(value.email == undefined || Email.is(value.email)) &&
-			(value.mash == undefined || Mash.is(value.mash)) &&
-			(value.sms == undefined || Sms.is(value.sms)) &&
-			(value.mixed == undefined || authly.Token.is(value.mixed)) &&
-			value.option == undefined // failing non-upgraded V1 keys with options set to force an upgrade of key.
+			value.option == undefined && // failing non-upgraded V1 keys with options set to force an upgrade of key.
+			Configuration.is(value)
 	}
 	export function flaw(value: any | Key): gracely.Flaw {
 		return {
-			type: "model.Key",
+			type: "model.Merchant.Key",
 			flaws: typeof value != "object" ? undefined :
 				[
 					typeof value.sub == "string" || { property: "sub", type: "authly.Identifier", condition: "Merchant identifier." },
@@ -62,19 +52,11 @@ export namespace Key {
 					value.logotype == undefined || typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
 					value.terms == undefined || typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
 					value.currency == undefined || isoly.Currency.is(value.currency) || { property: "currency", type: "isoly.Currency | undefined" },
-					...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
-					...(Email.flaw(value.card).flaws ?? []),
-					...(Mash.flaw(value.card).flaws ?? []),
-					...(Sms.flaw(value.card).flaws ?? []),
-					value.mixed == undefined || typeof value.mixed == "string" || { property: "mixed", type: "authly.Token", condition: "Alternate key." },
+					...(Configuration.flaw(value).flaws ?? []),
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
-	export async function unpack(key: authly.Token): Promise<Key | undefined> {
-		const payload: authly.Payload | undefined = await authly.Verifier.create("public").verify(key)
-		return is(payload) ? payload : undefined
-	}
-	export function upgrade(key: Key | model.Merchant.V1.Key | undefined, inner?: card.Merchant.Configuration | undefined): Key | undefined {
+	export async function upgrade(key: Key | model.Merchant.V1.Key | undefined, inner?: card.Merchant.Configuration | undefined): Promise<Key | undefined> {
 		let result: Key | undefined
 		if (key == undefined)
 			result = undefined
@@ -89,8 +71,36 @@ export namespace Key {
 				name: key.name,
 				url: "",
 			}
-			if (typeof key.option.card == "string" || inner)
-				result = typeof key.option.card == "string" && card.Merchant.Configuration.is(inner) ? { ...result, card: inner, url: inner.url } : undefined
+			if (typeof key.option.card == "string" || inner) {
+				const unpacked: authly.Payload | undefined = typeof key.option.card == "string"
+					? result.aud == "public"
+					? await authly.Verifier.create("public").verify(key.option.card)
+					: result.aud == "private"
+					? await authly.Verifier.create("private").verify(key.option.card)
+					: undefined
+					: undefined
+				const similar = unpacked && card.Merchant.Configuration.KeyInfo.is(unpacked) && card.Merchant.Configuration.is(inner) &&
+					(inner as any).iss == (unpacked as any).iss &&
+					(inner as any).sub == (unpacked as any).sub &&
+					inner.country == unpacked.country &&
+					inner.mid == unpacked.mid &&
+					inner.mcc == unpacked.mcc
+				result = similar && typeof key.option.card == "string" && card.Merchant.Configuration.is(inner)
+					?	{
+						...result,
+						card: {
+							url: (inner as any).iss,
+							id: (inner as any).sub,
+							country: inner.country,
+							acquirer: inner.acquirer,
+							mid: inner.mid,
+							mcc: inner.mcc,
+							emv3d: inner.emv3d,
+						},
+						url: inner.url
+					}
+					: undefined
+			}
 			if (result && key.option.email)
 				result = model.Merchant.Configuration.Email.is(key.option.email) ? { ...result, email: key.option.email } : undefined
 			if (result && key.option.mash)
@@ -101,5 +111,13 @@ export namespace Key {
 				result = isoly.Currency.is(key.option.currency) ? { ...result, currency: key.option.currency } : undefined
 		}
 		return result
+	}
+	// tslint:disable: no-shadowed-variable
+	export type KeyInfo = KeyKeyInfo
+	export namespace KeyInfo {
+		export const is = KeyKeyInfo.is
+		export const flaw = KeyKeyInfo.flaw
+		export const unpack = KeyKeyInfo.unpack
+		export const upgrade = KeyKeyInfo.upgrade
 	}
 }
