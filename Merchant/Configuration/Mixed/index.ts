@@ -1,5 +1,5 @@
 import * as authly from "authly"
-import { Creatable as CCreatable } from "./Creatable"
+import { Creatable as MixedCreatable } from "./Creatable"
 
 export type Mixed = authly.Token
 
@@ -8,9 +8,9 @@ export namespace Mixed {
 		return authly.Token.is(value)
 	}
 	// tslint:disable: no-shadowed-variable
-	export type Creatable = CCreatable
+	export type Creatable = MixedCreatable
 	export namespace Creatable {
-		export const is = CCreatable.is
-		export const flaw = CCreatable.flaw
+		export const is = MixedCreatable.is
+		export const flaw = MixedCreatable.flaw
 	}
 }

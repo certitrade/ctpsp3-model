@@ -1,7 +1,7 @@
 import * as authly from "authly"
 import * as gracely from "gracely"
-import { Configuration as MConfiguration } from "./Configuration"
-import { Creatable as MCreatable } from "./Creatable"
+import { Configuration as MerchantConfiguration } from "./Configuration"
+import { Creatable as MerchantCreatable } from "./Creatable"
 import { Key as MerchantKey } from "./Key"
 import * as MerchantV1 from "./V1"
 
@@ -41,44 +41,44 @@ export namespace Merchant {
 				].filter(gracely.Flaw.is) as gracely.Flaw[],
 		}
 	}
-	export type Configuration = MConfiguration
+	export type Configuration = MerchantConfiguration
 	export namespace Configuration {
-		export const is = MConfiguration.is
-		export type Creatable = MConfiguration.Creatable
+		export const is = MerchantConfiguration.is
+		export type Creatable = MerchantConfiguration.Creatable
 		export namespace Creatable {
-			export const is = MConfiguration.Creatable.is
+			export const is = MerchantConfiguration.Creatable.is
 		}
-		export type Email = MConfiguration.Email
+		export type Email = MerchantConfiguration.Email
 		export namespace Email {
-			export const is = MConfiguration.Email.is
-			export const flaw = MConfiguration.Email.flaw
+			export const is = MerchantConfiguration.Email.is
+			export const flaw = MerchantConfiguration.Email.flaw
 		}
-		export type Mash = MConfiguration.Mash
+		export type Mash = MerchantConfiguration.Mash
 		export namespace Mash {
-			export const is = MConfiguration.Mash.is
-			export const flaw = MConfiguration.Mash.flaw
-			export const parse = MConfiguration.Mash.parse
+			export const is = MerchantConfiguration.Mash.is
+			export const flaw = MerchantConfiguration.Mash.flaw
+			export const parse = MerchantConfiguration.Mash.parse
 		}
-		export type Sms = MConfiguration.Sms
+		export type Sms = MerchantConfiguration.Sms
 		export namespace Sms {
-			export const is = MConfiguration.Sms.is
-			export const flaw = MConfiguration.Sms.flaw
+			export const is = MerchantConfiguration.Sms.is
+			export const flaw = MerchantConfiguration.Sms.flaw
 		}
-		export type Mixed = MConfiguration.Mixed
+		export type Mixed = MerchantConfiguration.Mixed
 		export namespace Mixed {
-			export const is = MConfiguration.Mixed.is
-			export type Creatable = MConfiguration.Mixed.Creatable
+			export const is = MerchantConfiguration.Mixed.is
+			export type Creatable = MerchantConfiguration.Mixed.Creatable
 			export namespace Creatable {
-				export const is = MConfiguration.Mixed.Creatable.is
-				export const flaw = MConfiguration.Mixed.Creatable.flaw
+				export const is = MerchantConfiguration.Mixed.Creatable.is
+				export const flaw = MerchantConfiguration.Mixed.Creatable.flaw
 			}
 		}
 	}
-	export type Creatable = MCreatable
+	export type Creatable = MerchantCreatable
 	export namespace Creatable {
-		export const is = MCreatable.is
-		export const flaw = MCreatable.flaw
-		export const upgrade = MCreatable.upgrade
+		export const is = MerchantCreatable.is
+		export const flaw = MerchantCreatable.flaw
+		export const upgrade = MerchantCreatable.upgrade
 	}
 	export type Key = MerchantKey
 	export namespace Key {

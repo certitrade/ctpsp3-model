@@ -1,55 +1,55 @@
 import * as card from "@cardfunc/model"
-import { Creatable as CCreatable } from "./Creatable"
-import { Email as CEmail } from "./Email"
-import { Mash as CMash } from "./Mash"
-import { Sms as CSms } from "./Sms"
-import { Mixed as CMixed } from "./Mixed"
+import { Creatable as ConfigurationCreatable } from "./Creatable"
+import { Email as ConfigurationEmail } from "./Email"
+import { Mash as ConfigurationMash } from "./Mash"
+import { Sms as ConfigurationSms } from "./Sms"
+import { Mixed as ConfigurationMixed } from "./Mixed"
 
 export interface Configuration {
 	card?: card.Merchant.Configuration
-	email?: CEmail
-	mash?: CMash
-	sms?: CSms
-	mixed?: CMixed
+	email?: ConfigurationEmail
+	mash?: ConfigurationMash
+	sms?: ConfigurationSms
+	mixed?: ConfigurationMixed
 }
 
 export namespace Configuration {
 	export function is(value: any | Configuration): value is Configuration {
 		return typeof value == "object" &&
 			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
-			(value.email == undefined || CEmail.is(value.email)) &&
-			(value.mash == undefined || CEmail.is(value.mash)) &&
-			(value.sms == undefined || CSms.is(value.sms)) &&
-			(value.mixed == undefined || CMixed.is(value.mixed))
+			(value.email == undefined || ConfigurationEmail.is(value.email)) &&
+			(value.mash == undefined || ConfigurationEmail.is(value.mash)) &&
+			(value.sms == undefined || ConfigurationSms.is(value.sms)) &&
+			(value.mixed == undefined || ConfigurationMixed.is(value.mixed))
 	}
 	// tslint:disable: no-shadowed-variable
-	export type Creatable = CCreatable
+	export type Creatable = ConfigurationCreatable
 	export namespace Creatable {
-		export const is = CCreatable.is
+		export const is = ConfigurationCreatable.is
 	}
-	export type Email = CEmail
+	export type Email = ConfigurationEmail
 	export namespace Email {
-		export const is = CEmail.is
-		export const flaw = CEmail.flaw
+		export const is = ConfigurationEmail.is
+		export const flaw = ConfigurationEmail.flaw
 	}
-	export type Mash = CMash
+	export type Mash = ConfigurationMash
 	export namespace Mash {
-		export const is = CMash.is
-		export const flaw = CMash.flaw
-		export const parse = CMash.parse
+		export const is = ConfigurationMash.is
+		export const flaw = ConfigurationMash.flaw
+		export const parse = ConfigurationMash.parse
 	}
-	export type Sms = CSms
+	export type Sms = ConfigurationSms
 	export namespace Sms {
-		export const is = CSms.is
-		export const flaw = CSms.flaw
+		export const is = ConfigurationSms.is
+		export const flaw = ConfigurationSms.flaw
 	}
-	export type Mixed = CMixed
+	export type Mixed = ConfigurationMixed
 	export namespace Mixed {
-		export const is = CMixed.is
-		export type Creatable = CMixed.Creatable
+		export const is = ConfigurationMixed.is
+		export type Creatable = ConfigurationMixed.Creatable
 		export namespace Creatable {
-			export const is = CMixed.Creatable.is
-			export const flaw = CMixed.Creatable.flaw
+			export const is = ConfigurationMixed.Creatable.is
+			export const flaw = ConfigurationMixed.Creatable.flaw
 		}
 	}
 }
