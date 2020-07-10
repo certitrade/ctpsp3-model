@@ -1,4 +1,4 @@
-import * as model from "../index"
+import * as model from "../../index"
 import * as card from "@cardfunc/model"
 
 describe("model.Merchant.Key", () => {

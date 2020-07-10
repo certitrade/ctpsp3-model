@@ -14,13 +14,14 @@ export interface Key extends Creatable, authly.Payload {
 
 export namespace Key {
 	export function is(value: Key | any): value is Key {
-		return Creatable.is({ ...value, id: value.sub }) &&
-			authly.Identifier.is((value as any).sub, 8) &&
-			typeof (value as any).iss == "string" &&
-			KeyAudience.is((value as any).aud) &&
-			typeof (value as any).iat == "number" &&
-			((value as any).user == undefined || typeof (value as any).user == "string") &&
-			typeof (value as any).option == "object"
+		return typeof value == "object" &&
+			authly.Identifier.is(value.sub, 8) &&
+			typeof value.iss == "string" &&
+			KeyAudience.is(value.aud) &&
+			typeof value.iat == "number" &&
+			(value.user == undefined || typeof value.user == "string") &&
+			typeof value.option == "object" &&
+			Creatable.is({ ...value, id: value.sub })
 	}
 	export function flaw(value: any | Key): gracely.Flaw {
 		return {

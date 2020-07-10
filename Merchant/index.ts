@@ -84,8 +84,14 @@ export namespace Merchant {
 	export namespace Key {
 		export const is = MerchantKey.is
 		export const flaw = MerchantKey.flaw
-		export const unpack = MerchantKey.unpack
 		export const upgrade = MerchantKey.upgrade
+		export type KeyInfo = MerchantKey.KeyInfo
+		export namespace KeyInfo {
+			export const is = MerchantKey.KeyInfo.is
+			export const flaw = MerchantKey.KeyInfo.flaw
+			export const unpack = MerchantKey.KeyInfo.unpack
+			export const upgrade = MerchantKey.KeyInfo.upgrade
+		}
 	}
 	export namespace V1 {
 		export type Creatable = MerchantV1.Creatable
