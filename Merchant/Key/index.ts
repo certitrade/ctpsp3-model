@@ -80,8 +80,8 @@ export namespace Key {
 					: undefined
 					: undefined
 				const similar = unpacked && card.Merchant.Configuration.KeyInfo.is(unpacked) && card.Merchant.Configuration.is(inner) &&
-					(inner as any).iss == (unpacked as any).iss &&
-					(inner as any).sub == (unpacked as any).sub &&
+					inner.url == (unpacked as any).iss &&
+					inner.id == (unpacked as any).sub &&
 					inner.country == unpacked.country &&
 					inner.mid == unpacked.mid &&
 					inner.mcc == unpacked.mcc
@@ -89,8 +89,8 @@ export namespace Key {
 					?	{
 						...result,
 						card: {
-							url: (inner as any).iss,
-							id: (inner as any).sub,
+							url: inner.url,
+							id: inner.id,
 							country: inner.country,
 							acquirer: inner.acquirer,
 							mid: inner.mid,
