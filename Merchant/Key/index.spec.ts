@@ -29,7 +29,7 @@ describe("model.Merchant.Key", () => {
 			"public"
 		]
 	}
-	const v1PrivateCard: card.Merchant.V1.Key = {
+	const v1PrivateCard: card.Merchant.Configuration = {
 		acquirer: {
 			bin: {
 				mastercard: "1234",
@@ -39,8 +39,6 @@ describe("model.Merchant.Key", () => {
 			protocol: "clearhaus",
 			url: "https://gateway.test.clearhaus.com",
 		},
-		agent: "test",
-		aud: "private",
 		country: "SE",
 		descriptor: "test transaction",
 		emv3d: {
@@ -48,15 +46,10 @@ describe("model.Merchant.Key", () => {
 			url: "http://localhost:7082/ch3d1sim",
 			key: "no-key"
 		},
-		iat: 1583503730970,
 		id: "test",
-		iss: "http://localhost:7082",
 		mcc: "1234",
 		mid: "1234",
-		name: "Test AB",
-		sub: "test",
-		type: "test",
-		url: "http://example.com",
+		url: "http://localhost:7082",
 	}
 	const v1Public: model.Merchant.V1.Key = {
 		"iss": "http://localhost:7071",
@@ -82,7 +75,7 @@ describe("model.Merchant.Key", () => {
 		},
 		"aud": "public"
 	}
-	const v1PublicCard: card.Merchant.V1.Key = {
+	const v1PublicCard: card.Merchant.Configuration = {
 		acquirer: {
 			bin: {
 				mastercard: "1234",
@@ -92,8 +85,6 @@ describe("model.Merchant.Key", () => {
 			protocol: "clearhaus",
 			url: "https://gateway.test.clearhaus.com",
 		},
-		agent: "test",
-		aud: "private",
 		country: "SE",
 		descriptor: "test transaction",
 		emv3d: {
@@ -101,24 +92,24 @@ describe("model.Merchant.Key", () => {
 			url: "http://localhost:7082/ch3d1sim",
 			key: "no-key"
 		},
-		iat: 1583503730970,
 		id: "test",
-		iss: "http://localhost:7082",
 		mcc: "1234",
 		mid: "1234",
-		name: "Test AB",
-		sub: "test",
-		type: "test",
-		url: "http://example.com",
+		url: "http://localhost:7082",
 	}
 	it("Upgrade v1 Private", async () => {
 		expect(model.Merchant.V1.Key.is(v1Private)).toBeTruthy()
-		const upgraded = model.Merchant.Key.upgrade(v1Private, v1PrivateCard)
-		expect(upgraded).toBeTruthy()
+		const upgraded = await model.Merchant.Key.upgrade(v1Private, v1PrivateCard)
+		expect(model.Merchant.Key.is(upgraded)).toBeTruthy()
 	})
 	it("Upgrade v1 Public", async () => {
 		expect(model.Merchant.V1.Key.is(v1Public)).toBeTruthy()
-		const upgraded = model.Merchant.Key.upgrade(v1Public, v1PublicCard)
-		expect(upgraded).toBeTruthy()
+		const upgraded = await model.Merchant.Key.upgrade(v1Public, v1PublicCard)
+		expect(model.Merchant.Key.is(upgraded)).toBeTruthy()
+	})
+	it("Upgrade v1 Public, wrong url", async () => {
+		expect(model.Merchant.V1.Key.is(v1Public)).toBeTruthy()
+		const upgraded = await model.Merchant.Key.upgrade(v1Public, { ...v1PublicCard, url: "http://example.com" })
+		expect(upgraded).toBeUndefined()
 	})
 })
