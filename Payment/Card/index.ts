@@ -1,9 +1,11 @@
+import * as authly from "authly"
 import * as card from "@cardfunc/model"
 import { Base } from "../Base"
 import { Creatable as CardCreatable } from "./Creatable"
 
 export interface Card extends Base {
 	type: "card"
+	card?: authly.Token,
 	account?: string
 	scheme: card.Card.Scheme
 	iin: string
@@ -15,6 +17,7 @@ export namespace Card {
 	export function is(value: any | Card): value is Card {
 		return typeof value == "object" &&
 			value.type == "card" &&
+			(value.card == undefined || authly.Token.is(value.card)) &&
 			(value.account == undefined || typeof value.account == "string") &&
 			card.Card.Scheme.is(value.scheme) &&
 			typeof value.iin == "string" && value.iin.length == 6 &&
