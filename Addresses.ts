@@ -15,7 +15,7 @@ export namespace Addresses {
 			(Address.is(value.billing) || value.billing == undefined) &&
 			(Address.is(value.delivery) || value.delivery == undefined) &&
 			(Address.is(value.visit) || value.visit == undefined) &&
-			(Address.is(value.primary) || Address.is(value.billing) || Address.is(value.delivery))
+			(Address.is(value.primary) || Address.is(value.billing) || Address.is(value.delivery) || Address.is(value.visit))
 	}
 	export function get(value: Addresses | Address | undefined, ...type: Type[]): Address | undefined {
 		let result: Address | undefined
@@ -37,7 +37,7 @@ export namespace Addresses {
 		}
 		return result
 	}
-	export function map<T>(addresses: Addresses, mapping: (type: string, address: Address) => T): T[] {
-		return types.filter(type => addresses[type] != undefined).map(type => mapping(type, addresses[type]!))
+	export function map<T>(addresses: Addresses, mapping: (type: Type, address: Address) => T): T[] {
+		return types.filter(t => addresses[t] != undefined).map(t => mapping(t, addresses[t]!))
 	}
 }

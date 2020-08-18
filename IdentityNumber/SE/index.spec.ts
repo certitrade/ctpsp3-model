@@ -1,4 +1,4 @@
-import * as model from "../.."
+import * as model from "../../index"
 
 describe("IdentityNumber.SE", () => {
 	it("calculateChecksum", () => {

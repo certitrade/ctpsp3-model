@@ -30,6 +30,6 @@ export namespace EmailAddresses {
 		return result
 	}
 	export function map<T>(addresses: EmailAddresses, mapping: (type: string, address: string) => T): T[] {
-		return types.filter(type => addresses[type] != undefined).map(type => mapping(type, addresses[type]!))
+		return types.filter(t => addresses[t] != undefined).map(t => mapping(t, addresses[t]!))
 	}
 }
