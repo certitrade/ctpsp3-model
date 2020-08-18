@@ -1,4 +1,4 @@
-import * as model from "../"
+import * as model from "../index"
 
 describe("User", () => {
 	it("user, with id that is an authly.Identifier", async () => {

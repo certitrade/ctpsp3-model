@@ -35,6 +35,6 @@ export namespace PhoneNumbers {
 		return result
 	}
 	export function map<T>(numbers: PhoneNumbers, mapping: (type: string, phone: string) => T): T[] {
-		return types.filter(type => numbers[type] != undefined).map(type => mapping(type, numbers[type]!))
+		return types.filter(t => numbers[t] != undefined).map(t => mapping(t, numbers[t]!))
 	}
 }
