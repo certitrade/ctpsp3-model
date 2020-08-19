@@ -9,20 +9,21 @@ export interface Creatable extends CreatableBase {
 
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
-		return typeof value == "object" &&
-			value.type == "account" &&
-			authly.Token.is(value.token) &&
-			CreatableBase.is(value)
+		return (
+			typeof value == "object" && value.type == "account" && authly.Token.is(value.token) && CreatableBase.is(value)
+		)
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {
 		return {
 			type: "model.Payment.Card.Creatable",
-			flaws: typeof value != "object" ? undefined :
-				[
-					value.type == "account" || { property: "type", type: '"account"' },
-					authly.Token.is(value.token) || { property: "token", type: "authly.Token" },
-					CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							value.type == "account" || { property: "type", type: '"account"' },
+							authly.Token.is(value.token) || { property: "token", type: "authly.Token" },
+							CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 }

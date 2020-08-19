@@ -7,7 +7,6 @@ export interface Direct extends Base {
 
 export namespace Direct {
 	export function is(value: any | Direct): value is Direct {
-		return Base.is(value) &&
-			value.type == "direct"
+		return Base.is(value) && value.type == "direct"
 	}
 }

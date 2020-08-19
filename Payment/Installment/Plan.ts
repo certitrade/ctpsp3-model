@@ -3,9 +3,9 @@ export interface Plan {
 	length: number
 	amount: number
 	fees: {
-		initial: number,
-		reaccuring: number,
-		annualRate: number,
+		initial: number
+		reaccuring: number
+		annualRate: number
 	}
 	total: number
 	effectiveRate: number
@@ -14,7 +14,8 @@ export interface Plan {
 
 export namespace Plan {
 	export function is(value: any | Plan): value is Plan {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			typeof value.id == "string" &&
 			typeof value.length == "number" &&
 			typeof value.amount == "number" &&
@@ -25,5 +26,6 @@ export namespace Plan {
 			typeof value.total == "number" &&
 			typeof value.effectiveRate == "number" &&
 			(typeof value.terms == "string" || value.terms == undefined)
+		)
 	}
 }

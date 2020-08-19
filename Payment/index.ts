@@ -12,17 +12,20 @@ import { Base as PBase } from "./Base"
 
 export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish | PAccount
 
-// tslint:disable: no-shadowed-variable
 export namespace Payment {
 	export function is(value: Payment | any): value is Payment {
-		return PCard.is(value) ||
+		return (
+			PCard.is(value) ||
 			PInstallment.is(value) ||
 			PInvoice.is(value) ||
 			PDefer.is(value) ||
 			PSwish.is(value) ||
 			PAccount.is(value)
+		)
 	}
-	export function hasVerify(payment: Payment | Payment & { verify: PVerify }): payment is Payment & { verify: PVerify } {
+	export function hasVerify(
+		payment: Payment | (Payment & { verify: PVerify })
+	): payment is Payment & { verify: PVerify } {
 		return PVerify.is((payment as Payment & { verify?: PVerify }).verify)
 	}
 	export function sort(value: Payment[], property: "created"): Payment[] {
@@ -33,24 +36,36 @@ export namespace Payment {
 		switch (property) {
 			case "created":
 			default:
-				result = (left: Payment, right: Payment) => left.created < right.created ? 1 : left.created > right.created ? -1 : 0
+				result = (left: Payment, right: Payment) =>
+					left.created < right.created ? 1 : left.created > right.created ? -1 : 0
 				break
 		}
 		return result
 	}
 	export function filter(value: Payment[], property: "status", criterion: PStatus): Payment[]
 	export function filter(value: Payment[], property: "type", criterion: PType): Payment[]
-	export function filter(value: Payment[], property: "type" | "status", criterion: string | Identifier | PStatus): Payment[] {
+	export function filter(
+		value: Payment[],
+		property: "type" | "status",
+		criterion: string | Identifier | PStatus
+	): Payment[] {
 		return value.filter(payment => payment[property] == criterion)
 	}
-	export type Creatable = PCard.Creatable | PInstallment.Creatable | PInvoice.Creatable | PDefer.Creatable | PAccount.Creatable
+	export type Creatable =
+		| PCard.Creatable
+		| PInstallment.Creatable
+		| PInvoice.Creatable
+		| PDefer.Creatable
+		| PAccount.Creatable
 	export namespace Creatable {
 		export function is(value: Creatable | any): value is Creatable {
-			return PCard.Creatable.is(value) ||
+			return (
+				PCard.Creatable.is(value) ||
 				PInstallment.Creatable.is(value) ||
 				PInvoice.Creatable.is(value) ||
 				PDefer.Creatable.is(value) ||
 				PAccount.Creatable.is(value)
+			)
 		}
 	}
 	export function getCsvHeaders(): string {
