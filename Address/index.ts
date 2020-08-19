@@ -12,7 +12,7 @@ export namespace Address {
 				value.countryCode == "FI" && AddressFI.is(value) ||
 				value.countryCode == "SE" && AddressSE.is(value) ||
 				value.countryCode != "FI" && value.countryCode != "SE"
-			)
+			))
 	}
 	export function create(countryCode: CountryCode.Alpha2): Address {
 		let result: Address
