@@ -8,7 +8,6 @@ export interface Card extends Base {
 
 export namespace Card {
 	export function is(value: any | Card): value is Card {
-		return Base.is(value) &&
-			value.type == "card"
+		return Base.is(value) && value.type == "card"
 	}
 }

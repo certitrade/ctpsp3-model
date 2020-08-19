@@ -11,7 +11,6 @@ export namespace PaymentOption {
 	export const is = Base.is
 	export type Type = POType
 	export type Card = POCard
-	// tslint:disable: no-shadowed-variable
 	export namespace Card {
 		export const is = POCard.is
 	}

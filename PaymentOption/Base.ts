@@ -10,10 +10,12 @@ export interface Base {
 
 export namespace Base {
 	export function is(value: any | Base) {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			Type.is(value.type) &&
 			typeof value.service == "string" &&
 			typeof value.amount == "number" &&
 			isoly.Currency.is(value.currency)
+		)
 	}
 }
