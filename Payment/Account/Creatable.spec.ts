@@ -1,7 +1,7 @@
 import * as model from "../../index"
 describe("Payment.Account.Creatable", () => {
 	it("Payment.Account.Creatable.is account", async () => {
-		const payment =	{
+		const payment = {
 			token: "abc.def.ghi",
 			type: "account",
 		}

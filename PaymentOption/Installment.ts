@@ -8,7 +8,6 @@ export interface Installment extends Base {
 
 export namespace Installment {
 	export function is(value: any | Installment): value is Installment {
-		return Base.is(value) &&
-			value.type == "installment"
+		return Base.is(value) && value.type == "installment"
 	}
 }
