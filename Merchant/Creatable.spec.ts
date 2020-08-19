@@ -2,25 +2,25 @@ import * as model from "../index"
 
 describe("model.Merchant.Key", () => {
 	const v1: model.Merchant.V1.Creatable = {
-		"name": "testtest",
-		"logotype": "https:/example.com",
-		"terms": "https:/example.com",
-		"option": {
-			"email": {
-				"key": "akey",
-				"notify": "notifyvalue"
+		name: "testtest",
+		logotype: "https:/example.com",
+		terms: "https:/example.com",
+		option: {
+			email: {
+				key: "akey",
+				notify: "notifyvalue",
 			},
-			"mash": {
-					"url": "https://mash.example/api",
-					"user": "test01",
-					"key": "akey",
-					"merchant": 5
+			mash: {
+				url: "https://mash.example/api",
+				user: "test01",
+				key: "akey",
+				merchant: 5,
 			},
-			"sms": {
-					"key": "akey",
-					"sender": "TestMerchant"
+			sms: {
+				key: "akey",
+				sender: "TestMerchant",
 			},
-			"card": {
+			card: {
 				acquirer: {
 					bin: {
 						mastercard: "1234",
@@ -37,7 +37,7 @@ describe("model.Merchant.Key", () => {
 				emv3d: {
 					protocol: "ch3d1",
 					url: "http://localhost:7082/ch3d1sim",
-					key: "no-key"
+					key: "no-key",
 				},
 				iat: 1583503730970,
 				id: "test",

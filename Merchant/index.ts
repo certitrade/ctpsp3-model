@@ -9,17 +9,17 @@ export interface Merchant {
 	id: authly.Identifier
 	name: string
 	key: {
-		private: authly.Token,
-		public?: authly.Token,
+		private: authly.Token
+		public?: authly.Token
 	}
 	logotype?: string
 	terms?: string
 }
 
-// tslint:disable: no-shadowed-variable
 export namespace Merchant {
 	export function is(value: any | Merchant): value is Merchant {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			authly.Identifier.is((value as any).id) &&
 			typeof value.name == "string" &&
 			typeof value.key == "object" &&
@@ -27,18 +27,32 @@ export namespace Merchant {
 			(value.key.public == undefined || authly.Token.is(value.key.public)) &&
 			(value.logotype == undefined || typeof value.logotype == "string") &&
 			(value.terms == undefined || typeof value.terms == "string")
+		)
 	}
 	export function flaw(value: any | Merchant): gracely.Flaw {
 		return {
 			type: "model.Merchant",
-			flaws: typeof value != "object" ? undefined :
-				[
-					authly.Identifier.is(value.id, 8) || { property: "id", type: "authly.Identifier", condition: "length == 8" },
-					typeof value.name == "string" || { property: "name", type: "string" },
-					typeof value.key == "object" && (value.key.public == undefined || authly.Token.is(value.key.public)) && authly.Token.is(value.key.private) || { property: "key", type: "{ public: authly.Token | undefined, private: authly.Token }" },
-					value.terms == undefined || typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
-					value.logotype == undefined || typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							authly.Identifier.is(value.id, 8) || {
+								property: "id",
+								type: "authly.Identifier",
+								condition: "length == 8",
+							},
+							typeof value.name == "string" || { property: "name", type: "string" },
+							(typeof value.key == "object" &&
+								(value.key.public == undefined || authly.Token.is(value.key.public)) &&
+								authly.Token.is(value.key.private)) || {
+								property: "key",
+								type: "{ public: authly.Token | undefined, private: authly.Token }",
+							},
+							value.terms == undefined ||
+								typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
+							value.logotype == undefined ||
+								typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 	export type Configuration = MerchantConfiguration

@@ -16,27 +16,35 @@ export interface Configuration {
 
 export namespace Configuration {
 	export function is(value: any | Configuration): value is Configuration {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
 			(value.email == undefined || ConfigurationEmail.is(value.email)) &&
 			(value.mash == undefined || ConfigurationEmail.is(value.mash)) &&
 			(value.sms == undefined || ConfigurationSms.is(value.sms)) &&
 			(value.mixed == undefined || ConfigurationMixed.is(value.mixed))
+		)
 	}
 	export function flaw(value: any | Configuration): gracely.Flaw {
 		return {
 			type: "model.Merchant.Configuration",
-			flaws: typeof value != "object" ? undefined :
-				[
-					...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
-					...(Email.flaw(value.email).flaws ?? []),
-					...(Mash.flaw(value.mash).flaws ?? []),
-					...(Sms.flaw(value.sms).flaws ?? []),
-					value.mixed == undefined || typeof value.mixed == "string" || { property: "mixed", type: "authly.Token", condition: "Alternate key." },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
+							...(Email.flaw(value.email).flaws ?? []),
+							...(Mash.flaw(value.mash).flaws ?? []),
+							...(Sms.flaw(value.sms).flaws ?? []),
+							value.mixed == undefined ||
+								typeof value.mixed == "string" || {
+									property: "mixed",
+									type: "authly.Token",
+									condition: "Alternate key.",
+								},
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
-	// tslint:disable: no-shadowed-variable
 	export type Creatable = ConfigurationCreatable
 	export namespace Creatable {
 		export const is = ConfigurationCreatable.is
