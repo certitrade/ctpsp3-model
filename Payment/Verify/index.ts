@@ -3,7 +3,6 @@ import { Redirect as VerifyRedirect } from "./Redirect"
 
 export type Verify = VerifyIframe | VerifyRedirect
 
-// tslint:disable: no-shadowed-variable
 export namespace Verify {
 	export function is(value: Verify | any): value is Verify {
 		return Iframe.is(value) || Redirect.is(value)

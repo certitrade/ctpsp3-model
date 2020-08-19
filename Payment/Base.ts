@@ -15,7 +15,8 @@ export interface Base {
 
 export namespace Base {
 	export function is(value: any | Base): value is Base {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			Type.is(value.type) &&
 			(value.reference == undefined || typeof value.reference == "string") &&
 			typeof value.service == "string" &&
@@ -24,6 +25,7 @@ export namespace Base {
 			isoly.Currency.is(value.currency) &&
 			(typeof value.descriptor == "string" || value.descriptor == undefined) &&
 			Status.is(value.status)
+		)
 	}
 	export function getCsvHeaders(): string {
 		return `payment type,payment service,payment created,payment amount,payment currency`

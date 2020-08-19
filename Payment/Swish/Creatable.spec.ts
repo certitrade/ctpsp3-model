@@ -1,7 +1,7 @@
 import * as model from "../../index"
 
 describe("Payment.Swish.Creatable", () => {
-	const payment =	{
+	const payment = {
 		type: "swish",
 		currency: "SEK",
 	}
