@@ -14,11 +14,13 @@ export interface Creatable {
 
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
 			(value.email == undefined || Email.is(value.email)) &&
 			(value.mash == undefined || Email.is(value.mash)) &&
 			(value.sms == undefined || Sms.is(value.sms)) &&
 			(value.mixed == undefined || MixedCreatable.is(value.mixed))
+		)
 	}
 }
