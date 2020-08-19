@@ -13,9 +13,9 @@ describe("User.Creatable", () => {
 			},
 			password: "123456",
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -35,9 +35,9 @@ describe("User.Creatable", () => {
 			},
 			password: "",
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -56,9 +56,9 @@ describe("User.Creatable", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -66,11 +66,13 @@ describe("User.Creatable", () => {
 		const flawFeedback = User.Creatable.flaw(value)
 		expect(flawFeedback.flaws && flawFeedback.flaws.length > 0).toBeTruthy()
 		expect(User.Creatable.flaw(value)).toEqual({
-			"flaws": [{
-				"property": "password",
-				"type": "string | object",
-			}],
-			"type": "model.User.Creatable"
+			flaws: [
+				{
+					property: "password",
+					type: "string | object",
+				},
+			],
+			type: "model.User.Creatable",
 		})
 	})
 })

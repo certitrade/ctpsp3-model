@@ -10,9 +10,11 @@ export interface Fail extends Base {
 
 export namespace Fail {
 	export function is(value: Fail | any): value is Fail {
-		return Base.is(value) &&
+		return (
+			Base.is(value) &&
 			value.type == "fail" &&
 			Type.is(value.original) &&
 			(value.error == undefined || gracely.Error.is(value.error))
+		)
 	}
 }

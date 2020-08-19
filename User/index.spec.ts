@@ -13,9 +13,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -33,9 +33,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -52,9 +52,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -72,9 +72,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -92,9 +92,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -111,8 +111,7 @@ describe("User", () => {
 					private: "aaa-bbb-ccc",
 				},
 			},
-			option: {
-			},
+			option: {},
 		}
 		expect(model.User.is(value)).toBeFalsy()
 	})
@@ -127,9 +126,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -147,9 +146,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -167,9 +166,9 @@ describe("User", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
@@ -237,23 +236,25 @@ describe("User", () => {
 		expect(model.User.is(value)).toBeFalsy()
 	})
 	it("array with a user inside", async () => {
-		const value: any = [{
-			id: "abcd0001",
-			email: "a string",
-			merchant: {
+		const value: any = [
+			{
 				id: "abcd0001",
-				name: "merchant",
-				key: {
-					private: "aaa.bbb.ccc",
+				email: "a string",
+				merchant: {
+					id: "abcd0001",
+					name: "merchant",
+					key: {
+						private: "aaa.bbb.ccc",
+					},
+				},
+				option: {
+					byBoat: "no",
+					byPlane: {
+						maybe: ["yes", "no"],
+					},
 				},
 			},
-			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
-				},
-			},
-		}]
+		]
 		expect(model.User.is(value)).toBeFalsy()
 	})
 	it("empty object", async () => {

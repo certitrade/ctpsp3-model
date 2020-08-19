@@ -3,7 +3,6 @@ import { SE as AddressSE } from "./SE"
 import { FI as AddressFI } from "./FI"
 
 export type Address = AddressFI | AddressSE
-// tslint:disable: no-shadowed-variable
 export namespace Address {
 	export function is(value: any | Address): value is Address {
 		return typeof value == "object" &&

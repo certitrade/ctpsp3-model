@@ -14,17 +14,20 @@ export interface Card {
 	expires: PCard.Expires
 }
 
-// tslint:disable: no-shadowed-variable
 export namespace Card {
 	export function is(value: Card | any): value is Card {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			Type.is(value.type) &&
 			isoly.DateTime.is(value.created) &&
 			authly.Token.is(value.token) &&
 			PCard.Scheme.is(value.scheme) &&
-			typeof value.iin == "string" && value.iin.length == 6 &&
-			typeof value.last4 == "string" && value.last4.length == 4 &&
+			typeof value.iin == "string" &&
+			value.iin.length == 6 &&
+			typeof value.last4 == "string" &&
+			value.last4.length == 4 &&
 			PCard.Expires.is(value.expires)
+		)
 	}
 	export type Creatable = CardCreatable
 	export namespace Creatable {
