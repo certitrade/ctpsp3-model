@@ -22,7 +22,8 @@ export interface Creatable {
 
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			(value.id == undefined || authly.Identifier.is(value.id, 8)) &&
 			typeof value.name == "string" &&
 			(value.terms == undefined || typeof value.terms == "string") &&
@@ -33,23 +34,33 @@ export namespace Creatable {
 			(value.mash == undefined || Mash.is(value.mash)) &&
 			(value.sms == undefined || Sms.is(value.sms)) &&
 			(value.mixed == undefined || MixedCreatable.is(value.mixed))
+		)
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {
 		return {
 			type: "model.Merchant.Creatable",
-			flaws: typeof value != "object" ? undefined :
-				[
-					value.id == undefined || authly.Identifier.is(value.id, 8) || { property: "id", type: "authly.Identifier | undefined", condition: "length == 8" },
-					typeof value.name == "string" || { property: "name", type: "string" },
-					value.terms == undefined || typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
-					value.logotype == undefined || typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
-					typeof value.url == "string" || { property: "url", type: "string" },
-					...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
-					...(Email.flaw(value.card).flaws ?? []),
-					...(Mash.flaw(value.card).flaws ?? []),
-					...(Sms.flaw(value.card).flaws ?? []),
-					...(MixedCreatable.flaw(value.mixed).flaws ?? []),
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							value.id == undefined ||
+								authly.Identifier.is(value.id, 8) || {
+									property: "id",
+									type: "authly.Identifier | undefined",
+									condition: "length == 8",
+								},
+							typeof value.name == "string" || { property: "name", type: "string" },
+							value.terms == undefined ||
+								typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
+							value.logotype == undefined ||
+								typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
+							typeof value.url == "string" || { property: "url", type: "string" },
+							...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
+							...(Email.flaw(value.card).flaws ?? []),
+							...(Mash.flaw(value.card).flaws ?? []),
+							...(Sms.flaw(value.card).flaws ?? []),
+							...(MixedCreatable.flaw(value.mixed).flaws ?? []),
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 	export function upgrade(value: model.Merchant.V1.Creatable): Creatable | undefined {
@@ -58,10 +69,14 @@ export namespace Creatable {
 		if (!Object.keys(value.option).find(key => key != "card" && key != "email" && key != "mash" && key != "sms")) {
 			const input = { ...value, url: "" }
 			const option = input.option
-			if (!(option.card && !card.Merchant.Configuration.is(option.card) ||
-					option.email && !model.Merchant.Configuration.Email.is(option.email) ||
-					option.mash && !model.Merchant.Configuration.Mash.is(option.mash) ||
-					option.sms && !model.Merchant.Configuration.Sms.is(option.sms))) {
+			if (
+				!(
+					(option.card && !card.Merchant.Configuration.is(option.card)) ||
+					(option.email && !model.Merchant.Configuration.Email.is(option.email)) ||
+					(option.mash && !model.Merchant.Configuration.Mash.is(option.mash)) ||
+					(option.sms && !model.Merchant.Configuration.Sms.is(option.sms))
+				)
+			) {
 				delete input.option
 				result = input
 				if (option.card) {

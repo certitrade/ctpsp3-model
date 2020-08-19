@@ -12,24 +12,31 @@ export interface KeyInfo {
 
 export namespace KeyInfo {
 	export function is(value: any | KeyInfo): value is KeyInfo {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			(value.card == undefined || card.Merchant.Configuration.KeyInfo.is(value.card)) &&
 			(value.email == undefined || typeof value.email == "string") &&
 			(value.mash == undefined || typeof value.mash == "string") &&
 			(value.sms == undefined || typeof value.sms == "string") &&
 			(value.mixed == undefined || ConfigurationMixed.is(value.mixed))
+		)
 	}
 	export function flaw(value: any | KeyInfo): gracely.Flaw {
 		return {
 			type: "model.Merchant.Configuration.KeyInfo",
-			flaws: typeof value != "object" ? undefined :
-				[
-					...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
-					value.email == undefined || typeof value.email == "string" || { property: "email", type: "string | undefined" },
-					value.mash == undefined || typeof value.mash == "string" || { property: "mash", type: "string | undefined" },
-					value.sms == undefined || typeof value.sms == "string" || { property: "sms", type: "string | undefined" },
-					value.mixed == undefined || ConfigurationMixed.is(value.mixed) || { property: "mixed", type: "authly.Token" },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
+							value.email == undefined ||
+								typeof value.email == "string" || { property: "email", type: "string | undefined" },
+							value.mash == undefined ||
+								typeof value.mash == "string" || { property: "mash", type: "string | undefined" },
+							value.sms == undefined || typeof value.sms == "string" || { property: "sms", type: "string | undefined" },
+							value.mixed == undefined ||
+								ConfigurationMixed.is(value.mixed) || { property: "mixed", type: "authly.Token" },
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 }
