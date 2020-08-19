@@ -13,21 +13,20 @@ import { Fail as FailEvent } from "./Fail"
 import { Synchronize as SynchronizeEvent } from "./Synchronize"
 
 export type Event =
-	DeferEvent |
-	PendEvent |
-	DenyEvent |
-	OrderEvent |
-	CancelEvent |
-	ChargeEvent |
-	PayEvent |
-	RefundEvent |
-	FailEvent |
-	SynchronizeEvent
-
-// tslint:disable: no-shadowed-variable
+	| DeferEvent
+	| PendEvent
+	| DenyEvent
+	| OrderEvent
+	| CancelEvent
+	| ChargeEvent
+	| PayEvent
+	| RefundEvent
+	| FailEvent
+	| SynchronizeEvent
 export namespace Event {
 	export function is(value: any | Event): value is Event {
-		return DeferEvent.is(value) ||
+		return (
+			DeferEvent.is(value) ||
 			PendEvent.is(value) ||
 			DenyEvent.is(value) ||
 			OrderEvent.is(value) ||
@@ -37,6 +36,7 @@ export namespace Event {
 			RefundEvent.is(value) ||
 			FailEvent.is(value) ||
 			SynchronizeEvent.is(value)
+		)
 	}
 	export function create(event: EventCreatable, date?: isoly.DateTime): Event {
 		return { ...event, date: date || isoly.DateTime.now() }

@@ -9,8 +9,11 @@ export interface Creatable {
 }
 export namespace Creatable {
 	export function is(value: any | Creatable): value is Creatable {
-		return typeof value == "object" &&
-			Type.is(value.type) && value.type != "fail" &&
+		return (
+			typeof value == "object" &&
+			Type.is(value.type) &&
+			value.type != "fail" &&
 			(value.items == undefined || Item.canBe(value.items))
+		)
 	}
 }

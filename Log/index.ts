@@ -12,17 +12,19 @@ export interface Log extends servly.Log {
 	entries: servly.Log.Entry[]
 }
 
-// tslint:disable: no-shadowed-variable
 export namespace Log {
 	export function is(value: Log | any): value is Log {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			authly.Identifier.is(value.id, 16) &&
 			(value.merchant == undefined || authly.Identifier.is(value.merchant, 8)) &&
 			(value.reference == undefined || LogReference.is(value.reference)) &&
 			(value.client == undefined || authly.Identifier.is(value.client)) &&
 			(value.system == undefined || LogSystem.is(value.system)) &&
-			Array.isArray(value.entries) && value.entries.every(servly.Log.Entry.is) &&
+			Array.isArray(value.entries) &&
+			value.entries.every(servly.Log.Entry.is) &&
 			servly.Log.is(value)
+		)
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)

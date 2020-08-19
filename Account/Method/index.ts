@@ -18,7 +18,6 @@ export namespace Method {
 		}
 		return is(result) ? result : undefined
 	}
-	// tslint:disable: no-shadowed-variable
 	export type Card = MethodCard
 	export namespace Card {
 		export const is = MethodCard.is

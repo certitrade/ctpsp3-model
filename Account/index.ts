@@ -1,7 +1,7 @@
 import * as authly from "authly"
 import { Customer } from "../Customer"
 import { Method as AccountMethod } from "./Method"
-import { Creatable as AccountCreatable  } from "./Creatable"
+import { Creatable as AccountCreatable } from "./Creatable"
 
 export interface Account {
 	id: authly.Identifier
@@ -10,14 +10,16 @@ export interface Account {
 	method: AccountMethod[]
 }
 
-// tslint:disable: no-shadowed-variable
 export namespace Account {
 	export function is(value: Account | any): value is Account {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			authly.Identifier.is(value.id, 16) &&
 			(value.number == undefined || typeof value.number == "string") &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
-			Array.isArray(value.method) && value.method.every(AccountMethod.is)
+			Array.isArray(value.method) &&
+			value.method.every(AccountMethod.is)
+		)
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)

@@ -21,23 +21,23 @@ describe("Log", () => {
 					header: {
 						accept: "*/*",
 						host: "localhost:7071",
-						userAgent: "insomnia/7.1.1"
+						userAgent: "insomnia/7.1.1",
 					},
 					method: "GET",
 					raw: {},
-					body: {}
-				}
-			}
-		]
+					body: {},
+				},
+			},
+		],
 	}
 	it("is", () => expect(model.Log.is(log)).toEqual(true))
 	it("is parts", () => {
 		expect(model.Log.is(log)).toEqual(true)
 		expect(authly.Identifier.is(log.id, 16)).toEqual(true)
-		expect((log.merchant == undefined || authly.Identifier.is(log.merchant, 8))).toEqual(true)
-		expect((log.reference == undefined || model.Log.Reference.is(log.reference))).toEqual(true)
-		expect((log.client == undefined || authly.Identifier.is(log.client))).toEqual(true)
-		expect((log.system == undefined || model.Log.System.is(log.system))).toEqual(true)
+		expect(log.merchant == undefined || authly.Identifier.is(log.merchant, 8)).toEqual(true)
+		expect(log.reference == undefined || model.Log.Reference.is(log.reference)).toEqual(true)
+		expect(log.client == undefined || authly.Identifier.is(log.client)).toEqual(true)
+		expect(log.system == undefined || model.Log.System.is(log.system)).toEqual(true)
 		expect(Array.isArray(log.entries) && log.entries.every(model.Log.Entry.is)).toEqual(true)
 		expect(servly.Log.is(log)).toEqual(true)
 	})

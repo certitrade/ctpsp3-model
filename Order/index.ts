@@ -29,7 +29,8 @@ export interface Order {
 }
 export namespace Order {
 	export function is(value: Order | any): value is Order {
-		return typeof value == "object" &&
+		return (
+			typeof value == "object" &&
 			authly.Identifier.is(value.id, 16) &&
 			(typeof value.number == "string" || value.number == undefined) &&
 			(typeof value.client == "string" || value.client == undefined) &&
@@ -38,37 +39,66 @@ export namespace Order {
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
-			(value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is)) &&
-			(value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is)) &&
-			(value.theme == undefined || typeof value.theme == "string")  &&
+			(value.event == undefined || (Array.isArray(value.event) && value.event.every(Event.is))) &&
+			(value.status == undefined || (Array.isArray(value.status) && value.status.every(Status.is))) &&
+			(value.theme == undefined || typeof value.theme == "string") &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
 			(value.language == undefined || isoly.Language.is(value.language))
+		)
 	}
 	export function flaw(value: Order | any): gracely.Flaw {
 		return {
 			type: "model.Order",
-			flaws: typeof value != "object" ? undefined :
-				[
-					authly.Identifier.is(value.id, 16) || { property: "id", type: "authly.Identifier", condition: "length == 16" },
-					typeof value.number == "string" || value.number == undefined || { property: "number", type: "string | undefined" },
-					typeof value.client == "string" || value.client == undefined || { property: "client", type: "string | undefined" },
-					isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
-					value.customer == undefined || Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
-					Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
-					isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
-					Payment.is(value.payment) || { property: "payment", type: "Payment" },
-					value.event == undefined || Array.isArray(value.event) && value.event.every(Event.is) || { property: "event", type: "Event[] | undefined" },
-					value.status == undefined || Array.isArray(value.status) && value.status.every(Status.is) || { property: "status", type: "Status[] | undefined" },
-					value.theme == undefined || typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
-					value.callback == undefined || typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
-					value.language == undefined || isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
-				].filter(gracely.Flaw.is),
+			flaws:
+				typeof value != "object"
+					? undefined
+					: [
+							authly.Identifier.is(value.id, 16) || {
+								property: "id",
+								type: "authly.Identifier",
+								condition: "length == 16",
+							},
+							typeof value.number == "string" ||
+								value.number == undefined || { property: "number", type: "string | undefined" },
+							typeof value.client == "string" ||
+								value.client == undefined || { property: "client", type: "string | undefined" },
+							isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
+							value.customer == undefined ||
+								Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
+							Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
+							isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
+							Payment.is(value.payment) || { property: "payment", type: "Payment" },
+							value.event == undefined ||
+								(Array.isArray(value.event) && value.event.every(Event.is)) || {
+									property: "event",
+									type: "Event[] | undefined",
+								},
+							value.status == undefined ||
+								(Array.isArray(value.status) && value.status.every(Status.is)) || {
+									property: "status",
+									type: "Status[] | undefined",
+								},
+							value.theme == undefined ||
+								typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
+							value.callback == undefined ||
+								typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
+							value.language == undefined ||
+								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
+					  ].filter(gracely.Flaw.is),
 		}
 	}
-	export async function generateCallback(merchant: authly.Token | Merchant.Key.KeyInfo | undefined, order: Partial<Order | Order.Creatable>): Promise<string | undefined> {
+	export async function generateCallback(
+		merchant: authly.Token | Merchant.Key.KeyInfo | undefined,
+		order: Partial<Order | Order.Creatable>
+	): Promise<string | undefined> {
 		if (authly.Token.is(merchant))
 			merchant = await Merchant.Key.KeyInfo.unpack(merchant, "public")
-		return merchant && `${ merchant.iss }/callback/${ merchant.sub }/${ await authly.Issuer.create("callback", authly.Algorithm.none())?.sign(order) }`
+		return (
+			merchant &&
+			`${merchant.iss}/callback/${merchant.sub}/${await authly.Issuer.create("callback", authly.Algorithm.none())?.sign(
+				order
+			)}`
+		)
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)
@@ -78,7 +108,9 @@ export namespace Order {
 		return is(result) ? result : undefined
 	}
 	export function possibleEvents(orders: Order[]): Event.Type[] {
-		return Event.types.filter(type => orders.every(order => !order.status || order.status.some(status => Status.change(status, type))))
+		return Event.types.filter(type =>
+			orders.every(order => !order.status || order.status.some(status => Status.change(status, type)))
+		)
 	}
 	export function sort(value: Order[], property: "created"): Order[] {
 		return value.sort(getComparer(property))
@@ -88,7 +120,8 @@ export namespace Order {
 		switch (property) {
 			case "created":
 			default:
-				result = (left: Order, right: Order) => left.created < right.created ? 1 : left.created > right.created ? -1 : 0
+				result = (left: Order, right: Order) =>
+					left.created < right.created ? 1 : left.created > right.created ? -1 : 0
 				break
 		}
 		return result
@@ -96,14 +129,18 @@ export namespace Order {
 	export function filter(value: Order[], property: "paymentType", criterion: string): Order[]
 	export function filter(value: Order[], property: "client", criterion: authly.Identifier): Order[]
 	export function filter(value: Order[], property: "status", criterion: Status | Status[]): Order[]
-	export function filter(value: Order[], property: "client" | "status" | "paymentType", criterion: authly.Identifier | Status | Status[] | string): Order[] {
+	export function filter(
+		value: Order[],
+		property: "client" | "status" | "paymentType",
+		criterion: authly.Identifier | Status | Status[] | string
+	): Order[] {
 		let result: Order[] = []
 		switch (property) {
 			case "client":
 				result = value.filter(order => order.client == criterion)
 				break
 			case "status":
-				const criteria: Status[] = Array.isArray(criterion) ? criterion : [ criterion as Status ]
+				const criteria: Status[] = Array.isArray(criterion) ? criterion : [criterion as Status]
 				result = value.filter(order => order.status && order.status.some(s => criteria.some(c => c == s)))
 				break
 			case "paymentType":
@@ -112,7 +149,7 @@ export namespace Order {
 			default:
 				result = value
 				break
-			}
+		}
 		return result
 	}
 	export function setStatus(order: Order): Order
@@ -147,7 +184,7 @@ export namespace Order {
 				}
 			}
 			orders.items = items.length == 1 ? items[0] : items
-			orders.status = [ ...new Set(items.reduce<Status[]>((r, item) => item.status ? r.concat(item.status) : r, [])) ]
+			orders.status = [...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), []))]
 		}
 		return orders
 	}
@@ -188,7 +225,6 @@ export namespace Order {
 		result += `\r\n`
 		return result
 	}
-	// tslint:disable: no-shadowed-variable
 	export type Creatable = OrderCreatable
 	export namespace Creatable {
 		export const is = OrderCreatable.is

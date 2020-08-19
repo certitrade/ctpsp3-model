@@ -6,5 +6,6 @@ export interface Pay extends Base {
 
 export namespace Pay {
 	export function is(value: Pay | any): value is Pay {
-		return Base.is(value) && value.type == "pay" }
+		return Base.is(value) && value.type == "pay"
+	}
 }

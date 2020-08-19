@@ -6,5 +6,6 @@ export interface Defer extends Base {
 
 export namespace Defer {
 	export function is(value: Defer | any): value is Defer {
-		return Base.is(value) && value.type == "defer" }
+		return Base.is(value) && value.type == "defer"
+	}
 }
