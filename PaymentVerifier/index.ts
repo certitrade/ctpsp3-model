@@ -3,7 +3,7 @@ import { Request as PRequest } from "./Request"
 import { Response as PResponse } from "./Response"
 
 export abstract class PaymentVerifier {
-	abstract verify(key: authly.Token, request: PRequest, force?: boolean): PResponse
+	abstract async verify(key: authly.Token, request: PRequest, force?: boolean): Promise<PResponse>
 }
 export namespace PaymentVerifier {
 	export type Request = PRequest
