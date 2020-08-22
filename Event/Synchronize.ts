@@ -6,5 +6,6 @@ export interface Synchronize extends Base {
 
 export namespace Synchronize {
 	export function is(value: Synchronize | any): value is Synchronize {
-		return Base.is(value) && value.type == "synchronize" }
+		return Base.is(value) && value.type == "synchronize"
+	}
 }

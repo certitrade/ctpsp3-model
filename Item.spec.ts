@@ -4,8 +4,8 @@ describe("Item", () => {
 	const item: model.Item = {
 		number: "ts001-b",
 		name: "Basic T-shirt, black",
-		price: 119.60,
-		vat: 29.90,
+		price: 119.6,
+		vat: 29.9,
 		quantity: 2,
 	}
 	const twoItems: model.Item[] = [
@@ -22,7 +22,7 @@ describe("Item", () => {
 			price: 150,
 			vat: 30,
 			quantity: 2,
-		}
+		},
 	]
 	const orderEvent: model.Event = {
 		type: "order",
@@ -51,67 +51,67 @@ describe("Item", () => {
 		},
 	}
 	it("is item", () => expect(model.Item.is(item)).toBeTruthy())
-	it("is item w/o number", () => expect(model.Item.is({
-		name: "Basic T-shirt, black",
-		price: 119.60,
-		vat: 29.90,
-		quantity: 2,
-	})).toBeTruthy())
+	it("is item w/o number", () =>
+		expect(
+			model.Item.is({
+				name: "Basic T-shirt, black",
+				price: 119.6,
+				vat: 29.9,
+				quantity: 2,
+			})
+		).toBeTruthy())
 	it("items", () => expect(model.Item.canBe([item, item])).toBeTruthy())
 	it("canBe number", () => expect(model.Item.canBe(1337.42)).toBeTruthy())
 	it("canBe item", () => expect(model.Item.canBe(item)).toBeTruthy())
 	it("canBe item[]", () => expect(model.Item.canBe([item, item])).toBeTruthy())
-	it("vat", () => expect(model.Item.vat(item)).toBe(59.80))
-	it("vat total", () => expect(model.Item.vat([item, item])).toEqual(119.60))
+	it("vat", () => expect(model.Item.vat(item)).toBe(59.8))
+	it("vat total", () => expect(model.Item.vat([item, item])).toEqual(119.6))
 	it("amount number", () => expect(model.Item.amount(1337)).toBe(1337))
 	it("amount item", () => expect(model.Item.amount(item)).toBe(299))
 	it("amount items", () => expect(model.Item.amount([item, item])).toBe(598))
-	it("as array", () => expect(model.Item.asArray([item, item])).toEqual(
-		[
+	it("as array", () =>
+		expect(model.Item.asArray([item, item])).toEqual([
 			{
 				number: "ts001-b",
 				name: "Basic T-shirt, black",
-				price: 119.60,
-				vat: 29.90,
+				price: 119.6,
+				vat: 29.9,
 				quantity: 2,
 			},
 			{
 				number: "ts001-b",
 				name: "Basic T-shirt, black",
-				price: 119.60,
-				vat: 29.90,
+				price: 119.6,
+				vat: 29.9,
 				quantity: 2,
 			},
-		],
-	))
+		]))
 	it("applyEvent", () => {
-		const items = [ { ...item } ]
+		const items = [{ ...item }]
 		model.Item.applyEvent(items, { type: "order", date: "2019-10-10T00:00:00" })
 		expect(items).toEqual([
 			{
-				"name": "Basic T-shirt, black",
-				"number": "ts001-b",
-				"price": 119.6,
-				"quantity": 2,
-				"status": [
-					"ordered",
-					"ordered",
-				],
-				"vat": 29.9,
+				name: "Basic T-shirt, black",
+				number: "ts001-b",
+				price: 119.6,
+				quantity: 2,
+				status: ["ordered", "ordered"],
+				vat: 29.9,
 			},
 		])
 	})
 	it("applyItem order 3", () => {
-		const items = [ { ...item }, { ...item } ]
+		const items = [{ ...item }, { ...item }]
 		model.Item.applyItem(items, "order", 3, item)
-		expect(items).toMatchObject([{ status: [ "ordered", "ordered" ] }, { status: [ "ordered", "created" ] }])
+		expect(items).toMatchObject([{ status: ["ordered", "ordered"] }, { status: ["ordered", "created"] }])
 	})
 	it("applyItem order 1", () => {
-		const items = [ { ...item }, { ...item } ]
+		const items = [{ ...item }, { ...item }]
 		model.Item.applyItem(items, "order", 1, item)
-		expect(items).toMatchObject([{ status: [ "ordered", "created" ] }, { status: [ "created", "created" ] }])
+		expect(items).toMatchObject([{ status: ["ordered", "created"] }, { status: ["created", "created"] }])
 	})
-	it("fromVatInclusivePrice", () => expect(model.Item.fromVatInclusivePrice(250, .25)).toMatchObject({ price: 200, vat: 50 }))
+	it("fromVatInclusivePrice", () =>
+		expect(model.Item.fromVatInclusivePrice(250, 0.25)).toMatchObject({ price: 200, vat: 50 }))
 	it("isEventAllowed false if charge without order", () => {
 		expect(model.Item.isEventAllowed(twoItems, chargeOne as model.Event)).toEqual(false)
 	})
@@ -142,7 +142,7 @@ describe("Item", () => {
 				price: 150,
 				vat: 30,
 				quantity: 3,
-			}
+			},
 		}
 		model.Item.applyEvent(twoItems, orderEvent)
 		expect(model.Item.isEventAllowed(twoItems, chargeTooMany as model.Event)).toEqual(false)

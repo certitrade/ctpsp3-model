@@ -9,25 +9,23 @@ export interface User extends UserBase {
 
 export namespace User {
 	export function is(value: any | User): value is User {
-		return typeof value == "object" &&
-			authly.Identifier.is(value.id, 8) &&
-			UserBase.is(value)
+		return typeof value == "object" && authly.Identifier.is(value.id, 8) && UserBase.is(value)
 	}
 	export function flaw(value: any | User): gracely.Flaw {
 		return {
 			type: "model.User",
-			flaws: typeof value != "object" ? undefined :
-				[
-					authly.Identifier.is(value.id, 8) || { property: "id", type: "string", condition: "length == 8" },
-					UserBase.is(value) || { ...UserBase.flaw(value).flaws },
-				]
-				.filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							authly.Identifier.is(value.id, 8) || { property: "id", type: "string", condition: "length == 8" },
+							UserBase.is(value) || { ...UserBase.flaw(value).flaws },
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(8)
 	}
-	// tslint:disable: no-shadowed-variable
 	export type Base = UserBase
 	export namespace Base {
 		export const is = UserBase.is

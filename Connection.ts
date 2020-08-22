@@ -5,7 +5,7 @@ import { User } from "./User"
 import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
-	static baseUrl: string = "/"
+	static baseUrl = "/"
 	private static storageValue: Storage | undefined | null = null
 	private static get storage(): Storage | undefined {
 		if (Connection.storageValue == null) {
@@ -17,7 +17,9 @@ export abstract class Connection {
 				if (storage.getItem("test") == date)
 					result = storage
 				storage.removeItem("test")
-			} catch (exception) {}
+			} catch (exception) {
+				console.log(exception)
+			}
 			Connection.storageValue = result
 		}
 		return Connection.storageValue
@@ -26,7 +28,7 @@ export abstract class Connection {
 	static get user(): User | undefined {
 		const storage = Connection.storage
 		if (storage)
-				Connection.userValue = JSON.parse(storage.getItem("PayFunc user") || "false") || undefined as User | undefined
+			Connection.userValue = JSON.parse(storage.getItem("PayFunc user") || "false") || (undefined as User | undefined)
 		return Connection.userValue
 	}
 	static set user(user: User | undefined) {
@@ -44,7 +46,7 @@ export abstract class Connection {
 	static get key(): authly.Token | undefined {
 		const storage = Connection.storage
 		if (storage)
-				Connection.keyValue = (storage.getItem("PayFunc key") || undefined) as authly.Token | undefined
+			Connection.keyValue = (storage.getItem("PayFunc key") || undefined) as authly.Token | undefined
 		return Connection.keyValue
 	}
 	static set key(key: authly.Token | undefined) {
@@ -59,7 +61,8 @@ export abstract class Connection {
 	}
 	static readonly keyChanged: ((user: authly.Token | undefined) => void)[] = []
 	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>
-	private constructor() { }
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	private constructor() {}
 	private static clear() {
 		Connection.user = undefined
 		Connection.key = undefined
@@ -72,8 +75,8 @@ export abstract class Connection {
 		const response = await fetch(Connection.baseUrl + "me", {
 			method: "GET",
 			headers: {
-				"Accept": "application/json; charset=utf-8",
-				"Authorization": Credentials.toBasic({ user, password }),
+				Accept: "application/json; charset=utf-8",
+				Authorization: Credentials.toBasic({ user, password }),
 			},
 		})
 		const contentTypeHeader = response.headers.get("content-type")
@@ -89,7 +92,7 @@ export abstract class Connection {
 	}
 	private static async getToken(): Promise<authly.Token | undefined> {
 		let result: authly.Token | undefined = Connection.key
-		if (!result && Connection.reauthenticate)  {
+		if (!result && Connection.reauthenticate) {
 			const response = await Connection.reauthenticate()
 			if (!gracely.Error.is(response)) {
 				Connection.user = response[0]
@@ -109,7 +112,7 @@ export abstract class Connection {
 				...init.headers,
 				"Content-Type": "application/json; charset=utf-8",
 				Accept: "application/json; charset=utf-8",
-				Authorization: `Bearer ${ await Connection.getToken() }`,
+				Authorization: `Bearer ${await Connection.getToken()}`,
 			},
 		}
 		const response = await fetch(url, init)
@@ -117,8 +120,11 @@ export abstract class Connection {
 		if (response.status == 401) {
 			Connection.clear()
 			result = await Connection.fetch(resource, init, body)
-		}	else
-			result = response.headers.get("Content-Type") == "application/json; charset=utf-8" ? await response.json() as T | gracely.Error : { status: response.status, type: "unknown" }
+		} else
+			result =
+				response.headers.get("Content-Type") == "application/json; charset=utf-8"
+					? ((await response.json()) as T | gracely.Error)
+					: { status: response.status, type: "unknown" }
 		return result
 	}
 	static get<T>(resource: string): Promise<T | gracely.Error> {

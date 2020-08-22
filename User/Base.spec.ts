@@ -13,14 +13,14 @@ describe("User.Base", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
 		expect(User.Base.is(value)).toBeTruthy()
-		expect(User.Base.flaw(value)).toEqual({"flaws": [], "type": "model.User.Base"})
+		expect(User.Base.flaw(value)).toEqual({ flaws: [], type: "model.User.Base" })
 	})
 	it("user without id", async () => {
 		const value: any = {
@@ -33,14 +33,14 @@ describe("User.Base", () => {
 				},
 			},
 			option: {
-				"byBoat": "no",
-				"byPlane": {
-					"maybe": ["yes", "no"]
+				byBoat: "no",
+				byPlane: {
+					maybe: ["yes", "no"],
 				},
 			},
 		}
 		expect(User.Base.is(value)).toBeTruthy()
-		expect(User.Base.flaw(value)).toEqual({"flaws": [], "type": "model.User.Base"})
+		expect(User.Base.flaw(value)).toEqual({ flaws: [], type: "model.User.Base" })
 	})
 	it("user without id", async () => {
 		const value: any = {
@@ -55,11 +55,13 @@ describe("User.Base", () => {
 		}
 		expect(User.Base.is(value)).toBeFalsy()
 		expect(User.Base.flaw(value)).toEqual({
-			"flaws": [{
-				"property": "option",
-				"type": "{ [key: string]: any }",
-			}],
-			"type": "model.User.Base"
+			flaws: [
+				{
+					property: "option",
+					type: "{ [key: string]: any }",
+				},
+			],
+			type: "model.User.Base",
 		})
 	})
 })

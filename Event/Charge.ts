@@ -7,7 +7,8 @@ export interface Charge extends Base {
 
 export namespace Charge {
 	export function is(value: Charge | any): value is Charge {
-		return Base.is(value) && value.type == "charge" &&
-		(value.descriptor == undefined || typeof value.descriptor == "string")
+		return (
+			Base.is(value) && value.type == "charge" && (value.descriptor == undefined || typeof value.descriptor == "string")
+		)
 	}
 }

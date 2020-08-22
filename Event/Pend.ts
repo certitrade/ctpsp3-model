@@ -6,5 +6,6 @@ export interface Pend extends Base {
 
 export namespace Pend {
 	export function is(value: Pend | any): value is Pend {
-		return Base.is(value) && value.type == "pend" }
+		return Base.is(value) && value.type == "pend"
+	}
 }

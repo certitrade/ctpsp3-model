@@ -3,11 +3,11 @@ import { SE as IdentityNumberSE } from "./SE"
 
 export type IdentityNumber = IdentityNumberSE
 
-// tslint:disable: no-shadowed-variable
 export namespace IdentityNumber {
 	export function is(value: any | IdentityNumber, countryCode?: isoly.CountryCode.Alpha2): value is IdentityNumber {
-		return countryCode == "SE" && IdentityNumberSE.is(value) ||
-		countryCode == undefined && IdentityNumberSE.is(value)
+		return (
+			(countryCode == "SE" && IdentityNumberSE.is(value)) || (countryCode == undefined && IdentityNumberSE.is(value))
+		)
 	}
 	export type SE = IdentityNumberSE
 	export namespace SE {
