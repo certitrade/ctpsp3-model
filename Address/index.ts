@@ -8,17 +8,21 @@ export namespace Address {
 		return (
 			typeof value == "object" &&
 			CountryCode.Alpha2.is(value.countryCode) &&
-			(
-				value.countryCode == "FI" && AddressFI.is(value) ||
-				value.countryCode == "SE" && AddressSE.is(value) ||
-				value.countryCode != "FI" && value.countryCode != "SE"
-			))
+			((value.countryCode == "FI" && AddressFI.is(value)) ||
+				(value.countryCode == "SE" && AddressSE.is(value)) ||
+				(value.countryCode != "FI" && value.countryCode != "SE"))
+		)
 	}
 	export function create(countryCode: CountryCode.Alpha2): Address {
 		let result: Address
 		switch (countryCode) {
-			case "FI": result = AddressFI.create(); break
-			default: case "SE": result = AddressSE.create(); break
+			case "FI":
+				result = AddressFI.create()
+				break
+			default:
+			case "SE":
+				result = AddressSE.create()
+				break
 		}
 		return result
 	}
