@@ -47,11 +47,11 @@
 		"clean": "rm -rf dist node_modules coverage"
 	},
 	"dependencies": {
-		"@cardfunc/model": "0.0.70",
+		"@cardfunc/model": "0.0.74",
 		"authly": "0.0.40",
 		"eslint-config-standardize": "^0.7.1",
 		"dotenv": "^8.2.0",
-		"gracely": "0.0.33",
+		"gracely": "0.0.35",
 		"isoly": "0.0.14",
 		"node-fetch": "^2.6.0",
 		"servly": "^0.1.6"
