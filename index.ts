@@ -14,6 +14,7 @@ import { Name } from "./Name"
 import { Order } from "./Order"
 import { Payment } from "./Payment"
 import { PaymentOption } from "./PaymentOption"
+import { PaymentVerifier } from "./PaymentVerifier"
 import { PhoneNumbers } from "./PhoneNumbers"
 import { Status } from "./Status"
 import { User } from "./User"
@@ -35,6 +36,7 @@ export {
 	Order,
 	Payment,
 	PaymentOption,
+	PaymentVerifier,
 	PhoneNumbers,
 	Status,
 	User,
