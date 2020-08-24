@@ -17,7 +17,7 @@ export namespace Sms {
 	}
 	export function flaw(value: any | Sms): gracely.Flaw {
 		return {
-			type: "model.Merchant.Configuration.Email",
+			type: "model.Merchant.Configuration.Sms",
 			flaws:
 				typeof value != "object"
 					? undefined

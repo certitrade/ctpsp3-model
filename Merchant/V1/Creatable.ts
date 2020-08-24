@@ -22,7 +22,7 @@ export namespace Creatable {
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {
 		return {
-			type: "model.Merchant.Creatable",
+			type: "model.Merchant.V1.Creatable",
 			flaws:
 				typeof value != "object"
 					? undefined

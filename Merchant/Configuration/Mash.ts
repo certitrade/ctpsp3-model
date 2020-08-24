@@ -32,7 +32,7 @@ export namespace Mash {
 	}
 	export function flaw(value: any | Mash): gracely.Flaw {
 		return {
-			type: "model.Configuration",
+			type: "model.Merchant.Configuration.Mash",
 			flaws:
 				typeof value != "object"
 					? undefined

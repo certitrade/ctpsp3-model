@@ -55,11 +55,16 @@ export namespace Creatable {
 							value.logotype == undefined ||
 								typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
 							typeof value.url == "string" || { property: "url", type: "string" },
-							...(card.Merchant.Configuration.flaw(value.card).flaws ?? []),
-							...(Email.flaw(value.card).flaws ?? []),
-							...(Mash.flaw(value.card).flaws ?? []),
-							...(Sms.flaw(value.card).flaws ?? []),
-							...(MixedCreatable.flaw(value.mixed).flaws ?? []),
+							value.card == undefined ||
+								card.Merchant.Configuration.is(value.card) || {
+									property: "card",
+									...card.Merchant.Configuration.flaw(value.card),
+								},
+							value.email == undefined || Email.is(value.email) || { property: "email", ...Email.flaw(value.email) },
+							value.mash == undefined || Mash.is(value.mash) || { property: "mash", ...Mash.flaw(value.mash) },
+							value.sms == undefined || Sms.is(value.sms) || { property: "sms", ...Sms.flaw(value.sms) },
+							value.mixed == undefined ||
+								MixedCreatable.is(value.mixed) || { property: "mixed", ...MixedCreatable.flaw(value.mixed) },
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
