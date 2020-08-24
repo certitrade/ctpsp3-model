@@ -1,6 +1,6 @@
 {
 	"name": "@payfunc/model",
-	"version": "0.1.87",
+	"version": "0.1.88",
 	"description": "Data models for PayFunc.",
 	"author": "PayFunc",
 	"license": "MIT",
