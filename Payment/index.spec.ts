@@ -10,7 +10,7 @@ describe("Payment", () => {
 			currency: "SEK",
 			service: "",
 			created: "2019-06-06 13:39",
-			amount: 4000.00,
+			amount: 4000.0,
 			status: "created",
 		},
 		{
@@ -21,7 +21,7 @@ describe("Payment", () => {
 			currency: "SEK",
 			service: "",
 			created: "2019-06-08 13:38",
-			amount: 200.00,
+			amount: 200.0,
 			status: "created",
 		},
 		{
@@ -43,7 +43,7 @@ describe("Payment", () => {
 			currency: "SEK",
 			service: "",
 			created: "2019-06-07 13:37",
-			amount: 300.00,
+			amount: 300.0,
 			status: "created",
 		},
 	]
@@ -56,7 +56,7 @@ describe("Payment", () => {
 			currency: "SEK",
 			service: "",
 			created: "2019-06-08 13:38",
-			amount: 200.00,
+			amount: 200.0,
 			status: "created",
 		},
 		{
@@ -78,7 +78,7 @@ describe("Payment", () => {
 			currency: "SEK",
 			service: "",
 			created: "2019-06-07 13:37",
-			amount: 300.00,
+			amount: 300.0,
 			status: "created",
 		},
 		{
@@ -89,7 +89,7 @@ describe("Payment", () => {
 			currency: "SEK",
 			service: "",
 			created: "2019-06-06 13:39",
-			amount: 4000.00,
+			amount: 4000.0,
 			status: "created",
 		},
 	]
