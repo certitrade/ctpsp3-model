@@ -12,6 +12,9 @@ export class VerificationRequired extends Base {
 	) {
 		super()
 	}
+	static is(value: any | VerificationRequired): value is VerificationRequired {
+		return value instanceof VerificationRequired
+	}
 	toError(property: string, type: string): gracely.Error {
 		return gracely.client.malformedContent(property, type, "verification required", {
 			visible: this.visible,

@@ -26,7 +26,19 @@ export namespace Response {
 		return new RError(e)
 	}
 	export type Unverified = RUnverified
+	export namespace Unverified {
+		export const is = RUnverified.is
+	}
 	export type Verified = RVerified
+	export namespace Verified {
+		export const is = RVerified.is
+	}
 	export type VerificationRequired = RVerificationRequired
+	export namespace VerificationRequired {
+		export const is = RVerificationRequired.is
+	}
 	export type Error = RError
+	export namespace Error {
+		export const is = RError.is
+	}
 }
