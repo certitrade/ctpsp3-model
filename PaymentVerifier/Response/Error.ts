@@ -7,4 +7,7 @@ export class Error extends Base {
 	constructor(readonly error: gracely.Error) {
 		super()
 	}
+	static is(value: any | Error): value is Error {
+		return value instanceof Error
+	}
 }

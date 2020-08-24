@@ -12,6 +12,22 @@ export namespace PaymentVerifier {
 	}
 	export type Response = PResponse
 	export namespace Response {
+		export type Unverified = PResponse.Unverified
+		export namespace Unverified {
+			export const is = PResponse.Unverified.is
+		}
+		export type Verified = PResponse.Verified
+		export namespace Verified {
+			export const is = PResponse.Verified.is
+		}
+		export type VerificationRequired = PResponse.VerificationRequired
+		export namespace VerificationRequired {
+			export const is = PResponse.VerificationRequired.is
+		}
+		export type Error = PResponse.Error
+		export namespace Error {
+			export const is = PResponse.Error.is
+		}
 		export const verified = PResponse.verified
 		export const unverified = PResponse.unverified
 		export const verificationRequired = PResponse.verificationRequired
