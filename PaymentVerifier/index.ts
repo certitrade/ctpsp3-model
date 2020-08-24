@@ -1,6 +1,10 @@
 import * as authly from "authly"
 import { Request as PRequest } from "./Request"
 import { Response as PResponse } from "./Response"
+import { Error as ResponseError } from "./Response/Error"
+import { Unverified as ResponseUnverified } from "./Response/Unverified"
+import { Verified as ResponseVerified } from "./Response/Verified"
+import { VerificationRequired as ResponseVerificationRequired } from "./Response/VerificationRequired"
 
 export abstract class PaymentVerifier {
 	abstract async verify(key: authly.Token, request: PRequest, force?: boolean): Promise<PResponse>
@@ -14,19 +18,19 @@ export namespace PaymentVerifier {
 	export namespace Response {
 		export type Unverified = PResponse.Unverified
 		export namespace Unverified {
-			export const is = PResponse.Unverified.is
+			export const is = ResponseUnverified.is
 		}
 		export type Verified = PResponse.Verified
 		export namespace Verified {
-			export const is = PResponse.Verified.is
+			export const is = ResponseVerified.is
 		}
 		export type VerificationRequired = PResponse.VerificationRequired
 		export namespace VerificationRequired {
-			export const is = PResponse.VerificationRequired.is
+			export const is = ResponseVerificationRequired.is
 		}
 		export type Error = PResponse.Error
 		export namespace Error {
-			export const is = PResponse.Error.is
+			export const is = ResponseError.is
 		}
 		export const verified = PResponse.verified
 		export const unverified = PResponse.unverified
