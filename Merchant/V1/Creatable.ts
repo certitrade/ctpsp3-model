@@ -23,14 +23,23 @@ export namespace Creatable {
 	export function flaw(value: any | Creatable): gracely.Flaw {
 		return {
 			type: "model.Merchant.V1.Creatable",
-			flaws: typeof value != "object" ? undefined :
-				[
-					value.id == undefined || authly.Identifier.is(value.id, 8) || { property: "id", type: "authly.Identifier | undefined", condition: "length == 8" },
-					typeof value.name == "string" || { property: "name", type: "string" },
-					typeof value.option == "object" || { property: "option", type: "authly.Payload.Data" },
-					value.terms == undefined || typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
-					value.logotype == undefined || typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							value.id == undefined ||
+								authly.Identifier.is(value.id, 8) || {
+									property: "id",
+									type: "authly.Identifier | undefined",
+									condition: "length == 8",
+								},
+							typeof value.name == "string" || { property: "name", type: "string" },
+							typeof value.option == "object" || { property: "option", type: "authly.Payload.Data" },
+							value.terms == undefined ||
+								typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
+							value.logotype == undefined ||
+								typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 }

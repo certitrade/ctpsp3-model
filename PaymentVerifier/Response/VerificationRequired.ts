@@ -8,10 +8,10 @@ export class VerificationRequired extends Base {
 		readonly visible: boolean,
 		readonly method: "GET" | "POST",
 		readonly url: string,
-		readonly data?: { [property: string]: string },
-		) {
-			super()
-		}
+		readonly data?: { [property: string]: string }
+	) {
+		super()
+	}
 	toError(property: string, type: string): gracely.Error {
 		return gracely.client.malformedContent(property, type, "verification required", {
 			visible: this.visible,

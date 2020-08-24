@@ -18,12 +18,15 @@ export namespace Sms {
 	export function flaw(value: any | Sms): gracely.Flaw {
 		return {
 			type: "model.Merchant.Configuration.Sms",
-			flaws: typeof value != "object" ? undefined :
-				[
-					typeof value.key == "string" || { property: "key", type: "string" },
-					value.sender == undefined || typeof value.sender == "string" || { property: "sender", type: "string | undefined" },
-					value.dryRun == undefined || value.dryRun == "true" || { property: "dryRun", type: '"true" | undefined' },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							typeof value.key == "string" || { property: "key", type: "string" },
+							value.sender == undefined ||
+								typeof value.sender == "string" || { property: "sender", type: "string | undefined" },
+							value.dryRun == undefined || value.dryRun == "true" || { property: "dryRun", type: '"true" | undefined' },
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 }

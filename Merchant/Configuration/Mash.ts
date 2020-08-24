@@ -33,15 +33,28 @@ export namespace Mash {
 	export function flaw(value: any | Mash): gracely.Flaw {
 		return {
 			type: "model.Merchant.Configuration.Mash",
-			flaws: typeof value != "object" ? undefined :
-				[
-					typeof value.url == "string" || { property: "url", type: "string" },
-					typeof value.user == "string" || { property: "user", type: "string" },
-					typeof value.key == "string" || { property: "key", type: "string" },
-					typeof value.merchant == "number" || { property: "merchant", type: "number" },
-					value.option == undefined || value.option == "all" || value.option == "invoice" || value.option == "installment" || value.option == "none" || { property: "option", type: "all | invoice | installment | none" },
-					value.only == undefined || typeof value.only == "object" && (value.only.type == "invoice" && model.Payment.Invoice.Terms.is(value.only.terms) || value.only.type == "installment" && model.Payment.Installment.Plan.is(value.only.plan)) || { property: "only", type: '{ type: "invoice", terms: model.Payment.Invoice.Terms } | { type: "installment", plan: model.Payment.Installment.Plan }' },
-				].filter(gracely.Flaw.is) as gracely.Flaw[],
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							typeof value.url == "string" || { property: "url", type: "string" },
+							typeof value.user == "string" || { property: "user", type: "string" },
+							typeof value.key == "string" || { property: "key", type: "string" },
+							typeof value.merchant == "number" || { property: "merchant", type: "number" },
+							value.option == undefined ||
+								value.option == "all" ||
+								value.option == "invoice" ||
+								value.option == "installment" ||
+								value.option == "none" || { property: "option", type: "all | invoice | installment | none" },
+							value.only == undefined ||
+								(typeof value.only == "object" &&
+									((value.only.type == "invoice" && model.Payment.Invoice.Terms.is(value.only.terms)) ||
+										(value.only.type == "installment" && model.Payment.Installment.Plan.is(value.only.plan)))) || {
+									property: "only",
+									type:
+										'{ type: "invoice", terms: model.Payment.Invoice.Terms } | { type: "installment", plan: model.Payment.Installment.Plan }',
+								},
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
 	export function parse(data: string | undefined): Mash | undefined {
