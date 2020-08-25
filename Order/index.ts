@@ -53,38 +53,38 @@ export namespace Order {
 				typeof value != "object"
 					? undefined
 					: [
-							authly.Identifier.is(value.id, 16) || {
-								property: "id",
-								type: "authly.Identifier",
-								condition: "length == 16",
-							},
-							typeof value.number == "string" ||
-								value.number == undefined || { property: "number", type: "string | undefined" },
-							typeof value.client == "string" ||
-								value.client == undefined || { property: "client", type: "string | undefined" },
-							isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
-							value.customer == undefined ||
-								Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
-							Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
-							isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
-							Payment.is(value.payment) || { property: "payment", type: "Payment" },
-							value.event == undefined ||
-								(Array.isArray(value.event) && value.event.every(Event.is)) || {
-									property: "event",
-									type: "Event[] | undefined",
-								},
-							value.status == undefined ||
-								(Array.isArray(value.status) && value.status.every(Status.is)) || {
-									property: "status",
-									type: "Status[] | undefined",
-								},
-							value.theme == undefined ||
-								typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
-							value.callback == undefined ||
-								typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
-							value.language == undefined ||
-								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
-					  ].filter(gracely.Flaw.is),
+						authly.Identifier.is(value.id, 16) || {
+							property: "id",
+							type: "authly.Identifier",
+							condition: "length == 16",
+						},
+						typeof value.number == "string" ||
+						value.number == undefined || { property: "number", type: "string | undefined" },
+						typeof value.client == "string" ||
+						value.client == undefined || { property: "client", type: "string | undefined" },
+						isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
+						value.customer == undefined ||
+						Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
+						Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
+						isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
+						Payment.is(value.payment) || { property: "payment", type: "Payment" },
+						value.event == undefined ||
+						(Array.isArray(value.event) && value.event.every(Event.is)) || {
+							property: "event",
+							type: "Event[] | undefined",
+						},
+						value.status == undefined ||
+						(Array.isArray(value.status) && value.status.every(Status.is)) || {
+							property: "status",
+							type: "Status[] | undefined",
+						},
+						value.theme == undefined ||
+						typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
+						value.callback == undefined ||
+						typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
+						value.language == undefined ||
+						isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
+					].filter(gracely.Flaw.is),
 		}
 	}
 	export async function generateCallback(
@@ -184,7 +184,7 @@ export namespace Order {
 				}
 			}
 			orders.items = items.length == 1 ? items[0] : items
-			orders.status = [...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), []))]
+			orders.status = Status.sort([...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), []))])
 		}
 		return orders
 	}
