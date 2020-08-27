@@ -300,7 +300,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["refunded", "charged"],
 			},
-			status: ["refunded", "charged"],
+			status: ["charged", "refunded"],
 		}))
 	it("can't refund before charge", () =>
 		expect(
@@ -344,7 +344,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "ordered"],
 			},
-			status: ["charged", "ordered"],
+			status: ["ordered", "charged"],
 		}))
 	it("can only charge ordered items", () =>
 		expect(
@@ -395,7 +395,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "created"],
 			},
-			status: ["charged", "created"],
+			status: ["created", "charged"],
 		}))
 
 	it("gets items from partial charge and refund", () =>
