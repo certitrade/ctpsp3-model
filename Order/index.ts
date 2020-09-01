@@ -188,6 +188,17 @@ export namespace Order {
 		}
 		return orders
 	}
+	export function amountsPerStatus(order: Order): { [status: string]: number | undefined } {
+		if (!order.status)
+			order = setStatus(order)
+		return Item.asArray(order.items).reduce<{ [status: string]: number | undefined }>((result, item) => {
+			const price = Item.amount(item) / (item.quantity ?? 1)
+			return item.status?.reduce((r, s) => {
+				r[s] = price + (r[s] ?? 0)
+				return r
+			}, result) ?? result
+		}, {})
+	}
 	export function getCsvHeaders(): string {
 		let result = ``
 		result += `id,`

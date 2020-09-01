@@ -117,17 +117,20 @@ export namespace Item {
 			left.rebate == right.rebate
 		)
 	}
-	export function applyAmountEvent(sums: { [type: string]: number }, event: Event) {
+	export function applyAmountEvent(sums: { [type: string]: number }, event: Event): { [type: string]: number } {
 		if (event.type != "synchronize" && event.type != "fail") {
-			if (event.type != "charge" && event.type != "refund")
-				sums = {}
-			if (event.type == "charge")
-				sums.order = sums.order - (event.items as number)
-			if (event.type == "refund")
-				sums.charge = sums.charge - (event.items as number)
-			sums[event.type] = Object.prototype.hasOwnProperty.call(sums, event.type)
-				? sums[event.type] + (event.items as number)
-				: (event.items as number)
+			switch (event.type) {
+				case "charge":
+					sums.order = sums.order - (event.items as number)
+					break
+				case "refund":
+					sums.charge = sums.charge - (event.items as number)
+					break
+				default:
+					sums = {}
+					break		
+			}
+			sums[event.type] = (event.items as number) + sums[event.type] ?? 0
 		}
 		return sums
 	}

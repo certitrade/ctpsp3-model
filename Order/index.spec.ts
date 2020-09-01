@@ -512,4 +512,36 @@ describe("Order", () => {
 			},
 			status: ["cancelled"],
 		}))
+			it.skip("amountsPerStatus", () =>
+		expect(
+			model.Order.amountsPerStatus({
+				...getAmountOrder(),
+				event: [
+					{
+						type: "order",
+						date: "2019-02-01T12:00:00",
+						items: 100,
+					},
+					{
+						type: "charge",
+						date: "2019-02-01T12:10:00",
+						items: 70,
+					},
+					{
+						type: "refund",
+						date: "2019-02-01T12:10:00",
+						items: 20,
+					},
+					{
+						type: "refund",
+						date: "2019-02-01T12:10:00",
+						items: 10,
+					}
+				],
+			})
+		).toMatchObject({
+			ordered: 30,
+			charged: 40,
+			refunded: 30,
+		}))
 })
