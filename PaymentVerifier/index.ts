@@ -7,7 +7,12 @@ import { Verified as ResponseVerified } from "./Response/Verified"
 import { VerificationRequired as ResponseVerificationRequired } from "./Response/VerificationRequired"
 
 export abstract class PaymentVerifier {
-	abstract async verify(key: authly.Token, request: PRequest, force?: boolean): Promise<PResponse>
+	abstract async verify(
+		key: authly.Token,
+		request: PRequest,
+		force?: boolean,
+		logFunction?: (step: string, level: "trace" | "debug" | "warning" | "error" | "fatal", content: any) => void
+	): Promise<PResponse>
 }
 export namespace PaymentVerifier {
 	export type Request = PRequest
