@@ -10,10 +10,9 @@ export type Status =
 	| "charged"
 	| "paid"
 	| "refunded"
-	| "synchronized"
 
 export namespace Status {
-	export const types = [
+	export const types: Status[] = [
 		"created",
 		"deferred",
 		"pending",
@@ -22,8 +21,7 @@ export namespace Status {
 		"cancelled",
 		"charged",
 		"paid",
-		"refunded",
-		"synchronized",
+		"refunded"
 	]
 	export function is(value: any | Status): value is Status {
 		return typeof value == "string" && types.some(t => t == value)
@@ -35,36 +33,36 @@ export namespace Status {
 		let result: Status | undefined
 		switch (event) {
 			case "defer":
-				result = from == "synchronized" || from == "created" || from == "pending" ? "deferred" : undefined
+				result = from == "created" || from == "pending" ? "deferred" : undefined
 				break
 			case "pend":
-				result = from == "synchronized" || from == "created" || from == "deferred" ? "pending" : undefined
+				result = from == "created" || from == "deferred" ? "pending" : undefined
 				break
 			case "deny":
 				result =
-					from == "synchronized" || from == "created" || from == "deferred" || from == "pending" ? "denied" : undefined
+					from == "created" || from == "deferred" || from == "pending" ? "denied" : undefined
 				break
 			case "order":
 				result =
-					from == "synchronized" || from == "created" || from == "deferred" || from == "pending" ? "ordered" : undefined
+					from == "created" || from == "deferred" || from == "pending" ? "ordered" : undefined
 				break
 			case "cancel":
 				result =
-					from == "synchronized" || from == "created" || from == "deferred" || from == "pending" || from == "ordered"
+					from == "created" || from == "deferred" || from == "pending" || from == "ordered"
 						? "cancelled"
 						: undefined
 				break
 			case "charge":
-				result = from == "synchronized" || from == "ordered" ? "charged" : undefined
+				result = from == "ordered" ? "charged" : undefined
 				break
 			case "pay":
-				result = from == "synchronized" || from == "charged" ? "paid" : undefined
+				result = from == "charged" ? "paid" : undefined
 				break
 			case "refund":
-				result = from == "synchronized" || from == "charged" || from == "paid" ? "refunded" : undefined
+				result = from == "charged" || from == "paid" ? "refunded" : undefined
 				break
 			case "synchronize":
-				result = "synchronized"
+				result = from
 				break
 			default:
 			case "fail":
@@ -104,9 +102,6 @@ export namespace Status {
 			case "refund":
 				result = "refunded"
 				break
-			case "synchronize":
-				result = "synchronized"
-				break
 		}
 		return result
 	}
@@ -140,9 +135,6 @@ export namespace Status {
 				break
 			case "refunded":
 				result = "refund"
-				break
-			case "synchronized":
-				result = "synchronize"
 				break
 		}
 		return result

@@ -10,7 +10,6 @@ describe("Status", () => {
 	it("is charged", () => expect(model.Status.is("charged")).toBeTruthy())
 	it("is paid", () => expect(model.Status.is("paid")).toBeTruthy())
 	it("is refunded", () => expect(model.Status.is("refunded")).toBeTruthy())
-	it("is synchronized", () => expect(model.Status.is("synchronized")).toBeTruthy())
 
 	it("order created", () => expect(model.Status.change("created", "order")).toBe("ordered"))
 	it("order deferred", () => expect(model.Status.change("deferred", "order")).toBe("ordered"))
@@ -21,7 +20,6 @@ describe("Status", () => {
 	it("order charged", () => expect(model.Status.change("charged", "order")).toBe(undefined))
 	it("order paid", () => expect(model.Status.change("paid", "order")).toBe(undefined))
 	it("order refunded", () => expect(model.Status.change("refunded", "order")).toBe(undefined))
-	it("order synchronized", () => expect(model.Status.change("synchronized", "order")).toBe("ordered"))
 
 	it("cancel created", () => expect(model.Status.change("created", "cancel")).toBe("cancelled"))
 	it("cancel deferred", () => expect(model.Status.change("deferred", "cancel")).toBe("cancelled"))
@@ -32,7 +30,6 @@ describe("Status", () => {
 	it("cancel charged", () => expect(model.Status.change("charged", "cancel")).toBe(undefined))
 	it("cancel paid", () => expect(model.Status.change("paid", "cancel")).toBe(undefined))
 	it("cancel refunded", () => expect(model.Status.change("refunded", "cancel")).toBe(undefined))
-	it("cancel synchronized", () => expect(model.Status.change("synchronized", "cancel")).toBe("cancelled"))
 
 	it("charge created", () => expect(model.Status.change("created", "charge")).toBe(undefined))
 	it("charge deferred", () => expect(model.Status.change("deferred", "charge")).toBe(undefined))
@@ -43,7 +40,6 @@ describe("Status", () => {
 	it("charge charged", () => expect(model.Status.change("charged", "charge")).toBe(undefined))
 	it("charge paid", () => expect(model.Status.change("paid", "charge")).toBe(undefined))
 	it("charge refunded", () => expect(model.Status.change("refunded", "charge")).toBe(undefined))
-	it("charge synchronized", () => expect(model.Status.change("synchronized", "charge")).toBe("charged"))
 
 	it("pay created", () => expect(model.Status.change("created", "pay")).toBe(undefined))
 	it("pay deferred", () => expect(model.Status.change("deferred", "pay")).toBe(undefined))
@@ -54,7 +50,6 @@ describe("Status", () => {
 	it("pay charged", () => expect(model.Status.change("charged", "pay")).toBe("paid"))
 	it("pay paid", () => expect(model.Status.change("paid", "pay")).toBe(undefined))
 	it("pay refunded", () => expect(model.Status.change("refunded", "pay")).toBe(undefined))
-	it("pay synchronized", () => expect(model.Status.change("synchronized", "pay")).toBe("paid"))
 
 	it("refund created", () => expect(model.Status.change("created", "refund")).toBe(undefined))
 	it("refund deferred", () => expect(model.Status.change("deferred", "refund")).toBe(undefined))
@@ -65,7 +60,6 @@ describe("Status", () => {
 	it("refund charged", () => expect(model.Status.change("charged", "refund")).toBe("refunded"))
 	it("refund paid", () => expect(model.Status.change("paid", "refund")).toBe("refunded"))
 	it("refund refunded", () => expect(model.Status.change("refunded", "refund")).toBe(undefined))
-	it("refund synchronized", () => expect(model.Status.change("synchronized", "refund")).toBe("refunded"))
 
 	it("fail created", () => expect(model.Status.change("created", "fail")).toBe("created"))
 	it("fail deferred", () => expect(model.Status.change("deferred", "fail")).toBe("deferred"))
@@ -76,7 +70,6 @@ describe("Status", () => {
 	it("fail charged", () => expect(model.Status.change("charged", "fail")).toBe("charged"))
 	it("fail paid", () => expect(model.Status.change("paid", "fail")).toBe("paid"))
 	it("fail refunded", () => expect(model.Status.change("refunded", "fail")).toBe("refunded"))
-	it("fail synchronized", () => expect(model.Status.change("synchronized", "fail")).toBe("synchronized"))
 
 	it("created", () => expect(model.Status.toEvent("created")).toBe("fail"))
 	it("deferred", () => expect(model.Status.toEvent("deferred")).toBe("defer"))
@@ -87,7 +80,6 @@ describe("Status", () => {
 	it("charged", () => expect(model.Status.toEvent("charged")).toBe("charge"))
 	it("paid", () => expect(model.Status.toEvent("paid")).toBe("pay"))
 	it("refunded", () => expect(model.Status.toEvent("refunded")).toBe("refund"))
-	it("synchronized", () => expect(model.Status.toEvent("synchronized")).toBe("synchronize"))
 
 	it("sort", () => expect(model.Status.sort(["refunded", "ordered", "paid", "ordered"])).toEqual(["ordered", "ordered", "paid", "refunded"]))
 })

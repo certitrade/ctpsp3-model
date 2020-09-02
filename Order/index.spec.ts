@@ -480,7 +480,7 @@ describe("Order", () => {
 			],
 			status: ["charged", "refunded"],
 		}))
-	it("cancel cancels everything", () =>
+	it("cancel cancels only events prior charge", () =>
 		expect(
 			model.Order.setStatus({
 				...getAmountOrder(),
@@ -492,7 +492,7 @@ describe("Order", () => {
 					{
 						type: "charge",
 						date: "2019-02-01T12:10:00",
-						items: 500,
+						items: 250,
 					},
 					{
 						type: "refund",
@@ -506,42 +506,58 @@ describe("Order", () => {
 				],
 			})
 		).toMatchObject({
-			items: {
-				price: 500,
+			items: [
+				{
+				price: 200,
+				status: ["charged"],
+			},
+				{
+				price: 50,
+				status: ["refunded"],
+			},
+				{
+				price: 250,
 				status: ["cancelled"],
 			},
-			status: ["cancelled"],
+		],
+			status: ["cancelled", "charged", "refunded"],
 		}))
-			it.skip("amountsPerStatus", () =>
+		it("Total refund refunds available amount only", () =>
 		expect(
-			model.Order.amountsPerStatus({
+			model.Order.setStatus({
 				...getAmountOrder(),
 				event: [
 					{
 						type: "order",
 						date: "2019-02-01T12:00:00",
-						items: 100,
 					},
 					{
 						type: "charge",
 						date: "2019-02-01T12:10:00",
-						items: 70,
+						items: 400,
 					},
 					{
 						type: "refund",
 						date: "2019-02-01T12:10:00",
-						items: 20,
+						items: 200,
 					},
 					{
 						type: "refund",
 						date: "2019-02-01T12:10:00",
-						items: 10,
-					}
+					},
 				],
 			})
 		).toMatchObject({
-			ordered: 30,
-			charged: 40,
-			refunded: 30,
+			items: [
+				{
+				price: 100,
+				status: ["ordered"],
+			},
+				{
+				price: 400,
+				status: ["refunded"],
+			},
+		],
+			status: ["ordered", "refunded"],
 		}))
 })

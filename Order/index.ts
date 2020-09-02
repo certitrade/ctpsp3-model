@@ -160,21 +160,13 @@ export namespace Order {
 		else {
 			let items: Item[] = []
 			if (typeof orders.items == "number") {
-				let sums: { [type: string]: number } = {}
-				if (orders.event) {
-					for (const event of orders.event) {
-						if (!event.items)
-							event.items = Item.amount(orders.items)
-						sums = Item.applyAmountEvent(sums, event)
-					}
-				}
+				let sums: { [type: string]: number } = { created: orders.items }
+				if (orders.event)
+					for (const event of orders.event)
+						sums = Item.applyAmountEvent(sums, event, orders.items)
 				for (const key of Object.keys(sums))
 					if (sums[key] > 0)
-						items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
-				if (items.length == 0) {
-					items = Item.asArray(orders.items)
-					items[0].status = ["created"]
-				}
+						items.push({ price: sums[key], status: [key as Status] })
 			} else {
 				items = Item.asArray(orders.items)
 				if (orders.event) {
