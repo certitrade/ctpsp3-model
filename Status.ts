@@ -23,7 +23,7 @@ export namespace Status {
 		"charged",
 		"paid",
 		"refunded",
-		"synchronized"
+		"synchronized",
 	]
 	export function is(value: any | Status): value is Status {
 		return typeof value == "string" && types.some(t => t == value)

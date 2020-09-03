@@ -508,21 +508,21 @@ describe("Order", () => {
 		).toMatchObject({
 			items: [
 				{
-				price: 200,
-				status: ["charged"],
-			},
+					price: 200,
+					status: ["charged"],
+				},
 				{
-				price: 50,
-				status: ["refunded"],
-			},
+					price: 50,
+					status: ["refunded"],
+				},
 				{
-				price: 250,
-				status: ["cancelled"],
-			},
-		],
+					price: 250,
+					status: ["cancelled"],
+				},
+			],
 			status: ["cancelled", "charged", "refunded"],
 		}))
-		it("Total refund refunds available amount only", () =>
+	it("Total refund refunds available amount only", () =>
 		expect(
 			model.Order.setStatus({
 				...getAmountOrder(),
@@ -550,14 +550,14 @@ describe("Order", () => {
 		).toMatchObject({
 			items: [
 				{
-				price: 100,
-				status: ["ordered"],
-			},
+					price: 100,
+					status: ["ordered"],
+				},
 				{
-				price: 400,
-				status: ["refunded"],
-			},
-		],
+					price: 400,
+					status: ["refunded"],
+				},
+			],
 			status: ["ordered", "refunded"],
 		}))
 })

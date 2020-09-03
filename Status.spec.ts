@@ -89,5 +89,11 @@ describe("Status", () => {
 	it("refunded", () => expect(model.Status.toEvent("refunded")).toBe("refund"))
 	it("synchronized", () => expect(model.Status.toEvent("synchronized")).toBe("synchronize"))
 
-	it("sort", () => expect(model.Status.sort(["refunded", "ordered", "paid", "ordered"])).toEqual(["ordered", "ordered", "paid", "refunded"]))
+	it("sort", () =>
+		expect(model.Status.sort(["refunded", "ordered", "paid", "ordered"])).toEqual([
+			"ordered",
+			"ordered",
+			"paid",
+			"refunded",
+		]))
 })

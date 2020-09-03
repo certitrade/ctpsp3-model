@@ -117,7 +117,11 @@ export namespace Item {
 			left.rebate == right.rebate
 		)
 	}
-	export function applyAmountEvent(sums: { [type: string]: number }, event: Event, items: number): { [type: string]: number } {
+	export function applyAmountEvent(
+		sums: { [type: string]: number },
+		event: Event,
+		items: number
+	): { [type: string]: number } {
 		let from: string | undefined
 		let to: string | undefined
 		let amount = typeof event.items == "number" ? event.items : undefined
@@ -136,7 +140,7 @@ export namespace Item {
 					amount = sums[from]
 					sums[from] = 0
 				}
-				sums[to] = (amount ?? items) + (sums[to] ?? 0)
+			sums[to] = (amount ?? items) + (sums[to] ?? 0)
 		}
 		return sums
 	}
