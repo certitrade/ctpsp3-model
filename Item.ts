@@ -122,25 +122,27 @@ export namespace Item {
 		event: Event,
 		items: number
 	): { [type: string]: number } {
-		let from: string | undefined
-		let to: string | undefined
-		let amount = typeof event.items == "number" ? event.items : undefined
-		for (const status of Status.types) {
-			to = Status.change(status, event.type)
-			if (to && (amount ? sums[status] >= amount : sums[status] > 0)) {
-				from = status
-				break
-			}
-		}
-		if (to && to != from) {
-			if (from)
-				if (amount)
-					sums[from] -= amount
-				else {
-					amount = sums[from]
-					sums[from] = 0
+		if (event.type != "fail") {
+			let from: string | undefined
+			let to: string | undefined
+			let amount = typeof event.items == "number" ? event.items : undefined
+			for (const status of Status.types) {
+				to = Status.change(status, event.type)
+				if (to && (amount ? sums[status] >= amount : sums[status] > 0)) {
+					from = status
+					break
 				}
-			sums[to] = (amount ?? items) + (sums[to] ?? 0)
+			}
+			if (to && to != from) {
+				if (from)
+					if (amount)
+						sums[from] -= amount
+					else {
+						amount = sums[from]
+						sums[from] = 0
+					}
+				sums[to] = (amount ?? items) + (sums[to] ?? 0)
+			}
 		}
 		return sums
 	}

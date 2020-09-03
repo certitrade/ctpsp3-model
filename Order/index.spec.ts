@@ -560,4 +560,98 @@ describe("Order", () => {
 			],
 			status: ["ordered", "refunded"],
 		}))
+	const synchronizeIssue: model.Order & any = {
+		items: 1000,
+		currency: "SEK",
+		number: "bN6ZWSknJ--X",
+		payment: {
+			reference: "8560bf24-d1ab-4975-891f-f07ab62b11d1",
+			created: "2020-09-01T13:25:54+00:00",
+			amount: 1000,
+			currency: "SEK",
+			type: "card",
+			scheme: "visa",
+			iin: "422222",
+			last4: "2222",
+			expires: [2, 22],
+			service: "cardfunc",
+			status: "created",
+			card:
+				"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjYXJkZnVuYyIsImlhdCI6MTU5ODk2Njc1MDY2MCwiYXVkIjoicHJvZHVjdGlvbiIsInNjaGVtZSI6InZpc2EiLCJpaW4iOiI0MjIyMjIiLCJsYXN0NCI6IjIyMjIiLCJleHBpcmVzIjpbMiwyMl0sInR5cGUiOiJzaW5nbGUgdXNlIiwiY2FyZCI6IlpETXBZZU9PIn0.nefghajHg_tSMz4xS953cwQCqyye4i7Dqz_iDNlzCVP9qJmHMcBfMS-YzpAY6T20Xiru_7H4qmZhwjOidRwMF1u_19HY-BGDra3-4QyMcKM7OBLFMPsR1cLZbnLJDSi7bj318EQ9uKy4_3qgjrglERuHOIEFl9wFfKtrqo3kJ4DSNpYROaDxuPez2AgnyKDVxKiePPllWdxAajA6CiiKzlICx-bxoqp9Xkf84ryn2eyNfS6djB9WaFtv4J6Vb1eLrDW5sBIh9qeHY17y5m8dlGhAOdzTAt0NoD3q2pknV6BbgwpiZdvjW8uapKCjKiWyWyiTgLhaRcHUODbD8Z5bOg",
+		},
+		created: "2020-09-01T13:25:55.353Z",
+		event: [
+			{
+				type: "order",
+				date: "2020-09-01T13:25:55.353Z",
+			},
+			{
+				type: "charge",
+				date: "2020-09-01T13:26:27.906Z",
+				reference: "c580092b-d9b8-4442-aa4c-164b201932dc",
+			},
+			{
+				type: "refund",
+				items: 1.98,
+				date: "2020-09-01T13:26:50.706Z",
+				reference: "98d13e95-e45a-413d-9ca3-61340152bdac",
+			},
+			{
+				type: "fail",
+				items: 1000,
+				date: "2020-09-01T13:27:55.879Z",
+				original: "refund",
+				error: {
+					status: 502,
+					type: "backend failure",
+					backend: "unknown",
+					details: {
+						status: 400,
+						body: {
+							status: {
+								code: 40000,
+								message: "cannot exceed remaining amount",
+							},
+						},
+					},
+					reference: null,
+				},
+			},
+			{
+				type: "fail",
+				date: "2020-09-03T11:33:48.815Z",
+				original: "charge",
+				error: {
+					status: 502,
+					type: "backend failure",
+					backend: "unknown",
+					details: {
+						status: 400,
+						body: {
+							status: {
+								code: 40000,
+								message: "no remaining amount",
+							},
+						},
+					},
+					reference: null,
+				},
+			},
+		],
+		id: "xit8mSr5VzdJIwlQ",
+	}
+	it("Total refund refunds available amount only", () =>
+		expect(model.Order.setStatus(synchronizeIssue)).toMatchObject({
+			items: [
+				{
+					price: 998.02,
+					status: ["charged"],
+				},
+				{
+					price: 1.98,
+					status: ["refunded"],
+				},
+			],
+			status: ["charged", "refunded"],
+		}))
 })
