@@ -53,38 +53,38 @@ export namespace Order {
 				typeof value != "object"
 					? undefined
 					: [
-						authly.Identifier.is(value.id, 16) || {
-							property: "id",
-							type: "authly.Identifier",
-							condition: "length == 16",
-						},
-						typeof value.number == "string" ||
-						value.number == undefined || { property: "number", type: "string | undefined" },
-						typeof value.client == "string" ||
-						value.client == undefined || { property: "client", type: "string | undefined" },
-						isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
-						value.customer == undefined ||
-						Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
-						Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
-						isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
-						Payment.is(value.payment) || { property: "payment", type: "Payment" },
-						value.event == undefined ||
-						(Array.isArray(value.event) && value.event.every(Event.is)) || {
-							property: "event",
-							type: "Event[] | undefined",
-						},
-						value.status == undefined ||
-						(Array.isArray(value.status) && value.status.every(Status.is)) || {
-							property: "status",
-							type: "Status[] | undefined",
-						},
-						value.theme == undefined ||
-						typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
-						value.callback == undefined ||
-						typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
-						value.language == undefined ||
-						isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
-					].filter(gracely.Flaw.is),
+							authly.Identifier.is(value.id, 16) || {
+								property: "id",
+								type: "authly.Identifier",
+								condition: "length == 16",
+							},
+							typeof value.number == "string" ||
+								value.number == undefined || { property: "number", type: "string | undefined" },
+							typeof value.client == "string" ||
+								value.client == undefined || { property: "client", type: "string | undefined" },
+							isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
+							value.customer == undefined ||
+								Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
+							Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
+							isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
+							Payment.is(value.payment) || { property: "payment", type: "Payment" },
+							value.event == undefined ||
+								(Array.isArray(value.event) && value.event.every(Event.is)) || {
+									property: "event",
+									type: "Event[] | undefined",
+								},
+							value.status == undefined ||
+								(Array.isArray(value.status) && value.status.every(Status.is)) || {
+									property: "status",
+									type: "Status[] | undefined",
+								},
+							value.theme == undefined ||
+								typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
+							value.callback == undefined ||
+								typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
+							value.language == undefined ||
+								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
+					  ].filter(gracely.Flaw.is),
 		}
 	}
 	export async function generateCallback(
@@ -160,21 +160,13 @@ export namespace Order {
 		else {
 			let items: Item[] = []
 			if (typeof orders.items == "number") {
-				let sums: { [type: string]: number } = {}
-				if (orders.event) {
-					for (const event of orders.event) {
-						if (!event.items)
-							event.items = Item.amount(orders.items)
-						sums = Item.applyAmountEvent(sums, event)
-					}
-				}
+				let sums: { [type: string]: number } = { created: orders.items }
+				if (orders.event)
+					for (const event of orders.event)
+						sums = Item.applyAmountEvent(sums, event, orders.items)
 				for (const key of Object.keys(sums))
 					if (sums[key] > 0)
-						items.push({ price: sums[key], status: [Status.fromEvent(key as Event.Type)] })
-				if (items.length == 0) {
-					items = Item.asArray(orders.items)
-					items[0].status = ["created"]
-				}
+						items.push({ price: sums[key], status: [key as Status] })
 			} else {
 				items = Item.asArray(orders.items)
 				if (orders.event) {
@@ -184,9 +176,24 @@ export namespace Order {
 				}
 			}
 			orders.items = items.length == 1 ? items[0] : items
-			orders.status = Status.sort([...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), []))])
+			orders.status = Status.sort([
+				...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), [])),
+			])
 		}
 		return orders
+	}
+	export function amountsPerStatus(order: Order): { [status: string]: number | undefined } {
+		if (!order.status)
+			order = setStatus(order)
+		return Item.asArray(order.items).reduce<{ [status: string]: number | undefined }>((result, item) => {
+			const price = Item.amount(item) / (item.quantity ?? 1)
+			return (
+				item.status?.reduce((r, s) => {
+					r[s] = price + (r[s] ?? 0)
+					return r
+				}, result) ?? result
+			)
+		}, {})
 	}
 	export function getCsvHeaders(): string {
 		let result = ``

@@ -13,7 +13,7 @@ export type Status =
 	| "synchronized"
 
 export namespace Status {
-	export const types = [
+	export const types: Status[] = [
 		"created",
 		"deferred",
 		"pending",

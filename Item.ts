@@ -117,17 +117,30 @@ export namespace Item {
 			left.rebate == right.rebate
 		)
 	}
-	export function applyAmountEvent(sums: { [type: string]: number }, event: Event) {
-		if (event.type != "synchronize" && event.type != "fail") {
-			if (event.type != "charge" && event.type != "refund")
-				sums = {}
-			if (event.type == "charge")
-				sums.order = sums.order - (event.items as number)
-			if (event.type == "refund")
-				sums.charge = sums.charge - (event.items as number)
-			sums[event.type] = Object.prototype.hasOwnProperty.call(sums, event.type)
-				? sums[event.type] + (event.items as number)
-				: (event.items as number)
+	export function applyAmountEvent(
+		sums: { [type: string]: number },
+		event: Event,
+		items: number
+	): { [type: string]: number } {
+		let from: string | undefined
+		let to: string | undefined
+		let amount = typeof event.items == "number" ? event.items : undefined
+		for (const status of Status.types) {
+			to = Status.change(status, event.type)
+			if (to && (amount ? sums[status] >= amount : sums[status] > 0)) {
+				from = status
+				break
+			}
+		}
+		if (to && to != from) {
+			if (from)
+				if (amount)
+					sums[from] -= amount
+				else {
+					amount = sums[from]
+					sums[from] = 0
+				}
+			sums[to] = (amount ?? items) + (sums[to] ?? 0)
 		}
 		return sums
 	}
