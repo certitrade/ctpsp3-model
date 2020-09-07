@@ -14,8 +14,7 @@ export namespace Creatable {
 			typeof value == "object" &&
 			value.type == "defer" &&
 			Method.is(value.method) &&
-			((value.contact == undefined && value.method == "link") ||
-				(typeof value.contact == "string" && value.method != "link")) &&
+			(value.method == "link" ? value.contact == undefined : typeof value.contact == "string") &&
 			(value.message == undefined || typeof value.message == "string") &&
 			CreatableBase.is(value)
 		)
