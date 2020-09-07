@@ -13,7 +13,7 @@ describe("Payment.Defer.Creatable", () => {
 				currency: "SEK",
 			})
 		).toBeTruthy())
-	it("is not defer/email (without contact)", () =>
+	it("is NOT defer/email (without contact)", () =>
 		expect(
 			model.Payment.Defer.Creatable.is({
 				type: "defer",
@@ -36,7 +36,7 @@ describe("Payment.Defer.Creatable", () => {
 				currency: "SEK",
 			})
 		).toBeTruthy())
-	it("is not defer/sms (without contact)", () =>
+	it("is NOT defer/sms (without contact)", () =>
 		expect(
 			model.Payment.Defer.Creatable.is({
 				type: "defer",
@@ -47,18 +47,18 @@ describe("Payment.Defer.Creatable", () => {
 				currency: "SEK",
 			})
 		).toBeFalsy())
-	it("is defer/link (with contact)", () =>
+	it("is NOT defer/link (with contact)", () =>
 		expect(
 			model.Payment.Defer.Creatable.is({
 				type: "defer",
 				method: "link",
-				contact: "0712-34 56 789",
+				contact: "example@payfunc.com",
 				number: "order12359",
 				client: "42233c8o",
 				items: 1337.42,
 				currency: "SEK",
 			})
-		).toBeTruthy())
+		).toBeFalsy())
 	it("is defer/link (without contact)", () =>
 		expect(
 			model.Payment.Defer.Creatable.is({

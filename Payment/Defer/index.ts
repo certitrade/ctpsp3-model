@@ -9,12 +9,7 @@ export interface Defer extends Base, Omit<DeferCreatable, "currency"> {
 
 export namespace Defer {
 	export function is(value: any | Defer): value is Defer {
-		return (
-			((value.method != "link" && (value.link == undefined || typeof value.link == "string")) ||
-				(value.method == "link" && typeof value.link == "string")) &&
-			DeferCreatable.is(value) &&
-			Base.is(value)
-		)
+		return (value.link == undefined || typeof value.link == "string") && DeferCreatable.is(value) && Base.is(value)
 	}
 	export type Creatable = DeferCreatable
 	export namespace Creatable {
