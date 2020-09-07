@@ -146,6 +146,7 @@ export namespace Payment {
 		}
 		export type Method = PDefer.Method
 		export namespace Method {
+			export const types = PDefer.Method.types
 			export const is = PDefer.Method.is
 		}
 	}
