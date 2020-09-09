@@ -654,4 +654,30 @@ describe("Order", () => {
 			],
 			status: ["charged", "refunded"],
 		}))
+	it("double defer orders", () =>
+		expect(
+			model.Order.setStatus({
+				...getAmountOrder(),
+				event: [
+					{
+						type: "defer",
+						date: "2019-02-01T12:00:00",
+					},
+					{
+						type: "defer",
+						date: "2019-02-01T12:10:00",
+					},
+					{
+						type: "defer",
+						date: "2019-02-01T12:10:00",
+					},
+				],
+			})
+		).toMatchObject({
+			items: {
+				price: 500,
+				status: ["deferred"],
+			},
+			status: ["deferred"],
+		}))
 })

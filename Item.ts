@@ -133,14 +133,13 @@ export namespace Item {
 					break
 				}
 			}
-			if (to && to != from) {
-				if (from)
-					if (amount)
-						sums[from] -= amount
-					else {
-						amount = sums[from]
-						sums[from] = 0
-					}
+			if (to && from && to != from) {
+				if (amount)
+					sums[from] -= amount
+				else {
+					amount = sums[from]
+					sums[from] = 0
+				}
 				sums[to] = (amount ?? items) + (sums[to] ?? 0)
 			}
 		}
