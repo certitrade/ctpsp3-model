@@ -147,4 +147,19 @@ describe("Item", () => {
 		model.Item.applyEvent(twoItems, orderEvent)
 		expect(model.Item.isEventAllowed(twoItems, chargeTooMany as model.Event)).toEqual(false)
 	})
+
+	it("item.amount with two diffrent status", () =>
+		expect(
+			model.Item.amount([
+				{ name: "sdfg", price: 36, quantity: 2, unit: "st", vat: 9, status: ["deferred", "deferred"] },
+				{
+					name: "rtku",
+					price: 53.6,
+					quantity: 3,
+					unit: "st",
+					vat: 13.399999999999999,
+					status: ["deferred", "deferred", "deferred"],
+				},
+			])
+		).toEqual(291))
 })
