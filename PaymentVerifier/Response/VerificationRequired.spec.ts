@@ -9,12 +9,10 @@ describe("VerificationError", () => {
 		)
 		const cardTokenError = verifier.toError("payment.card", "Card.Token")
 		expect(model.PaymentVerifier.Response.VerificationRequired.isVerificationError(cardTokenError)).toBeTruthy()
-		expect(
-			model.PaymentVerifier.Response.VerificationRequired.isCardTokenVerificationError(cardTokenError)
-		).toBeTruthy()
+		expect(model.PaymentVerifier.Response.VerificationRequired.isCardVerificationError(cardTokenError)).toBeTruthy()
 		const error = verifier.toError("payment.other", "Other.Token")
 		expect(model.PaymentVerifier.Response.VerificationRequired.isVerificationError(error)).toBeTruthy()
-		expect(model.PaymentVerifier.Response.VerificationRequired.isCardTokenVerificationError(error)).toBeFalsy()
+		expect(model.PaymentVerifier.Response.VerificationRequired.isCardVerificationError(error)).toBeFalsy()
 	})
 	it("IsVerificationError with data", () => {
 		const verifier = model.PaymentVerifier.Response.verificationRequired(
@@ -28,19 +26,15 @@ describe("VerificationError", () => {
 		)
 		const cardTokenError = verifier.toError("payment.card", "Card.Token")
 		expect(model.PaymentVerifier.Response.VerificationRequired.isVerificationError(cardTokenError)).toBeTruthy()
-		expect(
-			model.PaymentVerifier.Response.VerificationRequired.isCardTokenVerificationError(cardTokenError)
-		).toBeTruthy()
+		expect(model.PaymentVerifier.Response.VerificationRequired.isCardVerificationError(cardTokenError)).toBeTruthy()
 		if (model.PaymentVerifier.Response.VerificationRequired.isVerificationError(cardTokenError)) {
 			if (cardTokenError.content.details.data?.remove)
 				delete cardTokenError.content.details.data?.remove
 			expect(model.PaymentVerifier.Response.VerificationRequired.isVerificationError(cardTokenError)).toBeTruthy()
-			expect(
-				model.PaymentVerifier.Response.VerificationRequired.isCardTokenVerificationError(cardTokenError)
-			).toBeTruthy()
+			expect(model.PaymentVerifier.Response.VerificationRequired.isCardVerificationError(cardTokenError)).toBeTruthy()
 		}
 		const error = verifier.toError("payment.other", "Other.Token")
 		expect(model.PaymentVerifier.Response.VerificationRequired.isVerificationError(error)).toBeTruthy()
-		expect(model.PaymentVerifier.Response.VerificationRequired.isCardTokenVerificationError(error)).toBeFalsy()
+		expect(model.PaymentVerifier.Response.VerificationRequired.isCardVerificationError(error)).toBeFalsy()
 	})
 })

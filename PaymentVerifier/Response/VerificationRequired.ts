@@ -50,7 +50,7 @@ export class VerificationRequired extends Base {
 					Object.values(value.content.details.data).every(v => v == undefined || typeof v == "string")))
 		return result
 	}
-	static isCardTokenVerificationError(
+	static isCardVerificationError(
 		value: any | gracely.Error
 	): value is {
 		status: 400
