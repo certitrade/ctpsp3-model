@@ -32,6 +32,8 @@ export namespace PaymentVerifier {
 		export type VerificationRequired = PResponse.VerificationRequired
 		export namespace VerificationRequired {
 			export const is = ResponseVerificationRequired.is
+			export const isVerificationError = ResponseVerificationRequired.isVerificationError
+			export const isCardVerificationError = ResponseVerificationRequired.isCardVerificationError
 		}
 		export type Error = PResponse.Error
 		export namespace Error {
