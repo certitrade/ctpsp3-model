@@ -69,7 +69,7 @@ export class VerificationRequired extends Base {
 			}
 		}
 	} {
-		return this.isVerificationError(value) && value.content.type == "Card.Token"
+		return VerificationRequired.isVerificationError(value) && value.content.type == "Card.Token"
 	}
 	toError(property: string, type: string): gracely.Error {
 		return gracely.client.malformedContent(property, type, "verification required", {
