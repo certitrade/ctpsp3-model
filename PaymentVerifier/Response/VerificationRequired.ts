@@ -15,7 +15,18 @@ export class VerificationRequired extends Base {
 	static is(value: any | VerificationRequired): value is VerificationRequired {
 		return value instanceof VerificationRequired
 	}
-	static isVerificationError(
+	toError(property: string, type: string): gracely.Error {
+		return gracely.client.malformedContent(property, type, "verification required", {
+			visible: this.visible,
+			method: this.method,
+			url: this.url,
+			data: this.data,
+		})
+	}
+}
+
+export namespace VerificationRequired {
+	export function isVerificationError(
 		value: any | gracely.Error
 	): value is {
 		status: 400
@@ -50,7 +61,7 @@ export class VerificationRequired extends Base {
 					Object.values(value.content.details.data).every(v => v == undefined || typeof v == "string")))
 		return result
 	}
-	static isCardVerificationError(
+	export function isCardVerificationError(
 		value: any | gracely.Error
 	): value is {
 		status: 400
@@ -69,14 +80,6 @@ export class VerificationRequired extends Base {
 			}
 		}
 	} {
-		return VerificationRequired.isVerificationError(value) && value.content.type == "Card.Token"
-	}
-	toError(property: string, type: string): gracely.Error {
-		return gracely.client.malformedContent(property, type, "verification required", {
-			visible: this.visible,
-			method: this.method,
-			url: this.url,
-			data: this.data,
-		})
+		return isVerificationError(value) && value.content.type == "Card.Token"
 	}
 }
