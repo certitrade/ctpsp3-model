@@ -5,7 +5,6 @@ import { User } from "./User"
 import { fetch, RequestInit } from "./fetch"
 
 export abstract class Connection {
-	static baseUrl = "/"
 	private static storageValue: Storage | undefined | null = null
 	private static get storage(): Storage | undefined {
 		if (Connection.storageValue == null) {
@@ -23,6 +22,22 @@ export abstract class Connection {
 			Connection.storageValue = result
 		}
 		return Connection.storageValue
+	}
+	private static baseUrlValue?: string
+	static get baseUrl(): string {
+		const storage = Connection.storage
+		if (storage)
+			Connection.baseUrlValue = JSON.parse(storage.getItem("PayFunc baseUrl") ?? "undefined")
+		return Connection.baseUrlValue ?? "/"
+	}
+	static set baseUrl(value: string) {
+		const storage = Connection.storage
+		if (storage)
+			if (value)
+				storage.setItem("PayFunc baseUrl", JSON.stringify(value))
+			else
+				storage.removeItem("PayFunc baseUrl")
+		Connection.baseUrlValue = value
 	}
 	private static userValue?: User
 	static get user(): User | undefined {
