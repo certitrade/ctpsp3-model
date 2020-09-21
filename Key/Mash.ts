@@ -1,5 +1,5 @@
 import * as gracely from "gracely"
-import * as model from "../../index"
+import { Payment } from "../Payment"
 
 export interface Mash {
 	url: string
@@ -7,9 +7,7 @@ export interface Mash {
 	key: string
 	merchant: number
 	option?: "all" | "invoice" | "installment" | "none"
-	only?:
-		| { type: "invoice"; terms: model.Payment.Invoice.Terms }
-		| { type: "installment"; plan: model.Payment.Installment.Plan }
+	only?: { type: "invoice"; terms: Payment.Invoice.Terms } | { type: "installment"; plan: Payment.Installment.Plan }
 }
 export namespace Mash {
 	export function is(value: any | Mash): value is Mash {
@@ -26,13 +24,13 @@ export namespace Mash {
 				value.option == "none") &&
 			(value.only == undefined ||
 				(typeof value.only == "object" &&
-					((value.only.type == "invoice" && model.Payment.Invoice.Terms.is(value.only.terms)) ||
-						(value.only.type == "installment" && model.Payment.Installment.Plan.is(value.only.plan)))))
+					((value.only.type == "invoice" && Payment.Invoice.Terms.is(value.only.terms)) ||
+						(value.only.type == "installment" && Payment.Installment.Plan.is(value.only.plan)))))
 		)
 	}
 	export function flaw(value: any | Mash): gracely.Flaw {
 		return {
-			type: "model.Merchant.Configuration.Mash",
+			type: "model.Key.Mash",
 			flaws:
 				typeof value != "object"
 					? undefined
@@ -48,8 +46,8 @@ export namespace Mash {
 								value.option == "none" || { property: "option", type: "all | invoice | installment | none" },
 							value.only == undefined ||
 								(typeof value.only == "object" &&
-									((value.only.type == "invoice" && model.Payment.Invoice.Terms.is(value.only.terms)) ||
-										(value.only.type == "installment" && model.Payment.Installment.Plan.is(value.only.plan)))) || {
+									((value.only.type == "invoice" && Payment.Invoice.Terms.is(value.only.terms)) ||
+										(value.only.type == "installment" && Payment.Installment.Plan.is(value.only.plan)))) || {
 									property: "only",
 									type:
 										'{ type: "invoice", terms: model.Payment.Invoice.Terms } | { type: "installment", plan: model.Payment.Installment.Plan }',

@@ -1,0 +1,122 @@
+import * as isoly from "isoly"
+import * as authly from "authly"
+import * as gracely from "gracely"
+import * as card from "@cardfunc/model"
+import { Creatable } from "./Creatable"
+import { V1 as V1Key } from "./V1"
+import { Email } from "./Email"
+import { Sms } from "./Sms"
+import { Mash } from "./Mash"
+import { Audience } from "./Audience"
+
+export interface Key extends Creatable {
+	sub: authly.Identifier
+	aud: Audience | Audience[]
+	iss: string
+	iat: number
+	exp?: number
+	user?: string
+	currency?: isoly.Currency
+	language?: isoly.Language
+}
+
+export namespace Key {
+	export function is(value: Key | any): value is Key {
+		return (
+			typeof value == "object" &&
+			authly.Identifier.is(value.sub) &&
+			(Audience.is(value.aud) || (Array.isArray(value.aud) && value.aud.every(Audience.is))) &&
+			typeof value.iss == "string" &&
+			typeof value.iat == "number" &&
+			(value.exp == undefined || typeof value.exp == "number") &&
+			(value.user == undefined || typeof value.user == "string") &&
+			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
+			(value.language == undefined || isoly.Language.is(value.language)) &&
+			Creatable.is(value)
+		)
+	}
+	export function flaw(value: any | Creatable): gracely.Flaw {
+		return {
+			type: "model.Key.Creatable",
+			flaws:
+				typeof value != "object"
+					? undefined
+					: ([
+							authly.Identifier.is(value.id) || {
+								property: "id",
+								type: "authly.Identifier | undefined",
+							},
+							Audience.is(value.aud) ||
+								(Array.isArray(value.aud) && value.aud.every(Audience.is)) || {
+									property: "aud",
+									type: "model.Key.Audience | model.Key.Audience[]",
+								},
+							typeof value.iss == "string" || { property: "iss", type: "string" },
+							typeof value.iat == "number" || { property: "iat", type: "number" },
+							value.exp == undefined || typeof value.exp == "number" || { property: "exp", type: "undefined | number" },
+							value.user == undefined || typeof value.user == "string" || { property: "user", type: "string" },
+							value.currency == undefined ||
+								isoly.Currency.is(value.currency) || { property: "currency", type: "isoly.Currency" },
+							value.language == undefined ||
+								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language" },
+							...(Creatable.flaw(value).flaws || []),
+					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
+		}
+	}
+
+	export async function upgrade(
+		key: Key | V1Key | undefined,
+		cardVerifier?: authly.Verifier<card.Merchant.Key> | undefined
+	): Promise<Key | undefined> {
+		let result: Key | undefined
+		if (key == undefined)
+			result = undefined
+		else if (is(key))
+			result = key
+		else {
+			result = {
+				sub: key.sub,
+				iss: key.iss,
+				aud: typeof key.aud == "string" ? key.aud : "private",
+				iat: key.iat,
+				name: key.name,
+				url: "",
+			}
+			if (typeof key.option.card == "string") {
+				const unpacked = await cardVerifier?.verify(
+					key.option.card,
+					...(Array.isArray(result.aud) ? result.aud : [result.aud])
+				)
+				result = unpacked
+					? {
+							...result,
+							card: unpacked.card,
+							url: unpacked.url,
+					  }
+					: undefined
+			}
+			if (result && key.option.email)
+				(result as any) =
+					Email.is(key.option.email) || typeof key.option.email == "string"
+						? { ...result, email: key.option.email }
+						: undefined
+			if (result && key.option.mash)
+				(result as any) =
+					Mash.is(key.option.mash) || typeof key.option.mash == "string"
+						? { ...result, mash: key.option.mash }
+						: undefined
+			if (result && key.option.sms)
+				(result as any) =
+					Sms.is(key.option.sms) || typeof key.option.sms == "string" ? { ...result, sms: key.option.sms } : undefined
+			if (result && key.option.currency)
+				result = isoly.Currency.is(key.option.currency) ? { ...result, currency: key.option.currency } : undefined
+		}
+		return result
+	}
+	export type Information = Omit<Key, "email" | "mash" | "card" | "sms"> & {
+		email?: string
+		mash?: string
+		card?: card.Merchant.Configuration.KeyInfo
+		sms?: string
+	}
+}

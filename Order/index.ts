@@ -4,7 +4,7 @@ import * as gracely from "gracely"
 import { Customer } from "../Customer"
 import { Event } from "../Event"
 import { Item } from "../Item"
-import { Merchant } from "../Merchant"
+import { Key } from "../Key"
 import { Payment } from "../Payment"
 import { Status } from "../Status"
 import { Change as OrderChange } from "./Change"
@@ -88,11 +88,11 @@ export namespace Order {
 		}
 	}
 	export async function generateCallback(
-		merchant: authly.Token | Merchant.Key.KeyInfo | undefined,
+		merchant: authly.Token | Key.Information | undefined,
 		order: Partial<Order | Order.Creatable>
 	): Promise<string | undefined> {
 		if (authly.Token.is(merchant))
-			merchant = await Merchant.Key.KeyInfo.unpack(merchant, "public")
+			merchant = await Key.unpack(merchant, "public")
 		return (
 			merchant &&
 			`${merchant.iss}/callback/${merchant.sub}/${await authly.Issuer.create("callback", authly.Algorithm.none())?.sign(
