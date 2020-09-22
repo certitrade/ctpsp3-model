@@ -48,6 +48,7 @@ export namespace Address {
 	export namespace DE {
 		export const is = AddressDE.is
 		export const create = AddressDE.create
+		export const State = AddressDE.State
 	}
 	export type DK = AddressDK
 	export namespace DK {
