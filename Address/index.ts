@@ -11,13 +11,13 @@ export namespace Address {
 	export function is(value: any | Address): value is Address {
 		return (
 			typeof value == "object" &&
-			CountryCode.Alpha2.is(value.countryCode) &&
+			(CountryCode.Alpha2.is(value.countryCode) || value.countryCode == "") &&
 			((value.countryCode == "DE" && AddressDE.is(value)) ||
 				(value.countryCode == "DK" && AddressDK.is(value)) ||
 				(value.countryCode == "FI" && AddressFI.is(value)) ||
 				(value.countryCode == "NO" && AddressNO.is(value)) ||
 				(value.countryCode == "SE" && AddressSE.is(value)) ||
-				(value.countryCode == "" && AddressGeneral.is(value)))
+				AddressGeneral.is(value))
 		)
 	}
 	export function create(countryCode: CountryCode.Alpha2 | string): Address {
