@@ -27,27 +27,35 @@ describe("model.Merchant.Key", () => {
 		},
 		aud: ["private", "public"],
 	}
-	const v1PrivateCard: card.Merchant.Configuration = {
-		acquirer: {
-			bin: {
-				mastercard: "1234",
-				visa: "1234",
+	const v1PrivateCard: card.Merchant.Key = {
+		sub: "test",
+		iss: "http://localhost:7082",
+		aud: "private",
+		iat: 1583503730970,
+		name: "Test AB",
+		url: "http://example.com",
+		card: {
+			acquirer: {
+				bin: {
+					mastercard: "1234",
+					visa: "1234",
+				},
+				key: "1234-1234-1234",
+				protocol: "clearhaus",
+				url: "https://gateway.test.clearhaus.com",
 			},
-			key: "1234-1234-1234",
-			protocol: "clearhaus",
-			url: "https://gateway.test.clearhaus.com",
+			country: "SE",
+			descriptor: "test transaction",
+			emv3d: {
+				protocol: "ch3d1",
+				url: "http://localhost:7082/ch3d1sim",
+				key: "no-key",
+			},
+			id: "test",
+			mcc: "1234",
+			mid: "1234",
+			url: "http://localhost:7082",
 		},
-		country: "SE",
-		descriptor: "test transaction",
-		emv3d: {
-			protocol: "ch3d1",
-			url: "http://localhost:7082/ch3d1sim",
-			key: "no-key",
-		},
-		id: "test",
-		mcc: "1234",
-		mid: "1234",
-		url: "http://localhost:7082",
 	}
 	const v1Public: model.Merchant.V1.Key = {
 		iss: "http://localhost:7071",
@@ -74,27 +82,35 @@ describe("model.Merchant.Key", () => {
 		},
 		aud: "public",
 	}
-	const v1PublicCard: card.Merchant.Configuration = {
-		acquirer: {
-			bin: {
-				mastercard: "1234",
-				visa: "1234",
+	const v1PublicCard: card.Merchant.Key = {
+		sub: "test",
+		iss: "http://localhost:7082",
+		aud: "public",
+		iat: 1583504003495,
+		name: "Test AB",
+		url: "http://example.com",
+		card: {
+			acquirer: {
+				bin: {
+					mastercard: "1234",
+					visa: "1234",
+				},
+				key: "1234",
+				protocol: "clearhaus",
+				url: "https://gateway.test.clearhaus.com",
 			},
-			key: "1234",
-			protocol: "clearhaus",
-			url: "https://gateway.test.clearhaus.com",
+			country: "SE",
+			descriptor: "test transaction",
+			emv3d: {
+				protocol: "ch3d1",
+				url: "http://localhost:7082/ch3d1sim",
+				key: "no-key",
+			},
+			id: "test",
+			mcc: "1234",
+			mid: "1234",
+			url: "http://localhost:7082",
 		},
-		country: "SE",
-		descriptor: "test transaction",
-		emv3d: {
-			protocol: "ch3d1",
-			url: "http://localhost:7082/ch3d1sim",
-			key: "no-key",
-		},
-		id: "test",
-		mcc: "1234",
-		mid: "1234",
-		url: "http://localhost:7082",
 	}
 	it("Upgrade v1 Private", async () => {
 		expect(model.Merchant.V1.Key.is(v1Private)).toBeTruthy()
@@ -108,7 +124,10 @@ describe("model.Merchant.Key", () => {
 	})
 	it("Upgrade v1 Public, wrong url", async () => {
 		expect(model.Merchant.V1.Key.is(v1Public)).toBeTruthy()
-		const upgraded = await model.Merchant.Key.upgrade(v1Public, { ...v1PublicCard, url: "http://example.com" })
+		const upgraded = await model.Merchant.Key.upgrade(v1Public, {
+			...v1PublicCard,
+			card: { ...v1PublicCard.card, url: "example.com" },
+		})
 		expect(upgraded).toBeUndefined()
 	})
 })

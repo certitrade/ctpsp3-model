@@ -74,7 +74,7 @@ export namespace Key {
 	}
 	export async function upgrade(
 		key: Key | model.Merchant.V1.Key | undefined,
-		inner?: card.Merchant.Configuration | undefined
+		inner?: card.Merchant.Key | undefined
 	): Promise<Key | undefined> {
 		let result: Key | undefined
 		if (key == undefined)
@@ -102,25 +102,17 @@ export namespace Key {
 				const similar =
 					unpacked &&
 					card.Merchant.Configuration.KeyInfo.is(unpacked) &&
-					card.Merchant.Configuration.is(inner) &&
-					inner.url == (unpacked as any).iss &&
-					inner.id == (unpacked as any).sub &&
-					inner.country == unpacked.country &&
-					inner.mid == unpacked.mid &&
-					inner.mcc == unpacked.mcc
+					card.Merchant.Key.is(inner) &&
+					inner.card.url == (unpacked as any).iss &&
+					inner.card.id == (unpacked as any).sub &&
+					inner.card.country == unpacked.country &&
+					inner.card.mid == unpacked.mid &&
+					inner.card.mcc == unpacked.mcc
 				result =
-					similar && typeof key.option.card == "string" && card.Merchant.Configuration.is(inner)
+					similar && typeof key.option.card == "string" && card.Merchant.Key.is(inner)
 						? {
 								...result,
-								card: {
-									url: inner.url,
-									id: inner.id,
-									country: inner.country,
-									acquirer: inner.acquirer,
-									mid: inner.mid,
-									mcc: inner.mcc,
-									emv3d: inner.emv3d,
-								},
+								card: inner.card,
 								url: inner.url,
 						  }
 						: undefined
