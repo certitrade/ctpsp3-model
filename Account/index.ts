@@ -9,7 +9,7 @@ export interface Account {
 	number?: string
 	customer?: Customer
 	method: AccountMethod[]
-	link?: AccountLink
+	link?: AccountLink[]
 }
 
 export namespace Account {
