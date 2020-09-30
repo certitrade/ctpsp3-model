@@ -32,7 +32,7 @@ export interface Settlement extends Base {
 export namespace Settlement {
 	export function is(value: Settlement | any): value is Settlement {
 		return (
-			typeof value == "object" &&
+			Base.is(value) &&
 			value.type == "settlement" &&
 			isoly.DateTime.is(value.start) &&
 			isoly.DateTime.is(value.end) &&
@@ -55,8 +55,7 @@ export namespace Settlement {
 			typeof value.payout.amount == "number" &&
 			isoly.DateTime.is(value.payout.date) &&
 			(value.payout.descriptor == undefined || typeof value.payout.descriptor == "string") &&
-			(value.payout.reference == undefined || typeof value.payout.reference == "string") &&
-			Base.is(value)
+			(value.payout.reference == undefined || typeof value.payout.reference == "string")
 		)
 	}
 }

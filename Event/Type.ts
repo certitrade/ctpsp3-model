@@ -8,8 +8,8 @@ export type Type =
 	| "pay"
 	| "refund"
 	| "fail"
-	| "synchronize"
 	| "settlement"
+	| "synchronize"
 
 export const types: Type[] = [
 	"defer",
@@ -21,8 +21,8 @@ export const types: Type[] = [
 	"pay",
 	"refund",
 	"fail",
-	"synchronize",
 	"settlement",
+	"synchronize",
 ]
 
 export namespace Type {
