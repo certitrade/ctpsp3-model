@@ -11,6 +11,7 @@ export type Status =
 	| "paid"
 	| "refunded"
 	| "synchronized"
+	| "settled"
 
 export namespace Status {
 	export const types: Status[] = [
@@ -24,6 +25,7 @@ export namespace Status {
 		"paid",
 		"refunded",
 		"synchronized",
+		"settled",
 	]
 	export function is(value: any | Status): value is Status {
 		return typeof value == "string" && types.some(t => t == value)
@@ -66,6 +68,9 @@ export namespace Status {
 			case "synchronize":
 				result = "synchronized"
 				break
+			case "settlement":
+				result = from == "charged" || from == "refunded" || from == "settled" ? "settled" : undefined
+				break
 			default:
 			case "fail":
 				result = from
@@ -104,6 +109,9 @@ export namespace Status {
 			case "refund":
 				result = "refunded"
 				break
+			case "settlement":
+				result = "settled"
+				break
 			case "synchronize":
 				result = "synchronized"
 				break
@@ -140,6 +148,9 @@ export namespace Status {
 				break
 			case "refunded":
 				result = "refund"
+				break
+			case "settled":
+				result = "settlement"
 				break
 			case "synchronized":
 				result = "synchronize"

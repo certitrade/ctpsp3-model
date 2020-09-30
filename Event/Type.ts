@@ -1,4 +1,15 @@
-export type Type = "defer" | "pend" | "deny" | "order" | "cancel" | "charge" | "pay" | "refund" | "fail" | "synchronize"
+export type Type =
+	| "defer"
+	| "pend"
+	| "deny"
+	| "order"
+	| "cancel"
+	| "charge"
+	| "pay"
+	| "refund"
+	| "fail"
+	| "synchronize"
+	| "settlement"
 
 export const types: Type[] = [
 	"defer",
@@ -11,6 +22,7 @@ export const types: Type[] = [
 	"refund",
 	"fail",
 	"synchronize",
+	"settlement",
 ]
 
 export namespace Type {
