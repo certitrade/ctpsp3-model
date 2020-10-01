@@ -3,8 +3,8 @@ import { Base } from "./Base"
 
 export interface Settle extends Base {
 	type: "settle"
-	currency: isoly.Currency
 	amount: number
+	currency: isoly.Currency
 	fee: {
 		total: number
 		sales?: number
