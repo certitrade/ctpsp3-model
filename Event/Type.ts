@@ -8,7 +8,7 @@ export type Type =
 	| "pay"
 	| "refund"
 	| "fail"
-	| "settlement"
+	| "settle"
 	| "synchronize"
 
 export const types: Type[] = [
@@ -21,7 +21,7 @@ export const types: Type[] = [
 	"pay",
 	"refund",
 	"fail",
-	"settlement",
+	"settle",
 	"synchronize",
 ]
 

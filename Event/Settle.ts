@@ -1,12 +1,10 @@
 import * as isoly from "isoly"
 import { Base } from "./Base"
 
-export interface Settlement extends Base {
-	type: "settlement"
-	start: isoly.DateTime
-	end: isoly.DateTime
+export interface Settle extends Base {
+	type: "settle"
 	currency: isoly.Currency
-	amountGross: number
+	amount: number
 	fee: {
 		total: number
 		sales?: number
@@ -24,20 +22,22 @@ export interface Settlement extends Base {
 	payout: {
 		amount: number
 		date: isoly.DateTime
+		start: isoly.DateTime
+		end: isoly.DateTime
 		descriptor?: string
 		reference?: string
 	}
 }
 
-export namespace Settlement {
-	export function is(value: Settlement | any): value is Settlement {
+export namespace Settle {
+	export function is(value: Settle | any): value is Settle {
 		return (
 			Base.is(value) &&
-			value.type == "settlement" &&
+			value.type == "settle" &&
 			isoly.DateTime.is(value.start) &&
 			isoly.DateTime.is(value.end) &&
 			isoly.Currency.is(value.currency) &&
-			typeof value.amountGross == "number" &&
+			typeof value.amount == "number" &&
 			typeof value.fee == "object" &&
 			typeof value.fee.total == "number" &&
 			(value.fee.sales == undefined || typeof value.fee.sales == "number") &&
