@@ -5,6 +5,10 @@ export interface Settle extends Base {
 	type: "settle"
 	amount: number
 	currency: isoly.Currency
+	period: {
+		start: isoly.DateTime
+		end: isoly.DateTime
+	}
 	fee: {
 		total: number
 		sales?: number
@@ -22,8 +26,6 @@ export interface Settle extends Base {
 	payout: {
 		amount: number
 		date: isoly.DateTime
-		start: isoly.DateTime
-		end: isoly.DateTime
 		descriptor?: string
 		reference?: string
 	}
@@ -34,10 +36,11 @@ export namespace Settle {
 		return (
 			Base.is(value) &&
 			value.type == "settle" &&
-			isoly.DateTime.is(value.start) &&
-			isoly.DateTime.is(value.end) &&
-			isoly.Currency.is(value.currency) &&
 			typeof value.amount == "number" &&
+			isoly.Currency.is(value.currency) &&
+			typeof value.period == "object" &&
+			isoly.DateTime.is(value.period.start) &&
+			isoly.DateTime.is(value.period.end) &&
 			typeof value.fee == "object" &&
 			typeof value.fee.total == "number" &&
 			(value.fee.sales == undefined || typeof value.fee.sales == "number") &&
