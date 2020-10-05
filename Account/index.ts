@@ -1,5 +1,6 @@
 import * as authly from "authly"
 import { Customer } from "../Customer"
+import { Link as AccountLink } from "./Link"
 import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable } from "./Creatable"
 
@@ -8,6 +9,7 @@ export interface Account {
 	number?: string
 	customer?: Customer
 	method: AccountMethod[]
+	link?: AccountLink[]
 }
 
 export namespace Account {
@@ -27,6 +29,14 @@ export namespace Account {
 	export type Creatable = AccountCreatable
 	export namespace Creatable {
 		export const is = AccountCreatable.is
+	}
+	export type Link = AccountLink
+	export namespace Link {
+		export const is = AccountLink.is
+		export type Creatable = AccountLink.Creatable
+		export namespace Creatable {
+			export const is = AccountLink.Creatable.is
+		}
 	}
 	export type Method = AccountMethod
 	export namespace Method {
