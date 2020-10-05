@@ -1,6 +1,7 @@
 import * as authly from "authly"
 import * as servly from "servly"
 import * as model from "../index"
+import * as data from "./data"
 
 describe("Log", () => {
 	const log: model.Log = {
@@ -40,5 +41,15 @@ describe("Log", () => {
 		expect(log.system == undefined || model.Log.System.is(log.system)).toEqual(true)
 		expect(Array.isArray(log.entries) && log.entries.every(model.Log.Entry.is)).toEqual(true)
 		expect(servly.Log.is(log)).toEqual(true)
+	})
+	it("groupByNumber + toRow + toGroup + Group.toCsv", () => {
+		const grouped = model.Log.groupByNumber(data.get<model.Log>("log"))
+		expect(grouped).toMatchSnapshot()
+		const rows = grouped.map(g => model.Log.toRow(g))
+		expect(rows).toMatchSnapshot()
+		const groups = model.Log.toGroup(rows)
+		expect(groups).toMatchSnapshot()
+		const csv = model.Log.Group.toCsv(groups)
+		expect(csv).toMatchSnapshot()
 	})
 })
