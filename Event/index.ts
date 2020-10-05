@@ -10,6 +10,7 @@ import { Charge as ChargeEvent } from "./Charge"
 import { Pay as PayEvent } from "./Pay"
 import { Refund as RefundEvent } from "./Refund"
 import { Fail as FailEvent } from "./Fail"
+import { Settle as SettleEvent } from "./Settle"
 import { Synchronize as SynchronizeEvent } from "./Synchronize"
 
 export type Event =
@@ -22,6 +23,7 @@ export type Event =
 	| PayEvent
 	| RefundEvent
 	| FailEvent
+	| SettleEvent
 	| SynchronizeEvent
 export namespace Event {
 	export function is(value: any | Event): value is Event {
@@ -35,11 +37,12 @@ export namespace Event {
 			PayEvent.is(value) ||
 			RefundEvent.is(value) ||
 			FailEvent.is(value) ||
+			SettleEvent.is(value) ||
 			SynchronizeEvent.is(value)
 		)
 	}
 	export function create(event: EventCreatable, date?: isoly.DateTime): Event {
-		return { ...event, date: date || isoly.DateTime.now() }
+		return { ...event, date: date || isoly.DateTime.now() } as Event
 	}
 	export type Creatable = EventCreatable
 	export namespace Creatable {
@@ -85,6 +88,10 @@ export namespace Event {
 	export type Fail = FailEvent
 	export namespace Fail {
 		export const is = FailEvent.is
+	}
+	export type Settle = SettleEvent
+	export namespace Settle {
+		export const is = SettleEvent.is
 	}
 	export type Synchronize = SynchronizeEvent
 	export namespace Synchronize {

@@ -10,6 +10,7 @@ export type Status =
 	| "charged"
 	| "paid"
 	| "refunded"
+	| "settled"
 	| "synchronized"
 
 export namespace Status {
@@ -23,6 +24,7 @@ export namespace Status {
 		"charged",
 		"paid",
 		"refunded",
+		"settled",
 		"synchronized",
 	]
 	export function is(value: any | Status): value is Status {
@@ -66,6 +68,9 @@ export namespace Status {
 			case "synchronize":
 				result = "synchronized"
 				break
+			case "settle":
+				result = from == "charged" || from == "refunded" || from == "settled" ? "settled" : undefined
+				break
 			default:
 			case "fail":
 				result = from
@@ -104,6 +109,9 @@ export namespace Status {
 			case "refund":
 				result = "refunded"
 				break
+			case "settle":
+				result = "settled"
+				break
 			case "synchronize":
 				result = "synchronized"
 				break
@@ -140,6 +148,9 @@ export namespace Status {
 				break
 			case "refunded":
 				result = "refund"
+				break
+			case "settled":
+				result = "settle"
 				break
 			case "synchronized":
 				result = "synchronize"

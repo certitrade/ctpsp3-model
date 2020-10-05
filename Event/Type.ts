@@ -1,4 +1,15 @@
-export type Type = "defer" | "pend" | "deny" | "order" | "cancel" | "charge" | "pay" | "refund" | "fail" | "synchronize"
+export type Type =
+	| "defer"
+	| "pend"
+	| "deny"
+	| "order"
+	| "cancel"
+	| "charge"
+	| "pay"
+	| "refund"
+	| "fail"
+	| "settle"
+	| "synchronize"
 
 export const types: Type[] = [
 	"defer",
@@ -10,6 +21,7 @@ export const types: Type[] = [
 	"pay",
 	"refund",
 	"fail",
+	"settle",
 	"synchronize",
 ]
 
