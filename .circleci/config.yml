@@ -40,14 +40,6 @@ jobs:
             git config user.name CircleCI
             git checkout -- package-lock.json
             npm version patch -m "patch version bump %s [ci skip]"
-            git push
-            git push --tags
-      - run:
-          name: Publish
-          command: |
-            git status
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-            npm publish --access public
 workflows:
   version: 2.1
   build-flow:
