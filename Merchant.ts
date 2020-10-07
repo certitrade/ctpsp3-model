@@ -5,6 +5,7 @@ import { Key } from "./Key"
 export interface Merchant {
 	id: authly.Identifier
 	name: string
+	agent?: authly.Identifier
 	key: {
 		private: authly.Token
 		public?: authly.Token
@@ -19,6 +20,7 @@ export namespace Merchant {
 			typeof value == "object" &&
 			authly.Identifier.is((value as any).id) &&
 			typeof value.name == "string" &&
+			(value.agent == undefined || authly.Identifier.is(value.agent)) &&
 			typeof value.key == "object" &&
 			authly.Token.is(value.key.private) &&
 			(value.key.public == undefined || authly.Token.is(value.key.public)) &&
