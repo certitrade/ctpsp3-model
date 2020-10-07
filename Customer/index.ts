@@ -64,6 +64,19 @@ export namespace Customer {
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}
+	export function getLabel(customer: Customer | undefined): string | undefined {
+		return (
+			(customer?.name && Name.get(customer.name)) ??
+			EmailAddresses.get(customer?.email) ??
+			PhoneNumbers.get(customer?.phone) ??
+			customer?.identityNumber ??
+			customer?.number ??
+			customer?.id ??
+			Addresses.get(customer?.address)?.countryCode ??
+			customer?.type
+		)
+	}
+
 	export function getCsvHeaders(): string {
 		return `customer type,customer identity number,customer id,customer number`
 	}
