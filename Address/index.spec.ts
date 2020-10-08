@@ -23,6 +23,26 @@ describe("Address", () => {
 				countryCode: "MT",
 			})
 		).toBeTruthy())
+	it("is general", () =>
+		expect(
+			model.Address.is({
+				countryCode: "MT",
+			})
+		).toBeTruthy())
+	it("is general", () =>
+		expect(
+			model.Address.is({
+				zipCode: "123abc",
+				countryCode: "MT",
+			})
+		).toBeTruthy())
+	it("is general", () =>
+		expect(
+			model.Address.is({
+				address3: "123",
+				countryCode: "FI",
+			})
+		).toBeTruthy())
 	it("is not undefined", () => expect(model.Address.is(undefined)).toBeFalsy())
 	it("is not {}", () => expect(model.Address.is({})).toBeFalsy())
 })
