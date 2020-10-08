@@ -7,6 +7,7 @@ export interface General {
 	street?: string
 	zipCode?: string
 	city?: string
+	state?: string
 	countryCode: CountryCode.Alpha2 | ""
 }
 export namespace General {
@@ -19,6 +20,7 @@ export namespace General {
 			(typeof value.street == "string" || value.street == undefined) &&
 			(typeof value.zipCode == "string" || value.zipCode == undefined) &&
 			(typeof value.city == "string" || value.city == undefined) &&
+			(typeof value.state == "string" || value.state == undefined) &&
 			(CountryCode.Alpha2.is(value.countryCode) || value.countryCode == "")
 		)
 	}
