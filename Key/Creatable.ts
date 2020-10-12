@@ -31,6 +31,8 @@ export namespace Creatable {
 			(value.sub == undefined || authly.Identifier.is(value.sub)) &&
 			(value.id == undefined || authly.Identifier.is(value.id)) &&
 			typeof value.name == "string" &&
+			(value.type == undefined || value.type == "live" || value.type == "demo" || value.type == "test") &&
+			(value.agent == undefined || typeof value.agent == "string") &&
 			typeof value.url == "string" &&
 			(value.terms == undefined || typeof value.terms == "string") &&
 			(value.logotype == undefined || typeof value.logotype == "string") &&

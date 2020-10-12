@@ -18,6 +18,7 @@ export interface Key extends Creatable {
 	user?: string
 	currency?: isoly.Currency
 	language?: isoly.Language
+	features?: ("card" | "email" | "sms" | "mash")[]
 }
 
 export namespace Key {
@@ -32,6 +33,7 @@ export namespace Key {
 			(value.user == undefined || typeof value.user == "string") &&
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
 			(value.language == undefined || isoly.Language.is(value.language)) &&
+			(value.features == undefined || Array.isArray(value.features)) &&
 			Creatable.is(value)
 		)
 	}
@@ -42,8 +44,8 @@ export namespace Key {
 				typeof value != "object"
 					? undefined
 					: ([
-							authly.Identifier.is(value.id) || {
-								property: "id",
+							authly.Identifier.is(value.sub) || {
+								property: "sub",
 								type: "authly.Identifier | undefined",
 							},
 							Audience.is(value.aud) ||
@@ -81,6 +83,7 @@ export namespace Key {
 				iat: key.iat,
 				name: key.name,
 				url: "",
+				features: key.features as any,
 			}
 			if (typeof key.option.card == "string") {
 				const unpacked = await cardVerifier?.verify(
@@ -96,27 +99,14 @@ export namespace Key {
 					: undefined
 			}
 			if (result && key.option.email)
-				(result as any) =
-					Email.is(key.option.email) || typeof key.option.email == "string"
-						? { ...result, email: key.option.email }
-						: undefined
+				(result as any) = Email.is(key.option.email) ? { ...result, email: key.option.email } : undefined
 			if (result && key.option.mash)
-				(result as any) =
-					Mash.is(key.option.mash) || typeof key.option.mash == "string"
-						? { ...result, mash: key.option.mash }
-						: undefined
+				(result as any) = Mash.is(key.option.mash) ? { ...result, mash: key.option.mash } : undefined
 			if (result && key.option.sms)
-				(result as any) =
-					Sms.is(key.option.sms) || typeof key.option.sms == "string" ? { ...result, sms: key.option.sms } : undefined
+				(result as any) = Sms.is(key.option.sms) ? { ...result, sms: key.option.sms } : undefined
 			if (result && key.option.currency)
 				result = isoly.Currency.is(key.option.currency) ? { ...result, currency: key.option.currency } : undefined
 		}
 		return result
-	}
-	export type Information = Omit<Key, "email" | "mash" | "card" | "sms"> & {
-		email?: string
-		mash?: string
-		card?: card.Merchant.Configuration.KeyInfo
-		sms?: string
 	}
 }

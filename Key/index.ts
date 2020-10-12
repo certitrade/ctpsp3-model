@@ -22,7 +22,6 @@ export namespace Key {
 		export const is = KeyEmail.is
 		export const flaw = KeyEmail.flaw
 	}
-	export type Information = KKey.Information
 	export type Mash = KeyMash
 	export namespace Mash {
 		export const is = KeyMash.is

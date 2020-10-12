@@ -1,5 +1,7 @@
 import { Key } from "./index"
 import { V1 } from "./V1"
+import * as dotenv from "dotenv"
+dotenv.config()
 
 const testMerchantKey = {
 	sub: "testtest",
@@ -43,17 +45,13 @@ const keyInformation = {
 	name: "testtest",
 	url: "http://example.com",
 	card: {
-		acquirer: expect.any(String),
 		url: "http://localhost:7082",
 		id: "test",
 		country: "SE",
 		mid: "1234",
 		mcc: "1234",
-		emv3d: expect.any(String),
 	},
-	email: expect.any(String),
-	mash: expect.any(String),
-	sms: expect.any(String),
+	features: ["card", "email", "sms", "mash"],
 }
 
 const testMerchantKeyV1 = {
@@ -82,8 +80,17 @@ const testMerchantKeyV1 = {
 	aud: ["private", "public"],
 }
 
+const keyInformationV1 = {
+	aud: "public",
+	card: { country: "SE", id: "test", mcc: "1234", mid: "1234", url: "https://api.cardfunc.com" },
+	features: ["card", "email"],
+	iat: 1583935456,
+	iss: "https://api.payfunc.com",
+	name: "Test AB",
+	sub: "testtest",
+	url: "http://example.com",
+}
 const issuer = Key.getIssuer({ signing: "test", property: "test2" })
-
 describe("General Key", () => {
 	it("MerchantKey is General Key before change in variable name", async () => {
 		expect(Key.is(testMerchantKey)).toEqual(true)
@@ -98,11 +105,9 @@ describe("General Key", () => {
 		expect(keyinfo).toEqual(keyInformation)
 	})
 
-	it.skip("Unpack Legacy Key into Keyinfo", async () => {
+	it("Unpack Legacy Key into Keyinfo", async () => {
 		const token =
 			"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FwaS5wYXlmdW5jLmNvbSIsImlhdCI6MTU4MzkzNTQ1NjE3MSwic3ViIjoidGVzdHRlc3QiLCJhZ2VudCI6IlBheUZ1bmMiLCJ0eXBlIjoidGVzdCIsImlkIjoidGVzdHRlc3QiLCJuYW1lIjoiVGVzdCBBQiIsImxvZ290eXBlIjoiaHR0cHM6Ly9icmFuZC5wYXlmdW5jLmNvbS9sb2dvL3BuZy05MC9wYXlmdW5jLWwwOC05MC5wbmciLCJ0ZXJtcyI6Imh0dHBzOi8vcGF5ZnVuYy5jb20vYWJvdXQiLCJvcHRpb24iOnsiY2FyZCI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpwYzNNaU9pSm9kSFJ3Y3pvdkwyRndhUzVqWVhKa1puVnVZeTVqYjIwaUxDSnBZWFFpT2pFMU9ETTFNRE15T1RBNU9EVXNJbUYxWkNJNkluQjFZbXhwWXlJc0luTjFZaUk2SW5SbGMzUWlMQ0poWjJWdWRDSTZJbEJoZVVaMWJtTWlMQ0owZVhCbElqb2lkR1Z6ZENJc0ltbGtJam9pZEdWemRDSXNJbTVoYldVaU9pSlVaWE4wSUVGQ0lpd2lkWEpzSWpvaWFIUjBjRG92TDJWNFlXMXdiR1V1WTI5dElpd2laR1Z6WTNKcGNIUnZjaUk2SW5SbGMzUWdkSEpoYm5OaFkzUnBiMjRpTENKamIzVnVkSEo1SWpvaVUwVWlMQ0poWTNGMWFYSmxjaUk2SWpGcWRXSnpRVUUyZWpGUGFETlhhMkp4VmxoVFYwZFRaVlIyWW1zM01WOTVibTVFYmtsdWFsSXhkaTFuT0RBM2RrWkZjbWhPWWsxVFFVVmxkMngzVmtjMk5ubzJUamt3WkRSbVUyWnpZMmhzTW1oblZXNVhNR2xNUTBweVdsaHJhVTlwU1hwT2JWVXpUa2RGTWs5VE1ETmFiVlpzVEZSU2FFMTZZM1JaYlU1clQxTXdNbGxVUlRCTmFrbDNUV3BvYlZwcVRXbE1RMHBwWVZjMGFVOXVjMmxrYld4NldWTkpOa2xxVVhwUFJFMTNUMU5KYzBsdE1XaGpNMUpzWTIxT2FHTnRVV2xQYVVreFRXcFpNVTU2UldsbVdEQWlMQ0p0YVdRaU9pSXhNak0wSWl3aWJXTmpJam9pTVRJek5DSXNJbVZ0ZGpOa0lqb2lUR0ZVUkdkSmRYRXdiWEV6WmxkR04wWTFObGRLWlVObmVUZE1RVTVFUXpadGNHbEJOMDlPV0hKblZHeGZUVlkyVWs1WllURnZiRE5mVm14WVlteGhWelp1T1dwR2IwTXRVRkpxTlZCRGVrcGFWVEY1WkVkV05VbHFiMmxpYlRoMFlUSldOVWx1TUNKOS5YZ2pyb1JsOWJXVzRNSl83Z1NJQVBPeGpZRXgyWTlfNzgzOGp0MWtxb01vIiwiZW1haWwiOiI1bXdpeTh3bHlDUy1PQTlkaURoekQxN1FLZVc5T2NkTTBpU01vZ193dmFUQ0g0d0hTVXZrem1lRTZmS1RIaGRxaUFKM2tDTmFLUU1fZFRQaWt4UENlbWRwTFhsNE0zQnJOWEJEZFVFaWZRIn0sImF1ZCI6InB1YmxpYyJ9.JYSWGVwPoyrofn0twsNMkZ8bI7yyM4DfcJd9SltIgZ4"
-		const keyinfo = await Key.unpack(token, "public")
-		console.log(keyinfo)
-		expect(keyinfo).toEqual(keyInformation)
+		expect(await Key.unpack(token, "public")).toEqual(keyInformationV1)
 	})
 })

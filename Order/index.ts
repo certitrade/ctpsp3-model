@@ -88,7 +88,7 @@ export namespace Order {
 		}
 	}
 	export async function generateCallback(
-		merchant: authly.Token | Key.Information | undefined,
+		merchant: authly.Token | Key | undefined,
 		order: Partial<Order | Order.Creatable>
 	): Promise<string | undefined> {
 		if (authly.Token.is(merchant))
