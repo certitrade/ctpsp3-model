@@ -24,8 +24,6 @@ export namespace Settle {
 		return (
 			Base.is(value) &&
 			value.type == "settle" &&
-			typeof value.amount == "number" &&
-			isoly.Currency.is(value.currency) &&
 			typeof value.period == "object" &&
 			isoly.DateTime.is(value.period.start) &&
 			isoly.DateTime.is(value.period.end) &&
