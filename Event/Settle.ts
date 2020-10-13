@@ -16,7 +16,6 @@ export interface Settle extends Base {
 	currency: isoly.Currency
 	descriptor?: string
 	reference?: string
-	settlementType: "authorization" | "capture" | "refund" | "credit" | "void"
 }
 
 export namespace Settle {
@@ -34,8 +33,7 @@ export namespace Settle {
 			typeof value.fee == "number" &&
 			isoly.Currency.is(value.currency) &&
 			(value.descriptor == undefined || typeof value.descriptor == "string") &&
-			(value.reference == undefined || typeof value.reference == "string") &&
-			["authorization", "capture", "refund", "credit", "void"].some(type => type == value.settlementType)
+			(value.reference == undefined || typeof value.reference == "string")
 		)
 	}
 }
