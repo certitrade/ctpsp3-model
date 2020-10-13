@@ -18,7 +18,6 @@ describe("Event.Settle tests", () => {
 				currency: "SEK",
 				descriptor: "example",
 				reference: "example",
-				settlementType: "capture",
 				date: "2020-10-02T10:25:00.000Z",
 			})
 		).toBeTruthy()
@@ -39,7 +38,6 @@ describe("Event.Settle tests", () => {
 			currency: "SEK",
 			descriptor: "example",
 			reference: "example",
-			settlementType: "refund",
 		}
 		expect(model.Event.Settle.is(model.Event.create(settlement, "2020-10-02T10:25:00.000Z"))).toBeTruthy()
 	})
