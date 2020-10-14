@@ -16,7 +16,7 @@ export namespace Creatable {
 		return (
 			typeof value == "object" &&
 			value.type == "card" &&
-			(value.account == undefined || authly.Identifier.is(value.account)) &&
+			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			((authly.Token.is(value.card) &&
 				value.reference == undefined &&
 				typeof value.amount == "number" &&
@@ -37,7 +37,11 @@ export namespace Creatable {
 					: ([
 							value.type == "card" || { property: "type", type: '"card"' },
 							authly.Identifier.is(value.account) ||
-								value.account == undefined || { property: "account", type: "authly.Identifier | undefined" },
+								value.account == undefined || {
+									property: "account",
+									type: "authly.Identifier | undefined",
+									condition: "length == 16",
+								},
 							authly.Token.is(value.card) ||
 								value.card == undefined || { property: "card", type: "authly.Token | undefined" },
 							authly.Token.is(value.reference) ||

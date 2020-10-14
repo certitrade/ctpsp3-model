@@ -6,7 +6,7 @@ import { Creatable as CardCreatable } from "./Creatable"
 export interface Card extends Base {
 	type: "card"
 	card?: authly.Token
-	account?: authly.Identifier
+	account?: string // Old orders exists with account as authly.Token although for new orders account should be of type authly.Identifier.
 	scheme: card.Card.Scheme
 	iin: string
 	last4: string
@@ -19,7 +19,7 @@ export namespace Card {
 			typeof value == "object" &&
 			value.type == "card" &&
 			(value.card == undefined || authly.Token.is(value.card)) &&
-			(value.account == undefined || authly.Identifier.is(value.account)) &&
+			(value.account == undefined || typeof value.account == "string") &&
 			card.Card.Scheme.is(value.scheme) &&
 			typeof value.iin == "string" &&
 			value.iin.length == 6 &&

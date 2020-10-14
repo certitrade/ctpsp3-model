@@ -14,7 +14,7 @@ export namespace Creatable {
 			typeof value == "object" &&
 			value.type == "account" &&
 			authly.Token.is(value.token) &&
-			(value.account == undefined || authly.Identifier.is(value.account)) &&
+			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			CreatableBase.is(value)
 		)
 	}
@@ -28,7 +28,11 @@ export namespace Creatable {
 							value.type == "account" || { property: "type", type: '"account"' },
 							authly.Token.is(value.token) || { property: "token", type: "authly.Token" },
 							value.account == undefined ||
-								authly.Identifier.is(value.account) || { property: "token", type: "authly.Identifier | undefined" },
+								authly.Identifier.is(value.account, 16) || {
+									property: "token",
+									type: "authly.Identifier | undefined",
+									condition: "length == 16",
+								},
 							CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}

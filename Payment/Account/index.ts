@@ -14,7 +14,7 @@ export namespace Account {
 			typeof value == "object" &&
 			value.type == "account" &&
 			authly.Token.is(value.token) &&
-			(value.account == undefined || authly.Identifier.is(value.account)) &&
+			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			Base.is(value)
 		)
 	}
