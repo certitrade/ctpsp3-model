@@ -4,7 +4,7 @@ import { Creatable as AccountCreatable } from "./Creatable"
 
 export interface Account extends Base {
 	type: "account"
-	token: authly.Token
+	token?: authly.Token // @deprecated
 	account?: authly.Identifier
 }
 
@@ -13,8 +13,8 @@ export namespace Account {
 		return (
 			typeof value == "object" &&
 			value.type == "account" &&
-			authly.Token.is(value.token) &&
-			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
+			((authly.Token.is(value.token) && value.account == undefined) ||
+				(value.token == undefined && authly.Identifier.is(value.account, 16))) &&
 			Base.is(value)
 		)
 	}
