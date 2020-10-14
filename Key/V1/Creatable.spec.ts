@@ -1,7 +1,8 @@
-import * as model from "../../index"
+import { Creatable } from "../Creatable"
+import { Creatable as CreatableV1 } from "./Creatable"
 
-describe("model.Merchant.Key", () => {
-	const v1: model.Merchant.V1.Creatable = {
+describe("model.Key", () => {
+	const v1: CreatableV1 = {
 		name: "testtest",
 		logotype: "https:/example.com",
 		terms: "https:/example.com",
@@ -52,14 +53,14 @@ describe("model.Merchant.Key", () => {
 		},
 	}
 	it("Upgrade v1 Creatable", () => {
-		expect(model.Merchant.V1.Creatable.is(v1)).toBeTruthy()
-		const upgraded = model.Merchant.Creatable.upgrade(v1)
+		expect(CreatableV1.is(v1)).toBeTruthy()
+		const upgraded = Creatable.upgrade(v1)
 		expect(upgraded).toBeTruthy()
-		expect(model.Merchant.Creatable.is(upgraded)).toBeTruthy()
+		expect(Creatable.is(upgraded)).toBeTruthy()
 	})
 	it("Upgrade v1 Creatable (option.card as jwt shouldn't work)", () => {
 		const v1b = { ...v1, option: { ...v1.option, card: "eyJ.jwt.sgn" } }
-		expect(model.Merchant.V1.Creatable.is(v1b)).toBeTruthy()
-		expect(model.Merchant.Creatable.upgrade(v1b)).toBeUndefined()
+		expect(CreatableV1.is(v1b)).toBeTruthy()
+		expect(Creatable.upgrade(v1b)).toBeUndefined()
 	})
 })
