@@ -48,7 +48,7 @@
 	},
 	"dependencies": {
 		"@cardfunc/model": "0.0.74",
-		"authly": "0.1.2",
+		"authly": "0.1.3",
 		"eslint-config-standardize": "^0.7.1",
 		"dotenv": "^8.2.0",
 		"gracely": "0.0.37",
