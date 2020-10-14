@@ -17,8 +17,8 @@ export namespace Creatable {
 			value.type == "card" &&
 			((authly.Token.is(value.card) &&
 				value.reference == undefined &&
-				typeof value.amount == "number" &&
-				isoly.Currency.is(value.currency)) ||
+				((value.amount == undefined && value.currency == undefined) ||
+					(typeof value.amount == "number" && isoly.Currency.is(value.currency)))) ||
 				(value.card == undefined &&
 					authly.Token.is(value.reference) &&
 					value.amount == undefined &&
