@@ -247,51 +247,50 @@ describe("Order", () => {
 			},
 			status: ["refunded"],
 		}))
-	it("set status partial charge refund", () =>
-		expect(
-			model.Order.setStatus({
-				...getOrder(),
-				event: [
-					{
-						type: "order",
-						date: "2019-02-01T12:00:00",
+	it("set status partial charge refund", () => {
+		const orderTest = model.Order.setStatus({
+			...getOrder(),
+			event: [
+				{
+					type: "order",
+					date: "2019-02-01T12:00:00",
+				},
+				{
+					type: "charge",
+					date: "2019-02-01T12:10:00",
+					items: {
+						number: "ts001-b",
+						name: "Basic T-shirt, black",
+						price: 119.6,
+						vat: 29.9,
+						quantity: 1,
 					},
-					{
-						type: "charge",
-						date: "2019-02-01T12:10:00",
-						items: {
-							number: "ts001-b",
-							name: "Basic T-shirt, black",
-							price: 119.6,
-							vat: 29.9,
-							quantity: 1,
-						},
+				},
+				{
+					type: "refund",
+					date: "2019-02-01T12:20:00",
+					items: {
+						number: "ts001-b",
+						name: "Basic T-shirt, black",
+						price: 119.6,
+						vat: 29.9,
+						quantity: 1,
 					},
-					{
-						type: "refund",
-						date: "2019-02-01T12:20:00",
-						items: {
-							number: "ts001-b",
-							name: "Basic T-shirt, black",
-							price: 119.6,
-							vat: 29.9,
-							quantity: 1,
-						},
+				},
+				{
+					type: "charge",
+					date: "2019-02-01T12:10:00",
+					items: {
+						number: "ts001-b",
+						name: "Basic T-shirt, black",
+						price: 119.6,
+						vat: 29.9,
+						quantity: 1,
 					},
-					{
-						type: "charge",
-						date: "2019-02-01T12:10:00",
-						items: {
-							number: "ts001-b",
-							name: "Basic T-shirt, black",
-							price: 119.6,
-							vat: 29.9,
-							quantity: 1,
-						},
-					},
-				],
-			})
-		).toMatchObject({
+				},
+			],
+		})
+		expect(orderTest).toMatchObject({
 			items: {
 				number: "ts001-b",
 				name: "Basic T-shirt, black",
@@ -301,7 +300,50 @@ describe("Order", () => {
 				status: ["refunded", "charged"],
 			},
 			status: ["charged", "refunded"],
-		}))
+		})
+		const orderTest2 = model.Order.setStatus({
+			...orderTest,
+			event: [
+				{
+					type: "order",
+					date: "2019-02-01T12:00:00",
+				},
+				{
+					type: "charge",
+					date: "2019-02-01T12:10:00",
+					items: {
+						number: "ts001-b",
+						name: "Basic T-shirt, black",
+						price: 119.6,
+						vat: 29.9,
+						quantity: 1,
+					},
+				},
+				{
+					type: "refund",
+					date: "2019-02-01T12:20:00",
+					items: {
+						number: "ts001-b",
+						name: "Basic T-shirt, black",
+						price: 119.6,
+						vat: 29.9,
+						quantity: 1,
+					},
+				},
+				{
+					type: "charge",
+					date: "2019-02-01T12:10:00",
+					items: {
+						number: "ts001-b",
+						name: "Basic T-shirt, black",
+						price: 119.6,
+						vat: 29.9,
+						quantity: 1,
+					},
+				},
+			],
+		})
+	})
 	it("can't refund before charge", () =>
 		expect(
 			model.Order.setStatus({
