@@ -69,7 +69,7 @@ export namespace Status {
 				result = "synchronized"
 				break
 			case "settle":
-				result = from == "settled" ? "settled" : undefined
+				result = from == "charged" || from == "refunded" || from == "settled" ? "settled" : undefined
 				break
 			default:
 			case "fail":

@@ -122,7 +122,7 @@ export namespace Item {
 		event: Event,
 		items: number
 	): { [type: string]: number } {
-		if (event.type != "fail") {
+		if (event.type != "fail" && event.type != "settle") {
 			let from: string | undefined
 			let to: string | undefined
 			let amount = typeof event.items == "number" ? event.items : undefined
