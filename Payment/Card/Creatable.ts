@@ -5,7 +5,6 @@ import { CreatableBase } from "../CreatableBase"
 
 export interface Creatable extends CreatableBase {
 	type: "card"
-	account?: string
 	card?: authly.Token
 	reference?: authly.Token
 	amount?: number
@@ -16,14 +15,14 @@ export namespace Creatable {
 		return (
 			typeof value == "object" &&
 			value.type == "card" &&
-			((((typeof value.account == "string" && value.card == undefined && value.reference == undefined) ||
-				(value.account == undefined && authly.Token.is(value.card) && value.reference == undefined)) &&
-				((typeof value.amount == "number" && isoly.Currency.is(value.currency)) ||
-					(value.amount == undefined && value.currency == undefined))) ||
-				(value.account == undefined &&
+			((authly.Token.is(value.card) &&
+				value.reference == undefined &&
+				((value.amount == undefined && value.currency == undefined) ||
+					(typeof value.amount == "number" && isoly.Currency.is(value.currency)))) ||
+				(value.card == undefined &&
+					authly.Token.is(value.reference) &&
 					value.amount == undefined &&
-					value.currency == undefined &&
-					authly.Token.is(value.reference))) &&
+					value.currency == undefined)) &&
 			CreatableBase.is(value)
 		)
 	}
@@ -35,8 +34,6 @@ export namespace Creatable {
 					? undefined
 					: ([
 							value.type == "card" || { property: "type", type: '"card"' },
-							typeof value.account == "string" ||
-								value.account == undefined || { property: "account", type: "string | undefined" },
 							authly.Token.is(value.card) ||
 								value.card == undefined || { property: "card", type: "authly.Token | undefined" },
 							authly.Token.is(value.reference) ||

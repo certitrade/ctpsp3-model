@@ -19,11 +19,47 @@ describe("Payment.Card.Creatable", () => {
 		}
 		expect(model.Payment.Creatable.is(payment)).toBe(true)
 	})
-	it("Payment.Card.Creatable.is account", async () => {
+	it("Payment.Card.Creatable.is and has account id", async () => {
 		const payment = {
-			account: "abc001",
 			type: "card",
+			card: "eyJ.body.sign",
+			account: "1234567890123456",
+			currency: "SEK",
+			amount: 10,
 		}
 		expect(model.Payment.Creatable.is(payment)).toBe(true)
+	})
+	it("Payment.Card.Creatable.is card payment missing currency", async () => {
+		const payment = {
+			type: "card",
+			card: "eyJ.body.sign",
+			amount: 10,
+		}
+		expect(model.Payment.Creatable.is(payment)).toBeFalsy()
+	})
+	it("Payment.Card.Creatable.is card payment missing amount", async () => {
+		const payment = {
+			type: "card",
+			card: "eyJ.body.sign",
+			currency: "SEK",
+		}
+		expect(model.Payment.Creatable.is(payment)).toBeFalsy()
+	})
+	it("Payment.Card.Creatable.is card payment missing amount and currency", async () => {
+		const payment = {
+			type: "card",
+			card: "eyJ.body.sign",
+			currency: "SEK",
+		}
+		expect(model.Payment.Creatable.is(payment)).toBeFalsy()
+	})
+	it("Payment.Card.Creatable.is reference payment that doesn't allow amount and currency", async () => {
+		const payment = {
+			type: "card",
+			reference: "eyJ.body.sign",
+			currency: "SEK",
+			amount: 10,
+		}
+		expect(model.Payment.Creatable.is(payment)).toBeFalsy()
 	})
 })
