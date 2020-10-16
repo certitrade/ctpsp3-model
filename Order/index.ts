@@ -21,7 +21,7 @@ export interface Order {
 	currency: isoly.Currency
 	payment: Payment
 	event?: Event[]
-	status?: Status[]
+	status?: { [status in Status]: number | undefined }
 	theme?: string
 	meta?: any
 	callback?: string
@@ -40,7 +40,11 @@ export namespace Order {
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
 			(value.event == undefined || (Array.isArray(value.event) && value.event.every(Event.is))) &&
-			(value.status == undefined || (Array.isArray(value.status) && value.status.every(Status.is))) &&
+			(value.status == undefined ||
+				(typeof value.status == "object" &&
+					Object.entries(value.status).every(
+						s => Status.is(s[0]) && (s[1] == undefined || typeof s[1] == "number")
+					))) &&
 			(value.theme == undefined || typeof value.theme == "string") &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
 			(value.language == undefined || isoly.Language.is(value.language))
@@ -87,6 +91,10 @@ export namespace Order {
 					  ].filter(gracely.Flaw.is),
 		}
 	}
+	export type OrderStatus = { [status in Status]: number | undefined }
+	export namespace OrderStatus {
+		
+	}
 	export async function generateCallback(
 		merchant: authly.Token | Key | undefined,
 		order: Partial<Order | Order.Creatable>
@@ -107,9 +115,23 @@ export namespace Order {
 		const result = await verifyToken(token)
 		return is(result) ? result : undefined
 	}
+	export function someStatus<T>(
+		orderStatus: { [status in Status]: number | undefined },
+		innerFunction: (status: Status, ...params: any[]) => T,
+		...params: any[]
+	): boolean {
+		return Object.entries(orderStatus).some(
+			status => Status.is(status[0]) && typeof status[1] == "number" && innerFunction(status[0], params) //Status.change(status[0], type)
+		)
+	}
 	export function possibleEvents(orders: Order[]): Event.Type[] {
 		return Event.types.filter(type =>
-			orders.every(order => !order.status || order.status.some(status => Status.change(status, type)))
+			orders.every(
+				order => !order.status || (order.status && someStatus<Status | undefined>(order.status, Status.change, type))
+				// Object.entries(order.status).some(
+				// 	status => Status.is(status[0]) && typeof status[1] == "number" && Status.change(status[0], type)
+				// )
+			)
 		)
 	}
 	export function sort(value: Order[], property: "created"): Order[] {
@@ -141,7 +163,12 @@ export namespace Order {
 				break
 			case "status":
 				const criteria: Status[] = Array.isArray(criterion) ? criterion : [criterion as Status]
-				result = value.filter(order => order.status && order.status.some(s => criteria.some(c => c == s)))
+				result = value.filter(
+					order =>
+						order.status &&
+						someStatus<boolean>(order.status, (s: Status, criteria: Status[]) => criteria.some(c => c == s), criteria)
+				)
+				// result = value.filter(order => order.status && order.status.some(s => criteria.some(c => c == s)))
 				break
 			case "paymentType":
 				result = value.filter(order => order.payment.type == criterion)
@@ -176,9 +203,10 @@ export namespace Order {
 				}
 			}
 			orders.items = items.length == 1 ? items[0] : items
-			orders.status = Status.sort([
-				...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), [])),
-			])
+			orders.status = items.reduce<
+			// orders.status = Status.sort([
+			// 	...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), [])),
+			// ])
 		}
 		return orders
 	}

@@ -1,3 +1,4 @@
+import * as isoly from "isoly"
 import * as model from "./index"
 
 describe("Item", () => {
@@ -146,5 +147,70 @@ describe("Item", () => {
 		}
 		model.Item.applyEvent(twoItems, orderEvent)
 		expect(model.Item.isEventAllowed(twoItems, chargeTooMany as model.Event)).toEqual(false)
+	})
+	it("refund items and amount", () => {
+		const charge: model.Event.Charge = {
+			type: "charge",
+			date: "2019-02-01T12:10:00",
+		}
+		const itemRefund: model.Event.Refund = {
+			type: "refund",
+			date: "2019-02-01T12:10:00",
+			items: {
+				number: "cd002",
+				name: "boll",
+				price: 150,
+				vat: 30,
+				quantity: 1,
+			},
+		}
+		const amountRefund: model.Event.Refund = {
+			type: "refund",
+			date: "2019-02-01T12:10:00",
+			items: 180,
+		}
+		const itemRefund2: model.Event.Refund = {
+			type: "refund",
+			date: "2019-02-01T12:10:00",
+			items: {
+				number: "cd002",
+				name: "boll",
+				price: 150,
+				vat: 30,
+				quantity: 1,
+			},
+		}
+		console.log("1: ", twoItems)
+		model.Item.applyEvent(twoItems, { type: "order", date: isoly.DateTime.now() })
+		console.log("2: ", twoItems)
+		model.Item.applyEvent(twoItems, charge)
+		console.log("3: ", twoItems)
+		model.Item.applyEvent(twoItems, itemRefund)
+		console.log("4: ", twoItems)
+		expect(model.Item.isEventAllowed(twoItems, amountRefund as model.Event)).toEqual(false)
+		model.Item.applyEvent(twoItems, amountRefund)
+		console.log("5: ", twoItems)
+		expect(model.Item.isEventAllowed(twoItems, itemRefund2 as model.Event)).toEqual(false)
+		console.log("6: ", twoItems)
+		model.Item.applyEvent(twoItems, itemRefund2)
+		console.log("7: ", twoItems)
+		/*
+		const twoItems: model.Item[] = [
+			{
+				number: "ab001",
+				name: "sko",
+				price: 100,
+				vat: 20,
+				quantity: 4,
+			},
+			{
+				number: "cd002",
+				name: "boll",
+				price: 150,
+				vat: 30,
+				quantity: 2,
+			},
+		]
+		*/
 	})
 })
