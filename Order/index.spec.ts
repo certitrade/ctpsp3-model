@@ -160,6 +160,30 @@ function getOrders(): model.Order[] {
 	]
 }
 describe("Order", () => {
+	it("new func", () => {
+		const test = model.Order.someStatus<boolean>(
+			{ charged: 100, settled: 60, refunded: 20 },
+			(s: model.Status, criteria: model.Status[]) => criteria.some(c => c == s),
+			["settled"]
+		)
+		expect(test).toBeTruthy()
+		let order: model.Order = {
+			...getOrder(),
+			event: [
+				{
+					type: "order",
+					date: "2019-02-01T12:00:00",
+				},
+				{
+					type: "charge",
+					reference: "abcdefgh-abcd-abcd-abcd-abcdefgh",
+					date: "2019-02-02T12:00:00",
+				},
+			],
+		}
+		order = model.Order.setStatus(order)
+		expect(model.Order.possibleEvents([order])).toEqual(["pay", "refund", "fail", "settle", "synchronize"])
+	})
 	it("toCsv", () =>
 		expect(model.Order.toCsv(getOrder())).toEqual(
 			`id,number,created,client,customer type,customer identity number,customer id,customer number,item count, item amount,currency,payment type,payment service,payment created,payment amount,payment currency,status\r\n"01234567abcd0000","1","2019-01-31T20:01:34","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","CardFunc","2019-01-31T20:00:54",100,"SEK",\r\n`
@@ -189,7 +213,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["ordered", "ordered"],
 			},
-			status: ["ordered"],
+			status: { ordered: 299 },
 		}))
 	it("set status order charge", () =>
 		expect(
@@ -215,7 +239,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "charged"],
 			},
-			status: ["charged"],
+			status: { charged: 299 },
 		}))
 	it("set status order charge refund", () =>
 		expect(
@@ -245,7 +269,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["refunded", "refunded"],
 			},
-			status: ["refunded"],
+			status: { refunded: 299 },
 		}))
 	it("set status partial charge refund", () => {
 		const orderTest = model.Order.setStatus({
@@ -299,7 +323,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["refunded", "charged"],
 			},
-			status: ["charged", "refunded"],
+			status: { charged: 149.5, refunded: 149.5 },
 		})
 		const orderTest2 = model.Order.setStatus({
 			...orderTest,
@@ -386,7 +410,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "ordered"],
 			},
-			status: ["ordered", "charged"],
+			status: { ordered: 149.5, charged: 149.5 },
 		}))
 	it("can only charge ordered items", () =>
 		expect(
@@ -437,7 +461,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "created"],
 			},
-			status: ["created", "charged"],
+			status: { created: 149.5, charged: 149.5 },
 		}))
 
 	it("gets items from partial charge and refund", () =>
@@ -481,7 +505,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["ordered", "charged", "refunded"],
+			status: { ordered: 300, charged: 50, refunded: 150 },
 		}))
 	it("removes empty item", () =>
 		expect(
@@ -520,7 +544,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["charged", "refunded"],
+			status: { charged: 300, refunded: 200 },
 		}))
 	it("cancel cancels only events prior charge", () =>
 		expect(
@@ -562,7 +586,7 @@ describe("Order", () => {
 					status: ["cancelled"],
 				},
 			],
-			status: ["cancelled", "charged", "refunded"],
+			status: { cancelled: 250, charged: 200, refunded: 50 },
 		}))
 	it("Total refund refunds available amount only", () =>
 		expect(
@@ -600,7 +624,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["ordered", "refunded"],
+			status: { ordered: 100, refunded: 400 },
 		}))
 	const synchronizeIssue: model.Order & any = {
 		items: 1000,
@@ -694,7 +718,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["charged", "refunded"],
+			status: { charged: 998.02, refunded: 1.98 },
 		}))
 	it("double defer orders", () =>
 		expect(
@@ -720,6 +744,6 @@ describe("Order", () => {
 				price: 500,
 				status: ["deferred"],
 			},
-			status: ["deferred"],
+			status: { deferred: 500 },
 		}))
 })

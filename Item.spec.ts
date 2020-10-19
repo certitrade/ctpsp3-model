@@ -148,7 +148,7 @@ describe("Item", () => {
 		model.Item.applyEvent(twoItems, orderEvent)
 		expect(model.Item.isEventAllowed(twoItems, chargeTooMany as model.Event)).toEqual(false)
 	})
-	it("refund items and amount", () => {
+	it.skip("refund items and amount", () => {
 		const charge: model.Event.Charge = {
 			type: "charge",
 			date: "2019-02-01T12:10:00",

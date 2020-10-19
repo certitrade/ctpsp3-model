@@ -125,10 +125,12 @@ export namespace Order {
 	export function possibleEvents(orders: Order[]): Event.Type[] {
 		return Event.types.filter(type =>
 			orders.every(
-				order => !order.status || (order.status && someStatus<Status | undefined>(order.status, Status.change, type))
-				// Object.entries(order.status).some(
-				// 	status => Status.is(status[0]) && typeof status[1] == "number" && Status.change(status[0], type)
-				// )
+				//order => !order.status || (order.status && someStatus<Status | undefined>(order.status, Status.change, type))
+				order =>
+					!order.status ||
+					Object.entries(order.status).some(
+						status => Status.is(status[0]) && typeof status[1] == "number" && Status.change(status[0], type)
+					)
 			)
 		)
 	}
@@ -191,7 +193,7 @@ export namespace Order {
 						sums = Item.applyAmountEvent(sums, event, orders.items)
 				for (const key of Status.types)
 					if (sums[key] ?? 0 > 0)
-						items.push({ price: sums[key], status: [key as Status] })
+						items.push({ price: sums[key], status: [key] })
 			} else {
 				items = Item.asArray(orders.items)
 				if (orders.event) {
@@ -200,8 +202,21 @@ export namespace Order {
 					}
 				}
 			}
-			orders.items = items.length == 1 ? items[0] : items
-			orders.status = amountsPerStatus(orders)
+			orders.items =
+				items.length == 1
+					? items[0]
+					: items.reduce((previous, current) => previous.sort(Status.sort(item.status ?? [])), items)
+			//	: items.sort((a, b) => a.status ? a.status.sort((aa, bb) => Status.types[(Status.sort([aa, bb])[0]])))
+			// : items.sort((a, b) => a.status?.sort((aa, bb) => (Status.sort([aa, bb])[0] == bb ? -1 : 1)))
+			//	orders.status = amountsPerStatus(orders)
+			orders.status = items.reduce<StatusList>((r, item) => {
+				return (r = item.status
+					? item.status.reduce((output: StatusList, s: Status) => {
+							output[s] = (output[s] ?? 0) + (Item.amount(item) ?? 0) / (item.quantity ?? 1)
+							return output
+					  }, r)
+					: r)
+			}, {} as StatusList)
 			if (orders.event)
 				orders.status.settled = orders.event.reduce<number>((sum, e) => {
 					if (Event.Settle.is(e))

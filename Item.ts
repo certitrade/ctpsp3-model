@@ -125,14 +125,14 @@ export namespace Item {
 			let amount = typeof event.items == "number" ? event.items : undefined
 			for (const status of Status.types) {
 				to = Status.change(status, event.type)
-				if (to && (amount ? sums[status] ?? 0 >= amount : sums[status] ?? 0 > 0)) {
+				if (to && (amount ? (sums[status] ?? 0) >= amount : (sums[status] ?? 0) > 0)) {
 					from = status
 					break
 				}
 			}
 			if (to && from && to != from) {
 				if (amount)
-					sums[from] = sums[from] ?? 0 - amount
+					sums[from] = (sums[from] ?? 0) - amount
 				else {
 					amount = sums[from]
 					sums[from] = 0
