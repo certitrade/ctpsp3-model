@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
 
 export interface Sms {
-	key: string
+	key?: string
 	sender?: string
 	dryRun?: "true" // Problems signing if property is of type boolean
 }
@@ -10,7 +10,7 @@ export namespace Sms {
 	export function is(value: any | Sms): value is Sms {
 		return (
 			typeof value == "object" &&
-			typeof value.key == "string" &&
+			(value.key == undefined || typeof value.key == "string") &&
 			(value.sender == undefined || typeof value.sender == "string") &&
 			(value.dryRun == undefined || value.dryRun == "true")
 		)

@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
 
 export interface Email {
-	key: string
+	key?: string
 	notify?: string
 }
 
@@ -9,7 +9,7 @@ export namespace Email {
 	export function is(value: any | Email): value is Email {
 		return (
 			typeof value == "object" &&
-			typeof value.key == "string" &&
+			(value.key == undefined || typeof value.key == "string") &&
 			(value.notify == undefined || typeof value.notify == "string")
 		)
 	}

@@ -14,7 +14,7 @@ export interface Creatable {
 	type?: "live" | "demo" | "test"
 	agent?: string
 
-	url: string
+	url?: string
 	terms?: string
 	logotype?: string
 
@@ -33,13 +33,14 @@ export namespace Creatable {
 			typeof value.name == "string" &&
 			(value.type == undefined || value.type == "live" || value.type == "demo" || value.type == "test") &&
 			(value.agent == undefined || typeof value.agent == "string") &&
-			typeof value.url == "string" &&
+			(value.url == undefined || typeof value.url == "string") &&
 			(value.terms == undefined || typeof value.terms == "string") &&
 			(value.logotype == undefined || typeof value.logotype == "string") &&
 			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
 			(value.email == undefined || Email.is(value.email)) &&
 			(value.mash == undefined || Mash.is(value.mash)) &&
-			(value.sms == undefined || Sms.is(value.sms))
+			(value.sms == undefined || Sms.is(value.sms)) &&
+			value.option == undefined // Fail V1 Keys
 		)
 	}
 	export function flaw(value: any | Creatable): gracely.Flaw {
@@ -60,7 +61,7 @@ export namespace Creatable {
 								typeof value.terms == "string" || { property: "terms", type: "string | undefined" },
 							value.logotype == undefined ||
 								typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
-							typeof value.url == "string" || { property: "url", type: "string" },
+							typeof value.url == "string" || value.url == undefined || { property: "url", type: "string | undefined" },
 							value.card == undefined ||
 								card.Merchant.Configuration.is(value.card) || {
 									property: "card",

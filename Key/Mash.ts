@@ -2,10 +2,10 @@ import * as gracely from "gracely"
 import { Payment } from "../Payment"
 
 export interface Mash {
-	url: string
-	user: string
-	key: string
-	merchant: number
+	url?: string
+	user?: string
+	key?: string
+	merchant?: number
 	option?: "all" | "invoice" | "installment" | "none"
 	only?: { type: "invoice"; terms: Payment.Invoice.Terms } | { type: "installment"; plan: Payment.Installment.Plan }
 }
@@ -13,10 +13,10 @@ export namespace Mash {
 	export function is(value: any | Mash): value is Mash {
 		return (
 			typeof value == "object" &&
-			typeof value.url == "string" &&
-			typeof value.user == "string" &&
-			typeof value.key == "string" &&
-			typeof value.merchant == "number" &&
+			(value.url == undefined || typeof value.url == "string") &&
+			(value.user == undefined || typeof value.user == "string") &&
+			(value.key == undefined || typeof value.key == "string") &&
+			(value.merchant == undefined || typeof value.merchant == "number") &&
 			(value.option == undefined ||
 				value.option == "all" ||
 				value.option == "invoice" ||

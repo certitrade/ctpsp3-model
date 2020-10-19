@@ -1,3 +1,4 @@
+import { Audience as KeyAudience } from "./Audience"
 import { Creatable as KeyCreatable } from "./Creatable"
 import { Email as KeyEmail } from "./Email"
 import { Key as KKey } from "./Key"
@@ -11,6 +12,11 @@ export namespace Key {
 	export const unpack = Actors.unpack
 	export const getVerifier = Actors.getVerifier
 	export const getIssuer = Actors.getIssuer
+
+	export type Audience = KeyAudience
+	export namespace Audience {
+		export const is = KeyAudience.is
+	}
 
 	export type Creatable = KeyCreatable
 	export namespace Creatable {

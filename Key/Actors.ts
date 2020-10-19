@@ -86,13 +86,14 @@ export function getIssuer(secrets?: {
 					"card.acquirer",
 					"card.emv3d"
 				),
+				authly.Property.Remover.create(["features"]) as authly.Property.Transformer,
 		  ]
 		: []
 	const algorithm = secrets ? authly.Algorithm.create("HS256", secrets.signing) : undefined
 	return authly.Issuer.create<Omit<Key, "iat">>("payfunc", algorithm)?.add(...issuerTransformations)
 }
 export async function unpack(token: authly.Token, ...audience: Audience[]): Promise<Key | undefined> {
-	return (await getVerifier().verify(token, ...audience)) as Key
+	return await getVerifier().verify(token, ...audience)
 }
 
 function getCardVerifier(
