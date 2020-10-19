@@ -9,6 +9,7 @@ import { Payment } from "../Payment"
 import { Status } from "../Status"
 import { Change as OrderChange } from "./Change"
 import { Creatable as OrderCreatable } from "./Creatable"
+import { StatusList as OrderStatusList } from "./StatusList"
 import { verify as verifyToken } from "../verify"
 
 export interface Order {
@@ -21,7 +22,7 @@ export interface Order {
 	currency: isoly.Currency
 	payment: Payment
 	event?: Event[]
-	status?: { [status in Status]: number | undefined }
+	status?: OrderStatusList
 	theme?: string
 	meta?: any
 	callback?: string
@@ -40,11 +41,7 @@ export namespace Order {
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
 			(value.event == undefined || (Array.isArray(value.event) && value.event.every(Event.is))) &&
-			(value.status == undefined ||
-				(typeof value.status == "object" &&
-					Object.entries(value.status).every(
-						s => Status.is(s[0]) && (s[1] == undefined || typeof s[1] == "number")
-					))) &&
+			(value.status == undefined || OrderStatusList.is(value.status)) &&
 			(value.theme == undefined || typeof value.theme == "string") &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
 			(value.language == undefined || isoly.Language.is(value.language))
@@ -78,10 +75,15 @@ export namespace Order {
 									type: "Event[] | undefined",
 								},
 							value.status == undefined ||
-								(Array.isArray(value.status) && value.status.every(Status.is)) || {
+								StatusList.is(value.status) || {
 									property: "status",
-									type: "Status[] | undefined",
+									type: "{ [status in Status]?: number | undefined } | undefined",
 								},
+							// value.status == undefined ||
+							// 	(Array.isArray(value.status) && value.status.every(Status.is)) || {
+							// 		property: "status",
+							// 		type: "Status[] | undefined",
+							// 	},
 							value.theme == undefined ||
 								typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
 							value.callback == undefined ||
@@ -90,10 +92,6 @@ export namespace Order {
 								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
 					  ].filter(gracely.Flaw.is),
 		}
-	}
-	export type OrderStatus = { [status in Status]: number | undefined }
-	export namespace OrderStatus {
-		
 	}
 	export async function generateCallback(
 		merchant: authly.Token | Key | undefined,
@@ -116,7 +114,7 @@ export namespace Order {
 		return is(result) ? result : undefined
 	}
 	export function someStatus<T>(
-		orderStatus: { [status in Status]: number | undefined },
+		orderStatus: OrderStatusList,
 		innerFunction: (status: Status, ...params: any[]) => T,
 		...params: any[]
 	): boolean {
@@ -187,12 +185,12 @@ export namespace Order {
 		else {
 			let items: Item[] = []
 			if (typeof orders.items == "number") {
-				let sums: { [type: string]: number } = { created: orders.items }
+				let sums: StatusList = { created: orders.items }
 				if (orders.event)
 					for (const event of orders.event)
 						sums = Item.applyAmountEvent(sums, event, orders.items)
-				for (const key of Object.keys(sums))
-					if (sums[key] > 0)
+				for (const key of Status.types)
+					if (sums[key] ?? 0 > 0)
 						items.push({ price: sums[key], status: [key as Status] })
 			} else {
 				items = Item.asArray(orders.items)
@@ -203,17 +201,38 @@ export namespace Order {
 				}
 			}
 			orders.items = items.length == 1 ? items[0] : items
-			orders.status = items.reduce<
+			orders.status = amountsPerStatus(orders)
+			if (orders.event)
+				orders.status.settled = orders.event.reduce<number>((sum, e) => {
+					if (Event.Settle.is(e))
+						sum += e.amount.net
+					return sum
+				}, 0)
+			//let statusList: (Item | Event)[] = []
+			// statusList = statusList.concat(items)
+			// if (orders.event)
+			// 	statusList = statusList.concat(orders.event)
+			// const initualOrderStatus: OrderStatus = {}
+			// orders.status = statusList.reduce<OrderStatus>((output, input) => {
+			// 	if (Item.is(input)) {
+			// 		output = amountsPerStatus
+			// 	} else
+			// 		output[input] = 1
+			// }, initualOrderStatus)
 			// orders.status = Status.sort([
 			// 	...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), [])),
 			// ])
 		}
 		return orders
 	}
-	export function amountsPerStatus(order: Order): { [status: string]: number | undefined } {
+	// export function amountsPerStatus(order: Order): { [status: string]: number | undefined } {
+	// 	if (!order.status)
+	// 		order = setStatus(order)
+	// 	return Item.asArray(order.items).reduce<{ [status: string]: number | undefined }>((result, item) => {
+	export function amountsPerStatus(order: Order): StatusList {
 		if (!order.status)
 			order = setStatus(order)
-		return Item.asArray(order.items).reduce<{ [status: string]: number | undefined }>((result, item) => {
+		return Item.asArray(order.items).reduce<StatusList>((result: StatusList, item: Item) => {
 			const price = Item.amount(item) / (item.quantity ?? 1)
 			return (
 				item.status?.reduce((r, s) => {
@@ -221,7 +240,7 @@ export namespace Order {
 					return r
 				}, result) ?? result
 			)
-		}, {})
+		}, {} as StatusList)
 	}
 	export function getCsvHeaders(): string {
 		let result = ``
@@ -259,6 +278,21 @@ export namespace Order {
 		result += Status.toCsv(value.status)
 		result += `\r\n`
 		return result
+	}
+	// export type OrderStatus = { [status in Status]?: number | undefined }
+	// export namespace OrderStatus {
+	// 	export function is(value: any | OrderStatus): value is OrderStatus {
+	// 		return (
+	// 			typeof value == "object" &&
+	// 			Object.entries(value).every(
+	// 				status => Status.is(status[0]) && (status[1] == undefined || typeof status[1] == "number")
+	// 			)
+	// 		)
+	// 	}
+	// }
+	export type StatusList = OrderStatusList
+	export namespace StatusList {
+		export const is = OrderStatusList.is
 	}
 	export type Creatable = OrderCreatable
 	export namespace Creatable {
