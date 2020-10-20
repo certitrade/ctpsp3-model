@@ -680,4 +680,73 @@ describe("Order", () => {
 			},
 			status: { deferred: 500 },
 		}))
+	it("amount order charge, partial refund and settled", () =>
+		expect(
+			model.Order.setStatus({
+				...getAmountOrder(),
+				event: [
+					{
+						type: "order",
+						date: "2019-02-01T12:00:00",
+					},
+					{
+						type: "charge",
+						date: "2019-02-01T12:20:00",
+						reference: "1234-1234-1234",
+					},
+					{
+						type: "refund",
+						date: "2019-02-01T12:30:00",
+						items: 125,
+						reference: "1234-1234-1234",
+					},
+					{
+						type: "settle",
+						period: {
+							start: "2020-02-01T00:00:00.000Z",
+							end: "2020-02-07T23:59:59.999Z",
+						},
+						payout: "2020-02-09T11:39:38.291Z",
+						amount: {
+							gross: 500,
+							net: 485,
+						},
+						fee: -15,
+						currency: "SEK",
+						descriptor: "example",
+						reference: "example",
+						date: "2020-02-08T10:25:00.000Z",
+					},
+					{
+						type: "settle",
+						period: {
+							start: "2020-02-08T00:00:00.000Z",
+							end: "2020-02-15T23:59:59.999Z",
+						},
+						payout: "2020-02-18T11:39:38.291Z",
+						amount: {
+							gross: -125,
+							net: -128.75,
+						},
+						fee: -3.75,
+						currency: "SEK",
+						descriptor: "example",
+						reference: "example",
+						date: "2020-02-16T10:25:00.000Z",
+					},
+				],
+			})
+		).toMatchObject({
+			items: [
+				{
+					price: 375,
+					status: ["charged"],
+				},
+				{
+					price: 125,
+					status: ["refunded"],
+				},
+			],
+			status: { charged: 375, refunded: 125, settled: 356.25 },
+		}))
 })
