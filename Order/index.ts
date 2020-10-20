@@ -79,11 +79,6 @@ export namespace Order {
 									property: "status",
 									type: "{ [status in Status]?: number | undefined } | undefined",
 								},
-							// value.status == undefined ||
-							// 	(Array.isArray(value.status) && value.status.every(Status.is)) || {
-							// 		property: "status",
-							// 		type: "Status[] | undefined",
-							// 	},
 							value.theme == undefined ||
 								typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
 							value.callback == undefined ||
@@ -113,19 +108,9 @@ export namespace Order {
 		const result = await verifyToken(token)
 		return is(result) ? result : undefined
 	}
-	export function someStatus<T>(
-		orderStatus: OrderStatusList,
-		innerFunction: (status: Status, ...params: any[]) => T,
-		...params: any[]
-	): boolean {
-		return Object.entries(orderStatus).some(
-			status => Status.is(status[0]) && typeof status[1] == "number" && innerFunction(status[0], params) //Status.change(status[0], type)
-		)
-	}
 	export function possibleEvents(orders: Order[]): Event.Type[] {
 		return Event.types.filter(type =>
 			orders.every(
-				//order => !order.status || (order.status && someStatus<Status | undefined>(order.status, Status.change, type))
 				order =>
 					!order.status ||
 					Object.entries(order.status).some(
@@ -166,9 +151,10 @@ export namespace Order {
 				result = value.filter(
 					order =>
 						order.status &&
-						someStatus<boolean>(order.status, (s: Status, criteria: Status[]) => criteria.some(c => c == s), criteria)
+						Object.entries(order.status).some(
+							status => Status.is(status[0]) && typeof status[1] == "number" && criteria.some(c => c == status[0])
+						)
 				)
-				// result = value.filter(order => order.status && order.status.some(s => criteria.some(c => c == s)))
 				break
 			case "paymentType":
 				result = value.filter(order => order.payment.type == criterion)
