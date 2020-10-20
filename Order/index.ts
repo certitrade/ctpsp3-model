@@ -22,7 +22,7 @@ export interface Order {
 	currency: isoly.Currency
 	payment: Payment
 	event?: Event[]
-	status?: OrderStatusList
+	status?: Status[] | OrderStatusList
 	theme?: string
 	meta?: any
 	callback?: string
@@ -41,7 +41,9 @@ export namespace Order {
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
 			(value.event == undefined || (Array.isArray(value.event) && value.event.every(Event.is))) &&
-			(value.status == undefined || OrderStatusList.is(value.status)) &&
+			(value.status == undefined ||
+				(Array.isArray(value.status) && value.status.every(Status.is)) ||
+				OrderStatusList.is(value.status)) &&
 			(value.theme == undefined || typeof value.theme == "string") &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
 			(value.language == undefined || isoly.Language.is(value.language))
@@ -75,9 +77,10 @@ export namespace Order {
 									type: "Event[] | undefined",
 								},
 							value.status == undefined ||
+								(Array.isArray(value.status) && value.status.every(Status.is)) ||
 								StatusList.is(value.status) || {
 									property: "status",
-									type: "{ [status in Status]?: number | undefined } | undefined",
+									type: "Status[] | { [status in Status]?: number | undefined } | undefined",
 								},
 							value.theme == undefined ||
 								typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
