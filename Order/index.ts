@@ -188,27 +188,25 @@ export namespace Order {
 			let items: Item[] = []
 			if (typeof orders.items == "number") {
 				let sums: StatusList = { created: orders.items }
-				if (orders.event)
+				if (orders.event) {
 					for (const event of orders.event)
 						sums = Item.applyAmountEvent(sums, event, orders.items)
-				for (const key of Status.types)
-					if (sums[key] ?? 0 > 0)
-						items.push({ price: sums[key], status: [key] })
+					const events: Event[] = orders.event.reduce<Event[]>((p: Event[], c: Event) => {
+						if (!p.some(pp => pp.type == c.type))
+							p.push(c)
+						return p
+					}, [] as Event[])
+					for (const event of events)
+						if (sums[Status.fromEvent(event.type)] ?? 0 > 0)
+							items.push({ price: sums[Status.fromEvent(event.type)], status: [Status.fromEvent(event.type)] })
+				}
 			} else {
 				items = Item.asArray(orders.items)
-				if (orders.event) {
-					for (const event of orders.event) {
+				if (orders.event)
+					for (const event of orders.event)
 						Item.applyEvent(items, event)
-					}
-				}
 			}
-			orders.items =
-				items.length == 1
-					? items[0]
-					: items.reduce((previous, current) => previous.sort(Status.sort(item.status ?? [])), items)
-			//	: items.sort((a, b) => a.status ? a.status.sort((aa, bb) => Status.types[(Status.sort([aa, bb])[0]])))
-			// : items.sort((a, b) => a.status?.sort((aa, bb) => (Status.sort([aa, bb])[0] == bb ? -1 : 1)))
-			//	orders.status = amountsPerStatus(orders)
+			orders.items = items.length == 1 ? items[0] : items
 			orders.status = items.reduce<StatusList>((r, item) => {
 				return (r = item.status
 					? item.status.reduce((output: StatusList, s: Status) => {
@@ -223,27 +221,9 @@ export namespace Order {
 						sum += e.amount.net
 					return sum
 				}, 0)
-			//let statusList: (Item | Event)[] = []
-			// statusList = statusList.concat(items)
-			// if (orders.event)
-			// 	statusList = statusList.concat(orders.event)
-			// const initualOrderStatus: OrderStatus = {}
-			// orders.status = statusList.reduce<OrderStatus>((output, input) => {
-			// 	if (Item.is(input)) {
-			// 		output = amountsPerStatus
-			// 	} else
-			// 		output[input] = 1
-			// }, initualOrderStatus)
-			// orders.status = Status.sort([
-			// 	...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), [])),
-			// ])
 		}
 		return orders
 	}
-	// export function amountsPerStatus(order: Order): { [status: string]: number | undefined } {
-	// 	if (!order.status)
-	// 		order = setStatus(order)
-	// 	return Item.asArray(order.items).reduce<{ [status: string]: number | undefined }>((result, item) => {
 	export function amountsPerStatus(order: Order): StatusList {
 		if (!order.status)
 			order = setStatus(order)
@@ -294,17 +274,6 @@ export namespace Order {
 		result += `\r\n`
 		return result
 	}
-	// export type OrderStatus = { [status in Status]?: number | undefined }
-	// export namespace OrderStatus {
-	// 	export function is(value: any | OrderStatus): value is OrderStatus {
-	// 		return (
-	// 			typeof value == "object" &&
-	// 			Object.entries(value).every(
-	// 				status => Status.is(status[0]) && (status[1] == undefined || typeof status[1] == "number")
-	// 			)
-	// 		)
-	// 	}
-	// }
 	export type StatusList = OrderStatusList
 	export namespace StatusList {
 		export const is = OrderStatusList.is
