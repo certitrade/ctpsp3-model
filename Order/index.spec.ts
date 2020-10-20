@@ -160,30 +160,6 @@ function getOrders(): model.Order[] {
 	]
 }
 describe("Order", () => {
-	it("new func", () => {
-		const test = model.Order.someStatus<boolean>(
-			{ charged: 100, settled: 60, refunded: 20 },
-			(s: model.Status, criteria: model.Status[]) => criteria.some(c => c == s),
-			["settled"]
-		)
-		expect(test).toBeTruthy()
-		let order: model.Order = {
-			...getOrder(),
-			event: [
-				{
-					type: "order",
-					date: "2019-02-01T12:00:00",
-				},
-				{
-					type: "charge",
-					reference: "abcdefgh-abcd-abcd-abcd-abcdefgh",
-					date: "2019-02-02T12:00:00",
-				},
-			],
-		}
-		order = model.Order.setStatus(order)
-		expect(model.Order.possibleEvents([order])).toEqual(["pay", "refund", "fail", "settle", "synchronize"])
-	})
 	it("toCsv", () =>
 		expect(model.Order.toCsv(getOrder())).toEqual(
 			`id,number,created,client,customer type,customer identity number,customer id,customer number,item count, item amount,currency,payment type,payment service,payment created,payment amount,payment currency,status\r\n"01234567abcd0000","1","2019-01-31T20:01:34","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","CardFunc","2019-01-31T20:00:54",100,"SEK",\r\n`
@@ -271,50 +247,51 @@ describe("Order", () => {
 			},
 			status: { refunded: 299 },
 		}))
-	it("set status partial charge refund", () => {
-		const orderTest = model.Order.setStatus({
-			...getOrder(),
-			event: [
-				{
-					type: "order",
-					date: "2019-02-01T12:00:00",
-				},
-				{
-					type: "charge",
-					date: "2019-02-01T12:10:00",
-					items: {
-						number: "ts001-b",
-						name: "Basic T-shirt, black",
-						price: 119.6,
-						vat: 29.9,
-						quantity: 1,
+	it("set status partial charge refund", () =>
+		expect(
+			model.Order.setStatus({
+				...getOrder(),
+				event: [
+					{
+						type: "order",
+						date: "2019-02-01T12:00:00",
 					},
-				},
-				{
-					type: "refund",
-					date: "2019-02-01T12:20:00",
-					items: {
-						number: "ts001-b",
-						name: "Basic T-shirt, black",
-						price: 119.6,
-						vat: 29.9,
-						quantity: 1,
+					{
+						type: "charge",
+						date: "2019-02-01T12:10:00",
+						items: {
+							number: "ts001-b",
+							name: "Basic T-shirt, black",
+							price: 119.6,
+							vat: 29.9,
+							quantity: 1,
+						},
 					},
-				},
-				{
-					type: "charge",
-					date: "2019-02-01T12:10:00",
-					items: {
-						number: "ts001-b",
-						name: "Basic T-shirt, black",
-						price: 119.6,
-						vat: 29.9,
-						quantity: 1,
+					{
+						type: "refund",
+						date: "2019-02-01T12:20:00",
+						items: {
+							number: "ts001-b",
+							name: "Basic T-shirt, black",
+							price: 119.6,
+							vat: 29.9,
+							quantity: 1,
+						},
 					},
-				},
-			],
-		})
-		expect(orderTest).toMatchObject({
+					{
+						type: "charge",
+						date: "2019-02-01T12:10:00",
+						items: {
+							number: "ts001-b",
+							name: "Basic T-shirt, black",
+							price: 119.6,
+							vat: 29.9,
+							quantity: 1,
+						},
+					},
+				],
+			})
+		).toMatchObject({
 			items: {
 				number: "ts001-b",
 				name: "Basic T-shirt, black",
@@ -324,50 +301,7 @@ describe("Order", () => {
 				status: ["refunded", "charged"],
 			},
 			status: { charged: 149.5, refunded: 149.5 },
-		})
-		const orderTest2 = model.Order.setStatus({
-			...orderTest,
-			event: [
-				{
-					type: "order",
-					date: "2019-02-01T12:00:00",
-				},
-				{
-					type: "charge",
-					date: "2019-02-01T12:10:00",
-					items: {
-						number: "ts001-b",
-						name: "Basic T-shirt, black",
-						price: 119.6,
-						vat: 29.9,
-						quantity: 1,
-					},
-				},
-				{
-					type: "refund",
-					date: "2019-02-01T12:20:00",
-					items: {
-						number: "ts001-b",
-						name: "Basic T-shirt, black",
-						price: 119.6,
-						vat: 29.9,
-						quantity: 1,
-					},
-				},
-				{
-					type: "charge",
-					date: "2019-02-01T12:10:00",
-					items: {
-						number: "ts001-b",
-						name: "Basic T-shirt, black",
-						price: 119.6,
-						vat: 29.9,
-						quantity: 1,
-					},
-				},
-			],
-		})
-	})
+		}))
 	it("can't refund before charge", () =>
 		expect(
 			model.Order.setStatus({
