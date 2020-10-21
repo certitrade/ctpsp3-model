@@ -144,9 +144,9 @@ export namespace Item {
 	}
 	export function applyEvent(items: Item[], event: Event): boolean {
 		let result = true
-		for (const item of Item.asArray(event.items || items)) {
-			result = applyItem(items, event.type, item.quantity || 1, item)
-		}
+		if (event.type != "fail" && event.type != "settle")
+			for (const item of Item.asArray(event.items || items))
+				result = applyItem(items, event.type, item.quantity || 1, item)
 		return result
 	}
 	export function applyItem(items: Item[], event: Event.Type, quantity: number, match: Item): boolean {

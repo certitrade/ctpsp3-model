@@ -749,4 +749,79 @@ describe("Order", () => {
 			],
 			status: { charged: 375, refunded: 125, settled: 356.25 },
 		}))
+	it("items list order charge, partial refund and settled", () =>
+		expect(
+			model.Order.setStatus({
+				...getOrder(),
+				event: [
+					{
+						type: "order",
+						date: "2019-02-01T12:00:00",
+					},
+					{
+						type: "charge",
+						date: "2019-02-01T12:20:00",
+						reference: "1234-1234-1234",
+					},
+					{
+						type: "refund",
+						date: "2019-02-01T12:30:00",
+						items: [
+							{
+								number: "ts001-b",
+								name: "Basic T-shirt, black",
+								price: 119.6,
+								vat: 29.9,
+								quantity: 1,
+							},
+						],
+						reference: "1234-1234-1234",
+					},
+					{
+						type: "settle",
+						period: {
+							start: "2020-02-01T00:00:00.000Z",
+							end: "2020-02-07T23:59:59.999Z",
+						},
+						payout: "2020-02-09T11:39:38.291Z",
+						amount: {
+							gross: 249,
+							net: 241.5,
+						},
+						fee: -7.5,
+						currency: "SEK",
+						descriptor: "example",
+						reference: "example",
+						date: "2020-02-08T10:25:00.000Z",
+					},
+					{
+						type: "settle",
+						period: {
+							start: "2020-02-08T00:00:00.000Z",
+							end: "2020-02-15T23:59:59.999Z",
+						},
+						payout: "2020-02-18T11:39:38.291Z",
+						amount: {
+							gross: -124.5,
+							net: -128.25,
+						},
+						fee: -3.75,
+						currency: "SEK",
+						descriptor: "example",
+						reference: "example",
+						date: "2020-02-16T10:25:00.000Z",
+					},
+				],
+			})
+		).toMatchObject({
+			items: {
+				number: "ts001-b",
+				name: "Basic T-shirt, black",
+				price: 119.6,
+				vat: 29.9,
+				quantity: 2,
+				status: ["refunded", "charged"],
+			},
+			status: { charged: 149.5, refunded: 149.5, settled: 113.25 },
+		}))
 })
