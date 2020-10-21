@@ -1,6 +1,7 @@
 import * as gracely from "gracely"
 import { Status } from "./Status"
 import { Event } from "./Event"
+import { StatusList } from "./Order/StatusList"
 
 export interface Item {
 	number?: string
@@ -117,25 +118,21 @@ export namespace Item {
 			left.rebate == right.rebate
 		)
 	}
-	export function applyAmountEvent(
-		sums: { [type: string]: number },
-		event: Event,
-		items: number
-	): { [type: string]: number } {
-		if (event.type != "fail") {
-			let from: string | undefined
-			let to: string | undefined
+	export function applyAmountEvent(sums: StatusList, event: Event, items: number): StatusList {
+		if (event.type != "fail" && event.type != "settle") {
+			let from: Status | undefined
+			let to: Status | undefined
 			let amount = typeof event.items == "number" ? event.items : undefined
 			for (const status of Status.types) {
 				to = Status.change(status, event.type)
-				if (to && (amount ? sums[status] >= amount : sums[status] > 0)) {
+				if (to && (amount ? (sums[status] ?? 0) >= amount : (sums[status] ?? 0) > 0)) {
 					from = status
 					break
 				}
 			}
 			if (to && from && to != from) {
 				if (amount)
-					sums[from] -= amount
+					sums[from] = (sums[from] ?? 0) - amount
 				else {
 					amount = sums[from]
 					sums[from] = 0

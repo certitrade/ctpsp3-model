@@ -9,6 +9,7 @@ import { Payment } from "../Payment"
 import { Status } from "../Status"
 import { Change as OrderChange } from "./Change"
 import { Creatable as OrderCreatable } from "./Creatable"
+import { StatusList as OrderStatusList } from "./StatusList"
 import { verify as verifyToken } from "../verify"
 
 export interface Order {
@@ -21,7 +22,7 @@ export interface Order {
 	currency: isoly.Currency
 	payment: Payment
 	event?: Event[]
-	status?: Status[]
+	status?: Status[] | OrderStatusList
 	theme?: string
 	meta?: any
 	callback?: string
@@ -40,7 +41,9 @@ export namespace Order {
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
 			(value.event == undefined || (Array.isArray(value.event) && value.event.every(Event.is))) &&
-			(value.status == undefined || (Array.isArray(value.status) && value.status.every(Status.is))) &&
+			(value.status == undefined ||
+				(Array.isArray(value.status) && value.status.every(Status.is)) ||
+				OrderStatusList.is(value.status)) &&
 			(value.theme == undefined || typeof value.theme == "string") &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
 			(value.language == undefined || isoly.Language.is(value.language))
@@ -74,9 +77,10 @@ export namespace Order {
 									type: "Event[] | undefined",
 								},
 							value.status == undefined ||
-								(Array.isArray(value.status) && value.status.every(Status.is)) || {
+								(Array.isArray(value.status) && value.status.every(Status.is)) ||
+								StatusList.is(value.status) || {
 									property: "status",
-									type: "Status[] | undefined",
+									type: "Status[] | { [status in Status]?: number | undefined } | undefined",
 								},
 							value.theme == undefined ||
 								typeof value.theme == "string" || { property: "theme", type: "string | undefined" },
@@ -109,7 +113,13 @@ export namespace Order {
 	}
 	export function possibleEvents(orders: Order[]): Event.Type[] {
 		return Event.types.filter(type =>
-			orders.every(order => !order.status || order.status.some(status => Status.change(status, type)))
+			orders.every(
+				order =>
+					!order.status ||
+					Object.entries(order.status).some(
+						status => Status.is(status[0]) && typeof status[1] == "number" && Status.change(status[0], type)
+					)
+			)
 		)
 	}
 	export function sort(value: Order[], property: "created"): Order[] {
@@ -141,7 +151,13 @@ export namespace Order {
 				break
 			case "status":
 				const criteria: Status[] = Array.isArray(criterion) ? criterion : [criterion as Status]
-				result = value.filter(order => order.status && order.status.some(s => criteria.some(c => c == s)))
+				result = value.filter(
+					order =>
+						order.status &&
+						Object.entries(order.status).some(
+							status => Status.is(status[0]) && typeof status[1] == "number" && criteria.some(c => c == status[0])
+						)
+				)
 				break
 			case "paymentType":
 				result = value.filter(order => order.payment.type == criterion)
@@ -160,32 +176,47 @@ export namespace Order {
 		else {
 			let items: Item[] = []
 			if (typeof orders.items == "number") {
-				let sums: { [type: string]: number } = { created: orders.items }
-				if (orders.event)
+				let sums: StatusList = { created: orders.items }
+				if (orders.event) {
 					for (const event of orders.event)
 						sums = Item.applyAmountEvent(sums, event, orders.items)
-				for (const key of Object.keys(sums))
-					if (sums[key] > 0)
-						items.push({ price: sums[key], status: [key as Status] })
+					const events: Event[] = orders.event.reduce<Event[]>((p: Event[], c: Event) => {
+						if (!p.some(pp => pp.type == c.type))
+							p.push(c)
+						return p
+					}, [] as Event[])
+					for (const event of events)
+						if (sums[Status.fromEvent(event.type)] ?? 0 > 0)
+							items.push({ price: sums[Status.fromEvent(event.type)], status: [Status.fromEvent(event.type)] })
+				}
 			} else {
 				items = Item.asArray(orders.items)
-				if (orders.event) {
-					for (const event of orders.event) {
+				if (orders.event)
+					for (const event of orders.event)
 						Item.applyEvent(items, event)
-					}
-				}
 			}
 			orders.items = items.length == 1 ? items[0] : items
-			orders.status = Status.sort([
-				...new Set(items.reduce<Status[]>((r, item) => (item.status ? r.concat(item.status) : r), [])),
-			])
+			orders.status = items.reduce<StatusList>((r, item) => {
+				return (r = item.status
+					? item.status.reduce((output: StatusList, s: Status) => {
+							output[s] = (output[s] ?? 0) + (Item.amount(item) ?? 0) / (item.quantity ?? 1)
+							return output
+					  }, r)
+					: r)
+			}, {} as StatusList)
+			if (orders.event)
+				orders.status.settled = orders.event.reduce<number>((sum, e) => {
+					if (Event.Settle.is(e))
+						sum += e.amount.net
+					return sum
+				}, 0)
 		}
 		return orders
 	}
-	export function amountsPerStatus(order: Order): { [status: string]: number | undefined } {
+	export function amountsPerStatus(order: Order): StatusList {
 		if (!order.status)
 			order = setStatus(order)
-		return Item.asArray(order.items).reduce<{ [status: string]: number | undefined }>((result, item) => {
+		return Item.asArray(order.items).reduce<StatusList>((result: StatusList, item: Item) => {
 			const price = Item.amount(item) / (item.quantity ?? 1)
 			return (
 				item.status?.reduce((r, s) => {
@@ -193,7 +224,7 @@ export namespace Order {
 					return r
 				}, result) ?? result
 			)
-		}, {})
+		}, {} as StatusList)
 	}
 	export function getCsvHeaders(): string {
 		let result = ``
@@ -231,6 +262,10 @@ export namespace Order {
 		result += Status.toCsv(value.status)
 		result += `\r\n`
 		return result
+	}
+	export type StatusList = OrderStatusList
+	export namespace StatusList {
+		export const is = OrderStatusList.is
 	}
 	export type Creatable = OrderCreatable
 	export namespace Creatable {

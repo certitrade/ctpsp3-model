@@ -189,7 +189,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["ordered", "ordered"],
 			},
-			status: ["ordered"],
+			status: { ordered: 299 },
 		}))
 	it("set status order charge", () =>
 		expect(
@@ -215,7 +215,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "charged"],
 			},
-			status: ["charged"],
+			status: { charged: 299 },
 		}))
 	it("set status order charge refund", () =>
 		expect(
@@ -245,7 +245,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["refunded", "refunded"],
 			},
-			status: ["refunded"],
+			status: { refunded: 299 },
 		}))
 	it("set status partial charge refund", () =>
 		expect(
@@ -300,7 +300,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["refunded", "charged"],
 			},
-			status: ["charged", "refunded"],
+			status: { charged: 149.5, refunded: 149.5 },
 		}))
 	it("can't refund before charge", () =>
 		expect(
@@ -344,7 +344,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "ordered"],
 			},
-			status: ["ordered", "charged"],
+			status: { ordered: 149.5, charged: 149.5 },
 		}))
 	it("can only charge ordered items", () =>
 		expect(
@@ -395,7 +395,7 @@ describe("Order", () => {
 				quantity: 2,
 				status: ["charged", "created"],
 			},
-			status: ["created", "charged"],
+			status: { created: 149.5, charged: 149.5 },
 		}))
 
 	it("gets items from partial charge and refund", () =>
@@ -439,7 +439,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["ordered", "charged", "refunded"],
+			status: { ordered: 300, charged: 50, refunded: 150 },
 		}))
 	it("removes empty item", () =>
 		expect(
@@ -478,7 +478,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["charged", "refunded"],
+			status: { charged: 300, refunded: 200 },
 		}))
 	it("cancel cancels only events prior charge", () =>
 		expect(
@@ -520,7 +520,7 @@ describe("Order", () => {
 					status: ["cancelled"],
 				},
 			],
-			status: ["cancelled", "charged", "refunded"],
+			status: { cancelled: 250, charged: 200, refunded: 50 },
 		}))
 	it("Total refund refunds available amount only", () =>
 		expect(
@@ -558,7 +558,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["ordered", "refunded"],
+			status: { ordered: 100, refunded: 400 },
 		}))
 	const synchronizeIssue: model.Order & any = {
 		items: 1000,
@@ -652,7 +652,7 @@ describe("Order", () => {
 					status: ["refunded"],
 				},
 			],
-			status: ["charged", "refunded"],
+			status: { charged: 998.02, refunded: 1.98 },
 		}))
 	it("double defer orders", () =>
 		expect(
@@ -678,6 +678,75 @@ describe("Order", () => {
 				price: 500,
 				status: ["deferred"],
 			},
-			status: ["deferred"],
+			status: { deferred: 500 },
+		}))
+	it("amount order charge, partial refund and settled", () =>
+		expect(
+			model.Order.setStatus({
+				...getAmountOrder(),
+				event: [
+					{
+						type: "order",
+						date: "2019-02-01T12:00:00",
+					},
+					{
+						type: "charge",
+						date: "2019-02-01T12:20:00",
+						reference: "1234-1234-1234",
+					},
+					{
+						type: "refund",
+						date: "2019-02-01T12:30:00",
+						items: 125,
+						reference: "1234-1234-1234",
+					},
+					{
+						type: "settle",
+						period: {
+							start: "2020-02-01T00:00:00.000Z",
+							end: "2020-02-07T23:59:59.999Z",
+						},
+						payout: "2020-02-09T11:39:38.291Z",
+						amount: {
+							gross: 500,
+							net: 485,
+						},
+						fee: -15,
+						currency: "SEK",
+						descriptor: "example",
+						reference: "example",
+						date: "2020-02-08T10:25:00.000Z",
+					},
+					{
+						type: "settle",
+						period: {
+							start: "2020-02-08T00:00:00.000Z",
+							end: "2020-02-15T23:59:59.999Z",
+						},
+						payout: "2020-02-18T11:39:38.291Z",
+						amount: {
+							gross: -125,
+							net: -128.75,
+						},
+						fee: -3.75,
+						currency: "SEK",
+						descriptor: "example",
+						reference: "example",
+						date: "2020-02-16T10:25:00.000Z",
+					},
+				],
+			})
+		).toMatchObject({
+			items: [
+				{
+					price: 375,
+					status: ["charged"],
+				},
+				{
+					price: 125,
+					status: ["refunded"],
+				},
+			],
+			status: { charged: 375, refunded: 125, settled: 356.25 },
 		}))
 })
