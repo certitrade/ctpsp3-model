@@ -749,4 +749,12 @@ describe("Order", () => {
 			],
 			status: { charged: 375, refunded: 125, settled: 356.25 },
 		}))
+	it("limit", () => {
+		expect(model.Order.limit(998.02)).toEqual(998.02)
+		expect(model.Order.limit(998.0200002)).toEqual(998.0200002)
+		expect(model.Order.limit(998.020000000002)).toEqual(998.020000000002)
+		expect(model.Order.limit(998.1234567890123)).toEqual(998.123456789012)
+		expect(model.Order.limit(998.1234567890128)).toEqual(998.123456789013)
+		expect(model.Order.limit(998.020000000000002)).toEqual(998.02)
+	})
 })

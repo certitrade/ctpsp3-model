@@ -199,7 +199,7 @@ export namespace Order {
 			orders.status = items.reduce<StatusList>((r, item) => {
 				return (r = item.status
 					? item.status.reduce((output: StatusList, s: Status) => {
-							output[s] = (output[s] ?? 0) + (Item.amount(item) ?? 0) / (item.quantity ?? 1)
+							output[s] = limit((output[s] ?? 0) + (Item.amount(item) ?? 0) / (item.quantity ?? 1))
 							return output
 					  }, r)
 					: r)
@@ -213,11 +213,15 @@ export namespace Order {
 		}
 		return orders
 	}
+	export function limit(value: number, decimals?: 12): number {
+		const factor = 10 ** (decimals ?? 12)
+		return Math.round((value + Number.EPSILON) * factor) / factor
+	}
 	export function amountsPerStatus(order: Order): StatusList {
 		if (!order.status)
 			order = setStatus(order)
 		return Item.asArray(order.items).reduce<StatusList>((result: StatusList, item: Item) => {
-			const price = Item.amount(item) / (item.quantity ?? 1)
+			const price = limit(Item.amount(item) / (item.quantity ?? 1))
 			return (
 				item.status?.reduce((r, s) => {
 					r[s] = price + (r[s] ?? 0)
