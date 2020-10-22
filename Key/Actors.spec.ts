@@ -40,6 +40,6 @@ const issuer = Key.getIssuer(secrets)
 describe("Actors", () => {
 	it("Issue something", async () => {
 		const token = issuer ? await issuer.sign(unpacked) : undefined
-		expect(await verifier?.verify(token)).toEqual(unpacked)
+		expect(await verifier?.verify(token)).toEqual({ ...unpacked, token })
 	})
 })
