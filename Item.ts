@@ -119,7 +119,7 @@ export namespace Item {
 		)
 	}
 	export function applyAmountEvent(sums: StatusList, event: Event, items: number): StatusList {
-		if (event.type != "fail" && event.type != "settle") {
+		if (isItemEvent(event)) {
 			let from: Status | undefined
 			let to: Status | undefined
 			let amount = typeof event.items == "number" ? event.items : undefined
@@ -144,7 +144,7 @@ export namespace Item {
 	}
 	export function applyEvent(items: Item[], event: Event): boolean {
 		let result = true
-		if (event.type != "fail" && event.type != "settle")
+		if (isItemEvent(event))
 			for (const item of Item.asArray(event.items || items))
 				result = applyItem(items, event.type, item.quantity || 1, item)
 		return result
@@ -172,6 +172,9 @@ export namespace Item {
 	export function isEventAllowed(items: Item[], newEvent: Event): boolean {
 		const copiedItems = items.map(item => copyItem(item))
 		return applyEvent(copiedItems, newEvent)
+	}
+	export function isItemEvent(event: Event): boolean {
+		return event.type != "fail" && event.type != "settle"
 	}
 	export function getCsvHeaders(): string {
 		return `item count, item amount`
