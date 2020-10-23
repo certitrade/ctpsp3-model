@@ -116,9 +116,11 @@ export namespace Order {
 			orders.every(
 				order =>
 					!order.status ||
-					Object.entries(order.status).some(
-						status => Status.is(status[0]) && typeof status[1] == "number" && Status.change(status[0], type)
-					)
+					(Array.isArray(order.status)
+						? order.status?.some(status => Status.change(status, type))
+						: Object.entries(order.status).some(
+								status => Status.is(status[0]) && typeof status[1] == "number" && Status.change(status[0], type)
+						  ))
 			)
 		)
 	}
@@ -204,12 +206,15 @@ export namespace Order {
 					  }, r)
 					: r)
 			}, {} as StatusList)
-			if (orders.event)
+			if (orders.event) {
 				orders.status.settled = orders.event.reduce<number>((sum, e) => {
 					if (Event.Settle.is(e))
 						sum += e.amount.net
 					return sum
 				}, 0)
+				if (orders.status.settled == 0)
+					delete orders.status.settled
+			}
 		}
 		return orders
 	}
