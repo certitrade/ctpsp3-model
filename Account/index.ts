@@ -3,6 +3,7 @@ import { Customer } from "../Customer"
 import { Link as AccountLink } from "./Link"
 import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable } from "./Creatable"
+import { Order } from ".."
 
 export interface Account {
 	id: authly.Identifier
@@ -22,6 +23,17 @@ export namespace Account {
 			Array.isArray(value.method) &&
 			value.method.every(AccountMethod.is)
 		)
+	}
+	export type Status = "active" | "inactive" | "pending" | "suspended"
+	export function getStatus(account: Account, order: Order): Status { // TODO: Add case for order status being suspended
+		let status: Status
+		if (!account.method[0])
+			status = "inactive"
+		else if (order.status == "pending")
+			status = "pending"
+		else
+			status = "active"
+		return status
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)
