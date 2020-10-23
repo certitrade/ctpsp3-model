@@ -53,7 +53,13 @@ export namespace Agent {
 		const result: T = target
 		for (const key in source) {
 			if (source[key])
-				if (target[key] && typeof target[key] == "object" && typeof source[key] == "object")
+				if (
+					target[key] &&
+					!Array.isArray(target[key]) &&
+					typeof target[key] == "object" &&
+					!Array.isArray(source[key]) &&
+					typeof source[key] == "object"
+				)
 					merge<authly.Payload>(target[key] as authly.Payload, source[key] as authly.Payload)
 				else
 					result[key as keyof T] = source[key] as any
