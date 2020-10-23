@@ -3,7 +3,7 @@ import { Customer } from "../Customer"
 import { Link as AccountLink } from "./Link"
 import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable } from "./Creatable"
-import { Order } from ".."
+import { Order } from "../index"
 
 export interface Account {
 	id: authly.Identifier
