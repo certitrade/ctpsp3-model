@@ -33,6 +33,7 @@ const unpacked: Key = {
 		},
 	},
 	features: ["card"],
+	token: "jwt.token.123",
 }
 
 const verifier = Key.getVerifier(secrets)

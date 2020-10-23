@@ -27,6 +27,7 @@ const agent: model.Key & { aud: "agent" } = {
 			key: "no-key",
 		},
 	},
+	token: "jwt.token.123",
 }
 
 const creatable = {
