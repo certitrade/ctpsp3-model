@@ -11,7 +11,7 @@ import { Audience } from "./Audience"
 
 export interface Key extends Creatable {
 	sub: authly.Identifier
-	merchant?: authly.Identifier
+	account?: authly.Identifier
 	aud: Audience | Audience[]
 	iss: string
 	iat: number
@@ -27,7 +27,7 @@ export namespace Key {
 		return (
 			typeof value == "object" &&
 			authly.Identifier.is(value.sub) &&
-			(value.merchant == undefined || authly.Identifier.is(value.merchant, 8)) &&
+			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			(Audience.is(value.aud) || (Array.isArray(value.aud) && value.aud.every(Audience.is))) &&
 			typeof value.iss == "string" &&
 			typeof value.iat == "number" &&
@@ -55,9 +55,9 @@ export namespace Key {
 									property: "aud",
 									type: "model.Key.Audience | model.Key.Audience[]",
 								},
-							value.merchant == undefined ||
-								authly.Identifier.is(value.merchant, 8) || {
-									property: "merchant",
+							value.account == undefined ||
+								authly.Identifier.is(value.account, 16) || {
+									property: "account",
 									type: "identifier",
 									condition: "Length = 8",
 								},
