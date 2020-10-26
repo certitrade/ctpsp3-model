@@ -102,7 +102,7 @@ describe("General Key", () => {
 	it("Unpack into Keyinfo", async () => {
 		const token = Key.is(testMerchantKey) ? await issuer?.sign(testMerchantKey) : ""
 		const keyinfo = token ? await Key.unpack(token) : undefined
-		expect(keyinfo).toEqual({ ...keyInformation, token })
+		expect(keyinfo).toEqual(keyInformation)
 	})
 
 	it("Unpack Legacy Key into Keyinfo", async () => {
