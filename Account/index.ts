@@ -25,11 +25,11 @@ export namespace Account {
 		)
 	}
 	export type Status = "active" | "inactive" | "pending" | "suspended"
-	export function getStatus(account: Account, order: Order): Status { // TODO: Add case for order status being suspended
+	export function getStatus(account: Account, order?: Order): Status { // TODO: Add case for order status being suspended
 		let status: Status
 		if (!account.method[0])
 			status = "inactive"
-		else if (order.status == "pending")
+		else if (order?.status == "pending")
 			status = "pending"
 		else
 			status = "active"
