@@ -1,5 +1,6 @@
 import * as authly from "authly"
 import * as card from "@cardfunc/model"
+import * as flagly from "flagly"
 import { V1 } from "./V1"
 import { Key } from "./Key"
 import { Audience } from "./Audience"
@@ -34,20 +35,6 @@ export function getVerifier(
 		"emv3d"
 	) as authly.Property.Transformer
 
-	const features = authly.Property.Transformer.create({
-		reverse: (key: authly.Payload) => {
-			const result = key
-			const featurelist = ["card", "email", "sms", "mash"]
-			const features: string[] = []
-			featurelist.forEach((v: string) => {
-				if (result[v] || (result.option && (result.option as authly.Payload.Data)[v]))
-					features.push(v)
-			})
-			result.features = features
-			return result
-		},
-	})
-
 	const upgradeFromV1 = authly.Property.Transformer.create({
 		reverse: async (oldKey: V1 | authly.Payload) => {
 			let result: Key | authly.Payload | undefined = oldKey
@@ -64,31 +51,29 @@ export function getVerifier(
 	if (secrets) {
 		verifierTransformations.unshift(new authly.Property.Typeguard<Key>(Key.is))
 	}
-	verifierTransformations.push(upgradeFromV1, crypto, features)
+	verifierTransformations.push(upgradeFromV1, crypto, featuresTransformer)
 	return authly.Verifier.create<Key>(...algorithm).add(...verifierTransformations)
 }
 
-export function getIssuer(secrets?: {
+export function getIssuer(secrets: {
 	signing: string
 	property: string
 }): authly.Issuer<Omit<Key, "iat" | "token">> | undefined {
-	const issuerTransformations: authly.Property.Transformer[] = secrets
-		? [
-				new authly.Property.Typeguard<Key>(Key.is),
-				authly.Property.Crypto.create(
-					secrets.property,
-					"mash",
-					"sms",
-					"email",
-					"option.mash",
-					"option.sms",
-					"option.email",
-					"card.acquirer",
-					"card.emv3d"
-				),
-				authly.Property.Remover.create(["features", "token"]) as authly.Property.Transformer,
-		  ]
-		: []
+	const issuerTransformations: authly.Property.Transformer[] = [
+		new authly.Property.Typeguard<Key>(Key.is),
+		authly.Property.Crypto.create(
+			secrets.property,
+			"mash",
+			"sms",
+			"email",
+			"option.mash",
+			"option.sms",
+			"option.email",
+			"card.acquirer",
+			"card.emv3d"
+		),
+		featuresTransformer,
+	]
 	const algorithm = secrets ? authly.Algorithm.create("HS256", secrets.signing) : undefined
 	return authly.Issuer.create<Omit<Key, "iat" | "token">>("payfunc", algorithm)?.add(...issuerTransformations)
 }
@@ -106,3 +91,19 @@ function getCardVerifier(
 	].filter(authly.Property.Transformer.is)
 	return authly.Verifier.create<card.Merchant.Key>(...algorithms)?.add(...cardTransformations)
 }
+const featuresTransformer = authly.Property.Transformer.create({
+	apply: (payload: Key) => {
+		return { ...payload, features: flagly.Flags.stringify(payload?.features ?? {}) }
+	},
+	reverse: payload => {
+		const features = typeof payload?.features == "string" ? flagly.parse(payload.features) : {}
+		const flags =
+			payload?.email || (V1.is(payload) && payload.option.email)
+				? { deferAllowed: true, emailOption: true }
+				: payload?.sms || (V1.is(payload) && payload.option.sms)
+				? { deferAllowed: true }
+				: {}
+
+		return { ...payload, features: flagly.reduce(features, flags) }
+	},
+})

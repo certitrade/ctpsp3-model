@@ -32,7 +32,8 @@ const unpacked: Key = {
 			key: "no-key",
 		},
 	},
-	features: ["card"],
+	email: { key: "testing", notify: "features" },
+	features: { fun: true, nested: { works: true, orNot: false } },
 	token: "jwt.token.123",
 }
 
@@ -41,6 +42,15 @@ const issuer = Key.getIssuer(secrets)
 describe("Actors", () => {
 	it("Issue something", async () => {
 		const token = issuer ? await issuer.sign(unpacked) : undefined
-		expect(await verifier?.verify(token)).toEqual({ ...unpacked, token })
+		expect(await verifier?.verify(token)).toEqual({
+			...unpacked,
+			token,
+			features: {
+				deferAllowed: true,
+				emailOption: true,
+				fun: true,
+				nested: { works: true, orNot: false },
+			},
+		})
 	})
 })

@@ -51,7 +51,7 @@ const keyInformation = {
 		mid: "1234",
 		mcc: "1234",
 	},
-	features: ["card", "email", "sms", "mash"],
+	features: { deferAllowed: true, emailOption: true },
 }
 
 const testMerchantKeyV1 = {
@@ -83,7 +83,7 @@ const testMerchantKeyV1 = {
 const keyInformationV1 = {
 	aud: "public",
 	card: { country: "SE", id: "test", mcc: "1234", mid: "1234", url: "https://api.cardfunc.com" },
-	features: ["card", "email"],
+	features: { deferAllowed: true, emailOption: true },
 	iat: 1583935456,
 	iss: "https://api.payfunc.com",
 	name: "Test AB",
