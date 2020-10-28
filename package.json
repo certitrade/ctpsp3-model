@@ -48,9 +48,10 @@
 	},
 	"dependencies": {
 		"@cardfunc/model": "0.0.74",
-		"authly": "0.1.4",
-		"eslint-config-standardize": "^0.7.1",
+		"authly": "0.1.5",
 		"dotenv": "^8.2.0",
+		"eslint-config-standardize": "^0.7.1",
+		"flagly": "0.0.5",
 		"gracely": "0.0.37",
 		"isoly": "0.0.14",
 		"node-fetch": "^2.6.0",
