@@ -2,6 +2,7 @@ import { Account } from "./Account"
 import { Address } from "./Address"
 import { Addresses } from "./Addresses"
 import { Agent } from "./Agent"
+import { Browser } from "./Browser"
 import { Connection } from "./Connection"
 import { Credentials } from "./Credentials"
 import { Customer } from "./Customer"
@@ -26,6 +27,7 @@ export {
 	Address,
 	Addresses,
 	Agent,
+	Browser,
 	Connection,
 	Credentials,
 	Customer,
