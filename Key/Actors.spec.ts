@@ -33,6 +33,7 @@ const unpacked: Key = {
 		},
 	},
 	features: ["card"],
+	token: "jwt.token.123",
 }
 
 const verifier = Key.getVerifier(secrets)
@@ -40,6 +41,6 @@ const issuer = Key.getIssuer(secrets)
 describe("Actors", () => {
 	it("Issue something", async () => {
 		const token = issuer ? await issuer.sign(unpacked) : undefined
-		expect(await verifier?.verify(token)).toEqual(unpacked)
+		expect(await verifier?.verify(token)).toEqual({ ...unpacked, token })
 	})
 })

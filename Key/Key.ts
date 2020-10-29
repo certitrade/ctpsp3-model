@@ -20,6 +20,7 @@ export interface Key extends Creatable {
 	currency?: isoly.Currency
 	language?: isoly.Language
 	features?: ("card" | "email" | "sms" | "mash")[]
+	token: authly.Token
 }
 
 export namespace Key {
@@ -36,6 +37,7 @@ export namespace Key {
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
 			(value.language == undefined || isoly.Language.is(value.language)) &&
 			(value.features == undefined || Array.isArray(value.features)) &&
+			(value.token == undefined || authly.Token.is(value.token)) &&
 			Creatable.is(value)
 		)
 	}
@@ -92,6 +94,7 @@ export namespace Key {
 				name: key.name,
 				url: "",
 				features: key.features as any,
+				token: key.token as any,
 			}
 			if (typeof key.option.card == "string") {
 				const unpacked = await cardVerifier?.verify(
