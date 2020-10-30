@@ -2,12 +2,13 @@ import * as isoly from "isoly"
 import * as gracely from "gracely"
 import * as authly from "authly"
 import { CreatableBase } from "../CreatableBase"
-
+import { Browser } from "../../Browser"
 export interface Creatable extends CreatableBase {
 	type: "card"
 	card?: authly.Token
 	reference?: authly.Token
 	amount?: number
+	client?: { ip?: string; browser?: Browser | Browser.Creatable }
 }
 
 export namespace Creatable {
@@ -23,6 +24,12 @@ export namespace Creatable {
 					authly.Token.is(value.reference) &&
 					value.amount == undefined &&
 					value.currency == undefined)) &&
+			(value.client == undefined ||
+				(typeof value.client == "object" &&
+					(value.client.ip == undefined || typeof value.client.ip == "string") &&
+					(value.client.browser == undefined ||
+						Browser.is(value.client.browser) ||
+						Browser.Creatable.is(value.client.browser)))) &&
 			CreatableBase.is(value)
 		)
 	}
