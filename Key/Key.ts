@@ -1,6 +1,7 @@
 import * as isoly from "isoly"
 import * as authly from "authly"
 import * as gracely from "gracely"
+import * as flagly from "flagly"
 import * as card from "@cardfunc/model"
 import { Creatable } from "./Creatable"
 import { V1 as V1Key } from "./V1"
@@ -19,7 +20,7 @@ export interface Key extends Creatable {
 	user?: string
 	currency?: isoly.Currency
 	language?: isoly.Language
-	features?: ("card" | "email" | "sms" | "mash")[]
+	features?: flagly.Flags
 	token: authly.Token
 }
 
@@ -36,7 +37,7 @@ export namespace Key {
 			(value.user == undefined || typeof value.user == "string") &&
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
 			(value.language == undefined || isoly.Language.is(value.language)) &&
-			(value.features == undefined || Array.isArray(value.features)) &&
+			(value.features == undefined || flagly.Flags.is(value.features)) &&
 			(value.token == undefined || authly.Token.is(value.token)) &&
 			Creatable.is(value)
 		)
