@@ -20,7 +20,7 @@ export namespace Addresses {
 		)
 	}
 	export function get(value: Addresses | Address | undefined, ...type: Type[]): Address | undefined {
-		let result: Address | undefined
+		let result: Address | undefined // TEST
 		if (Address.is(value))
 			result = value
 		else if (Addresses.is(value)) {
