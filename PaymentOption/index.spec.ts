@@ -3,7 +3,7 @@ describe("PaymentOption", () => {
 	it("Card", async () => {
 		const option: model.PaymentOption.Card = {
 			type: "card",
-			service: "cardfunc",
+			service: "payfunc",
 			schemes: ["visa", "mastercard", "maestro", "electron", "amex"],
 			amount: 13.37,
 			currency: "USD",

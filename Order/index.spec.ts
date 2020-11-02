@@ -33,7 +33,7 @@ function getOrder(): model.Order {
 			iin: "411111",
 			last4: "1111",
 			expires: [1, 20],
-			service: "CardFunc",
+			service: "PayFunc",
 			created: "2019-01-31T20:00:54",
 			amount: 100,
 			currency: "SEK",
@@ -67,7 +67,7 @@ function getAmountOrder(): model.Order {
 			iin: "411111",
 			last4: "1111",
 			expires: [2, 22],
-			service: "CardFunc",
+			service: "PayFunc",
 			created: "2019-01-31T20:00:54",
 			amount: 500,
 			currency: "SEK",
@@ -110,7 +110,7 @@ function getOrders(): model.Order[] {
 				iin: "411111",
 				last4: "1111",
 				expires: [1, 20],
-				service: "CardFunc",
+				service: "PayFunc",
 				created: "2019-01-31T20:00:54",
 				amount: 100,
 				currency: "SEK",
@@ -150,7 +150,7 @@ function getOrders(): model.Order[] {
 				iin: "411111",
 				last4: "1111",
 				expires: [1, 20],
-				service: "CardFunc",
+				service: "PayFunc",
 				created: "2019-01-31T21:01:55",
 				amount: 200,
 				currency: "SEK",
@@ -162,11 +162,11 @@ function getOrders(): model.Order[] {
 describe("Order", () => {
 	it("toCsv", () =>
 		expect(model.Order.toCsv(getOrder())).toEqual(
-			`id,number,created,client,customer type,customer identity number,customer id,customer number,item count, item amount,currency,payment type,payment service,payment created,payment amount,payment currency,status\r\n"01234567abcd0000","1","2019-01-31T20:01:34","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","CardFunc","2019-01-31T20:00:54",100,"SEK",\r\n`
+			`id,number,created,client,customer type,customer identity number,customer id,customer number,item count, item amount,currency,payment type,payment service,payment created,payment amount,payment currency,status\r\n"01234567abcd0000","1","2019-01-31T20:01:34","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","PayFunc","2019-01-31T20:00:54",100,"SEK",\r\n`
 		))
 	it("array toCsv", () =>
 		expect(model.Order.toCsv(getOrders())).toEqual(
-			`id,number,created,client,customer type,customer identity number,customer id,customer number,item count, item amount,currency,payment type,payment service,payment created,payment amount,payment currency,status\r\n"01234567abcd0000","1","2019-01-31T20:01:34","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","CardFunc","2019-01-31T20:00:54",100,"SEK",\r\n"01234567abcd0001","2","2019-01-31T21:02:35","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","CardFunc","2019-01-31T21:01:55",200,"SEK",\r\n`
+			`id,number,created,client,customer type,customer identity number,customer id,customer number,item count, item amount,currency,payment type,payment service,payment created,payment amount,payment currency,status\r\n"01234567abcd0000","1","2019-01-31T20:01:34","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","PayFunc","2019-01-31T20:00:54",100,"SEK",\r\n"01234567abcd0001","2","2019-01-31T21:02:35","42233c81-caf1-44f7-821e-7a28c6198ebc","person","195505103613","999999999",,1,299,"SEK","card","PayFunc","2019-01-31T21:01:55",200,"SEK",\r\n`
 		))
 	it("is", () => expect(model.Order.is(getOrder())).toBeTruthy())
 	it("set status order", () =>
@@ -574,7 +574,7 @@ describe("Order", () => {
 			iin: "422222",
 			last4: "2222",
 			expires: [2, 22],
-			service: "cardfunc",
+			service: "payfunc",
 			status: "created",
 			card:
 				"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjYXJkZnVuYyIsImlhdCI6MTU5ODk2Njc1MDY2MCwiYXVkIjoicHJvZHVjdGlvbiIsInNjaGVtZSI6InZpc2EiLCJpaW4iOiI0MjIyMjIiLCJsYXN0NCI6IjIyMjIiLCJleHBpcmVzIjpbMiwyMl0sInR5cGUiOiJzaW5nbGUgdXNlIiwiY2FyZCI6IlpETXBZZU9PIn0.nefghajHg_tSMz4xS953cwQCqyye4i7Dqz_iDNlzCVP9qJmHMcBfMS-YzpAY6T20Xiru_7H4qmZhwjOidRwMF1u_19HY-BGDra3-4QyMcKM7OBLFMPsR1cLZbnLJDSi7bj318EQ9uKy4_3qgjrglERuHOIEFl9wFfKtrqo3kJ4DSNpYROaDxuPez2AgnyKDVxKiePPllWdxAajA6CiiKzlICx-bxoqp9Xkf84ryn2eyNfS6djB9WaFtv4J6Vb1eLrDW5sBIh9qeHY17y5m8dlGhAOdzTAt0NoD3q2pknV6BbgwpiZdvjW8uapKCjKiWyWyiTgLhaRcHUODbD8Z5bOg",
