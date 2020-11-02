@@ -1,6 +1,6 @@
 import * as authly from "authly"
 import * as gracely from "gracely"
-import * as card from "@cardfunc/model"
+import * as card from "@payfunc/model-card"
 import { Email } from "./Email"
 import { Mash } from "./Mash"
 import { Sms } from "./Sms"

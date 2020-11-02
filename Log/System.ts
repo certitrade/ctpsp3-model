@@ -4,7 +4,7 @@ export type System =
 	| "payfunc/checkout"
 	| "payfunc/onboard"
 	| "payfunc/portal"
-	| "cardfunc/model"
+	| "payfunc/model-card"
 	| "cardfunc/backend"
 	| "cardfunc/web-app"
 	| "cardfunc/element"
@@ -18,7 +18,7 @@ export namespace System {
 				value == "payfunc/checkout" ||
 				value == "payfunc/onboard" ||
 				value == "payfunc/portal" ||
-				value == "cardfunc/model" ||
+				value == "payfunc/model-card" ||
 				value == "cardfunc/backend" ||
 				value == "cardfunc/web-app" ||
 				value == "cardfunc/element")

@@ -26,7 +26,7 @@ function getAmountOrder(): model.Order {
 			iin: "411111",
 			last4: "1111",
 			expires: [2, 22],
-			service: "CardFunc",
+			service: "PayFunc",
 			created: "2019-01-31T20:00:54",
 			amount: 500,
 			currency: "SEK",

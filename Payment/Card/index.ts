@@ -1,5 +1,5 @@
 import * as authly from "authly"
-import * as card from "@cardfunc/model"
+import * as card from "@payfunc/model-card"
 import { Base } from "../Base"
 import { Creatable as CardCreatable } from "./Creatable"
 

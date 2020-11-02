@@ -47,7 +47,7 @@
 		"clean": "rm -rf dist node_modules coverage"
 	},
 	"dependencies": {
-		"@cardfunc/model": "0.0.74",
+		"@payfunc/model-card": "0.1.1",
 		"authly": "0.1.5",
 		"dotenv": "^8.2.0",
 		"eslint-config-standardize": "^0.7.1",
