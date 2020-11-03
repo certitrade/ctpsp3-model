@@ -117,7 +117,11 @@ export abstract class Connection {
 		}
 		return result
 	}
-	private static async fetch<T>(resource: string, init: RequestInit, body?: any): Promise<T | gracely.Error> {
+	private static async fetch<T>(
+		resource: string,
+		init: RequestInit,
+		body?: any
+	): Promise<T | authly.Token | gracely.Error> {
 		const url = Connection.baseUrl + resource
 		if (body)
 			init.body = JSON.stringify(body)
@@ -131,7 +135,7 @@ export abstract class Connection {
 			},
 		}
 		const response = await fetch(url, init)
-		let result: T | gracely.Error
+		let result: T | authly.Token | gracely.Error
 		if (response.status == 401) {
 			Connection.clear()
 			result = await Connection.fetch(resource, init, body)
@@ -139,25 +143,27 @@ export abstract class Connection {
 			result =
 				response.headers.get("Content-Type") == "application/json; charset=utf-8"
 					? ((await response.json()) as T | gracely.Error)
+					: response.headers.get("Content-Type") == "application/jwt; charset=utf-8"
+					? ((await response.text()) as authly.Token)
 					: { status: response.status, type: "unknown" }
 		return result
 	}
-	static get<T>(resource: string): Promise<T | gracely.Error> {
+	static get<T>(resource: string): Promise<T | authly.Token | gracely.Error> {
 		return Connection.fetch<T>(resource, { method: "GET" })
 	}
-	static put<T>(resource: string, body: any): Promise<T | gracely.Error> {
+	static put<T>(resource: string, body: any): Promise<T | authly.Token | gracely.Error> {
 		return Connection.fetch<T>(resource, { method: "PUT" }, body)
 	}
-	static post<T>(resource: string, body: any): Promise<T | gracely.Error> {
+	static post<T>(resource: string, body: any): Promise<T | authly.Token | gracely.Error> {
 		return Connection.fetch<T>(resource, { method: "POST" }, body)
 	}
-	static patch<T>(resource: string, body: any): Promise<T | gracely.Error> {
+	static patch<T>(resource: string, body: any): Promise<T | authly.Token | gracely.Error> {
 		return Connection.fetch<T>(resource, { method: "PATCH" }, body)
 	}
-	static delete<T>(resource: string): Promise<T | gracely.Error> {
+	static delete<T>(resource: string): Promise<T | authly.Token | gracely.Error> {
 		return Connection.fetch(resource, { method: "DELETE" })
 	}
-	static options<T>(resource: string): Promise<T | gracely.Error> {
+	static options<T>(resource: string): Promise<T | authly.Token | gracely.Error> {
 		return Connection.fetch(resource, { method: "OPTIONS" })
 	}
 }
