@@ -6,6 +6,7 @@ export interface Creatable extends CreatableBase {
 	type: "account"
 	token?: authly.Token // @deprecated
 	account?: authly.Identifier
+	schedule?: number[] //TODO Typeguard / Difference
 }
 
 export namespace Creatable {

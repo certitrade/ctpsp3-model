@@ -11,6 +11,7 @@ export interface Account {
 	customer?: Customer
 	method: AccountMethod[]
 	link?: AccountLink[]
+	status: Account.Status
 }
 
 export namespace Account {
@@ -25,7 +26,8 @@ export namespace Account {
 		)
 	}
 	export type Status = "active" | "created" | "inactive" | "pending" | "suspended"
-	export function getStatus(account: Account, order?: Order): Status { // TODO: Add cases for order status being suspended and account being deactivated
+	export function getStatus(account: Account, order?: Order): Status {
+		// TODO: Add cases for order status being suspended and account being deactivated
 		let status: Status
 		if (!account.method[0] && !order)
 			status = "created"

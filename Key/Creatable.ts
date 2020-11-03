@@ -18,7 +18,7 @@ export interface Creatable {
 	terms?: string
 	logotype?: string
 
-	card?: card.Merchant.Configuration
+	card?: Partial<card.Merchant.Configuration> & { acquirer: Partial<card.Acquirer> }
 	email?: Email
 	mash?: Mash
 	sms?: Sms
