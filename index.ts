@@ -13,6 +13,7 @@ import { Item } from "./Item"
 import { Key } from "./Key"
 import { Log } from "./Log"
 import { Merchant } from "./Merchant"
+import { Message } from "./Message"
 import { Name } from "./Name"
 import { Order } from "./Order"
 import { Payment } from "./Payment"
@@ -38,6 +39,7 @@ export {
 	Key,
 	Log,
 	Merchant,
+	Message,
 	Name,
 	Order,
 	Payment,
