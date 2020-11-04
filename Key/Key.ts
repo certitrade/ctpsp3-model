@@ -20,6 +20,7 @@ export interface Key extends Creatable {
 	user?: string
 	currency?: isoly.Currency
 	language?: isoly.Language
+	message?: string
 	features?: flagly.Flags
 	token: authly.Token
 }
@@ -37,6 +38,7 @@ export namespace Key {
 			(value.user == undefined || typeof value.user == "string") &&
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
 			(value.language == undefined || isoly.Language.is(value.language)) &&
+			(value.message == undefined || typeof value.message == "string") &&
 			(value.features == undefined || flagly.Flags.is(value.features)) &&
 			(value.token == undefined || authly.Token.is(value.token)) &&
 			Creatable.is(value)
@@ -72,6 +74,7 @@ export namespace Key {
 								isoly.Currency.is(value.currency) || { property: "currency", type: "isoly.Currency" },
 							value.language == undefined ||
 								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language" },
+							value.message == undefined || typeof value.message == "string" || { property: "message", type: "string" },
 							...(Creatable.flaw(value).flaws || []),
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
