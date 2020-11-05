@@ -59,8 +59,9 @@ export function getIssuer(secrets: {
 	signing: string
 	property: string
 }): authly.Issuer<Omit<Key, "iat" | "token">> | undefined {
-	const issuerTransformations: authly.Property.Transformer[] = [
+	const issuerTransformations = [
 		new authly.Property.Typeguard<Key>(Key.is),
+		authly.Property.Remover.create(["token"]),
 		authly.Property.Crypto.create(
 			secrets.property,
 			"mash",
@@ -73,7 +74,7 @@ export function getIssuer(secrets: {
 			"card.emv3d"
 		),
 		featuresTransformer,
-	]
+	].filter(authly.Property.Transformer.is)
 	const algorithm = secrets ? authly.Algorithm.create("HS256", secrets.signing) : undefined
 	return authly.Issuer.create<Omit<Key, "iat" | "token">>("payfunc", algorithm)?.add(...issuerTransformations)
 }
