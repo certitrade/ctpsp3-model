@@ -6,6 +6,7 @@ export interface Creatable extends CreatableBase {
 	type: "account"
 	token?: authly.Token // @deprecated
 	account?: authly.Identifier
+	schedule?: number[]
 }
 
 export namespace Creatable {
@@ -13,6 +14,8 @@ export namespace Creatable {
 		return (
 			typeof value == "object" &&
 			value.type == "account" &&
+			(value.schedule == undefined ||
+				(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number"))) &&
 			((authly.Token.is(value.token) && value.account == undefined) ||
 				(value.token == undefined && authly.Identifier.is(value.account, 16))) &&
 			CreatableBase.is(value)

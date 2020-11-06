@@ -3,7 +3,7 @@ import { Customer } from "../Customer"
 import { Link as AccountLink } from "./Link"
 import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable } from "./Creatable"
-import { Order } from "../index"
+import { Status as AccountStatus } from "./Status"
 
 export interface Account {
 	id: authly.Identifier
@@ -11,6 +11,7 @@ export interface Account {
 	customer?: Customer
 	method: AccountMethod[]
 	link?: AccountLink[]
+	status?: AccountStatus
 }
 
 export namespace Account {
@@ -21,19 +22,9 @@ export namespace Account {
 			(value.number == undefined || typeof value.number == "string") &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Array.isArray(value.method) &&
-			value.method.every(AccountMethod.is)
+			value.method.every(AccountMethod.is) &&
+			(value.status == undefined || AccountStatus.is(value.status))
 		)
-	}
-	export type Status = "active" | "created" | "inactive" | "pending" | "suspended"
-	export function getStatus(account: Account, order?: Order): Status { // TODO: Add cases for order status being suspended and account being deactivated
-		let status: Status
-		if (!account.method[0] && !order)
-			status = "created"
-		else if (order?.status == "pending")
-			status = "pending"
-		else
-			status = "active"
-		return status
 	}
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)
@@ -75,5 +66,11 @@ export namespace Account {
 		export namespace Type {
 			export const is = AccountMethod.Type.is
 		}
+	}
+	export type Status = AccountStatus
+	export namespace Status {
+		export const is = AccountStatus.is
+		export const getStatus = AccountStatus.getStatus
+		export const types = AccountStatus.types
 	}
 }
