@@ -20,7 +20,7 @@ export interface Key extends Creatable {
 	user?: string
 	currency?: isoly.Currency
 	language?: isoly.Language
-	message?: string
+	notice?: string
 	features?: flagly.Flags
 	token: authly.Token
 }
@@ -38,7 +38,7 @@ export namespace Key {
 			(value.user == undefined || typeof value.user == "string") &&
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
 			(value.language == undefined || isoly.Language.is(value.language)) &&
-			(value.message == undefined || typeof value.message == "string") &&
+			(value.notice == undefined || typeof value.notice == "string") &&
 			(value.features == undefined || flagly.Flags.is(value.features)) &&
 			(value.token == undefined || authly.Token.is(value.token)) &&
 			Creatable.is(value)
@@ -69,12 +69,14 @@ export namespace Key {
 							typeof value.iss == "string" || { property: "iss", type: "string" },
 							typeof value.iat == "number" || { property: "iat", type: "number" },
 							value.exp == undefined || typeof value.exp == "number" || { property: "exp", type: "undefined | number" },
-							value.user == undefined || typeof value.user == "string" || { property: "user", type: "string" },
+							value.user == undefined ||
+								typeof value.user == "string" || { property: "user", type: "string | undefined" },
 							value.currency == undefined ||
-								isoly.Currency.is(value.currency) || { property: "currency", type: "isoly.Currency" },
+								isoly.Currency.is(value.currency) || { property: "currency", type: "isoly.Currency | undefined" },
 							value.language == undefined ||
-								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language" },
-							value.message == undefined || typeof value.message == "string" || { property: "message", type: "string" },
+								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
+							value.notice == undefined ||
+								typeof value.notice == "string" || { property: "notice", type: "string | undefined" },
 							...(Creatable.flaw(value).flaws || []),
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
