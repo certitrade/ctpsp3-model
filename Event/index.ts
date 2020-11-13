@@ -92,6 +92,7 @@ export namespace Event {
 	export type Settle = SettleEvent
 	export namespace Settle {
 		export const is = SettleEvent.is
+		export const merge = SettleEvent.merge
 	}
 	export type Synchronize = SynchronizeEvent
 	export namespace Synchronize {

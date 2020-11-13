@@ -8,14 +8,12 @@ export interface Settle extends Base {
 		end: isoly.DateTime
 	}
 	payout: isoly.DateTime
-	amount: {
-		gross: number
-		net: number
-	}
+	gross: number
 	fee: number
+	net: number
 	currency: isoly.Currency
 	descriptor?: string
-	reference?: string
+	reference: string
 }
 
 export namespace Settle {
@@ -27,13 +25,17 @@ export namespace Settle {
 			isoly.DateTime.is(value.period.start) &&
 			isoly.DateTime.is(value.period.end) &&
 			isoly.DateTime.is(value.payout) &&
-			typeof value.amount == "object" &&
-			typeof value.amount.gross == "number" &&
-			typeof value.amount.net == "number" &&
+			typeof value.gross == "number" &&
+			typeof value.net == "number" &&
 			typeof value.fee == "number" &&
 			isoly.Currency.is(value.currency) &&
 			(value.descriptor == undefined || typeof value.descriptor == "string") &&
-			(value.reference == undefined || typeof value.reference == "string")
+			typeof value.reference == "string"
 		)
+	}
+	export function merge(array: Settle[]): Settle {
+		return array.reduce<Settle>((r, c) => {
+			return { ...r, gross: (r.gross ?? 0) + c.gross, fee: (r.fee ?? 0) + c.fee, net: (r.net ?? 0) + c.net }
+		}, {} as Settle)
 	}
 }
