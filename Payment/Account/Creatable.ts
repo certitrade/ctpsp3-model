@@ -7,6 +7,7 @@ export interface Creatable extends CreatableBase {
 	token?: authly.Token // @deprecated
 	account?: authly.Identifier
 	schedule?: number[]
+	charge?: "auto"
 }
 
 export namespace Creatable {
