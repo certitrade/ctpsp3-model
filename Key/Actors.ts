@@ -101,8 +101,10 @@ export function getIssuer(
 	},
 	guard?: "agent" | "merchant"
 ): authly.Issuer<Omit<Key.Agent, "iat" | "token"> | Omit<Key, "iat" | "token">> | undefined {
-	const algorithm = secrets ? authly.Algorithm.create("HS256", secrets.signing) : undefined
-	return authly.Issuer.create<Omit<Key.Agent, "iat" | "token"> | Omit<Key, "iat" | "token">>("payfunc", algorithm)?.add(
+	return authly.Issuer.create<Omit<Key.Agent, "iat" | "token"> | Omit<Key, "iat" | "token">>(
+		"payfunc",
+		secrets ? authly.Algorithm.create("HS256", secrets.signing) : undefined
+	)?.add(
 		guard == "merchant"
 			? new authly.Property.Typeguard<Key>(Key.is)
 			: guard == "agent"
@@ -135,25 +137,25 @@ function getCardVerifier(
 	legacyCrypto: authly.Property.Transformer | undefined,
 	...algorithms: authly.Algorithm[]
 ): authly.Verifier<card.Merchant.Key> {
-	const cardTransformations = [
+	return authly.Verifier.create<card.Merchant.Key>(...algorithms)?.add(
 		authly.Property.Transformer.create({ reverse: card.Merchant.Key.upgrade }),
-		legacyCrypto,
-	].filter(authly.Property.Transformer.is)
-	return authly.Verifier.create<card.Merchant.Key>(...algorithms)?.add(...cardTransformations)
+		legacyCrypto
+	)
 }
 const featuresTransformer = authly.Property.Transformer.create({
 	apply: (payload: Key) => {
 		return { ...payload, features: flagly.Flags.stringify(payload?.features ?? {}) }
 	},
 	reverse: payload => {
-		const features = typeof payload?.features == "string" ? flagly.parse(payload.features) : {}
 		const flags =
 			payload?.email || (V1.is(payload) && payload.option.email)
 				? { deferAllowed: true, emailOption: true }
 				: payload?.sms || (V1.is(payload) && payload.option.sms)
 				? { deferAllowed: true }
 				: {}
-
-		return { ...payload, features: flagly.reduce(features, flags) }
+		return {
+			...payload,
+			features: flagly.reduce(typeof payload?.features == "string" ? flagly.parse(payload.features) : {}, flags),
+		}
 	},
 })
