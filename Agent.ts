@@ -63,7 +63,7 @@ export namespace Agent {
 				)
 					merge(target[key] as authly.Payload, source[key] as authly.Payload)
 				else
-					result[key] = source[key] as any
+					result[key] = source[key]
 		}
 		return result
 	}
