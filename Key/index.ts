@@ -13,6 +13,10 @@ export namespace Key {
 	export const getVerifier = Actors.getVerifier
 	export const getIssuer = Actors.getIssuer
 
+	export type Agent = KKey.Agent
+	export namespace Agent {
+		export const is = KKey.Agent.is
+	}
 	export type Audience = KeyAudience
 	export namespace Audience {
 		export const is = KeyAudience.is

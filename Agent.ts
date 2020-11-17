@@ -45,12 +45,13 @@ export namespace Agent {
 		}
 	}
 
-	export function createMerchant(agent: Key, creatable: Partial<Key.Creatable>): Key {
-		return merge<Key>({ ...agent }, { ...creatable })
+	export function createMerchant(agent: Key.Agent, creatable: Key.Creatable): Key | undefined {
+		const result = merge({ ...agent }, { ...creatable })
+		return Key.is(result) ? result : undefined
 	}
 
-	export function merge<T extends authly.Payload>(target: T, source: authly.Payload): T {
-		const result: T = target
+	export function merge(target: authly.Payload, source: authly.Payload): authly.Payload {
+		const result = target
 		for (const key in source) {
 			if (source[key])
 				if (
@@ -60,9 +61,9 @@ export namespace Agent {
 					!Array.isArray(source[key]) &&
 					typeof source[key] == "object"
 				)
-					merge<authly.Payload>(target[key] as authly.Payload, source[key] as authly.Payload)
+					merge(target[key] as authly.Payload, source[key] as authly.Payload)
 				else
-					result[key as keyof T] = source[key] as any
+					result[key] = source[key] as any
 		}
 		return result
 	}

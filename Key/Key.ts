@@ -23,6 +23,7 @@ export interface Key extends Creatable {
 	notice?: string
 	features?: flagly.Flags
 	token: authly.Token
+	card?: card.Merchant.Card
 }
 
 export namespace Key {
@@ -125,5 +126,16 @@ export namespace Key {
 				result = isoly.Currency.is(key.option.currency) ? { ...result, currency: key.option.currency } : undefined
 		}
 		return result
+	}
+
+	export type Agent = Omit<Key, "card"> & { card?: card.Merchant.Card.Creatable }
+	export namespace Agent {
+		export function is(value: Agent | any): value is Agent {
+			return (
+				typeof value == "object" &&
+				(value.card == undefined || card.Merchant.Card.Creatable.is(value.card)) &&
+				Key.is({ ...value, card: undefined })
+			)
+		}
 	}
 }
