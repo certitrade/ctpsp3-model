@@ -38,7 +38,6 @@ export namespace Settlement {
 			typeof value.net == "number"
 		)
 	}
-	// TODO: Name
 	export function generate(orders: Order[]): Settlement[] {
 		const settlements: { [key: string]: Settlement } = {}
 		for (const order of orders) {
