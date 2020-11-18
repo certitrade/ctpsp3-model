@@ -39,7 +39,7 @@ export namespace Settlement {
 		)
 	}
 	export function generate(orders: Order[]): Settlement[] {
-		const settlements: { [key: string]: Settlement } = {}
+		const settlements: { [key: string]: Settlement | undefined } = {}
 		for (const order of orders) {
 			const settles = order.event?.filter(Event.Settle.is) ?? []
 			for (const settle of settles) {
@@ -63,10 +63,10 @@ export namespace Settlement {
 				}
 			}
 		}
-		return Object.values(settlements)
+		return Object.values(settlements).filter(Settlement.is)
 	}
 	export function summarize(
-		...settlements: (Settlement | Event.Settle)[]
+		...settlements: (Settlement | Event.Settle | undefined)[]
 	): { gross: number; fee: number; net: number } {
 		const result = { gross: 0, fee: 0, net: 0 }
 		settlements.forEach(settlement => {
