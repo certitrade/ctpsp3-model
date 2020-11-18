@@ -9,6 +9,7 @@ export interface Account extends Base {
 	account?: authly.Identifier
 	due?: isoly.DateTime
 	schedule?: isoly.DateTime[]
+	charge?: "auto"
 }
 
 export namespace Account {
@@ -20,6 +21,7 @@ export namespace Account {
 				(value.token == undefined && authly.Identifier.is(value.account, 16))) &&
 			(value.due == undefined || isoly.DateTime.is(value.due)) &&
 			(value.schedule == undefined || (Array.isArray(value.schedule) && value.schedule.every(isoly.DateTime.is))) &&
+			(value.charge == undefined || value.charge == "auto") &&
 			Base.is(value)
 		)
 	}
