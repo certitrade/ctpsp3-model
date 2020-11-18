@@ -35,7 +35,7 @@ export namespace Settle {
 	}
 	export function merge(array: Settle[]): Settle {
 		return array.reduce<Settle>((r, c) => {
-			return { ...r, gross: (r.gross ?? 0) + c.gross, fee: (r.fee ?? 0) + c.fee, net: (r.net ?? 0) + c.net }
+			return { ...c, gross: (r.gross ?? 0) + c.gross, fee: (r.fee ?? 0) + c.fee, net: (r.net ?? 0) + c.net }
 		}, {} as Settle)
 	}
 }
