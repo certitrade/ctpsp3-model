@@ -52,7 +52,7 @@ export namespace Settlement {
 					orders: [
 						...(settlements[settle.reference]?.orders ?? []),
 						{
-							number: order.id,
+							number: order.number ?? order.id,
 							created: order.created,
 							gross: settle.gross,
 							fee: settle.fee,
