@@ -76,4 +76,48 @@ export namespace Settlement {
 		})
 		return result
 	}
+	export function toCsv(value: Settlement | Settlement[], includeOrders = false): string {
+		let result = "reference,start date,end date,payout date,gross,fee,net,currency\r\n"
+		if (!Array.isArray(value)) {
+			result += settlementToCsv(value)
+			result += settlementOrdersToCsv(value)
+		} else
+			for (const settlement of value) {
+				result += settlementToCsv(settlement)
+				if (includeOrders)
+					result += settlementOrdersToCsv(settlement)
+			}
+		return result
+	}
+	function settlementToCsv(value: Settlement): string {
+		return `"${value.reference}","${value.period.start.substring(0, 10)}","${value.period.end.substring(
+			0,
+			10
+		)}","${value.payout.substring(0, 10)}","${value.gross}","${value.fee}","${value.net}","${value.currency}"\r\n`
+	}
+	function settlementOrdersToCsv(value: Settlement) {
+		let result = "number,created,gross,fee,net,status\r\n"
+		for (const settlementOrder of value.orders)
+			result += settlementOrderToCsv(settlementOrder)
+		return result
+	}
+	function settlementOrderToCsv(value: {
+		number: string
+		created: isoly.DateTime
+		gross: number
+		fee: number
+		net: number
+		status: Status[] | Order.StatusList
+	}): string {
+		const statusAsList = Array.isArray(value.status)
+			? value.status
+			: Object.entries(value.status).reduce<Status[]>((r, c) => {
+					if (Status.is(c[0]) && c[1])
+						r.push(c[0])
+					return r
+			  }, [])
+		return `"${value.number}","${value.created.substring(0, 10)}","${value.gross}","${value.fee}","${
+			value.net
+		}","${statusAsList.join(" ")}"\r\n`
+	}
 }

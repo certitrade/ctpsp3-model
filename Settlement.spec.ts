@@ -59,6 +59,11 @@ describe("Settlement", () => {
 					date: "2020-02-16T10:25:00.000Z",
 				},
 			],
+			status: {
+				charged: 124.5,
+				refunded: 124.5,
+				settled: -11.25,
+			},
 		},
 		{
 			id: "01234567abcd0001",
@@ -117,11 +122,49 @@ describe("Settlement", () => {
 					date: "2020-02-16T10:25:00.000Z",
 				},
 			],
+			status: {
+				charged: 124.5,
+				refunded: 124.5,
+				settled: -11.25,
+			},
 		},
 	]
 	it("generate", () => {
 		const settlement = model.Settlement.generate(orderArray)
 		console.log(settlement.map(s => s.orders))
 		expect(settlement.every(model.Settlement.is)).toEqual(true)
+	})
+	it("toCsv 1 settlement with orders", () => {
+		const csvOutput = model.Settlement.toCsv(model.Settlement.generate(orderArray)[0])
+		expect(csvOutput).toEqual(
+			"reference,start date,end date,payout date,gross,fee,net,currency\r\n" +
+				'"example1","2020-02-01","2020-02-07","2020-02-09","498","-15","483","SEK"\r\n' +
+				"number,created,gross,fee,net,status\r\n" +
+				'"01234567abcd0000","2019-01-31","249","-7.5","241.5","charged refunded settled"\r\n' +
+				'"01234567abcd0001","2019-01-31","249","-7.5","241.5","charged refunded settled"\r\n'
+		)
+	})
+	it("toCsv several settlements without orders", () => {
+		const csvOutput = model.Settlement.toCsv(model.Settlement.generate(orderArray))
+		expect(csvOutput).toEqual(
+			"reference,start date,end date,payout date,gross,fee,net,currency\r\n" +
+				'"example1","2020-02-01","2020-02-07","2020-02-09","498","-15","483","SEK"\r\n' +
+				'"example2","2020-02-08","2020-02-15","2020-02-18","-249","-7.5","-256.5","SEK"\r\n'
+		)
+	})
+	it("toCsv several settlements with orders", () => {
+		const csvOutput = model.Settlement.toCsv(model.Settlement.generate(orderArray), true)
+		console.log(csvOutput)
+		expect(csvOutput).toEqual(
+			"reference,start date,end date,payout date,gross,fee,net,currency\r\n" +
+				'"example1","2020-02-01","2020-02-07","2020-02-09","498","-15","483","SEK"\r\n' +
+				"number,created,gross,fee,net,status\r\n" +
+				'"01234567abcd0000","2019-01-31","249","-7.5","241.5","charged refunded settled"\r\n' +
+				'"01234567abcd0001","2019-01-31","249","-7.5","241.5","charged refunded settled"\r\n' +
+				'"example2","2020-02-08","2020-02-15","2020-02-18","-249","-7.5","-256.5","SEK"\r\n' +
+				"number,created,gross,fee,net,status\r\n" +
+				'"01234567abcd0000","2019-01-31","-124.5","-3.75","-128.25","charged refunded settled"\r\n' +
+				'"01234567abcd0001","2019-01-31","-124.5","-3.75","-128.25","charged refunded settled"\r\n'
+		)
 	})
 })
