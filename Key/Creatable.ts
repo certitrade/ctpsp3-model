@@ -18,7 +18,7 @@ export interface Creatable {
 	terms?: string
 	logotype?: string
 
-	card?: card.Merchant.Configuration
+	card?: card.Merchant.Card.Creatable
 	email?: Email
 	mash?: Mash
 	sms?: Sms
@@ -36,7 +36,7 @@ export namespace Creatable {
 			(value.url == undefined || typeof value.url == "string") &&
 			(value.terms == undefined || typeof value.terms == "string") &&
 			(value.logotype == undefined || typeof value.logotype == "string") &&
-			(value.card == undefined || card.Merchant.Configuration.is(value.card)) &&
+			(value.card == undefined || card.Merchant.Card.Creatable.is(value.card)) &&
 			(value.email == undefined || Email.is(value.email)) &&
 			(value.mash == undefined || Mash.is(value.mash)) &&
 			(value.sms == undefined || Sms.is(value.sms)) &&
@@ -63,9 +63,9 @@ export namespace Creatable {
 								typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
 							typeof value.url == "string" || value.url == undefined || { property: "url", type: "string | undefined" },
 							value.card == undefined ||
-								card.Merchant.Configuration.is(value.card) || {
+								card.Merchant.Card.Creatable.is(value.card) || {
 									property: "card",
-									...card.Merchant.Configuration.flaw(value.card),
+									...card.Merchant.Card.Creatable.flaw(value.card),
 								},
 							value.email == undefined || Email.is(value.email) || { property: "email", ...Email.flaw(value.email) },
 							value.mash == undefined || Mash.is(value.mash) || { property: "mash", ...Mash.flaw(value.mash) },
@@ -81,7 +81,7 @@ export namespace Creatable {
 			const option = input.option
 			if (
 				!(
-					(option.card && !card.Merchant.Configuration.is(option.card)) ||
+					(option.card && !card.Merchant.Card.Creatable.is(option.card)) ||
 					(option.email && !Email.is(option.email)) ||
 					(option.mash && !Mash.is(option.mash)) ||
 					(option.sms && !Sms.is(option.sms))
@@ -90,7 +90,7 @@ export namespace Creatable {
 				delete (input as any).option
 				result = input
 				if (option.card) {
-					if (!card.Merchant.Configuration.is(option.card))
+					if (!card.Merchant.Card.Creatable.is(option.card))
 						failed = true
 					else
 						result = { ...result, card: option.card, url: option.card.url }
