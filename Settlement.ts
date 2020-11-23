@@ -77,7 +77,7 @@ export namespace Settlement {
 		return result
 	}
 	export function toCsv(value: Settlement | Settlement[], includeOrders = false): string {
-		let result = getCsvHeaders()
+		let result = "reference,start date,end date,payout date,gross,fee,net,currency\r\n"
 		if (!Array.isArray(value)) {
 			result += settlementToCsv(value)
 			result += settlementOrdersToCsv(value)
@@ -89,48 +89,16 @@ export namespace Settlement {
 			}
 		return result
 	}
-	function getCsvHeaders(): string {
-		let result = ``
-		result += `reference,`
-		result += `start date,`
-		result += `end date,`
-		result += `payout date,`
-		result += `gross,`
-		result += `fee,`
-		result += `net,`
-		result += `currency`
-		result += `\r\n`
-		return result
-	}
-	function settlementOrdersHeaders(): string {
-		let result = ``
-		result += `number,`
-		result += `created,`
-		result += `gross,`
-		result += `fee,`
-		result += `net,`
-		result += `status`
-		result += `\r\n`
-		return result
+	function settlementToCsv(value: Settlement): string {
+		return `"${value.reference}","${value.period.start.substring(0, 10)}","${value.period.end.substring(
+			0,
+			10
+		)}","${value.payout.substring(0, 10)}","${value.gross}","${value.fee}","${value.net}","${value.currency}"\r\n`
 	}
 	function settlementOrdersToCsv(value: Settlement) {
-		let result = settlementOrdersHeaders()
+		let result = "number,created,gross,fee,net,status\r\n"
 		for (const settlementOrder of value.orders)
 			result += settlementOrderToCsv(settlementOrder)
-		return result
-	}
-
-	function settlementToCsv(value: Settlement): string {
-		let result = ``
-		result += `"` + value.reference + `",`
-		result += `"` + value.period.start.substring(0, 10) + `",`
-		result += `"` + value.period.end.substring(0, 10) + `",`
-		result += `"` + value.payout.substring(0, 10) + `",`
-		result += `"` + value.gross + `",`
-		result += `"` + value.fee + `",`
-		result += `"` + value.net + `",`
-		result += `"` + value.currency + `"`
-		result += `\r\n`
 		return result
 	}
 	function settlementOrderToCsv(value: {
@@ -148,14 +116,8 @@ export namespace Settlement {
 						r.push(c[0])
 					return r
 			  }, [])
-		let result = ``
-		result += `"` + value.number + `",`
-		result += `"` + value.created.substring(0, 10) + `",`
-		result += `"` + value.gross + `",`
-		result += `"` + value.fee + `",`
-		result += `"` + value.net + `",`
-		result += `"` + statusAsList.join(" ") + `"`
-		result += `\r\n`
-		return result
+		return `"${value.number}","${value.created.substring(0, 10)}","${value.gross}","${value.fee}","${
+			value.net
+		}","${statusAsList.join(" ")}"\r\n`
 	}
 }
