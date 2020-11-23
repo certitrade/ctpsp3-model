@@ -74,6 +74,21 @@ export abstract class Connection {
 		Connection.keyValue = key
 		Connection.keyChanged.forEach(callback => callback(Connection.keyValue))
 	}
+	static get accountKeys(): authly.Token[] {
+		const result = []
+		const storage = Connection.storage
+		for (let i = 0; i < (storage?.length ?? 0); i++) {
+			const item = storage?.key(i)
+			if (authly.Identifier.is(item, 16))
+				result.push(storage?.getItem(item))
+		}
+		return result.filter(authly.Token.is)
+	}
+	static setAccountKeys(key: authly.Token, accountId: authly.Identifier) {
+		const storage = Connection.storage
+		if (storage)
+			storage.setItem(accountId, key)
+	}
 	static readonly keyChanged: ((user: authly.Token | undefined) => void)[] = []
 	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
