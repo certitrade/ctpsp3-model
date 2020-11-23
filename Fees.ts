@@ -12,11 +12,14 @@ export namespace Fees {
 			Event.types.every(
 				event =>
 					value[event] == undefined ||
-					(value[event].length == 2 && value[event].every(element => typeof element == "number"))
+					(value[event].length == 2 && typeof value[0] == "number" && typeof value[1] == "number")
 			)
 		)
 	}
-	export function calculateTotal(fees: Fees, eventList: Event[], gross: number): number {
-		return eventList.reduce((r, c) => (r = r + (fees[c.type] ? gross * fees[c.type][1] + fees[c.type][0] : 0)), 0)
+	export function calculateTotal(fees: Fees, eventList: (Event & {gross:number})[]): number {
+		return eventList.reduce((r, c) => {
+			const fee = fees[c.type] ?? [0, 0]
+			return (r = r + (c.gross * fee[1] + fee[0]))
+		}, 0)
 	}
 }

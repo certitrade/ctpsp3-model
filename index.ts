@@ -8,6 +8,7 @@ import { Credentials } from "./Credentials"
 import { Customer } from "./Customer"
 import { EmailAddresses } from "./EmailAddresses"
 import { Event } from "./Event"
+import { Fees } from "./Fees"
 import { IdentityNumber } from "./IdentityNumber"
 import { Item } from "./Item"
 import { Key } from "./Key"
@@ -35,6 +36,7 @@ export {
 	Customer,
 	EmailAddresses,
 	Event,
+	Fees,
 	IdentityNumber,
 	Item,
 	Key,
