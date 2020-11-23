@@ -209,7 +209,7 @@ export namespace Order {
 			if (orders.event) {
 				orders.status.settled = orders.event.reduce<number>((sum, e) => {
 					if (Event.Settle.is(e))
-						sum += e.amount.net
+						sum += e.net
 					return sum
 				}, 0)
 				if (orders.status.settled == 0)

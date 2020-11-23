@@ -20,6 +20,7 @@ import { Payment } from "./Payment"
 import { PaymentOption } from "./PaymentOption"
 import { PaymentVerifier } from "./PaymentVerifier"
 import { PhoneNumbers } from "./PhoneNumbers"
+import { Settlement } from "./Settlement"
 import { Status } from "./Status"
 import { User } from "./User"
 
@@ -46,6 +47,7 @@ export {
 	PaymentOption,
 	PaymentVerifier,
 	PhoneNumbers,
+	Settlement,
 	Status,
 	User,
 }
