@@ -21,6 +21,8 @@ export interface Order {
 	items: number | Item | Item[]
 	currency: isoly.Currency
 	payment: Payment
+	account?: authly.Identifier
+	subscription?: authly.Identifier
 	event?: Event[]
 	status?: Status[] | OrderStatusList
 	theme?: string
@@ -40,6 +42,8 @@ export namespace Order {
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
+			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
+			(value.subscription == undefined || authly.Identifier.is(value.subscription, 4)) &&
 			(value.event == undefined || (Array.isArray(value.event) && value.event.every(Event.is))) &&
 			(value.status == undefined ||
 				(Array.isArray(value.status) && value.status.every(Status.is)) ||

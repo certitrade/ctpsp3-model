@@ -9,6 +9,7 @@ import { Customer } from "./Customer"
 import { EmailAddresses } from "./EmailAddresses"
 import { Event } from "./Event"
 import { Fees } from "./Fees"
+import { Frequency } from "./Frequency"
 import { IdentityNumber } from "./IdentityNumber"
 import { Item } from "./Item"
 import { Key } from "./Key"
@@ -21,8 +22,10 @@ import { Payment } from "./Payment"
 import { PaymentOption } from "./PaymentOption"
 import { PaymentVerifier } from "./PaymentVerifier"
 import { PhoneNumbers } from "./PhoneNumbers"
+import { Schedule } from "./Schedule"
 import { Settlement } from "./Settlement"
 import { Status } from "./Status"
+import { Subscription } from "./Subscription"
 import { User } from "./User"
 
 export {
@@ -37,6 +40,7 @@ export {
 	EmailAddresses,
 	Event,
 	Fees,
+	Frequency,
 	IdentityNumber,
 	Item,
 	Key,
@@ -49,7 +53,9 @@ export {
 	PaymentOption,
 	PaymentVerifier,
 	PhoneNumbers,
+	Schedule,
 	Settlement,
 	Status,
+	Subscription,
 	User,
 }

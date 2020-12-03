@@ -4,6 +4,7 @@ import { Link as AccountLink } from "./Link"
 import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable } from "./Creatable"
 import { Status as AccountStatus } from "./Status"
+import { Subscription } from "../Subscription"
 
 export interface Account {
 	id: authly.Identifier
@@ -12,6 +13,7 @@ export interface Account {
 	method: AccountMethod[]
 	link?: AccountLink[]
 	status?: AccountStatus
+	subscription?: Subscription[]
 }
 
 export namespace Account {
@@ -23,6 +25,8 @@ export namespace Account {
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Array.isArray(value.method) &&
 			value.method.every(AccountMethod.is) &&
+			(value.subscription == undefined ||
+				(Array.isArray(value.subscription) && value.subscription.every(Subscription.is))) &&
 			(value.status == undefined || AccountStatus.is(value.status))
 		)
 	}
