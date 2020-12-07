@@ -1,3 +1,5 @@
+import { Frequency } from "../index"
+
 export type Schedule =
 	| {
 			frequency: "daily"
@@ -63,7 +65,6 @@ export namespace Schedule {
 				value[1] > value[0])
 		)
 	}
-
 	export type dayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6
 	export const dayOfWeekTypes = [0, 1, 2, 3, 4, 5, 6]
 	export type dayOfMonth =
@@ -141,4 +142,92 @@ export namespace Schedule {
 	export const monthOfQuarterTypes = [0, 1, 2]
 	export type monthOfYear = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 	export const monthOfYearTypes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+	export function extractDivisor(divisor: string): number | [number, number] {
+		let result: number | [number, number]
+		const value = divisor.split(" / ")
+		if (value.length == 1)
+			result = Number(value[0])
+		else if (value.length == 2 && Number(value[0]) < Number(value[1]) && Number(value[0]) > 0)
+			result = [Number(value[0]), Number(value[1])]
+		else if (Number(value[0]) == 0)
+			result = Number(value[1])
+		else
+			result = 1
+		return result
+	}
+	export function extractOffset(offset: string | [string, string], frequency: Frequency) {
+		let result: number | undefined | [number, number]
+		let day: number | undefined
+		let month: number | undefined
+		switch (frequency) {
+			case "weekly":
+				result = typeof offset == "string" ? weekdayToInteger[offset] : undefined
+				break
+			case "monthly":
+				result = offset == "Date" || !offset ? 0 : Number(offset)
+				break
+			case "quarterly":
+				day = typeof offset == "string" ? undefined : offset[1] == "Date" || !offset[1] ? 0 : Number(offset[1])
+				month = typeof offset == "string" ? quarterlyToInteger[offset] : quarterlyToInteger[offset[0]]
+				result = !month && month != 0 ? undefined : !day ? month : [month, day]
+				break
+			case "yearly":
+				day = typeof offset == "string" ? undefined : offset[1] == "Date" || !offset[1] ? 0 : Number(offset[1])
+				month = typeof offset == "string" ? monthToInteger[offset] : monthToInteger[offset[0]]
+				result = !month && month != 0 ? undefined : !day ? month : [month, day]
+				break
+			default:
+				break
+		}
+		return result
+	}
+	export const frequencies = ["daily", "weekly", "monthly", "quarterly", "yearly"]
+	export const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+	export const quarterly = ["first", "second", "third"]
+	export const months = [
+		"january",
+		"february",
+		"march",
+		"april",
+		"may",
+		"june",
+		"july",
+		"august",
+		"september",
+		"october",
+		"november",
+		"december",
+	]
+	export const weekdayToInteger: Record<string, undefined | number> = {
+		Day: undefined,
+		Sunday: 0,
+		Monday: 1,
+		Tuesday: 2,
+		Wednesday: 3,
+		Thursday: 4,
+		Friday: 5,
+		Saturday: 6,
+	}
+	export const quarterlyToInteger: Record<string, undefined | number> = {
+		Month: undefined,
+		First: 0,
+		Second: 1,
+		Third: 2,
+	}
+	export const monthToInteger: Record<string, undefined | number> = {
+		Month: undefined,
+		January: 0,
+		February: 1,
+		March: 2,
+		April: 3,
+		May: 4,
+		June: 5,
+		July: 6,
+		August: 7,
+		September: 8,
+		October: 9,
+		November: 10,
+		December: 11,
+	}
 }
