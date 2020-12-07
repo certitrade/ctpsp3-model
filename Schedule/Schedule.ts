@@ -102,6 +102,9 @@ export namespace Schedule {
 		| 29
 		| 30
 	export const dayOfMonthTypes = [
+		-3,
+		-2,
+		-1,
 		0,
 		1,
 		2,
