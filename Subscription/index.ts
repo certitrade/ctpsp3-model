@@ -4,8 +4,8 @@ import { Creatable as CreatableSubscription } from "./Creatable"
 
 export interface Subscription extends CreatableSubscription {
 	id: authly.Identifier
-	start: isoly.DateTime
-	due?: isoly.DateTime
+	start: isoly.Date
+	due?: isoly.Date
 }
 
 export namespace Subscription {
@@ -13,8 +13,8 @@ export namespace Subscription {
 		return (
 			typeof value == "object" &&
 			authly.Identifier.is(value.id, 4) &&
-			isoly.DateTime.is(value.start) &&
-			(value.due == undefined || isoly.DateTime.is(value.due)) &&
+			isoly.Date.is(value.start) &&
+			(value.due == undefined || isoly.Date.is(value.due)) &&
 			CreatableSubscription.is(value)
 		)
 	}
