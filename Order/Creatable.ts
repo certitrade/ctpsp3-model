@@ -13,6 +13,8 @@ export interface Creatable {
 	items: number | Item | Item[]
 	currency: isoly.Currency
 	payment: Payment.Creatable
+	account?: authly.Identifier
+	subscription?: authly.Identifier
 	theme?: string
 	meta?: any
 	callback?: string
@@ -30,6 +32,8 @@ export namespace Creatable {
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
 			Payment.Creatable.is(value.payment) &&
+			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
+			(value.subscription == undefined || authly.Identifier.is(value.subscription, 4)) &&
 			(typeof value.theme == "string" || value.theme == undefined) &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
 			(isoly.Language.is(value.language) || value.language == undefined)

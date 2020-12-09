@@ -6,7 +6,7 @@ import { Creatable as CardCreatable } from "./Creatable"
 export interface Card extends Base {
 	type: "card"
 	card?: authly.Token
-	account?: authly.Identifier | authly.Token // Token is deprecated.
+	account?: authly.Identifier | authly.Token // @deprecated // Token is deprecated.
 	scheme: card.Card.Scheme
 	iin: string
 	last4: string

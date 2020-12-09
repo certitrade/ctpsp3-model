@@ -6,7 +6,7 @@ import { Creatable as AccountCreatable } from "./Creatable"
 export interface Account extends Base {
 	type: "account"
 	token?: authly.Token // @deprecated
-	account?: authly.Identifier
+	account?: authly.Identifier // @deprecated
 	due?: isoly.DateTime
 	schedule?: isoly.DateTime[]
 	charge?: "auto"
@@ -18,7 +18,7 @@ export namespace Account {
 			typeof value == "object" &&
 			value.type == "account" &&
 			((authly.Token.is(value.token) && value.account == undefined) ||
-				(value.token == undefined && authly.Identifier.is(value.account, 16))) &&
+				(value.token == undefined && (value.account == undefined || authly.Identifier.is(value.account, 16)))) &&
 			(value.due == undefined || isoly.DateTime.is(value.due)) &&
 			(value.schedule == undefined || (Array.isArray(value.schedule) && value.schedule.every(isoly.DateTime.is))) &&
 			(value.charge == undefined || value.charge == "auto") &&
