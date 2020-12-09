@@ -183,7 +183,7 @@ export namespace Schedule {
 		return result
 	}
 	export const frequencies = ["daily", "weekly", "monthly", "quarterly", "yearly"]
-	export const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+	export const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
 	export const quarterly = ["first", "second", "third"]
 	export const months = [
 		"january",
