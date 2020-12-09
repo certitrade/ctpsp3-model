@@ -1,12 +1,14 @@
 import * as authly from "authly"
 import { Method } from "./Method"
 import { Customer } from "../Customer"
+import { Balance } from "../Balance"
 
 export interface Creatable {
 	id?: authly.Identifier
 	number?: string
 	customer?: Customer
 	method: Method.Creatable[]
+	balance?: Balance.Creatable
 }
 
 export namespace Creatable {
@@ -17,7 +19,8 @@ export namespace Creatable {
 			(value.number == undefined || typeof value.number == "string") &&
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Array.isArray(value.method) &&
-			value.method.every(Method.Creatable.is)
+			value.method.every(Method.Creatable.is) &&
+			(value.balance == undefined || Balance.Creatable.is(value.balance))
 		)
 	}
 }

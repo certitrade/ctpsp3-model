@@ -5,6 +5,7 @@ import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable } from "./Creatable"
 import { Status as AccountStatus } from "./Status"
 import { Subscription } from "../Subscription"
+import { Balance } from "../Balance"
 
 export interface Account {
 	id: authly.Identifier
@@ -14,6 +15,7 @@ export interface Account {
 	link?: AccountLink[]
 	status?: AccountStatus
 	subscription?: Subscription[]
+	balance?: Balance
 }
 
 export namespace Account {
@@ -27,7 +29,8 @@ export namespace Account {
 			value.method.every(AccountMethod.is) &&
 			(value.subscription == undefined ||
 				(Array.isArray(value.subscription) && value.subscription.every(Subscription.is))) &&
-			(value.status == undefined || AccountStatus.is(value.status))
+			(value.status == undefined || AccountStatus.is(value.status)) &&
+			(value.balance == undefined || Balance.is(value.balance))
 		)
 	}
 	export function generateId(): authly.Identifier {

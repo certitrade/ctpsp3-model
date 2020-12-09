@@ -7,7 +7,7 @@ export interface Creatable extends CreatableBase {
 	token?: authly.Token // @deprecated
 	account?: authly.Identifier // @deprecated
 	schedule?: number[]
-	charge?: "auto"
+	charge?: "auto" | "balance"
 }
 
 export namespace Creatable {
@@ -15,11 +15,11 @@ export namespace Creatable {
 		return (
 			typeof value == "object" &&
 			value.type == "account" &&
+			(authly.Token.is(value.token) || value.token == undefined) &&
+			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			(value.schedule == undefined ||
 				(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number"))) &&
-			((authly.Token.is(value.token) && value.account == undefined) ||
-				(value.token == undefined && (value.account == undefined || authly.Identifier.is(value.account, 16)))) &&
-			(value.charge == undefined || value.charge == "auto") &&
+			(value.charge == undefined || value.charge == "auto" || value.charge == "balance") &&
 			CreatableBase.is(value)
 		)
 	}
@@ -44,9 +44,10 @@ export namespace Creatable {
 									condition: "account.length == 16 and either token or account should be set",
 								},
 							value.charge == undefined ||
-								value.charge == "auto" || {
+								value.charge == "auto" ||
+								value.charge == "balance" || {
 									property: "charge",
-									type: '"auto" | undefined',
+									type: '"auto" | "balance" | undefined',
 								},
 							CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
