@@ -110,7 +110,10 @@ function divisorToString(
 		: ""
 	result += suffix ? (!result.endsWith(" ") ? " " : "") + suffix : ""
 	if (!short && Array.isArray(divisor) && divisor[1] > 2)
-		result += " starting from the " + ordinal(divisor[0], false, divisor) + (frequencyWord ? " " + frequencyWord : "")
+		result +=
+			divisor[0] == 0 && frequencyWord == "year"
+				? " starting from year " + divisor[0]
+				: " starting from the " + ordinal(divisor[0], false, divisor) + (frequencyWord ? " " + frequencyWord : "")
 	return result
 }
 

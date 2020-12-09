@@ -32,7 +32,11 @@ describe("Schedule.toString", () => {
 		expect(model.Schedule.toString(schedule)).toEqual("on the 12th month on the 1st day of every 5th year")
 		schedule = { frequency: "yearly", divisor: [1, 5], offset: [10, -3] }
 		expect(model.Schedule.toString(schedule)).toEqual(
-			"on the 11th month on the 3rd to last day of every 5th year starting from the 2nd year"
+			"on the 11th month on the 3rd to last day of every 5th year starting from year 1"
+		)
+		schedule = { frequency: "yearly", divisor: [0, 5], offset: [10, -3] }
+		expect(model.Schedule.toString(schedule)).toEqual(
+			"on the 11th month on the 3rd to last day of every 5th year starting from year 0"
 		)
 	})
 	it("scheduleToString short", () => {
