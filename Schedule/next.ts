@@ -2,12 +2,12 @@ import * as isoly from "isoly"
 import { Schedule } from "./Schedule"
 import { Frequency } from "../Frequency"
 
-export function next(schedule: Frequency | Schedule, previous?: isoly.DateTime): isoly.DateTime {
-	let result: isoly.DateTime | undefined = previous
+export function next(schedule: Frequency | Schedule, previous?: isoly.Date): isoly.Date {
+	let result: isoly.Date | undefined = previous
 	let difference: number
 	let offset: number
 	let modulo: number
-	const raw = previous ? isoly.DateTime.parse(previous) : new Date()
+	const raw = previous ? isoly.Date.parse(previous) : new Date()
 	let daysOfMonth = daysPerMonth(raw)
 	if (Frequency.is(schedule))
 		schedule = { frequency: schedule } as Schedule
@@ -18,7 +18,7 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.DateTime):
 			difference = modulo == 0 ? (previous ? divisor[1] : 0) : modulo
 			offset = raw.getDate() + difference
 			raw.setDate(offset < daysOfMonth ? offset : daysOfMonth + (divisor[0] ? divisor[0] : divisor[1]))
-			result = isoly.DateTime.create(raw)
+			result = isoly.Date.create(raw)
 			break
 		case "weekly":
 			offset = schedule.offset == undefined ? 0 : (schedule.offset + 7 - raw.getDay()) % 7
@@ -29,7 +29,7 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.DateTime):
 			raw.setDate(raw.getDate() + 7 * ((divisor[0] - (getWeek(raw) % divisor[1]) + divisor[1]) % divisor[1]))
 			const currentWeek = getWeek(raw)
 			console.log(currentWeek)
-			result = isoly.DateTime.create(raw)
+			result = isoly.Date.create(raw)
 			break
 		case "monthly":
 			offset = schedule.offset == undefined ? raw.getDate() : schedule.offset + 1
@@ -48,7 +48,7 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.DateTime):
 			daysOfMonth = daysPerMonth(raw)
 			offset = offset > 0 ? (offset >= daysOfMonth ? daysOfMonth : offset) : daysOfMonth + offset
 			raw.setDate(offset)
-			result = isoly.DateTime.create(raw)
+			result = isoly.Date.create(raw)
 			break
 		case "quarterly":
 			offset = Array.isArray(schedule.offset) ? schedule.offset[1] + 1 : raw.getDate()
@@ -72,13 +72,13 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.DateTime):
 			raw.setMonth(raw.getMonth() + modulo * 3)
 			offset = offset > 0 ? (offset >= daysPerMonth(raw) ? daysPerMonth(raw) : offset) : daysPerMonth(raw) + offset
 			raw.setDate(offset)
-			if (previous && isoly.DateTime.create(raw).substring(0, 10) == previous.substring(0, 10)) {
+			if (previous && isoly.Date.create(raw).substring(0, 10) == previous.substring(0, 10)) {
 				raw.setDate(1)
 				raw.setMonth(raw.getMonth() + divisor[1] * 3)
 				offset = offset > 0 ? (offset >= daysPerMonth(raw) ? daysPerMonth(raw) : offset) : daysPerMonth(raw) + offset
 				raw.setDate(offset)
 			}
-			result = isoly.DateTime.create(raw)
+			result = isoly.Date.create(raw)
 			break
 
 		case "yearly":
@@ -87,8 +87,8 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.DateTime):
 			raw.setFullYear(raw.getFullYear(), month, 1)
 			offset = day > 0 ? (day >= daysPerMonth(raw) ? daysPerMonth(raw) : day) : daysPerMonth(raw) + day
 			raw.setDate(offset)
-			const today = isoly.DateTime.now().substring(0, 10)
-			const help = isoly.DateTime.create(raw).substring(0, 10)
+			const today = isoly.Date.now().substring(0, 10)
+			const help = isoly.Date.create(raw).substring(0, 10)
 			raw.setDate(1)
 			if (today > help || (previous && help <= previous.substring(0, 10)))
 				raw.setFullYear(raw.getFullYear() + 1)
@@ -96,13 +96,13 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.DateTime):
 			raw.setFullYear(raw.getFullYear() + modulo, month)
 			offset = day > 0 ? (day >= daysPerMonth(raw) ? daysPerMonth(raw) : day) : daysPerMonth(raw) + day
 			raw.setDate(offset)
-			result = isoly.DateTime.create(raw)
+			result = isoly.Date.create(raw)
 			break
 
 		default:
 			break
 	}
-	return result ?? isoly.DateTime.now()
+	return result ?? isoly.Date.now()
 }
 
 function daysPerMonth(raw: Date, offset?: number) {
