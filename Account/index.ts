@@ -1,11 +1,14 @@
+import * as isoly from "isoly"
 import * as authly from "authly"
 import { Customer } from "../Customer"
+import { Item } from "../Item"
 import { Link as AccountLink } from "./Link"
 import { Method as AccountMethod } from "./Method"
 import { Creatable as AccountCreatable } from "./Creatable"
 import { Status as AccountStatus } from "./Status"
+import { Frequency } from "../Frequency"
+import { Schedule } from "../Schedule"
 import { Subscription } from "../Subscription"
-import { Balance } from "../Balance"
 
 export interface Account {
 	id: authly.Identifier
@@ -15,7 +18,19 @@ export interface Account {
 	link?: AccountLink[]
 	status?: AccountStatus
 	subscription?: Subscription[]
-	balance?: Balance
+
+	balance: Item[]
+	total: number
+	due?: isoly.Date
+	currency: isoly.Currency
+	limit?:
+		| number
+		| {
+				hard?: number
+				soft?: number
+				margin?: number
+		  }
+	schedule: Frequency | Schedule
 }
 
 export namespace Account {
@@ -30,7 +45,17 @@ export namespace Account {
 			(value.subscription == undefined ||
 				(Array.isArray(value.subscription) && value.subscription.every(Subscription.is))) &&
 			(value.status == undefined || AccountStatus.is(value.status)) &&
-			(value.balance == undefined || Balance.is(value.balance))
+			isoly.Currency.is(value.currency) &&
+			(value.limit == undefined ||
+				typeof value.limit == "number" ||
+				(typeof value.limit == "object" &&
+					(value.limit.hard == undefined || typeof value.limit.hard == "number") &&
+					(value.limit.soft == undefined || typeof value.limit.soft == "number") &&
+					(value.limit.margin == undefined || typeof value.limit.margin == "number"))) &&
+			(Frequency.is(value.schedule) || Schedule.is(value.schedule)) &&
+			Array.isArray(value.balance) &&
+			value.balance.every(Item.is) &&
+			typeof value.total == "number"
 		)
 	}
 	export function generateId(): authly.Identifier {

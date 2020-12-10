@@ -1,14 +1,25 @@
+import * as isoly from "isoly"
 import * as authly from "authly"
-import { Method } from "./Method"
 import { Customer } from "../Customer"
-import { Balance } from "../Balance"
+import { Frequency } from "../Frequency"
+import { Schedule } from "../Schedule"
+import { Method } from "./Method"
 
 export interface Creatable {
 	id?: authly.Identifier
 	number?: string
 	customer?: Customer
 	method: Method.Creatable[]
-	balance?: Balance.Creatable
+
+	currency?: isoly.Currency
+	limit?:
+		| number
+		| {
+				hard?: number
+				soft?: number
+				margin?: number
+		  }
+	schedule?: Frequency | Schedule
 }
 
 export namespace Creatable {
@@ -20,7 +31,14 @@ export namespace Creatable {
 			(value.customer == undefined || Customer.is(value.customer)) &&
 			Array.isArray(value.method) &&
 			value.method.every(Method.Creatable.is) &&
-			(value.balance == undefined || Balance.Creatable.is(value.balance))
+			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
+			(value.limit == undefined ||
+				typeof value.limit == "number" ||
+				(typeof value.limit == "object" &&
+					(value.limit.hard == undefined || typeof value.limit.hard == "number") &&
+					(value.limit.soft == undefined || typeof value.limit.soft == "number") &&
+					(value.limit.margin == undefined || typeof value.limit.margin == "number"))) &&
+			(Frequency.is(value.schedule) || Schedule.is(value.schedule) || value.schedule == undefined)
 		)
 	}
 }
