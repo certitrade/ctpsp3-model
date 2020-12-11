@@ -28,7 +28,6 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.Date): iso
 			raw.setDate(raw.getDate() + difference * 7)
 			raw.setDate(raw.getDate() + 7 * ((divisor[0] - (getWeek(raw) % divisor[1]) + divisor[1]) % divisor[1]))
 			const currentWeek = getWeek(raw)
-			console.log(currentWeek)
 			result = isoly.Date.create(raw)
 			break
 		case "monthly":
