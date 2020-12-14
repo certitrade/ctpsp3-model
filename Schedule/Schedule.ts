@@ -1,4 +1,5 @@
 import { Frequency } from "../index"
+import { next } from "./next"
 
 export type Schedule =
 	| {
@@ -142,6 +143,22 @@ export namespace Schedule {
 	export const monthOfQuarterTypes = [0, 1, 2]
 	export type monthOfYear = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 	export const monthOfYearTypes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+	export function calculateDueDates(
+		schedule: Frequency | Schedule,
+		amount: number,
+		start?: string,
+		end?: string
+	): string[] {
+		const dueDates: string[] = []
+		let date: string | undefined = start
+		for (let i = 0; i < amount; i++) {
+			date = next(schedule, date)
+			if (date && (!end || date < end))
+				dueDates.push(date)
+		}
+		return dueDates
+	}
 
 	export function extractDivisor(divisor: string): number | [number, number] {
 		let result: number | [number, number]
