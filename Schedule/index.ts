@@ -6,6 +6,7 @@ export type Schedule = Type
 export namespace Schedule {
 	export const is = Type.is
 	export const next = nextDate
+	export const calculateDueDates = Type.calculateDueDates
 	export const extractDivisor = Type.extractDivisor
 	export const extractOffset = Type.extractOffset
 	export const frequencies = Type.frequencies
