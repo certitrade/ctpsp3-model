@@ -1,9 +1,9 @@
+import * as flagly from "flagly"
 import * as authly from "authly"
 import * as card from "@payfunc/model-card"
-import * as flagly from "flagly"
-import { V1 } from "./V1"
-import { Key } from "./Key"
 import { Audience } from "./Audience"
+import { Key } from "./Key"
+import { V1 } from "./V1"
 
 export function getVerifier(
 	secrets?: {

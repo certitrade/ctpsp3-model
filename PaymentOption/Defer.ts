@@ -1,5 +1,5 @@
-import { Base } from "./Base"
 import { Method } from "../Payment/Defer/Method"
+import { Base } from "./Base"
 
 export interface Defer extends Base {
 	type: "defer"

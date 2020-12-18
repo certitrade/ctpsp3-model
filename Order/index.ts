@@ -1,16 +1,16 @@
+import * as gracely from "gracely"
 import * as isoly from "isoly"
 import * as authly from "authly"
-import * as gracely from "gracely"
 import { Customer } from "../Customer"
 import { Event } from "../Event"
 import { Item } from "../Item"
 import { Key } from "../Key"
 import { Payment } from "../Payment"
 import { Status } from "../Status"
+import { verify as verifyToken } from "../verify"
 import { Change as OrderChange } from "./Change"
 import { Creatable as OrderCreatable } from "./Creatable"
 import { StatusList as OrderStatusList } from "./StatusList"
-import { verify as verifyToken } from "../verify"
 
 export interface Order {
 	id: authly.Identifier

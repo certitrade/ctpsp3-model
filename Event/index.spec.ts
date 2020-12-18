@@ -1,5 +1,5 @@
-import * as model from "../index"
 import * as isoly from "isoly"
+import * as model from "../index"
 
 describe("Event", () => {
 	const events = [

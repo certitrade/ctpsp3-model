@@ -1,14 +1,14 @@
 import { Identifier } from "authly"
-import { Type as PType } from "./Type"
-import { Verify as PVerify } from "./Verify"
-import { Status as PStatus } from "./Status"
-import { Card as PCard } from "./Card"
-import { Installment as PInstallment } from "./Installment"
-import { Invoice as PInvoice } from "./Invoice"
-import { Defer as PDefer } from "./Defer"
-import { Swish as PSwish } from "./Swish"
 import { Account as PAccount } from "./Account"
 import { Base as PBase } from "./Base"
+import { Card as PCard } from "./Card"
+import { Defer as PDefer } from "./Defer"
+import { Installment as PInstallment } from "./Installment"
+import { Invoice as PInvoice } from "./Invoice"
+import { Status as PStatus } from "./Status"
+import { Swish as PSwish } from "./Swish"
+import { Type as PType } from "./Type"
+import { Verify as PVerify } from "./Verify"
 
 export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish | PAccount
 

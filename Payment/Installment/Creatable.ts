@@ -1,6 +1,6 @@
+import { CreatableBase } from "../CreatableBase"
 import { Verify } from "../Verify"
 import { Plan } from "./Plan"
-import { CreatableBase } from "../CreatableBase"
 
 export interface Creatable extends CreatableBase {
 	type: "installment"

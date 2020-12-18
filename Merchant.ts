@@ -1,5 +1,5 @@
-import * as authly from "authly"
 import * as gracely from "gracely"
+import * as authly from "authly"
 import { Key } from "./Key"
 
 export interface Merchant {

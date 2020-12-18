@@ -1,6 +1,6 @@
+import * as dotenv from "dotenv"
 import { Key } from "./index"
 import { V1 } from "./V1"
-import * as dotenv from "dotenv"
 dotenv.config()
 
 const testMerchantKey = {

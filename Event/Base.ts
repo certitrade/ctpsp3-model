@@ -1,6 +1,6 @@
 import * as isoly from "isoly"
-import { Type } from "./Type"
 import { Item } from "../Item"
+import { Type } from "./Type"
 
 export interface Base {
 	type: Type

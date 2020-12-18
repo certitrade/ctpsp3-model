@@ -1,10 +1,10 @@
-import { Base } from "./Base"
 import { Type as POType } from "../Payment/Type"
+import { Base } from "./Base"
 import { Card as POCard } from "./Card"
+import { Defer as PODefer } from "./Defer"
 import { Direct as PODirect } from "./Direct"
 import { Installment as POInstallment } from "./Installment"
 import { Invoice as POInvoice } from "./Invoice"
-import { Defer as PODefer } from "./Defer"
 
 export type PaymentOption = POCard | PODirect | POInstallment | POInvoice
 export namespace PaymentOption {

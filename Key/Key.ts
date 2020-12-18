@@ -1,14 +1,14 @@
+import * as flagly from "flagly"
+import * as gracely from "gracely"
 import * as isoly from "isoly"
 import * as authly from "authly"
-import * as gracely from "gracely"
-import * as flagly from "flagly"
 import * as card from "@payfunc/model-card"
-import { Creatable } from "./Creatable"
-import { V1 as V1Key } from "./V1"
-import { Email } from "./Email"
-import { Sms } from "./Sms"
-import { Mash } from "./Mash"
 import { Audience } from "./Audience"
+import { Creatable } from "./Creatable"
+import { Email } from "./Email"
+import { Mash } from "./Mash"
+import { Sms } from "./Sms"
+import { V1 as V1Key } from "./V1"
 
 export interface Key extends Creatable {
 	sub: authly.Identifier

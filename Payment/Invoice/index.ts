@@ -1,7 +1,7 @@
 import { Base } from "../Base"
 import { Verify } from "../Verify"
-import { Terms as InvoiceTerms } from "./Terms"
 import { Creatable as InvoiceCreatable } from "./Creatable"
+import { Terms as InvoiceTerms } from "./Terms"
 
 export interface Invoice extends Base {
 	type: "invoice"

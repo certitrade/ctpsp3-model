@@ -1,5 +1,5 @@
-import { Event } from "./Event"
 import * as isoly from "isoly"
+import { Event } from "./Event"
 export type Fees = {
 	[status in Event.Type]?: [number, number] //[Absolute,Relative]
 } & { currency?: isoly.Currency }
@@ -16,7 +16,7 @@ export namespace Fees {
 			)
 		)
 	}
-	export function calculateTotal(fees: Fees, eventList: (Event & {gross:number})[]): number {
+	export function calculateTotal(fees: Fees, eventList: (Event & { gross: number })[]): number {
 		return eventList.reduce((r, c) => {
 			const fee = fees[c.type] ?? [0, 0]
 			return (r = r + (c.gross * fee[1] + fee[0]))

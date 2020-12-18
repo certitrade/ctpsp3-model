@@ -1,10 +1,10 @@
+import * as Actors from "./Actors"
 import { Audience as KeyAudience } from "./Audience"
 import { Creatable as KeyCreatable } from "./Creatable"
 import { Email as KeyEmail } from "./Email"
 import { Key as KKey } from "./Key"
 import { Mash as KeyMash } from "./Mash"
 import { Sms as KeySms } from "./Sms"
-import * as Actors from "./Actors"
 
 export type Key = KKey
 export namespace Key {

@@ -1,5 +1,5 @@
-import * as isoly from "isoly"
 import * as gracely from "gracely"
+import * as isoly from "isoly"
 import { Type } from "./Type"
 
 export interface CreatableBase {

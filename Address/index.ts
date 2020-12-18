@@ -2,9 +2,9 @@ import { CountryCode } from "isoly"
 import { DE as AddressDE } from "./DE"
 import { DK as AddressDK } from "./DK"
 import { FI as AddressFI } from "./FI"
+import { General as AddressGeneral } from "./General"
 import { NO as AddressNO } from "./NO"
 import { SE as AddressSE } from "./SE"
-import { General as AddressGeneral } from "./General"
 
 export type Address = AddressDE | AddressDK | AddressFI | AddressNO | AddressSE | AddressGeneral
 export namespace Address {

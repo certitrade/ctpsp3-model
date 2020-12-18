@@ -1,8 +1,8 @@
 import * as isoly from "isoly"
 import * as authly from "authly"
-import { Type as MessageType } from "./Type"
-import { Order } from "../Order"
 import { Key } from "../Key"
+import { Order } from "../Order"
+import { Type as MessageType } from "./Type"
 export interface Message {
 	type: MessageType
 	order: Order

@@ -1,5 +1,5 @@
-import { Schedule as Type } from "./Schedule"
 import { next as nextDate } from "./next"
+import { Schedule as Type } from "./Schedule"
 import { toString as scheduleToString } from "./toString"
 
 export type Schedule = Type

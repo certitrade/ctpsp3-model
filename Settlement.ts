@@ -1,7 +1,7 @@
 import * as isoly from "isoly"
 import { Event } from "./Event"
-import { Status } from "./Status"
 import { Order } from "./Order"
+import { Status } from "./Status"
 
 export interface Settlement {
 	reference: string

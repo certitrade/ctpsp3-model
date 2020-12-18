@@ -1,6 +1,6 @@
+import * as isoly from "isoly"
 import * as authly from "authly"
 import * as servly from "servly"
-import * as isoly from "isoly"
 import { Reference as LogReference } from "./Reference"
 import { System as LogSystem } from "./System"
 

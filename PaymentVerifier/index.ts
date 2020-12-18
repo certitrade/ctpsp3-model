@@ -3,8 +3,8 @@ import { Request as PRequest } from "./Request"
 import { Response as PResponse } from "./Response"
 import { Error as ResponseError } from "./Response/Error"
 import { Unverified as ResponseUnverified } from "./Response/Unverified"
-import { Verified as ResponseVerified } from "./Response/Verified"
 import { VerificationRequired as ResponseVerificationRequired } from "./Response/VerificationRequired"
+import { Verified as ResponseVerified } from "./Response/Verified"
 
 export abstract class PaymentVerifier {
 	abstract async verify(

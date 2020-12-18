@@ -1,5 +1,5 @@
-import { Base } from "./Base"
 import { Plan as InstallmentPlan } from "../Payment/Installment/Plan"
+import { Base } from "./Base"
 
 export interface Installment extends Base {
 	type: "installment"
