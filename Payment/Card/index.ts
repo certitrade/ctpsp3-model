@@ -11,6 +11,7 @@ export interface Card extends Base {
 	iin: string
 	last4: string
 	expires: card.Card.Expires
+	charge?:"auto" | "balance"
 }
 
 export namespace Card {
@@ -26,6 +27,7 @@ export namespace Card {
 			typeof value.last4 == "string" &&
 			value.last4.length == 4 &&
 			card.Card.Expires.is(value.expires) &&
+			(value.charge == undefined || value.charge == "balance" || value.charge == "auto") &&
 			Base.is(value)
 		)
 	}
