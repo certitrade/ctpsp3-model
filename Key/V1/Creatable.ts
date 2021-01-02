@@ -1,5 +1,5 @@
-import * as authly from "authly"
 import * as gracely from "gracely"
+import * as authly from "authly"
 
 export interface Creatable {
 	id?: authly.Identifier

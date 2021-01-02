@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
+import { CreatableBase } from "../CreatableBase"
 import { Verify } from "../Verify"
 import { Terms } from "./Terms"
-import { CreatableBase } from "../CreatableBase"
 
 export interface Creatable extends CreatableBase {
 	type: "invoice"

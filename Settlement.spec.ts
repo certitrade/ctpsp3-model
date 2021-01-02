@@ -131,7 +131,6 @@ describe("Settlement", () => {
 	]
 	it("generate", () => {
 		const settlement = model.Settlement.generate(orderArray)
-		console.log(settlement.map(s => s.orders))
 		expect(settlement.every(model.Settlement.is)).toEqual(true)
 	})
 	it("toCsv 1 settlement with orders", () => {
@@ -154,7 +153,6 @@ describe("Settlement", () => {
 	})
 	it("toCsv several settlements with orders", () => {
 		const csvOutput = model.Settlement.toCsv(model.Settlement.generate(orderArray), true)
-		console.log(csvOutput)
 		expect(csvOutput).toEqual(
 			"reference,start date,end date,payout date,gross,fee,net,currency\r\n" +
 				'"example1","2020-02-01","2020-02-07","2020-02-09","498","-15","483","SEK"\r\n' +

@@ -1,5 +1,5 @@
-import { Method } from "./Method"
 import { CreatableBase } from "../CreatableBase"
+import { Method } from "./Method"
 
 export interface Creatable extends CreatableBase {
 	type: "defer"

@@ -1,5 +1,5 @@
-import { Order } from "../index"
 import { Account } from "../Account"
+import { Order } from "../index"
 
 export type Status = "active" | "created" | "inactive" | "pending" | "suspended"
 

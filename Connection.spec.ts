@@ -1,6 +1,6 @@
-import * as dotenv from "dotenv"
 import * as gracely from "gracely"
 import * as authly from "authly"
+import * as dotenv from "dotenv"
 import * as model from "./index"
 
 jest.setTimeout(100000)

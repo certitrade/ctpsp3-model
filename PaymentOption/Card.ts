@@ -1,5 +1,5 @@
-import { Base } from "./Base"
 import { Card as PaymentCard } from "../Payment/Card"
+import { Base } from "./Base"
 
 export interface Card extends Base {
 	type: "card"

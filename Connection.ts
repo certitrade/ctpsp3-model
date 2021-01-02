@@ -1,8 +1,8 @@
 import * as gracely from "gracely"
 import * as authly from "authly"
 import { Credentials } from "./Credentials"
-import { User } from "./User"
 import { fetch, RequestInit } from "./fetch"
+import { User } from "./User"
 
 export abstract class Connection {
 	private static storageValue: Storage | undefined | null = null

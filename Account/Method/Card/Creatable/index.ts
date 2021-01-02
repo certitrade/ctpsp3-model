@@ -1,6 +1,6 @@
 import * as authly from "authly"
-import { verify as verifyToken } from "../../../../verify"
 import { Card as PCard } from "../../../../Payment/Card"
+import { verify as verifyToken } from "../../../../verify"
 import { Token as CToken } from "./Token"
 
 export interface Creatable {

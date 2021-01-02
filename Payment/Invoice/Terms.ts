@@ -1,5 +1,5 @@
-import { DateTime } from "isoly"
 import * as gracely from "gracely"
+import { DateTime } from "isoly"
 
 export interface Terms {
 	due: DateTime | number // date or number of days

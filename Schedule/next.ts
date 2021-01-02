@@ -1,6 +1,6 @@
 import * as isoly from "isoly"
-import { Schedule } from "./Schedule"
 import { Frequency } from "../Frequency"
+import { Schedule } from "./Schedule"
 
 export function next(schedule: Frequency | Schedule, previous?: isoly.Date): isoly.Date {
 	let result: isoly.Date | undefined = previous
@@ -27,7 +27,6 @@ export function next(schedule: Frequency | Schedule, previous?: isoly.Date): iso
 			difference = modulo == 0 && offset == 0 ? (previous ? divisor[1] : 0) : modulo
 			raw.setDate(raw.getDate() + difference * 7)
 			raw.setDate(raw.getDate() + 7 * ((divisor[0] - (getWeek(raw) % divisor[1]) + divisor[1]) % divisor[1]))
-			const currentWeek = getWeek(raw)
 			result = isoly.Date.create(raw)
 			break
 		case "monthly":

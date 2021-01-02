@@ -1,7 +1,7 @@
 import { Base } from "../Base"
 import { Verify } from "../Verify"
-import { Plan as InstallmentPlan } from "./Plan"
 import { Creatable as InstallmentCreatable } from "./Creatable"
+import { Plan as InstallmentPlan } from "./Plan"
 
 export interface Installment extends Base {
 	type: "installment"

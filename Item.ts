@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
-import { Status } from "./Status"
 import { Event } from "./Event"
 import { StatusList } from "./Order/StatusList"
+import { Status } from "./Status"
 
 export interface Item {
 	number?: string

@@ -1,9 +1,9 @@
 import * as gracely from "gracely"
 import { Base } from "./Base"
-import { Unverified as RUnverified } from "./Unverified"
-import { Verified as RVerified } from "./Verified"
-import { VerificationRequired as RVerificationRequired } from "./VerificationRequired"
 import { Error as RError } from "./Error"
+import { Unverified as RUnverified } from "./Unverified"
+import { VerificationRequired as RVerificationRequired } from "./VerificationRequired"
+import { Verified as RVerified } from "./Verified"
 
 export type Response = Base
 

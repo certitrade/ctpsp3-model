@@ -1,5 +1,5 @@
-import * as authly from "authly"
 import * as isoly from "isoly"
+import * as authly from "authly"
 import { Base } from "../Base"
 import { Creatable as AccountCreatable } from "./Creatable"
 

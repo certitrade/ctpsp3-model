@@ -1,14 +1,14 @@
 import * as isoly from "isoly"
 import * as authly from "authly"
 import { Customer } from "../Customer"
-import { Item } from "../Item"
-import { Link as AccountLink } from "./Link"
-import { Method as AccountMethod } from "./Method"
-import { Creatable as AccountCreatable } from "./Creatable"
-import { Status as AccountStatus } from "./Status"
 import { Frequency } from "../Frequency"
+import { Item } from "../Item"
 import { Schedule } from "../Schedule"
 import { Subscription } from "../Subscription"
+import { Creatable as AccountCreatable } from "./Creatable"
+import { Link as AccountLink } from "./Link"
+import { Method as AccountMethod } from "./Method"
+import { Status as AccountStatus } from "./Status"
 
 export interface Account {
 	id: authly.Identifier

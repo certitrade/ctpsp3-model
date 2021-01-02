@@ -1,5 +1,5 @@
-import { Base } from "./Base"
 import { Terms as InvoiceTerms } from "../Payment/Invoice/Terms"
+import { Base } from "./Base"
 
 export interface Invoice extends Base {
 	type: "invoice"
