@@ -1,1 +1,1 @@
-export const fetch = window.fetch.bind(window)
+export const fetch = typeof window != "undefined" ? window.fetch.bind(window) : self.fetch.bind(self)

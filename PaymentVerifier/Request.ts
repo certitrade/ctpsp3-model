@@ -21,7 +21,12 @@ export class Request {
 		client: { ip?: string }
 	): Request {
 		return new Request(
-			{ type: Account.Creatable.is(payload) ? "account" : "order", id: payload.id, number: payload.number },
+			{
+				type: Account.Creatable.is(payload) ? "account" : "order",
+				id: payload.id,
+				number: payload.number,
+				account: Order.Creatable.is(payload) && payload.account ? payload.account : undefined,
+			},
 			payload.payment,
 			!Account.Creatable.is(payload) ? payload.payment.currency ?? payload.currency ?? "EUR" : "EUR",
 			Account.Creatable.is(payload) ? 0 : payload.items,
