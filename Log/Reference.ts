@@ -2,6 +2,7 @@ import * as authly from "authly"
 
 export interface Reference {
 	type: Reference.Type
+	account?: authly.Identifier
 	id?: authly.Identifier
 	number?: string
 }
@@ -12,6 +13,7 @@ export namespace Reference {
 			typeof value == "object" &&
 			Type.is(value.type) &&
 			(value.id == undefined || authly.Identifier.is(value.id)) &&
+			(value.account == undefined || authly.Identifier.is(value.account)) &&
 			(value.number == undefined || typeof value.number == "string")
 		)
 	}

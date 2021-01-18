@@ -11,7 +11,7 @@ export interface Card extends Base {
 	iin: string
 	last4: string
 	expires: card.Card.Expires
-	charge?:"auto" | "balance"
+	charge?: "auto" | "balance"
 }
 
 export namespace Card {
