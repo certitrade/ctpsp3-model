@@ -61,7 +61,7 @@
 		"gracely": "0.0.39",
 		"isoly": "0.0.26",
 		"node-fetch": "^2.6.0",
-		"servly": "payfunc/servly#cloudflare-workers"
+		"servly": "0.2.1"
 	},
 	"devDependencies": {
 		"@types/dotenv": "^8.2.0",
