@@ -53,13 +53,13 @@
 		"clean": "rm -rf dist node_modules coverage"
 	},
 	"dependencies": {
-		"@payfunc/model-card": "0.2.3",
-		"authly": "0.2.3",
+		"@payfunc/model-card": "^0.2.4",
+		"authly": "^0.2.3",
 		"dotenv": "^8.2.0",
 		"eslint-config-standardize": "^0.7.1",
 		"flagly": "0.0.6",
-		"gracely": "0.0.39",
-		"isoly": "0.0.26",
+		"gracely": "^0.0.39",
+		"isoly": "^0.0.26",
 		"node-fetch": "^2.6.0",
 		"servly": "0.2.1"
 	},
