@@ -40,7 +40,7 @@ jobs:
             git config user.name CircleCI
             git checkout -- package-lock.json
             npm version patch -m "patch version bump %s [ci skip]"
-            git push
+            git push --set-upstream origin master-0.2
             git push --tags
       - run:
           name: Publish
@@ -55,8 +55,8 @@ workflows:
       - build:
           filters:
             branches:
-              ignore: master
+              ignore: master-0.2
       - deploy:
           filters:
             branches:
-              only: master
+              only: master-0.2
