@@ -7,7 +7,7 @@ export class Verified extends Base {
 	static is(value: any | Verified): value is Verified {
 		return value instanceof Verified
 	}
-	constructor(readonly token: authly.Token) {
+	constructor(readonly token?: authly.Token) {
 		super()
 	}
 }
