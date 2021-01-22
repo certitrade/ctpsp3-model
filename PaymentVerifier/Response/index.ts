@@ -1,4 +1,5 @@
 import * as gracely from "gracely"
+import * as authly from "authly"
 import { Base } from "./Base"
 import { Error as RError } from "./Error"
 import { Unverified as RUnverified } from "./Unverified"
@@ -8,8 +9,8 @@ import { Verified as RVerified } from "./Verified"
 export type Response = Base
 
 export namespace Response {
-	export function verified(): Verified {
-		return new RVerified()
+	export function verified(token?: authly.Token): Verified {
+		return new RVerified(token)
 	}
 	export function unverified(): Unverified {
 		return new RUnverified()

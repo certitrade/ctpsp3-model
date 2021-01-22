@@ -1,4 +1,5 @@
 import { Base } from "./Base"
+import * as authly from "authly"
 
 export class Verified extends Base {
 	readonly result = "success"
@@ -6,7 +7,7 @@ export class Verified extends Base {
 	static is(value: any | Verified): value is Verified {
 		return value instanceof Verified
 	}
-	constructor() {
+	constructor(readonly token?: authly.Token) {
 		super()
 	}
 }
