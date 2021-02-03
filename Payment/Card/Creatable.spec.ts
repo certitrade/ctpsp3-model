@@ -62,4 +62,19 @@ describe("Payment.Card.Creatable", () => {
 		}
 		expect(model.Payment.Creatable.is(payment)).toBeFalsy()
 	})
+	it("Payment.Card.Creatable.is with verification", async () => {
+		const payment = {
+			type: "card",
+			card: "eyJ.body.sign",
+			currency: "SEK",
+			amount: 10,
+			verification: {
+				type: "method",
+				data: {
+					threeDSServerTransID: "abcd",
+				},
+			},
+		}
+		expect(model.Payment.Creatable.is(payment)).toBeTruthy()
+	})
 })
