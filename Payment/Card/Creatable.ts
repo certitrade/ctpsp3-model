@@ -9,6 +9,7 @@ export interface Creatable extends CreatableBase {
 	reference?: authly.Token
 	amount?: number
 	client?: { ip?: string; browser?: Browser | Browser.Creatable }
+	verfication?: { type: "pares" | "method" | "challenge"; data?: string | { [property: string]: any } }
 }
 
 export namespace Creatable {
@@ -24,6 +25,14 @@ export namespace Creatable {
 					authly.Token.is(value.reference) &&
 					value.amount == undefined &&
 					value.currency == undefined)) &&
+			(value.verification == undefined ||
+				(typeof value.verification == "object" &&
+					(value.verification.type == "pares" ||
+						value.verification.type == "method" ||
+						value.verification.type == "challenge") &&
+					(value.verification.data == undefined ||
+						typeof value.verification.data == "string" ||
+						typeof value.verification.data == "object"))) &&
 			(value.client == undefined ||
 				(typeof value.client == "object" &&
 					(value.client.ip == undefined || typeof value.client.ip == "string") &&
