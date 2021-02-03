@@ -9,7 +9,7 @@ export interface Creatable extends CreatableBase {
 	reference?: authly.Token
 	amount?: number
 	client?: { ip?: string; browser?: Browser | Browser.Creatable }
-	verfication?: { type: "pares" | "method" | "challenge"; data?: string | { [property: string]: any } }
+	verification?: { type: "pares" | "method" | "challenge"; data?: string | { [property: string]: any } }
 }
 
 export namespace Creatable {
