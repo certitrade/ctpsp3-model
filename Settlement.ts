@@ -6,10 +6,10 @@ import { Status } from "./Status"
 export interface Settlement {
 	reference: string
 	period: {
-		start: isoly.DateTime
-		end: isoly.DateTime
+		start: isoly.Date
+		end: isoly.Date
 	}
-	payout: isoly.DateTime
+	payout?: isoly.Date
 	gross: number
 	fee: number
 	net: number
@@ -30,9 +30,9 @@ export namespace Settlement {
 			typeof value == "object" &&
 			typeof value.reference == "string" &&
 			typeof value.period == "object" &&
-			isoly.DateTime.is(value.period.start) &&
-			isoly.DateTime.is(value.period.end) &&
-			isoly.DateTime.is(value.payout) &&
+			isoly.Date.is(value.period.start) &&
+			isoly.Date.is(value.period.end) &&
+			(value.payout == undefined || isoly.Date.is(value.payout)) &&
 			typeof value.gross == "number" &&
 			typeof value.fee == "number" &&
 			typeof value.net == "number"
@@ -90,10 +90,9 @@ export namespace Settlement {
 		return result
 	}
 	function settlementToCsv(value: Settlement): string {
-		return `"${value.reference}","${value.period.start.substring(0, 10)}","${value.period.end.substring(
-			0,
-			10
-		)}","${value.payout.substring(0, 10)}","${value.gross}","${value.fee}","${value.net}","${value.currency}"\r\n`
+		return `"${value.reference}","${value.period.start}","${value.period.end}","${value.payout ?? ""}","${
+			value.gross
+		}","${value.fee}","${value.net}","${value.currency}"\r\n`
 	}
 	function settlementOrdersToCsv(value: Settlement) {
 		let result = "number,created,gross,fee,net,status\r\n"
@@ -116,8 +115,8 @@ export namespace Settlement {
 						r.push(c[0])
 					return r
 			  }, [])
-		return `"${value.number}","${value.created.substring(0, 10)}","${value.gross}","${value.fee}","${
-			value.net
-		}","${statusAsList.join(" ")}"\r\n`
+		return `"${value.number}","${value.created}","${value.gross}","${value.fee}","${value.net}","${statusAsList.join(
+			" "
+		)}"\r\n`
 	}
 }
