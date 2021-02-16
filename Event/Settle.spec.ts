@@ -6,10 +6,10 @@ describe("Event.Settle tests", () => {
 			model.Event.Settle.is({
 				type: "settle",
 				period: {
-					start: "2020-09-23T00:00:00.000Z",
-					end: "2020-09-30T23:59:59.999Z",
+					start: "2020-09-23",
+					end: "2020-09-30",
 				},
-				payout: "2020-10-01T11:39:38.291Z",
+				payout: "2020-10-01",
 				gross: 25,
 				net: 24.25,
 				fee: -0.75,
@@ -24,10 +24,9 @@ describe("Event.Settle tests", () => {
 		const settlement: model.Event.Creatable & any = {
 			type: "settle",
 			period: {
-				start: "2020-09-23T00:00:00.000Z",
-				end: "2020-09-30T23:59:59.999Z",
+				start: "2020-09-23",
+				end: "2020-09-30",
 			},
-			payout: "2020-10-01T11:39:38.291Z",
 			gross: -25,
 			net: -27.25,
 			fee: -2.25,
@@ -42,10 +41,10 @@ describe("Event.Settle tests", () => {
 			{
 				type: "settle",
 				period: {
-					start: "2020-09-23T00:00:00.000Z",
-					end: "2020-09-30T23:59:59.999Z",
+					start: "2020-09-23",
+					end: "2020-09-30",
 				},
-				payout: "2020-10-01T11:39:38.291Z",
+				payout: "2020-10-01",
 				gross: 25,
 				net: 24.25,
 				fee: -0.75,
@@ -57,10 +56,10 @@ describe("Event.Settle tests", () => {
 			{
 				type: "settle",
 				period: {
-					start: "2020-09-23T00:00:00.000Z",
-					end: "2020-09-30T23:59:59.999Z",
+					start: "2020-09-23",
+					end: "2020-09-30",
 				},
-				payout: "2020-10-01T11:39:38.291Z",
+				payout: "2020-10-01",
 				gross: -25,
 				net: -25.75,
 				fee: -0.75,
