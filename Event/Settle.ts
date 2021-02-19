@@ -4,10 +4,10 @@ import { Base } from "./Base"
 export interface Settle extends Base {
 	type: "settle"
 	period: {
-		start: isoly.DateTime
-		end: isoly.DateTime
+		start: isoly.Date
+		end: isoly.Date
 	}
-	payout: isoly.DateTime
+	payout?: isoly.Date
 	gross: number
 	fee: number
 	net: number
@@ -22,9 +22,9 @@ export namespace Settle {
 			Base.is(value) &&
 			value.type == "settle" &&
 			typeof value.period == "object" &&
-			isoly.DateTime.is(value.period.start) &&
-			isoly.DateTime.is(value.period.end) &&
-			isoly.DateTime.is(value.payout) &&
+			isoly.Date.is(value.period.start) &&
+			isoly.Date.is(value.period.end) &&
+			(value.payout == undefined || isoly.Date.is(value.payout)) &&
 			typeof value.gross == "number" &&
 			typeof value.net == "number" &&
 			typeof value.fee == "number" &&
