@@ -128,20 +128,6 @@ export namespace Order {
 			)
 		)
 	}
-	export function sort(value: Order[], property: "created"): Order[] {
-		return value.sort(getComparer(property))
-	}
-	export function getComparer(property: "created"): (left: Order, right: Order) => number {
-		let result: (left: Order, right: Order) => number
-		switch (property) {
-			case "created":
-			default:
-				result = (left: Order, right: Order) =>
-					left.created < right.created ? 1 : left.created > right.created ? -1 : 0
-				break
-		}
-		return result
-	}
 	export function filter(value: Order[], property: "paymentType", criterion: string): Order[]
 	export function filter(value: Order[], property: "client", criterion: authly.Identifier): Order[]
 	export function filter(value: Order[], property: "status", criterion: Status | Status[]): Order[]
