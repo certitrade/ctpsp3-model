@@ -24,6 +24,7 @@ import { PaymentVerifier } from "./PaymentVerifier"
 import { PhoneNumbers } from "./PhoneNumbers"
 import { Schedule } from "./Schedule"
 import { Settlement } from "./Settlement"
+import { sort } from "./sort"
 import { Status } from "./Status"
 import { Subscription } from "./Subscription"
 import { User } from "./User"
@@ -58,4 +59,5 @@ export {
 	Status,
 	Subscription,
 	User,
+	sort,
 }
