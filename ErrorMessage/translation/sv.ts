@@ -31,6 +31,6 @@ export const sv = {
 		"Ett okänt fel uppstod. Kontrollera kortuppgifterna och försök igen.",
 	"The account could not be created.": "Kunde inte skapa konto.",
 	"The payment could not be completed.": "Betalningen kunde inte genomföras.",
-	"Your card doesn't support required 3-D Secure verification. Please try another card.":
+	"Your card doesn't support required 3D secure verification. Please try another card.":
 		"Ditt kort stöder inte 3D verifiering. Försök med ett annat kort.",
 }

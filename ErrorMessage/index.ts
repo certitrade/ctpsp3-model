@@ -90,7 +90,7 @@ export class ErrorMessage {
 									message = t("Your card is not supported. Please try another card.")
 									break
 								case "Not enrolled.":
-									message = t("Your card doesn't support required 3-D Secure verification. Please try another card.")
+									message = t("Your card doesn't support required 3D secure verification. Please try another card.")
 									break
 								case "Card expired.":
 									message = t("Your card has expired.") + " " + this.getTypeSpecificMessage()
