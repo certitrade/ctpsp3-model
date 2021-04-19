@@ -51,7 +51,6 @@ export class ErrorMessage {
 							break
 						case "3-D Secure authentication failure.":
 							message = t("3D secure failed authentication. Please try again.")
-
 							break
 						case "Elements failed validation":
 							message = t("The card number is invalid. Please enter a valid number.")
@@ -72,6 +71,7 @@ export class ErrorMessage {
 						case "currency":
 							message = t("Invalid currency.") + " " + this.getTypeSpecificMessage()
 							break
+						case "descriptor":
 						case "description":
 							message = t("The transaction contains incorrect statement text and could not be completed.")
 							break
@@ -86,11 +86,12 @@ export class ErrorMessage {
 								case "Invalid card number.":
 									message = t("The card number is invalid. Please enter a valid number.")
 									break
-								case "Not enrolled.":
 								case "Unsupported card scheme.":
 									message = t("Your card is not supported. Please try another card.")
 									break
-								case "Card expired":
+								case "Not enrolled.":
+									message = t("Your card doesn't support required 3-D Secure verification. Please try another card.")
+									break
 								case "Card expired.":
 									message = t("Your card has expired.") + " " + this.getTypeSpecificMessage()
 									break
@@ -117,6 +118,8 @@ export class ErrorMessage {
 						case "pares":
 						case "card.pares":
 						case "Card.Token":
+						case "verification":
+						case "card.verification":
 							if (!content.url && !content?.details?.url)
 								message =
 									content.description == "3-D Secure problem."
