@@ -7,6 +7,7 @@ import { Connection } from "./Connection"
 import { Credentials } from "./Credentials"
 import { Customer } from "./Customer"
 import { EmailAddresses } from "./EmailAddresses"
+import { ErrorMessage } from "./ErrorMessage"
 import { Event } from "./Event"
 import { Fees } from "./Fees"
 import { Frequency } from "./Frequency"
@@ -39,6 +40,7 @@ export {
 	Credentials,
 	Customer,
 	EmailAddresses,
+	ErrorMessage,
 	Event,
 	Fees,
 	Frequency,
@@ -56,8 +58,8 @@ export {
 	PhoneNumbers,
 	Schedule,
 	Settlement,
+	sort,
 	Status,
 	Subscription,
 	User,
-	sort,
 }
