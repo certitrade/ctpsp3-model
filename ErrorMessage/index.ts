@@ -164,6 +164,16 @@ export class ErrorMessage {
 					else
 						message = this.unknown
 					break
+				case "invalid path argument":
+					switch (content.argument?.description ?? "") {
+						case "Parameter must be a valid card token.":
+							message = t("The card details are incorrect. Please enter valid card details and try again.")
+							break
+						default:
+							message = this.unknown
+							break
+					}
+					break
 				case "unknown error":
 					message =
 						event.detail.error && event.detail.error.code == "50092"
