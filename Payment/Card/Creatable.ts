@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
 import * as isoly from "isoly"
 import * as authly from "authly"
-import { Browser } from "../../Browser"
+import { Browser } from "@payfunc/model-base"
 import { CreatableBase } from "../CreatableBase"
 export interface Creatable extends CreatableBase {
 	type: "card"

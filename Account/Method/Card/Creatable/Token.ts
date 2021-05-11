@@ -1,4 +1,4 @@
-import { Browser } from "../../../../Browser"
+import { Browser } from "@payfunc/model-base"
 export interface Token {
 	type: "token"
 	card: string
