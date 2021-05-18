@@ -1,4 +1,5 @@
 import * as isoly from "isoly"
+import * as selectively from "selectively"
 import { Event } from "./Event"
 import { Order } from "./Order"
 import { Status } from "./Status"
@@ -89,6 +90,40 @@ export namespace Settlement {
 			}
 		return result
 	}
+	export const template = new selectively.Type.Object({
+		reference: new selectively.Type.String(),
+		period: new selectively.Type.Object({
+			start: new selectively.Type.String(),
+			end: new selectively.Type.String(),
+		}),
+		payout: new selectively.Type.String(),
+		gross: new selectively.Type.Number(),
+		fee: new selectively.Type.Number(),
+		net: new selectively.Type.Number(),
+		currency: new selectively.Type.Union(isoly.Currency.types.map(c => new selectively.Type.String(c))),
+		orders: new selectively.Type.Object({
+			number: new selectively.Type.String(),
+			created: new selectively.Type.String(),
+			gross: new selectively.Type.Number(),
+			fee: new selectively.Type.Number(),
+			net: new selectively.Type.Number(),
+			status: new selectively.Type.Array([
+				new selectively.Type.Union([
+					new selectively.Type.String("created"),
+					new selectively.Type.String("deferred"),
+					new selectively.Type.String("pending"),
+					new selectively.Type.String("denied"),
+					new selectively.Type.String("ordered"),
+					new selectively.Type.String("cancelled"),
+					new selectively.Type.String("charged"),
+					new selectively.Type.String("paid"),
+					new selectively.Type.String("refunded"),
+					new selectively.Type.String("settled"),
+					new selectively.Type.String("synchronized"),
+				]),
+			]),
+		}),
+	})
 	function settlementToCsv(value: Settlement): string {
 		return `"${value.reference}","${value.period.start}","${value.period.end}","${value.payout ?? ""}","${
 			value.gross
