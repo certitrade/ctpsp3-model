@@ -280,7 +280,33 @@ export namespace Order {
 		client: new selectively.Type.String(),
 		created: new selectively.Type.String(),
 		customer: Customer.template,
-		items: new selectively.Type.Union([new selectively.Type.Number(), Item.template]),
+		items: new selectively.Type.Union([
+			new selectively.Type.Number(),
+			new selectively.Type.Object({
+				number: new selectively.Type.String(),
+				name: new selectively.Type.String(),
+				price: new selectively.Type.Number(),
+				quantity: new selectively.Type.Number(),
+				unit: new selectively.Type.String(),
+				vat: new selectively.Type.Number(),
+				rebate: new selectively.Type.Number(),
+				status: new selectively.Type.Array([
+					new selectively.Type.Union([
+						new selectively.Type.String("created"),
+						new selectively.Type.String("deferred"),
+						new selectively.Type.String("pending"),
+						new selectively.Type.String("denied"),
+						new selectively.Type.String("ordered"),
+						new selectively.Type.String("cancelled"),
+						new selectively.Type.String("charged"),
+						new selectively.Type.String("paid"),
+						new selectively.Type.String("refunded"),
+						new selectively.Type.String("settled"),
+						new selectively.Type.String("synchronized"),
+					]),
+				]),
+			}),
+		]),
 		currency: new selectively.Type.Union(isoly.Currency.types.map(c => new selectively.Type.String(c))),
 		payment: new selectively.Type.Object({
 			type: new selectively.Type.Union([

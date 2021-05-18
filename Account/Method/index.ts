@@ -21,6 +21,7 @@ export namespace Method {
 	export type Card = MethodCard
 	export namespace Card {
 		export const is = MethodCard.is
+		export const template = MethodCard.template
 		export type Creatable = MethodCard.Creatable
 		export namespace Creatable {
 			export const is = MethodCard.Creatable.is
