@@ -19,7 +19,6 @@ export interface Account {
 	link?: AccountLink[]
 	status?: AccountStatus
 	subscription?: Subscription[]
-
 	balance: Item[]
 	total: number
 	due?: isoly.Date
@@ -110,7 +109,7 @@ export namespace Account {
 		id: new selectively.Type.String(),
 		number: new selectively.Type.String(),
 		customer: Customer.template,
-		method: Method.Card.template,
+		method: AccountMethod.Card.template,
 		status: new selectively.Type.Array([
 			new selectively.Type.Union([
 				new selectively.Type.String("created"),
@@ -120,11 +119,11 @@ export namespace Account {
 				new selectively.Type.String("suspended"),
 			]),
 		]),
-		subscription: new selectively.Type.Array([subscription]),
-		balance: item,
+		subscription: new selectively.Type.Array([Subscription.template]),
+		balance: Item.template,
 		total: new selectively.Type.Number(),
 		due: new selectively.Type.String(),
-		// currency: new selectively.Type.Union(isoly.Currency.types.map(c => new selectively.Type.String(c))),
+		currency: new selectively.Type.Union(isoly.Currency.types.map(c => new selectively.Type.String(c))),
 		limit: new selectively.Type.Union([
 			new selectively.Type.Number(),
 			new selectively.Type.Object({
@@ -133,6 +132,6 @@ export namespace Account {
 				margin: new selectively.Type.Number(),
 			}),
 		]),
-		schedule: schedule,
+		schedule: Frequency.template,
 	})
 }

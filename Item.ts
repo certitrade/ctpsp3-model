@@ -29,6 +29,30 @@ export namespace Item {
 				value.status == undefined)
 		)
 	}
+	export const template = new selectively.Type.Object({
+		number: new selectively.Type.String(),
+		name: new selectively.Type.String(),
+		price: new selectively.Type.Number(),
+		quantity: new selectively.Type.Number(),
+		unit: new selectively.Type.String(),
+		vat: new selectively.Type.Number(),
+		rebate: new selectively.Type.Number(),
+		status: new selectively.Type.Array([
+			new selectively.Type.Union([
+				new selectively.Type.String("created"),
+				new selectively.Type.String("deferred"),
+				new selectively.Type.String("pending"),
+				new selectively.Type.String("denied"),
+				new selectively.Type.String("ordered"),
+				new selectively.Type.String("cancelled"),
+				new selectively.Type.String("charged"),
+				new selectively.Type.String("paid"),
+				new selectively.Type.String("refunded"),
+				new selectively.Type.String("settled"),
+				new selectively.Type.String("synchronized"),
+			]),
+		]),
+	})
 	export function flaw(value: Item | any): gracely.Flaw {
 		return {
 			type: "model.Item",
@@ -190,28 +214,4 @@ export namespace Item {
 			result += value.length.toString() + `,` + Item.amount(value)
 		return result
 	}
-	export const template = new selectively.Type.Object({
-		number: new selectively.Type.String(),
-		name: new selectively.Type.String(),
-		price: new selectively.Type.Number(),
-		quantity: new selectively.Type.Number(),
-		unit: new selectively.Type.String(),
-		vat: new selectively.Type.Number(),
-		rebate: new selectively.Type.Number(),
-		status: new selectively.Type.Array([
-			new selectively.Type.Union([
-				new selectively.Type.String("created"),
-				new selectively.Type.String("deferred"),
-				new selectively.Type.String("pending"),
-				new selectively.Type.String("denied"),
-				new selectively.Type.String("ordered"),
-				new selectively.Type.String("cancelled"),
-				new selectively.Type.String("charged"),
-				new selectively.Type.String("paid"),
-				new selectively.Type.String("refunded"),
-				new selectively.Type.String("settled"),
-				new selectively.Type.String("synchronized"),
-			]),
-		]),
-	})
 }
