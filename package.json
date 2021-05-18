@@ -56,6 +56,7 @@
 		"isoly": "0.0.27",
 		"langly": "0.0.11",
 		"node-fetch": "^2.6.0",
+		"selectively": "^0.0.59",
 		"servly": "^0.1.6"
 	},
 	"devDependencies": {
