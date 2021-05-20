@@ -1,7 +1,7 @@
 import * as isoly from "isoly"
 import * as selectively from "selectively"
 import * as authly from "authly"
-import { Customer } from "../Customer"
+import { Customer } from "@payfunc/model-base"
 import { Frequency } from "../Frequency"
 import { Item } from "../Item"
 import { Schedule } from "../Schedule"

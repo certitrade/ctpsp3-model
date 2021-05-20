@@ -1,32 +1,20 @@
 import * as gracely from "gracely"
 import * as selectively from "selectively"
+import { Item as BaseItem } from "@payfunc/model-base"
 import { Event } from "./Event"
 import { StatusList } from "./Order/StatusList"
 import { Status } from "./Status"
 
-export interface Item {
-	number?: string
-	name?: string
-	price?: number
-	quantity?: number
-	unit?: string
-	vat?: number
-	rebate?: number
+export type Item = BaseItem & {
 	status?: Status[]
 }
 export namespace Item {
 	export function is(value: Item | any): value is Item {
 		return (
 			typeof value == "object" &&
-			(typeof value.number == "string" || value.number == undefined) &&
-			(typeof value.name == "string" || value.name == undefined) &&
-			(typeof value.price == "number" || value.price == undefined) &&
-			(typeof value.quantity == "number" || value.quantity == undefined) &&
-			(typeof value.unit == "string" || value.unit == undefined) &&
-			((typeof value.vat == "number" && typeof value.price == "number") || value.vat == undefined) &&
-			(typeof value.rebate == "number" || value.rebate == undefined) &&
 			((Array.isArray(value.status) && value.status.length == (value.quantity || 1) && value.status.every(Status.is)) ||
-				value.status == undefined)
+				value.status == undefined) &&
+			BaseItem.is(value)
 		)
 	}
 	export const template = new selectively.Type.Object({
@@ -60,15 +48,7 @@ export namespace Item {
 				typeof value != "object"
 					? undefined
 					: ([
-							typeof value.number == "string" || value.number == undefined || { property: "number", type: "string" },
-							typeof value.name == "string" || value.name == undefined || { property: "name", type: "string" },
-							typeof value.price == "number" || value.price == undefined || { property: "price", type: "number" },
-							typeof value.quantity == "number" ||
-								value.quantity == undefined || { property: "quantity", type: "number" },
-							typeof value.unit == "string" || value.unit == undefined || { property: "unit", type: "string" },
-							(typeof value.vat == "number" && typeof value.price == "number") ||
-								value.vat == undefined || { property: "vat", type: "number" },
-							typeof value.rebate == "number" || value.rebate == undefined || { property: "rebate", type: "number" },
+							...(BaseItem.flaw(value).flaws ?? []),
 							(Array.isArray(value.status) &&
 								value.status.length == (value.quantity || 1) &&
 								value.status.every(Status.is)) ||
@@ -91,58 +71,11 @@ export namespace Item {
 			result = flaw(value)
 		return result
 	}
-	export function amount(item: number | Item | Item[]): number {
-		return typeof item == "number"
-			? item
-			: Array.isArray(item)
-			? item.map(i => amount(i)).reduce((sum, current) => sum + current, 0)
-			: Item.is(item) && item.price
-			? (item.price - (item.rebate || 0) + (item.vat || 0)) * (item.quantity || 1)
-			: 0
-	}
-	export function fromVatInclusivePrice(
-		total: number,
-		vatAsPercentage?: number,
-		itemNumber?: string,
-		name?: string,
-		quantity?: number,
-		unit?: string,
-		rebate?: number
-	): Item {
-		return {
-			number: itemNumber,
-			name,
-			price: total / (1 + (vatAsPercentage || 0)),
-			quantity,
-			unit,
-			vat: vatAsPercentage ? total - total / (1 + vatAsPercentage) : undefined,
-			rebate,
-		}
-	}
-	export function vat(item: number | Item | Item[]): number | undefined {
-		return typeof item == "number"
-			? undefined
-			: Array.isArray(item)
-			? item.map(i => vat(i)).reduce((sum, current) => (!current ? sum : current + (sum || 0)), undefined)
-			: !Item.is(item)
-			? undefined
-			: !item.vat
-			? undefined
-			: item.vat * (item.quantity || 1)
-	}
-	export function asArray(items: number | Item | Item[]): Item[] {
-		return Array.isArray(items) ? items : typeof items == "number" ? [{ price: items }] : [items]
-	}
-	export function equals(left: Item, right: Item) {
-		return (
-			left.number == right.number &&
-			left.name == right.name &&
-			left.price == right.price &&
-			left.unit == right.unit &&
-			left.vat == right.vat &&
-			left.rebate == right.rebate
-		)
-	}
+	export const amount = BaseItem.amount
+	export const fromVatInclusivePrice = BaseItem.fromVatInclusivePrice
+	export const vat = BaseItem.vat
+	export const asArray = BaseItem.asArray
+	export const equals = BaseItem.equals
 	export function applyAmountEvent(sums: StatusList, event: Event, items: number): StatusList {
 		if (isItemEvent(event)) {
 			let from: Status | undefined
@@ -201,17 +134,6 @@ export namespace Item {
 	export function isItemEvent(event: Event): boolean {
 		return event.type != "fail" && event.type != "settle"
 	}
-	export function getCsvHeaders(): string {
-		return `item count, item amount`
-	}
-	export function toCsv(value: number | Item | Item[]): string {
-		let result = ``
-		if (typeof value == "number")
-			result += `0,` + Item.amount(value).toString()
-		else if (!Array.isArray(value))
-			result += `1,` + Item.amount(value).toString()
-		else
-			result += value.length.toString() + `,` + Item.amount(value)
-		return result
-	}
+	export const getCsvHeaders = BaseItem.getCsvHeaders
+	export const toCsv = BaseItem.toCsv
 }
