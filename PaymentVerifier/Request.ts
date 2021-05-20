@@ -1,6 +1,6 @@
 import * as isoly from "isoly"
+import { Customer } from "@payfunc/model-base"
 import { Account } from "../Account"
-import { Customer } from "../Customer"
 import { Item } from "../Item"
 import { Log } from "../Log"
 import { Order } from "../Order"
