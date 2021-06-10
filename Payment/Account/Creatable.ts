@@ -6,7 +6,7 @@ export interface Creatable extends CreatableBase {
 	type: "account"
 	token?: authly.Token // @deprecated
 	account?: authly.Identifier // @deprecated
-	schedule?: number[]
+	schedule?: number[] | true
 	charge?: "auto" | "balance"
 }
 
@@ -18,7 +18,8 @@ export namespace Creatable {
 			(authly.Token.is(value.token) || value.token == undefined) &&
 			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			(value.schedule == undefined ||
-				(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number"))) &&
+				(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number")) ||
+				value.schedule == true) &&
 			(value.charge == undefined || value.charge == "auto" || value.charge == "balance") &&
 			CreatableBase.is(value)
 		)
@@ -48,6 +49,12 @@ export namespace Creatable {
 								value.charge == "balance" || {
 									property: "charge",
 									type: '"auto" | "balance" | undefined',
+								},
+							value.schedule == undefined ||
+								(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number")) ||
+								value.schedule == true || {
+									property: "schedule",
+									type: '"number[]" | "true" | undefined',
 								},
 							CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
