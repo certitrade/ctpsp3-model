@@ -13,6 +13,7 @@ export interface Card {
 	iin: string
 	last4: string
 	expires: PCard.Expires
+	acquirer?: "intergiro" | "clearhaus"
 }
 
 export namespace Card {
@@ -27,7 +28,8 @@ export namespace Card {
 			value.iin.length == 6 &&
 			typeof value.last4 == "string" &&
 			value.last4.length == 4 &&
-			PCard.Expires.is(value.expires)
+			PCard.Expires.is(value.expires) &&
+			(value.acquirer == undefined || value.acquirer == "intergiro" || value.acquirer == "clearhaus")
 		)
 	}
 	export type Creatable = CardCreatable
