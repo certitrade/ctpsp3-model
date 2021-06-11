@@ -12,6 +12,7 @@ export interface Card extends Base {
 	last4: string
 	expires: card.Card.Expires
 	charge?: "auto" | "balance"
+	schedule?: true
 }
 
 export namespace Card {
@@ -28,6 +29,7 @@ export namespace Card {
 			value.last4.length == 4 &&
 			card.Card.Expires.is(value.expires) &&
 			(value.charge == undefined || value.charge == "balance" || value.charge == "auto") &&
+			(value.schedule == undefined || value.schedule == true) &&
 			Base.is(value)
 		)
 	}
