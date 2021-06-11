@@ -6,8 +6,9 @@ export interface Creatable extends CreatableBase {
 	type: "account"
 	token?: authly.Token // @deprecated
 	account?: authly.Identifier // @deprecated
-	schedule?: number[] | true
+	schedule?: number[]
 	charge?: "auto" | "balance"
+	scheduled?: true
 }
 
 export namespace Creatable {
@@ -18,9 +19,9 @@ export namespace Creatable {
 			(authly.Token.is(value.token) || value.token == undefined) &&
 			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			(value.schedule == undefined ||
-				(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number")) ||
-				value.schedule == true) &&
+				(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number"))) &&
 			(value.charge == undefined || value.charge == "auto" || value.charge == "balance") &&
+			(value.scheduled == undefined || value.scheduled == true) &&
 			CreatableBase.is(value)
 		)
 	}
@@ -51,10 +52,14 @@ export namespace Creatable {
 									type: '"auto" | "balance" | undefined',
 								},
 							value.schedule == undefined ||
-								(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number")) ||
-								value.schedule == true || {
+								(Array.isArray(value.schedule) && value.schedule.every((v: number) => typeof v == "number")) || {
 									property: "schedule",
-									type: '"number[]" | "true" | undefined',
+									type: '"number[]" | undefined',
+								},
+							value.scheduled == undefined ||
+								value.scheduled == true || {
+									property: "scheduled",
+									type: '"true" | undefined',
 								},
 							CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
