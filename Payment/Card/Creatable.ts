@@ -10,6 +10,7 @@ export interface Creatable extends CreatableBase {
 	amount?: number
 	client?: { ip?: string; browser?: Browser | Browser.Creatable }
 	verification?: { type: "pares" | "method" | "challenge"; data?: string | { [property: string]: any } }
+	schedule?: true
 }
 
 export namespace Creatable {
@@ -39,6 +40,7 @@ export namespace Creatable {
 					(value.client.browser == undefined ||
 						Browser.is(value.client.browser) ||
 						Browser.Creatable.is(value.client.browser)))) &&
+			(value.schedule == undefined || value.schedule == true) &&
 			CreatableBase.is(value)
 		)
 	}
@@ -56,6 +58,8 @@ export namespace Creatable {
 								value.reference == undefined || { property: "reference", type: "authly.Token | undefined" },
 							typeof value.amount == "number" ||
 								value.amount == undefined || { property: "amount", type: "number | undefined" },
+							value.schedule == true ||
+								value.schedule == undefined || { property: "schedule", type: "true | undefined" },
 							CreatableBase.is(value) || { ...CreatableBase.flaw(value).flaws },
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
