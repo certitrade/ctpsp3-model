@@ -11,6 +11,7 @@ export interface Creatable {
 	last4: string
 	expires: PCard.Expires
 	reference: string
+	acquirer?: "intergiro" | "clearhaus"
 }
 
 export namespace Creatable {
@@ -25,7 +26,8 @@ export namespace Creatable {
 			typeof value.last4 == "string" &&
 			value.last4.length == 4 &&
 			PCard.Expires.is(value.expires) &&
-			typeof value.reference == "string"
+			typeof value.reference == "string" &&
+			(value.acquirer == undefined || value.acquirer == "intergiro" || value.acquirer == "clearhaus")
 		)
 	}
 	export async function verify(token: authly.Token): Promise<Creatable | undefined> {
