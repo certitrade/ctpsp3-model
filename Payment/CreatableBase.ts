@@ -6,6 +6,7 @@ export interface CreatableBase {
 	type: Type
 	currency?: isoly.Currency
 	descriptor?: string
+	category?: "purchase" | "withdrawal"
 }
 
 export namespace CreatableBase {

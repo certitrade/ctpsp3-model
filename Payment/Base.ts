@@ -10,6 +10,7 @@ export interface Base {
 	amount: number
 	currency: isoly.Currency
 	descriptor?: string
+	category?: "purchase" | "withdrawal"
 	status: Status
 }
 
