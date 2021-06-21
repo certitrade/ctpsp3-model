@@ -74,7 +74,7 @@ export abstract class Connection {
 		Connection.keyValue = key
 		Connection.keyChanged.forEach(callback => callback(Connection.keyValue))
 	}
-	static get accountKeys(): authly.Token[] {
+	static get customerKeys(): authly.Token[] {
 		const result = []
 		const storage = Connection.storage
 		for (let i = 0; i < (storage?.length ?? 0); i++) {
@@ -84,10 +84,10 @@ export abstract class Connection {
 		}
 		return result.filter(authly.Token.is)
 	}
-	static setAccountKeys(key: authly.Token, accountId: authly.Identifier) {
+	static setCustomerKeys(key: authly.Token, customerId: authly.Identifier) {
 		const storage = Connection.storage
 		if (storage)
-			storage.setItem(accountId, key)
+			storage.setItem(customerId, key)
 	}
 	static readonly keyChanged: ((user: authly.Token | undefined) => void)[] = []
 	static reauthenticate?: () => Promise<[User, authly.Token] | gracely.Error>

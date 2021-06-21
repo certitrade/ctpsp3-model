@@ -6,11 +6,11 @@ const isCardVerificationError = PaymentVerifier.Response.VerificationRequired.is
 const isVerificationError = PaymentVerifier.Response.VerificationRequired.isVerificationError
 
 export class ErrorMessage {
-	private constructor(private type: "account" | "payment", private t: langly.Translate) {}
+	private constructor(private type: "customer" | "payment", private t: langly.Translate) {}
 
 	private getTypeSpecificMessage() {
-		return this.type == "account"
-			? this.t("The account could not be created.")
+		return this.type == "customer"
+			? this.t("The customer could not be created.")
 			: this.t("The payment could not be completed.")
 	}
 	generate(input: any): string | undefined {
@@ -190,7 +190,7 @@ export class ErrorMessage {
 	get unknown(): string {
 		return this.t("An unknown error occured. Ensure that your card details are correct and try again.")
 	}
-	static create(type: "account" | "payment", element: HTMLElement) {
+	static create(type: "customer" | "payment", element: HTMLElement) {
 		const t = translation.create(element)
 		return new ErrorMessage(type, t)
 	}

@@ -43,11 +43,11 @@
 					"method": "POST",
 					"raw": {},
 					"body": {
-						"number": "withaccounttest",
+						"number": "withcustomertest",
 						"items": 500,
 						"currency": "SEK",
 						"payment": {
-							"type": "account",
+							"type": "customer",
 							"token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwYXlmdW5jIiwiaWF0IjoxNTk5MTI0Njk5NTU3LCJhdWQiOiJwcm9kdWN0aW9uIiwidHlwZSI6ImNhcmQiLCJjYXJkIjoiZXlKaGJHY2lPaUpTVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKallYSmtablZ1WXlJc0ltbGhkQ0k2TVRVNU9URXlORFk1T1RRNU5pd2lZWFZrSWpvaWNISnZaSFZqZEdsdmJpSXNJbk5qYUdWdFpTSTZJblpwYzJFaUxDSnBhVzRpT2lJME1URXhNVEVpTENKc1lYTjBOQ0k2SWpFeE1URWlMQ0psZUhCcGNtVnpJanBiTWl3eU1sMHNJblI1Y0dVaU9pSnlaV04xY25KcGJtY2lMQ0pqWVhKa0lqb2lMVGt6WlZwM1ozTWlmUS5jaldfYU02NHI4WV9fZ1ZDMGQ1N3FVWVQtZjN1OXhaVG9VZlRDWVc4dUNiNzVMR0F5Y25GZV9FSkhhM1J6LTNVa1pkMkxtVlpBVlVGVExGNEhZSHV3NmRmczdTODBreGNPMnBSdzdXc0lHcFd6Z3FFWXFNNHp4NjNqRWlxNkZveHFxTm41Y1BCTzRoNGxsLUlmQWpyZ1Z6Y1MteVFOOVc3RG5hakhqNlhjMEdxbWpSRFdxTXF2V0wzenRLdzcwLXZoTmZScmJud1NjaUo4bGFObExQQWk4WS1vbVdCZGYwY0FXSU1RZmU4MjN0dVFJS2UybzBrQlk4VE4yUndnTDZWZ0ljMjJNNEZlZ1RxWV9Gc2tsSzE1U2tqbzVlN08wdzdhUW45RVFxNFlvTlZlRkFSd3JVaXpCaklibkxOdkY1cm1zeVRiQ2R3UjZrdTBDMmhxcHliV0EiLCJzY2hlbWUiOiJ2aXNhIiwiaWluIjoiNDExMTExIiwibGFzdDQiOiIxMTExIiwiZXhwaXJlcyI6WzIsMjJdLCJyZWZlcmVuY2UiOiIzZDY5NTEyNC03OTFjLTRiYjMtYTliMS0wOTI5MDhmMzRlYjYiLCJjcmVhdGVkIjoiMjAyMC0wOS0wM1QwOToxODoxOS41MDVaIn0.l-LExTrr7-S6jz-CxAcYjxooxQSXkApbQzYt-AfUKt3B26b5b15M_G1TJh_Tr6eM7ZxmD28TkXSGHSDdiZ7CQagYLkYHu32Dof3Ei1shnTxeKR8HSTRhcMgH29i870WrtsDHiFZK_fSnQmFVO9rPkNzDZ55Wc8IjzDGL4lhWjobzjuTMKyu8d1i0p4cP0RSbp-VsFc0TkT-lyy2xQBObL0BECVAeOiT9EkL0ZR9RoJnAzySTOKgxGU_AQhTyaQ9sHV1hd0xoDpb5ubSlTocVVVbeO7sYodM3URJ_NZt-z74TeHu0PhCg2w2TqSU7O7MfYXoXsFU6x-e8PtcNc72lLQ"
 						}
 					}
@@ -80,7 +80,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"recurring": true,
-						"reference": "withaccounttest"
+						"reference": "withcustomertest"
 					},
 					"response": {
 						"id": "885c8752-ec5b-4437-b41c-96abde7022fb",
@@ -91,7 +91,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"text_on_statement": "certitrade-1",
-						"reference": "withaccounttest",
+						"reference": "withcustomertest",
 						"recurring": true,
 						"threed_secure": false,
 						"3dsecure": {},
@@ -118,7 +118,7 @@
 				"step": "callback-no-url",
 				"level": "trace",
 				"content": {
-					"number": "withaccounttest",
+					"number": "withcustomertest",
 					"items": {
 						"price": 500,
 						"status": [
@@ -161,7 +161,7 @@
 				"step": "return",
 				"level": "trace",
 				"content": {
-					"number": "withaccounttest",
+					"number": "withcustomertest",
 					"items": {
 						"price": 500,
 						"status": [
@@ -203,7 +203,7 @@
 		"reference": {
 			"type": "order",
 			"id": "Q89e_uh4onnkOq5b",
-			"number": "withaccounttest"
+			"number": "withcustomertest"
 		},
 		"merchant": "demodemo",
 		"id": "j1Fh235EXJCrkkIo"
@@ -1617,11 +1617,11 @@
 					"method": "POST",
 					"raw": {},
 					"body": {
-						"number": "withaccounttest",
+						"number": "withcustomertest",
 						"items": 500,
 						"currency": "SEK",
 						"payment": {
-							"type": "account",
+							"type": "customer",
 							"token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwYXlmdW5jIiwiaWF0IjoxNTk5MTQ1ODAyOTYyLCJhdWQiOiJwcm9kdWN0aW9uIiwidHlwZSI6ImNhcmQiLCJjYXJkIjoiZXlKaGJHY2lPaUpTVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKallYSmtablZ1WXlJc0ltbGhkQ0k2TVRVNU9URTBOVGd3TVRJNU1Td2lZWFZrSWpvaWNISnZaSFZqZEdsdmJpSXNJbk5qYUdWdFpTSTZJblpwYzJFaUxDSnBhVzRpT2lJME1URXhNVEVpTENKc1lYTjBOQ0k2SWpFeE1URWlMQ0psZUhCcGNtVnpJanBiTWl3eU1sMHNJblI1Y0dVaU9pSnlaV04xY25KcGJtY2lMQ0pqWVhKa0lqb2lWa0pRZFY5aVEyZ2lmUS5pZzFzTG92Uy1FQ0tNWmNBcXNFbDZLS2RkeHRKSDBYZ01XcUpSUTNQeHNHSjJOT1pWR2FncEJwTWhXSHNWbkRmOWg3alUxYkJBdGloMnBwbTh6bzY4SnNGY0RPTDZjalN1VmhhRmI1UnhJQnMxZnMwUndxcFIxVHBLc2FjRGJhWnFSQ0ZuNjh4d2ZuSWkzUzlkc1M5VVI1czVMTmlZNXhEVlhvNVFadkQ2XzFRaTNRQW9NQ1hZYjFsOGVNTzJyZ0l4MzFXdTI3YXNfVzZrdHJMS2xNNjZJR042dDZMdDUxVXFOMktwY1NlN29mV2ltRFNvV3lWb2ZIM1k5dEdKMFZkS05jRHlEbkFFXzZtN0hYcEh1dWlVanF3MmU1blRWQUpLSjF1eWFRRGJKRWo2dmgwSjBQVi13b1lMazNHaUpMWXBPNFVRSGYtZWJVeUE2aWN0LXRNdVEiLCJzY2hlbWUiOiJ2aXNhIiwiaWluIjoiNDExMTExIiwibGFzdDQiOiIxMTExIiwiZXhwaXJlcyI6WzIsMjJdLCJyZWZlcmVuY2UiOiI5YmIxOTRiYS01YzkxLTRjNGQtOGNmMC0wYzFmNjZlYTYwMTEiLCJjcmVhdGVkIjoiMjAyMC0wOS0wM1QxNToxMDowMS4zMTFaIn0.XhPuPdJS2ZHZGkAkqIg1CnNLk_rbXgYQU7ns9rWs4G-yqm1GB-EdGujmgqOhS2Za1R5xKmbz9vF26EwnV9q4cjvbZdbBMdG1SRmspijKdrCLQz6jAzp8KgKOhHXf30BuKnVVjgpIgVSCGXo9xMYaAoqcIGPjH7CLY4joT9M_fjnsZ2pZFTlNRq8pzkNB3bm2KVjlSiZpKW5npjfrcciP_Tr8EzbGCf9bDBowCRIrh5Pj8mPwb6gIv6EEWfqoQomjDJcDgJ12WRrTDVdWzVQ_GgQN9K1phdX9RDVdfnQ9Pu1qZ_Y-w5iO7NVP8C1Opz_hya0RaTO_Eo-cgTCDWXR2pg"
 						}
 					}
@@ -1654,7 +1654,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"recurring": true,
-						"reference": "withaccounttest"
+						"reference": "withcustomertest"
 					},
 					"response": {
 						"id": "edfae32c-0223-469a-85b0-e0b7be4abc39",
@@ -1665,7 +1665,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"text_on_statement": "certitrade-1",
-						"reference": "withaccounttest",
+						"reference": "withcustomertest",
 						"recurring": true,
 						"threed_secure": false,
 						"3dsecure": {},
@@ -1692,7 +1692,7 @@
 				"step": "callback-no-url",
 				"level": "trace",
 				"content": {
-					"number": "withaccounttest",
+					"number": "withcustomertest",
 					"items": {
 						"price": 500,
 						"status": [
@@ -1735,7 +1735,7 @@
 				"step": "return",
 				"level": "trace",
 				"content": {
-					"number": "withaccounttest",
+					"number": "withcustomertest",
 					"items": {
 						"price": 500,
 						"status": [
@@ -1777,7 +1777,7 @@
 		"reference": {
 			"type": "order",
 			"id": "J2x9xpZe-OOgFPl0",
-			"number": "withaccounttest"
+			"number": "withcustomertest"
 		},
 		"merchant": "demodemo",
 		"id": "NL0MYYy5hPvKBQRu"
@@ -1826,11 +1826,11 @@
 					"method": "POST",
 					"raw": {},
 					"body": {
-						"number": "withaccounttest",
+						"number": "withcustomertest",
 						"items": 500,
 						"currency": "SEK",
 						"payment": {
-							"type": "account",
+							"type": "customer",
 							"token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwYXlmdW5jIiwiaWF0IjoxNTk5MjA1MzIyNDE0LCJhdWQiOiJwcm9kdWN0aW9uIiwic2NoZW1lIjoidmlzYSIsImlpbiI6IjQxMTExMSIsImxhc3Q0IjoiMTExMSIsImV4cGlyZXMiOlsyLDIyXSwicmVmZXJlbmNlIjoiZXlKaGJHY2lPaUpTVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKRFlYSmtSblZ1WXlJc0ltbGhkQ0k2TVRVNE9UTTRNVGsxTlRVMk9Dd2lZWFZrSWpvaWNISnZaSFZqZEdsdmJpSXNJbWxrSWpvaWNFVmtVVVpXZDBRaWZRLkRfYWQ3OWh0bjhzVGl2N2xCd3dYRWszbC1FNlRlamdDWlNBczQxUkN3dUtDcGRrelNWUmVRMjNwOE5KeFM0OFNhbFFUclgtQTd6amp0Q3hWSUl1eko0RnBITWY3TXRMQ0I3WmluRVlNNThIUU5UYTVmeER1aWVKYndVcnQ5NjFfR1BQcmtJRjhTTkhzWTFNOGFzTVpabDBna3ptRDFsODRoRDFhQkF4c2NnZ1lNVzNDTzAxcTRrOHB4eE9yS1NOM3JJN0dVaWlwZy1UWDFkcVRfWDNzakFRajZxYVZzd2U2cDlPMGVXdjdwaHVRU2NENWZpNy1GYlBfS2pRYkdZLTByTTNfRHVjbzVkek9DazJEUzA5cDFwTjFsT2I0ZmlpZW1oSV9ZNXBzM0dtNHZLUXBjcnlLaHU4dXQ0WXZ3RlVFLTVCQUlpYWxzUl8yVnAzYlo1c2tuUSIsInR5cGUiOiJjYXJkIiwiY3JlYXRlZCI6IjIwMjAtMDUtMTNUMTQ6NTk6MTUuNzU1WiJ9.Ejkpu2SO7tRnsrvGyawLEkPqsENDdFQXrHgU9Q1GIwjwj3OiS-xRFB_JpDU8U0yuNduggbA4phznij34QHMtgRIMl683JTYcigLbr8Sx0mqKXr9MqGmCr2qguwN1l9-CrZ7H-7ibOc9WZ7jnwN4YnzupHGlXPQOs2wDbyKl3488Vajxp5H3VBGROi_Ld6fyAGqvBSdqBMtu6C6wLxRRkc7rB5fCLLNHPVqlNfZJIQlgOJ6Hjt4yYSH3zVY6snMfi0R1ML8GBkRSCI16puRl4i7nnen-gSprTHn2S8lK0eseOatlnk1g5oXY0I838Ugk0zlF20XkLiZQR-i_IujKkBQ"
 						}
 					}
@@ -1863,7 +1863,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"recurring": true,
-						"reference": "withaccounttest"
+						"reference": "withcustomertest"
 					},
 					"response": {
 						"id": "dbf14e75-210b-4d3f-9a35-a25c8d69b559",
@@ -1874,7 +1874,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"text_on_statement": "certitrade-1",
-						"reference": "withaccounttest",
+						"reference": "withcustomertest",
 						"recurring": true,
 						"threed_secure": false,
 						"3dsecure": {},
@@ -1905,8 +1905,8 @@
 					"type": "invalid content",
 					"content": {
 						"type": "token",
-						"description": "Card | Account",
-						"details": "Can't verify token as either card or account method."
+						"description": "Card | Customer",
+						"details": "Can't verify token as either card or customer method."
 					}
 				}
 			},
@@ -1919,8 +1919,8 @@
 					"type": "invalid content",
 					"content": {
 						"type": "token",
-						"description": "Card | Account",
-						"details": "Can't verify token as either card or account method."
+						"description": "Card | Customer",
+						"details": "Can't verify token as either card or customer method."
 					}
 				}
 			}
@@ -1928,7 +1928,7 @@
 		"reference": {
 			"type": "order",
 			"id": "hd9bftPDvYZFSjbh",
-			"number": "withaccounttest"
+			"number": "withcustomertest"
 		},
 		"merchant": "demodemo",
 		"id": "j286nBYo5lpywbKh"
@@ -1977,11 +1977,11 @@
 					"method": "POST",
 					"raw": {},
 					"body": {
-						"number": "withaccounttest",
+						"number": "withcustomertest",
 						"items": 500,
 						"currency": "SEK",
 						"payment": {
-							"type": "account",
+							"type": "customer",
 							"token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwYXlmdW5jIiwiaWF0IjoxNTk5MjA1MzIyNDE0LCJhdWQiOiJwcm9kdWN0aW9uIiwic2NoZW1lIjoidmlzYSIsImlpbiI6IjQxMTExMSIsImxhc3Q0IjoiMTExMSIsImV4cGlyZXMiOlsyLDIyXSwicmVmZXJlbmNlIjoiZXlKaGJHY2lPaUpTVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKRFlYSmtSblZ1WXlJc0ltbGhkQ0k2TVRVNE9UTTRNVGsxTlRVMk9Dd2lZWFZrSWpvaWNISnZaSFZqZEdsdmJpSXNJbWxrSWpvaWNFVmtVVVpXZDBRaWZRLkRfYWQ3OWh0bjhzVGl2N2xCd3dYRWszbC1FNlRlamdDWlNBczQxUkN3dUtDcGRrelNWUmVRMjNwOE5KeFM0OFNhbFFUclgtQTd6amp0Q3hWSUl1eko0RnBITWY3TXRMQ0I3WmluRVlNNThIUU5UYTVmeER1aWVKYndVcnQ5NjFfR1BQcmtJRjhTTkhzWTFNOGFzTVpabDBna3ptRDFsODRoRDFhQkF4c2NnZ1lNVzNDTzAxcTRrOHB4eE9yS1NOM3JJN0dVaWlwZy1UWDFkcVRfWDNzakFRajZxYVZzd2U2cDlPMGVXdjdwaHVRU2NENWZpNy1GYlBfS2pRYkdZLTByTTNfRHVjbzVkek9DazJEUzA5cDFwTjFsT2I0ZmlpZW1oSV9ZNXBzM0dtNHZLUXBjcnlLaHU4dXQ0WXZ3RlVFLTVCQUlpYWxzUl8yVnAzYlo1c2tuUSIsInR5cGUiOiJjYXJkIiwiY3JlYXRlZCI6IjIwMjAtMDUtMTNUMTQ6NTk6MTUuNzU1WiJ9.Ejkpu2SO7tRnsrvGyawLEkPqsENDdFQXrHgU9Q1GIwjwj3OiS-xRFB_JpDU8U0yuNduggbA4phznij34QHMtgRIMl683JTYcigLbr8Sx0mqKXr9MqGmCr2qguwN1l9-CrZ7H-7ibOc9WZ7jnwN4YnzupHGlXPQOs2wDbyKl3488Vajxp5H3VBGROi_Ld6fyAGqvBSdqBMtu6C6wLxRRkc7rB5fCLLNHPVqlNfZJIQlgOJ6Hjt4yYSH3zVY6snMfi0R1ML8GBkRSCI16puRl4i7nnen-gSprTHn2S8lK0eseOatlnk1g5oXY0I838Ugk0zlF20XkLiZQR-i_IujKkBQ"
 						}
 					}
@@ -2014,7 +2014,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"recurring": true,
-						"reference": "withaccounttest"
+						"reference": "withcustomertest"
 					},
 					"response": {
 						"id": "9e3f74f8-1c5d-4950-a3b6-b2ff246e14d7",
@@ -2025,7 +2025,7 @@
 						"amount": 50000,
 						"currency": "SEK",
 						"text_on_statement": "certitrade-1",
-						"reference": "withaccounttest",
+						"reference": "withcustomertest",
 						"recurring": true,
 						"threed_secure": false,
 						"3dsecure": {},
@@ -2052,7 +2052,7 @@
 				"step": "callback-no-url",
 				"level": "trace",
 				"content": {
-					"number": "withaccounttest",
+					"number": "withcustomertest",
 					"items": {
 						"price": 500,
 						"status": [
@@ -2095,7 +2095,7 @@
 				"step": "return",
 				"level": "trace",
 				"content": {
-					"number": "withaccounttest",
+					"number": "withcustomertest",
 					"items": {
 						"price": 500,
 						"status": [
@@ -2137,7 +2137,7 @@
 		"reference": {
 			"type": "order",
 			"id": "k2sjCzr3Pg4buBVR",
-			"number": "withaccounttest"
+			"number": "withcustomertest"
 		},
 		"merchant": "demodemo",
 		"id": "2um-yiIvxGLRwu_k"
@@ -11229,7 +11229,7 @@
 					"status": 400,
 					"type": "malformed content",
 					"content": {
-						"property": "account.card",
+						"property": "customer.card",
 						"type": "Card.Token",
 						"description": "verification required",
 						"details": {
@@ -11251,7 +11251,7 @@
 					"status": 400,
 					"type": "malformed content",
 					"content": {
-						"property": "account.card",
+						"property": "customer.card",
 						"type": "Card.Token",
 						"description": "verification required",
 						"details": {

@@ -2,7 +2,7 @@ import * as gracely from "gracely"
 import * as isoly from "isoly"
 import * as selectively from "selectively"
 import * as authly from "authly"
-import { Customer } from "@payfunc/model-base"
+import { Contact } from "@payfunc/model-base"
 import { Event } from "../Event"
 import { Item } from "../Item"
 import { Key } from "../Key"
@@ -18,11 +18,10 @@ export interface Order {
 	number?: string
 	client?: string
 	created: isoly.DateTime
-	customer?: Customer
+	customer?: Contact | authly.Identifier
 	items: number | Item | Item[]
 	currency: isoly.Currency
 	payment: Payment
-	account?: authly.Identifier
 	subscription?: authly.Identifier
 	event?: Event[]
 	status?: Status[] | OrderStatusList
@@ -39,11 +38,10 @@ export namespace Order {
 			(typeof value.number == "string" || value.number == undefined) &&
 			(typeof value.client == "string" || value.client == undefined) &&
 			isoly.DateTime.is(value.created) &&
-			(value.customer == undefined || Customer.is(value.customer)) &&
+			(value.customer == undefined || Contact.is(value.customer) || authly.Identifier.is(value.customer, 16)) &&
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
 			Payment.is(value.payment) &&
-			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			(value.subscription == undefined || authly.Identifier.is(value.subscription, 4)) &&
 			(value.event == undefined || (Array.isArray(value.event) && value.event.every(Event.is))) &&
 			(value.status == undefined ||
@@ -72,7 +70,8 @@ export namespace Order {
 								value.client == undefined || { property: "client", type: "string | undefined" },
 							isoly.DateTime.is(value.created) || { property: "created", type: "DateTime" },
 							value.customer == undefined ||
-								Customer.is(value.customer) || { property: "customer", type: "Customer | undefined" },
+								Contact.is(value.customer) ||
+								authly.Identifier || { property: "customer", type: "Customer | undefined" },
 							Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
 							isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
 							Payment.is(value.payment) || { property: "payment", type: "Payment" },
@@ -228,7 +227,8 @@ export namespace Order {
 		result += `number,`
 		result += `created,`
 		result += `client,`
-		result += Customer.getCsvHeaders() + `,`
+		result += `customerID,`
+		result += Contact.getCsvHeaders() + `,`
 		result += Item.getCsvHeaders() + `,`
 		result += `currency,`
 		result += Payment.getCsvHeaders() + `,`
@@ -251,7 +251,8 @@ export namespace Order {
 		result += value.number ? `"` + value.number + `",` : `,`
 		result += `"` + value.created + `",`
 		result += value.client ? `"` + value.client + `",` : `,`
-		result += Customer.toCsv(value.customer) + `,`
+		result += typeof value.customer == "string" ? `"` + value.customer + `",` : `,`
+		result += Contact.toCsv(typeof value.customer == "string" ? {} : value.customer) + `,`
 		result += Item.toCsv(value.items) + `,`
 		result += `"` + value.currency + `",`
 		result += Payment.toCsv(value.payment) + `,`
@@ -279,7 +280,7 @@ export namespace Order {
 		number: new selectively.Type.String(),
 		client: new selectively.Type.String(),
 		created: new selectively.Type.String(),
-		customer: Customer.template,
+		customer: new selectively.Type.Union([new selectively.Type.String(), Contact.template]),
 		items: new selectively.Type.Union([
 			new selectively.Type.Number(),
 			new selectively.Type.Object({
@@ -315,10 +316,9 @@ export namespace Order {
 				new selectively.Type.String("invoice"),
 				new selectively.Type.String("defer"),
 				new selectively.Type.String("swish"),
-				new selectively.Type.String("account"),
+				new selectively.Type.String("customer"),
 			]),
 		}),
-		account: new selectively.Type.String(),
 		subscription: new selectively.Type.String(),
 		status: new selectively.Type.Array([
 			new selectively.Type.Union([

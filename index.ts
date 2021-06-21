@@ -2,13 +2,13 @@ export {
 	Address,
 	Addresses,
 	Browser,
-	Customer,
+	Contact,
 	EmailAddresses,
 	IdentityNumber,
 	Name,
 	PhoneNumbers,
 } from "@payfunc/model-base"
-export { Account } from "./Account"
+export { Customer } from "./Customer"
 export { Agent } from "./Agent"
 export { Connection } from "./Connection"
 export { Credentials } from "./Credentials"
