@@ -30,6 +30,7 @@ export interface Order {
 	meta?: any
 	callback?: string
 	language?: isoly.Language
+	nonPurchase?: "topup"
 }
 export namespace Order {
 	export function is(value: Order | any): value is Order {
