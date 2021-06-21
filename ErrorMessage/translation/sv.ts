@@ -29,7 +29,7 @@ export const sv = {
 		"Ytterligare autentisering krävs. Inställningarna för anslutningen till kortutfärdaren kan vara felaktiga.",
 	"An unknown error occured. Ensure that your card details are correct and try again.":
 		"Ett okänt fel uppstod. Kontrollera kortuppgifterna och försök igen.",
-	"The account could not be created.": "Kunde inte skapa konto.",
+	"The customer could not be created.": "Kunde inte skapa kund.",
 	"The payment could not be completed.": "Betalningen kunde inte genomföras.",
 	"Your card doesn't support required 3D secure verification. Please try another card.":
 		"Ditt kort stöder inte 3D verifiering. Försök med ett annat kort.",

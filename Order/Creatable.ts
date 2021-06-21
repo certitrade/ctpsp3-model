@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
 import * as isoly from "isoly"
 import * as authly from "authly"
-import { Customer } from "@payfunc/model-base"
+import { Contact } from "@payfunc/model-base"
 import { Item } from "../Item"
 import { Payment } from "../Payment"
 
@@ -9,11 +9,10 @@ export interface Creatable {
 	id?: authly.Identifier
 	number?: string
 	client?: string
-	customer?: Customer
+	customer?: Contact | authly.Identifier
 	items: number | Item | Item[]
 	currency: isoly.Currency
 	payment: Payment.Creatable
-	account?: authly.Identifier
 	subscription?: authly.Identifier
 	theme?: string
 	meta?: any
@@ -28,11 +27,10 @@ export namespace Creatable {
 			(authly.Identifier.is(value.id, 16) || value.id == undefined) &&
 			(typeof value.number == "string" || value.number == undefined) &&
 			(typeof value.client == "string" || value.client == undefined) &&
-			(value.customer == undefined || Customer.is(value.customer)) &&
+			(value.customer == undefined || Contact.is(value.customer) || authly.Identifier.is(value.customer, 16)) &&
 			Item.canBe(value.items) &&
 			isoly.Currency.is(value.currency) &&
 			Payment.Creatable.is(value.payment) &&
-			(value.account == undefined || authly.Identifier.is(value.account, 16)) &&
 			(value.subscription == undefined || authly.Identifier.is(value.subscription, 4)) &&
 			(typeof value.theme == "string" || value.theme == undefined) &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
@@ -56,7 +54,10 @@ export namespace Creatable {
 								value.number == undefined || { property: "number", type: "string | undefined" },
 							typeof value.client == "string" ||
 								value.client == undefined || { property: "client", type: "string | undefined" },
-							value.customer == undefined || Customer.is(value.customer) || Customer.flaw(value.customer),
+							value.customer == undefined ||
+								Contact.is(value.customer) ||
+								Contact.flaw(value.customer) ||
+								authly.Identifier,
 							Item.canBe(value.items) || { property: "items", type: "number | Item | Item[]" },
 							isoly.Currency.is(value.currency) || { property: "currency", type: "Currency" },
 							Payment.Creatable.is(value.payment) || { property: "payment", type: "Payment.Creatable" },

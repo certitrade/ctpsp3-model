@@ -1,4 +1,4 @@
-export type Type = "card" | "invoice" | "installment" | "direct" | "swish" | "defer" | "account"
+export type Type = "card" | "invoice" | "installment" | "direct" | "swish" | "defer" | "customer"
 
 export namespace Type {
 	export function is(value: any | Type): value is Type {
@@ -10,7 +10,7 @@ export namespace Type {
 				value == "direct" ||
 				value == "swish" ||
 				value == "defer" ||
-				value == "account")
+				value == "customer")
 		)
 	}
 }

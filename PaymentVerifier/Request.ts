@@ -1,6 +1,6 @@
 import * as isoly from "isoly"
-import { Customer } from "@payfunc/model-base"
-import { Account } from "../Account"
+import { Contact } from "@payfunc/model-base"
+import { Customer } from "../Customer"
 import { Item } from "../Item"
 import { Log } from "../Log"
 import { Order } from "../Order"
@@ -12,25 +12,25 @@ export class Request {
 		readonly payment: Readonly<Payment | Payment.Creatable>,
 		readonly currency: Readonly<isoly.Currency>,
 		readonly items: number | Item | Item[],
-		readonly customer: Readonly<Customer> | undefined,
+		readonly customer: Readonly<Contact> | undefined,
 		readonly client: { readonly ip?: string }
 	) {}
 
 	static create(
-		payload: (Account.Creatable & { payment: Payment.Creatable }) | Order | Order.Creatable,
+		payload: (Customer.Creatable & { payment: Payment.Creatable }) | Order | Order.Creatable,
 		client: { ip?: string }
 	): Request {
 		return new Request(
 			{
-				type: Account.Creatable.is(payload) ? "account" : "order",
+				type: Customer.Creatable.is(payload) ? "customer" : "order",
 				id: payload.id,
 				number: payload.number,
-				account: Order.Creatable.is(payload) && payload.account ? payload.account : undefined,
+				customer: Order.Creatable.is(payload) && typeof payload.customer == "string" ? payload.customer : undefined,
 			},
 			payload.payment,
-			!Account.Creatable.is(payload) ? payload.payment.currency ?? payload.currency ?? "EUR" : "EUR",
-			Account.Creatable.is(payload) ? 0 : payload.items,
-			payload.customer,
+			!Customer.Creatable.is(payload) ? payload.payment.currency ?? payload.currency ?? "EUR" : "EUR",
+			Customer.Creatable.is(payload) ? 0 : payload.items,
+			Customer.is(payload.customer) ? payload.customer : undefined,
 			client
 		)
 	}

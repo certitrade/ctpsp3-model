@@ -47,7 +47,7 @@
 		"clean": "rm -rf dist node_modules coverage"
 	},
 	"dependencies": {
-		"@payfunc/model-base": "0.0.4",
+		"@payfunc/model-base": "0.0.5",
 		"@payfunc/model-card": "^0.1.18",
 		"authly": "^0.1.7",
 		"flagly": "0.0.6",
