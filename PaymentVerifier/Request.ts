@@ -30,7 +30,11 @@ export class Request {
 			payload.payment,
 			!Customer.Creatable.is(payload) ? payload.payment.currency ?? payload.currency ?? "EUR" : "EUR",
 			Customer.Creatable.is(payload) ? 0 : payload.items,
-			Customer.is(payload.customer) ? payload.customer : undefined,
+			"contact" in payload
+				? payload.contact
+				: "customer" in payload && Contact.is(payload.customer)
+				? payload.customer
+				: undefined,
 			client
 		)
 	}

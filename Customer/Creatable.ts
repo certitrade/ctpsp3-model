@@ -8,7 +8,7 @@ import { Method } from "./Method"
 export interface Creatable {
 	id?: authly.Identifier
 	number?: string
-	customer?: Contact
+	contact?: Contact
 	method: Method.Creatable[]
 
 	currency?: isoly.Currency
@@ -28,7 +28,7 @@ export namespace Creatable {
 			typeof value == "object" &&
 			(value.id == undefined || authly.Identifier.is(value.id, 16)) &&
 			(value.number == undefined || typeof value.number == "string") &&
-			(value.customer == undefined || Contact.is(value.customer)) &&
+			(value.contact == undefined || Contact.is(value.contact)) &&
 			Array.isArray(value.method) &&
 			value.method.every(Method.Creatable.is) &&
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
