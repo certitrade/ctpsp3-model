@@ -10,7 +10,6 @@ export interface Creatable {
 	number?: string
 	contact?: Contact
 	method: Method.Creatable[]
-
 	currency?: isoly.Currency
 	limit?:
 		| number
