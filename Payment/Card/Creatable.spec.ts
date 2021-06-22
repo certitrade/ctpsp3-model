@@ -19,11 +19,11 @@ describe("Payment.Card.Creatable", () => {
 		}
 		expect(model.Payment.Creatable.is(payment)).toBe(true)
 	})
-	it("Payment.Card.Creatable.is and has account id", async () => {
+	it("Payment.Card.Creatable.is and has customer id", async () => {
 		const payment = {
 			type: "card",
 			card: "eyJ.body.sign",
-			account: "1234567890123456",
+			customer: "1234567890123456",
 			currency: "SEK",
 			amount: 10,
 		}

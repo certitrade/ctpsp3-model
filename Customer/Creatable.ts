@@ -1,6 +1,6 @@
 import * as isoly from "isoly"
 import * as authly from "authly"
-import { Customer } from "@payfunc/model-base"
+import { Contact } from "@payfunc/model-base"
 import { Frequency } from "../Frequency"
 import { Schedule } from "../Schedule"
 import { Method } from "./Method"
@@ -8,9 +8,8 @@ import { Method } from "./Method"
 export interface Creatable {
 	id?: authly.Identifier
 	number?: string
-	customer?: Customer
+	contact?: Contact
 	method: Method.Creatable[]
-
 	currency?: isoly.Currency
 	limit?:
 		| number
@@ -28,7 +27,7 @@ export namespace Creatable {
 			typeof value == "object" &&
 			(value.id == undefined || authly.Identifier.is(value.id, 16)) &&
 			(value.number == undefined || typeof value.number == "string") &&
-			(value.customer == undefined || Customer.is(value.customer)) &&
+			(value.contact == undefined || Contact.is(value.contact)) &&
 			Array.isArray(value.method) &&
 			value.method.every(Method.Creatable.is) &&
 			(value.currency == undefined || isoly.Currency.is(value.currency)) &&
