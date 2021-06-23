@@ -1,7 +1,7 @@
 import { Identifier } from "authly"
-import { Account as PAccount } from "./Account"
 import { Base as PBase } from "./Base"
 import { Card as PCard } from "./Card"
+import { Customer as PCustomer } from "./Customer"
 import { Defer as PDefer } from "./Defer"
 import { Installment as PInstallment } from "./Installment"
 import { Invoice as PInvoice } from "./Invoice"
@@ -10,7 +10,7 @@ import { Swish as PSwish } from "./Swish"
 import { Type as PType } from "./Type"
 import { Verify as PVerify } from "./Verify"
 
-export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish | PAccount
+export type Payment = PCard | PInstallment | PInvoice | PDefer | PSwish | PCustomer
 
 export namespace Payment {
 	export function is(value: Payment | any): value is Payment {
@@ -20,7 +20,7 @@ export namespace Payment {
 			PInvoice.is(value) ||
 			PDefer.is(value) ||
 			PSwish.is(value) ||
-			PAccount.is(value)
+			PCustomer.is(value)
 		)
 	}
 	export function hasVerify(
@@ -56,7 +56,7 @@ export namespace Payment {
 		| PInstallment.Creatable
 		| PInvoice.Creatable
 		| PDefer.Creatable
-		| PAccount.Creatable
+		| PCustomer.Creatable
 	export namespace Creatable {
 		export function is(value: Creatable | any): value is Creatable {
 			return (
@@ -64,7 +64,7 @@ export namespace Payment {
 				PInstallment.Creatable.is(value) ||
 				PInvoice.Creatable.is(value) ||
 				PDefer.Creatable.is(value) ||
-				PAccount.Creatable.is(value)
+				PCustomer.Creatable.is(value)
 			)
 		}
 	}
@@ -161,13 +161,13 @@ export namespace Payment {
 		}
 	}
 
-	export type Account = PAccount
-	export namespace Account {
-		export const is = PAccount.is
-		export type Creatable = PAccount.Creatable
+	export type Customer = PCustomer
+	export namespace Customer {
+		export const is = PCustomer.is
+		export type Creatable = PCustomer.Creatable
 		export namespace Creatable {
-			export const is = PAccount.Creatable.is
-			export const flaw = PAccount.Creatable.flaw
+			export const is = PCustomer.Creatable.is
+			export const flaw = PCustomer.Creatable.flaw
 		}
 	}
 }

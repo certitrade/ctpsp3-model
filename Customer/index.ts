@@ -1,23 +1,23 @@
 import * as isoly from "isoly"
 import * as selectively from "selectively"
 import * as authly from "authly"
-import { Customer } from "@payfunc/model-base"
+import { Contact } from "@payfunc/model-base"
 import { Frequency } from "../Frequency"
 import { Item } from "../Item"
 import { Schedule } from "../Schedule"
 import { Subscription } from "../Subscription"
-import { Creatable as AccountCreatable } from "./Creatable"
-import { Link as AccountLink } from "./Link"
-import { Method as AccountMethod } from "./Method"
-import { Status as AccountStatus } from "./Status"
+import { Creatable as CustomerCreatable } from "./Creatable"
+import { Link as CustomerLink } from "./Link"
+import { Method as CustomerMethod } from "./Method"
+import { Status as CustomerStatus } from "./Status"
 
-export interface Account {
+export interface Customer {
 	id: authly.Identifier
 	number?: string
-	customer?: Customer
-	method: AccountMethod[]
-	link?: AccountLink[]
-	status?: AccountStatus
+	contact?: Contact
+	method: CustomerMethod[]
+	link?: CustomerLink[]
+	status?: CustomerStatus
 	subscription?: Subscription[]
 	balance: Item[]
 	total: number
@@ -33,18 +33,18 @@ export interface Account {
 	schedule: Frequency | Schedule
 }
 
-export namespace Account {
-	export function is(value: Account | any): value is Account {
+export namespace Customer {
+	export function is(value: Customer | any): value is Customer {
 		return (
 			typeof value == "object" &&
 			authly.Identifier.is(value.id, 16) &&
 			(value.number == undefined || typeof value.number == "string") &&
-			(value.customer == undefined || Customer.is(value.customer)) &&
+			(value.contact == undefined || Contact.is(value.contact)) &&
 			Array.isArray(value.method) &&
-			value.method.every(AccountMethod.is) &&
+			value.method.every(CustomerMethod.is) &&
 			(value.subscription == undefined ||
 				(Array.isArray(value.subscription) && value.subscription.every(Subscription.is))) &&
-			(value.status == undefined || AccountStatus.is(value.status)) &&
+			(value.status == undefined || CustomerStatus.is(value.status)) &&
 			isoly.Currency.is(value.currency) &&
 			(value.limit == undefined ||
 				typeof value.limit == "number" ||
@@ -61,55 +61,55 @@ export namespace Account {
 	export function generateId(): authly.Identifier {
 		return authly.Identifier.generate(16)
 	}
-	export type Creatable = AccountCreatable
+	export type Creatable = CustomerCreatable
 	export namespace Creatable {
-		export const is = AccountCreatable.is
+		export const is = CustomerCreatable.is
 	}
-	export type Link = AccountLink
+	export type Link = CustomerLink
 	export namespace Link {
-		export const is = AccountLink.is
-		export type Creatable = AccountLink.Creatable
+		export const is = CustomerLink.is
+		export type Creatable = CustomerLink.Creatable
 		export namespace Creatable {
-			export const is = AccountLink.Creatable.is
+			export const is = CustomerLink.Creatable.is
 		}
 	}
-	export type Method = AccountMethod
+	export type Method = CustomerMethod
 	export namespace Method {
-		export const is = AccountMethod.is
-		export const verify = AccountMethod.verify
-		export type Card = AccountMethod.Card
+		export const is = CustomerMethod.is
+		export const verify = CustomerMethod.verify
+		export type Card = CustomerMethod.Card
 		export namespace Card {
-			export const is = AccountMethod.Card.is
-			export type Creatable = AccountMethod.Card.Creatable
+			export const is = CustomerMethod.Card.is
+			export type Creatable = CustomerMethod.Card.Creatable
 			export namespace Creatable {
-				export const is = AccountMethod.Card.Creatable.is
-				export const verify = AccountMethod.Card.Creatable.verify
-				export type Token = AccountMethod.Card.Creatable.Token
+				export const is = CustomerMethod.Card.Creatable.is
+				export const verify = CustomerMethod.Card.Creatable.verify
+				export type Token = CustomerMethod.Card.Creatable.Token
 				export namespace Token {
-					export const is = AccountMethod.Card.Creatable.Token.is
+					export const is = CustomerMethod.Card.Creatable.Token.is
 				}
 			}
 		}
-		export type Creatable = AccountMethod.Creatable
+		export type Creatable = CustomerMethod.Creatable
 		export namespace Creatable {
-			export const is = AccountMethod.Creatable.is
+			export const is = CustomerMethod.Creatable.is
 		}
-		export type Type = AccountMethod.Type
+		export type Type = CustomerMethod.Type
 		export namespace Type {
-			export const is = AccountMethod.Type.is
+			export const is = CustomerMethod.Type.is
 		}
 	}
-	export type Status = AccountStatus
+	export type Status = CustomerStatus
 	export namespace Status {
-		export const is = AccountStatus.is
-		export const getStatus = AccountStatus.getStatus
-		export const types = AccountStatus.types
+		export const is = CustomerStatus.is
+		export const getStatus = CustomerStatus.getStatus
+		export const types = CustomerStatus.types
 	}
 	export const template = new selectively.Type.Object({
 		id: new selectively.Type.String(),
 		number: new selectively.Type.String(),
-		customer: Customer.template,
-		method: AccountMethod.Card.template,
+		contact: Contact.template,
+		method: CustomerMethod.Card.template,
 		status: new selectively.Type.Array([
 			new selectively.Type.Union([
 				new selectively.Type.String("created"),
