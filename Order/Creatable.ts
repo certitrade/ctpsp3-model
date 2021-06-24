@@ -18,6 +18,7 @@ export interface Creatable {
 	meta?: any
 	callback?: string
 	language?: isoly.Language
+	category?: "purchase" | "withdrawal"
 }
 
 export namespace Creatable {
@@ -34,7 +35,8 @@ export namespace Creatable {
 			(value.subscription == undefined || authly.Identifier.is(value.subscription, 4)) &&
 			(typeof value.theme == "string" || value.theme == undefined) &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
-			(isoly.Language.is(value.language) || value.language == undefined)
+			(isoly.Language.is(value.language) || value.language == undefined) &&
+			(value.category == undefined || value.category == "purchase" || value.category == "withdrawal")
 		)
 	}
 	export function flaw(value: Creatable | any): gracely.Flaw {
@@ -67,6 +69,12 @@ export namespace Creatable {
 								value.callback == undefined || { property: "callback", type: "string | undefined" },
 							isoly.Language.is(value.language) ||
 								value.language == undefined || { property: "language", type: "isoly.Language | undefined" },
+							value.category == undefined ||
+								value.category == "purchase" ||
+								value.category == "withdrawal" || {
+									property: "category",
+									type: `"purchase" | "withdrawal" | undefined`,
+								},
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
 	}

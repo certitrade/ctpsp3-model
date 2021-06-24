@@ -29,6 +29,7 @@ export interface Order {
 	meta?: any
 	callback?: string
 	language?: isoly.Language
+	category?: "purchase" | "withdrawal"
 }
 export namespace Order {
 	export function is(value: Order | any): value is Order {
@@ -49,7 +50,8 @@ export namespace Order {
 				OrderStatusList.is(value.status)) &&
 			(value.theme == undefined || typeof value.theme == "string") &&
 			(typeof value.callback == "string" || value.callback == undefined) &&
-			(value.language == undefined || isoly.Language.is(value.language))
+			(value.language == undefined || isoly.Language.is(value.language)) &&
+			(value.category == undefined || value.category == "purchase" || value.category == "withdrawal")
 		)
 	}
 	export function flaw(value: Order | any): gracely.Flaw {
@@ -92,6 +94,12 @@ export namespace Order {
 								typeof value.callback == "string" || { property: "callback", type: "string | undefined" },
 							value.language == undefined ||
 								isoly.Language.is(value.language) || { property: "language", type: "isoly.Language | undefined" },
+							value.category == undefined ||
+								value.category == "purchase" ||
+								value.category == "withdrawal" || {
+									property: "category",
+									type: `"purchase" | "withdrawal" | undefined`,
+								},
 					  ].filter(gracely.Flaw.is),
 		}
 	}
