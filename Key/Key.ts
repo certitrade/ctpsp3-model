@@ -85,7 +85,7 @@ export namespace Key {
 
 	export async function upgrade(
 		key: Key | V1Key | undefined,
-		cardVerifier?: authly.Verifier<card.Merchant.Key> | undefined
+		cardVerifier?: authly.Verifier<card.Key> | undefined
 	): Promise<Key | undefined> {
 		let result: Key | undefined
 		if (key == undefined)
