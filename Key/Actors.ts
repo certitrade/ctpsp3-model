@@ -136,9 +136,9 @@ function getIssuerTransformations(secret?: string | undefined): authly.Property.
 function getCardVerifier(
 	legacyCrypto: authly.Property.Transformer | undefined,
 	...algorithms: authly.Algorithm[]
-): authly.Verifier<card.Merchant.Key> {
-	return authly.Verifier.create<card.Merchant.Key>(...algorithms)?.add(
-		authly.Property.Transformer.create({ reverse: card.Merchant.Key.upgrade }),
+): authly.Verifier<card.Key> {
+	return authly.Verifier.create<card.Key>(...algorithms)?.add(
+		authly.Property.Transformer.create({ reverse: card.Key.upgrade }),
 		legacyCrypto
 	)
 }

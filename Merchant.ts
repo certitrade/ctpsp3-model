@@ -1,6 +1,5 @@
 import * as gracely from "gracely"
 import * as authly from "authly"
-import { Key } from "./Key"
 
 export interface Merchant {
 	id: authly.Identifier
@@ -53,10 +52,5 @@ export namespace Merchant {
 								typeof value.logotype == "string" || { property: "logotype", type: "string | undefined" },
 					  ].filter(gracely.Flaw.is) as gracely.Flaw[]),
 		}
-	}
-	export type Creatable = Key.Creatable
-	export namespace Creatable {
-		export const is = Key.Creatable.is
-		export const flaw = Key.Creatable.flaw
 	}
 }
