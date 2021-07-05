@@ -54,7 +54,7 @@
 	},
 	"dependencies": {
 		"@payfunc/model-base": "0.1.8",
-		"@payfunc/model-card": "0.2.15",
+		"@payfunc/model-card": "payfunc/model-card#circular-dependencies",
 		"authly": "0.2.4",
 		"flagly": "0.0.6",
 		"gracely": "0.1.3",
