@@ -264,13 +264,14 @@ export namespace Order {
 		result += Item.toCsv(value.items) + `,`
 		result += `"` + value.currency + `",`
 		result += Payment.toCsv(value.payment) + `,`
-		result += Status.toCsv(value.status)
+		result += StatusList.toCsv(value.status)
 		result += `\r\n`
 		return result
 	}
 	export type StatusList = OrderStatusList
 	export namespace StatusList {
 		export const is = OrderStatusList.is
+		export const toCsv = OrderStatusList.toCsv
 	}
 	export type Creatable = OrderCreatable
 	export namespace Creatable {

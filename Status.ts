@@ -1,5 +1,4 @@
 import { Event } from "./Event"
-import { Order } from "./Order"
 
 export type Status =
 	| "created"
@@ -157,14 +156,6 @@ export namespace Status {
 				result = "synchronize"
 				break
 		}
-		return result
-	}
-	export function toCsv(value: Status[] | Order.StatusList | undefined): string {
-		let result = ``
-		if (Array.isArray(value))
-			result += `"` + value.join(" ") + `"`
-		else if (Order.StatusList.is(value))
-			result = Object.entries(value).reduce((l, p) => (l += p), "")
 		return result
 	}
 }

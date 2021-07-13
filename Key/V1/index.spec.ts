@@ -1,6 +1,6 @@
 import { V1 } from "./index"
 
-describe("Merchant.Key", () => {
+describe("Key.V1", () => {
 	const key = {
 		iss: "http://localhost:7071",
 		iat: 1567333057361,
