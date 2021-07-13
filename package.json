@@ -48,14 +48,14 @@
 	},
 	"dependencies": {
 		"@payfunc/model-base": "0.0.5",
-		"@payfunc/model-card": "payfunc/model-card#circular-dependencies-parity",
+		"@payfunc/model-card": "0.1.23",
 		"authly": "0.1.7",
 		"flagly": "0.0.6",
 		"gracely": "0.0.41",
 		"isoly": "0.0.33",
 		"langly": "0.0.11",
 		"node-fetch": "^2.6.0",
-		"selectively": "payfunc/selectively#removing-circular-dependency",
+		"selectively": "0.0.62",
 		"servly": "0.1.6"
 	},
 	"devDependencies": {
